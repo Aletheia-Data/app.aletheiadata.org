@@ -1,0 +1,22 @@
+//
+// Content
+//
+
+// Desktop Mode
+@include media-breakpoint-up(lg) {
+	.content {
+		padding: 0 0 get($page-spacing, desktop) 0;
+
+		// Sidebar Enabled Mode
+		.toolbar-enabled & {
+			padding-top: get($page-spacing, desktop);
+		}
+	}
+}
+
+// Tablet & Mobile Modes
+@include media-breakpoint-down(lg) {
+	.content {
+		padding: get($page-spacing, tablet-and-mobile) 0;
+	}
+}

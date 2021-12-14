@@ -1,0 +1,147 @@
+//
+// Sidebar
+//
+
+$item-height: 70px;
+$item-width: 55px;
+$item-image-width: 25px;
+$item-height-active: 85px;
+$item-width-active: 70px;
+$item-image-width-active: 35px;
+
+// Base
+.sidebar {
+	display: flex;
+	flex-direction: column;
+	background-position: bottom right;
+	background-repeat: no-repeat;
+	background-size: contain;
+
+	// Sidebar tabs
+	.sidebar-nav {
+		justify-content: center;
+		align-items: center;
+		display: flex;
+		border-bottom: 0;
+		overflow: auto;
+		flex-wrap: nowrap;
+
+		.nav-item {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-right: 1.25rem;
+			height: $item-height-active;
+
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+
+		.nav-link {
+			cursor: pointer;
+			@include border-radius($border-radius);
+			background-color: #C7C7C7;
+			height: $item-height;
+			width: $item-width;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-shrink: 0;
+			border: 0;
+			transition: $transition-link;
+
+			img {
+				width: $item-image-width;
+				transition: $transition-link;
+
+				&.default {
+					display: inline-block;
+				}
+
+				&.active {
+					display: none;
+				}
+			}
+
+			&.active {
+				background-color: $primary;
+				height: $item-height-active;
+				width: $item-width-active;
+				transition: $transition-link;
+
+				img {
+					width: $item-image-width-active;
+					transition: $transition-link;
+
+					&.default {
+						display: none;
+					}
+
+					&.active {
+						display: inline-block;
+					}
+				}
+			}
+		}
+	}
+
+	// Sidebar buttons
+	.sidebar-toolbar {
+		.btn {
+			background-color: #C7C7C7;
+
+			span {
+				&:last-child {
+					color: #A06BE7;
+				}
+			}
+
+			&:focus,
+			&:hover {
+				background-color: $primary;
+
+				span {
+					color: $primary-inverse;
+
+					&:last-child {
+						color: $primary-inverse;
+					}
+				}
+			}
+		}
+	}
+
+	// Sidebar Scroll
+	.sidebar-scroll {
+		@include perfect-scrollbar-vertical-offset(4px);
+	}
+}
+
+// Desktop Mode
+@include media-breakpoint-up(lg) {
+
+	// Sidebar Overlay
+	.sidebar {
+		position: fixed;
+		top: 0;
+		bottom: 0;
+		right: -(get($sidebar-config, desktop, width));
+		width: get($sidebar-config, desktop, width);
+		z-index: get($sidebar-config, desktop, z-index);
+		transition: right get($aside-config, base, transition-speed);
+
+		// Sidebar Shown
+		[data-sidebar="on"] & {
+			transition: right get($aside-config, base, transition-speed) ease;
+			right: 0;
+		}
+	}
+}
+
+// Tablet & Mobile Modes
+@include media-breakpoint-down(lg) {
+	.sidebar {
+		display: none;
+	}
+}

@@ -1,0 +1,115 @@
+//
+// To make future updates easier consider overriding the global variables from _variables.bootstrap.scss and _variables.custom.scss for current demo in this file.
+// Note that this file is included first and variables defined in _variables.bootstrap.scss and _variables.custom.scss
+// are not accessible in this file but you can override any global variable as shown below:
+//
+
+// Theme colors
+// Primary
+$primary: #181C32;
+$primary-active: #19B674;
+$primary-light: #E4FFF4;
+$primary-inverse: #FFFFFF;
+
+// Success
+$success: #00B2FF;
+$success-active: #0098DA;
+$success-light: #F1FAFF;
+$success-inverse: #FFFFFF;
+
+// Info
+$info: #EEEEEE;
+$info-active: #C7C7C7;
+$info-light: #F6F1FC;
+$info-inverse: #FFFFFF;
+
+// Danger
+$danger: #F1416C;
+$danger-active: #D9214E;
+$danger-light: #FFEFF3;
+$danger-inverse: #FFFFFF;
+
+// Warning
+$warning: #FFC700;
+$warning-active: #F1BC00;
+$warning-light: #FFF8DD;
+$warning-inverse: #FFFFFF;
+
+// Border Radiues
+$border-radius-sm: .3rem;
+$border-radius: .65rem;
+$border-radius-lg: .85rem;
+$border-radius-xl: 1.25rem;
+
+// Card Box Shadow
+$card-box-shadow: 0px 0px 20px 0px rgba(76, 87, 125, 0.02);
+
+// Files
+$color-pdf: #FC573B;
+$color-csv: #FFC700;
+$color-xls: #20D489;
+$color-ods: #A2A7F7;
+$color-other: #00A3FF;
+
+.color-pdf {
+    color: #FC573B !important;
+}
+
+.color-csv {
+    color: #FFC700 !important;
+}
+
+.color-xls {
+    color: #20D489 !important;
+}
+
+.color-ods {
+    color: #A2A7F7 !important;
+}
+
+.color-other {
+    color: #00A3FF !important;
+}
+
+// background
+
+.background-pdf {
+    background-color: #FC573B !important;
+}
+
+.background-csv {
+    background-color: #FFC700 !important;
+}
+
+.background-xls {
+    background-color: #20D489 !important;
+}
+
+.background-ods {
+    background-color: #A2A7F7 !important;
+}
+
+.background-other {
+    background-color: #00A3FF !important;
+}
+
+
+.background-pdf-backdrop {
+    background-color: #FFE6E2 !important;
+}
+
+.background-csv-backdrop {
+    background-color: #FFF8DD !important;
+}
+
+.background-xls-backdrop {
+    background-color: #E4FFF4 !important;
+}
+
+.background-ods-backdrop {
+    background-color: #A2A7F7 !important;
+}
+
+.background-other-backdrop {
+    background-color: #E7F6FF !important;
+}

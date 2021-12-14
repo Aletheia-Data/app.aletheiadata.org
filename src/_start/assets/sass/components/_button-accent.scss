@@ -1,0 +1,28 @@
+//
+// Accent Button
+//
+
+// Button
+.btn {
+    &.btn-accent {
+        // $color, $icon-color, $border-color, $bg-color, $color-active, $icon-color-active, $border-color-active, $bg-color-active
+        @include button-custom-variant($primary, $primary, $accent-color, $accent-color, $primary, $primary, darken($accent-color, 6%), darken($accent-color, 6%));
+    }
+
+    &.btn-active-accent {
+        @include button-custom-variant(null, null, null, null, $primary, $primary, $accent-color, $accent-color);
+    }
+
+    &.btn-active-bg-accent {
+        @include button-custom-variant(null, null, null, null, null, null, $accent-color, $accent-color);
+    }
+}
+
+// Background Utilities
+.bg-accent {
+	background-color: $accent-color;
+}
+
+.bg-accent-opacity {
+	background-color: rgba($accent-color, 0.98);
+}

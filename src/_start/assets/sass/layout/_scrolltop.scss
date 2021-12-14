@@ -1,0 +1,14 @@
+//
+// Scrolltop
+//
+
+
+// Desktop Mode
+@include media-breakpoint-up(lg) {
+    // Sidebar Enabled Mode
+    [data-sidebar="on"] {
+        .scrolltop {
+            right: get($sidebar-config, desktop, width) + get($scrolltop, size, desktop);
+        }
+    }
+}

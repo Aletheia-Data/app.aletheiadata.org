@@ -1,0 +1,115 @@
+//
+// Stepper 1
+//
+
+.stepper.stepper-1 {
+    .stepper-nav {
+        .stepper-item {
+            padding: 0.75rem 0;
+            transition: $transition-link;
+            margin-bottom: 1.5rem;
+
+            .stepper-wrapper {
+                display: flex;
+                align-items: center;
+            }
+
+            .stepper-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: $transition-link;
+                min-width: 46px;
+                height: 46px;
+                border-radius: 12px;
+                background-color: $gray-100;
+                margin-right: 1rem;
+
+                .stepper-check {
+                    display: none;
+                    font-size: 1.4rem;
+                }
+
+                .stepper-number {
+                    font-weight: 600;
+                    color: $gray-800;
+                    font-size: 1.35rem;
+                }
+            }
+
+            .stepper-label {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                .stepper-title {
+                    color: $dark;
+                    font-weight: 600;
+                    font-size: 1.24rem;
+                }
+
+                .stepper-desc {
+                    color: $text-muted;
+                    font-size: $font-size-sm;
+                }
+            }
+
+            // Current
+            &.current {
+                transition: $transition-link;
+
+                .stepper-icon {
+                    transition: $transition-link;
+                    background-color: $primary-light;
+
+                    .stepper-check {
+                        color: $primary;
+                        display: none;
+                    }
+
+                    .stepper-number {
+                        color: $primary;
+                    }
+                }
+
+                .stepper-label {
+                    .stepper-title {
+                        color: $dark;
+                    }
+
+                    .stepper-desc {
+                        color: $gray-500;
+                    }
+                }
+            }
+
+            // Completed
+            &.current:last-child,
+            &.completed {
+                .stepper-icon {
+                    transition: $transition-link;
+                    background-color: $primary-light;
+
+                    .stepper-check {
+                        color: $primary;
+                        display: inline-block;
+                    }
+
+                    .stepper-number {
+                        display: none;
+                    }
+                }
+
+                .stepper-label {
+                    .stepper-title {
+                        color: $text-muted;
+                    }
+
+                    .stepper-desc {
+                        color: $gray-400;
+                    }
+                }
+            }
+        }
+    }
+}

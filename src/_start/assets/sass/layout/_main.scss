@@ -1,0 +1,71 @@
+//
+// Main
+//
+
+// Body
+body {
+	background-color: $page-bg;
+}
+
+// Desktop mode
+@include media-breakpoint-up(lg) {
+	// Wrapper
+	.wrapper {
+		transition: padding-left get($aside-config, base, transition-speed) ease;
+
+		// Secondary aside enabled mode
+		.aside-secondary-enabled.aside-fixed & {
+			padding-left: get($aside-config, base, primary-width) + get($aside-config, base, secondary-width);
+		}
+
+		// Secondary aside disabled mode
+		.aside-secondary-disabled.aside-fixed & {
+			padding-left: get($aside-config, base, primary-width);
+		}
+
+		// Aside primary disabled and aside secondary enabled modes
+		.aside-primary-disabled.aside-secondary-enabled.aside-fixed & {
+			padding-left: get($aside-config, base, secondary-width);
+		}
+
+		// Fixed aside & minimized modes
+		[data-kt-aside-minimize="on"].aside-fixed & {
+			padding-left: get($aside-config, base, primary-width);
+			transition: padding-left get($aside-config, base, transition-speed) ease;
+		}
+
+		// Sidebear enabled mode
+		.sidebar-enabled[data-sidebar="on"] & {
+			margin-right: get($sidebar-config, desktop, width);
+		}
+
+		// Fixed and scroll header modes
+		.header-fixed[data-kt-sticky-header="on"] & {
+			padding-top: get($header-config, desktop, default, height);
+		}
+	}
+
+	// Containers
+	.container,
+	.container-fluid {
+		padding: 0 get($page-spacing, desktop);
+	}
+}
+
+// Tablet & mobile modes
+@include media-breakpoint-down(lg) {
+	// Wrapper
+	.wrapper {
+		// Fixed header
+		.header-tablet-and-mobile-fixed[data-kt-sticky-header="on"] & {
+			padding-top: get($header-config, tablet-and-mobile, fixed, height);
+		}
+	}
+
+	// Containers
+	.container,
+	.container-fluid {
+		max-width: none;
+		padding: 0 get($page-spacing, tablet-and-mobile);
+	}
+}

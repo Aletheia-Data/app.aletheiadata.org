@@ -1,0 +1,13 @@
+//
+//
+//
+
+// Desktop Mode
+@include media-breakpoint-up(lg) {
+    .explore-toggle {
+        // Sidebear enabled mode
+		.sidebar-enabled[data-sidebar="on"] & {
+			margin-right: get($sidebar-config, desktop, width);
+		}
+    }
+}

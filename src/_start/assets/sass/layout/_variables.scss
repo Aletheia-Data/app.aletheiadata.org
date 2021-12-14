@@ -1,0 +1,85 @@
+//
+// Layout Config
+//
+
+// Root Font Sizes
+$root-font-size:                                    13px; // Root font size for desktop mode
+$root-font-size-lg:                             	13px; // Root font size for tablet mode
+$root-font-size-md:                             	12px; // Root font size for mobile mode
+
+// Page Background Color
+$page-bg:	 										#FBF9F6 !default;
+
+// Accent Color
+$accent-color: 										#F9F2E7 !default;
+
+// Page Spacing
+$page-spacing: (
+	desktop: 40px, // Padding for desktop mode
+	tablet-and-mobile: 20px // Padding for tablet and mobile modes
+) !default;
+
+// Header
+$header-config: (
+	// Desktop Mode
+	desktop: (
+		// Default Mode
+		default: (
+			height: 120px
+		),
+
+		// Fixed Mode
+		fixed: (
+			height: 65px,
+			z-index: 97,
+			bg-color: $white,
+			box-shadow: 0px 10px 30px 0px rgba(82,63,105,0.05)
+		)
+	),
+
+	// Tablet & Mobile Modes
+	tablet-and-mobile: (
+		// Default Mode
+		default: (
+			height: 60px,
+		),
+
+		// Fixed Mode
+		fixed: (
+			z-index: 97,
+			height: 55px,
+			bg-color: $white,
+			box-shadow: 0px 10px 30px 0px rgba(82,63,105,0.05)
+		)
+	)
+) !default;
+
+// Aside
+$aside-config: (
+	// Base
+	base: (
+		primary-width: 100px, // Aside's primary panel's width for desktop mode(see "aside-primary" class)
+		secondary-width: 270px,  // AsideAside's primary panel's width for desktop mode(see "aside-secondary" class)
+		primary-width-tablet-and-mobile: 70px, // Aside's primary panel's width for mobile mode(see "aside-primary" class)
+		transition-speed: 0.3s, // General transition
+		toggle-space: get($page-spacing, desktop), // Aside's toggle button offset(see "aside-toggle" class)
+		box-shadow: none, //5px 0px 10px rgba(70, 78, 95, 0.05), // Aside's box shadow
+		z-index: 98, // Aside's z-index property
+		scroll-width: 4px // Aside's custom scrollbar's width
+	)
+) !default;
+
+// Sidebar
+$sidebar-config: (
+	// General Mode
+	general: (
+		bg-color: $accent-color
+	),
+
+	// Desktop Mode
+	desktop: (
+		width: 400px,
+		z-index: get($header-config, desktop, fixed, z-index) + 1,
+		transition-speed: 0.3s
+	)
+) !default;
