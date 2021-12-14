@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, HashRouter } from "react-router-dom";
 import { FallbackView } from "../../_start/partials";
 import { LightDashboardWrapper } from "../pages/dashboards/light-dashboard/LightDashboardWrapper";
 import { StartDashboardWrapper } from "../pages/dashboards/start-dashboard/StartDashboardWrapper";
@@ -17,7 +17,9 @@ export function PrivateRoutes() {
   return (
     <Suspense fallback={<FallbackView />}>
       <Switch>
-        <Route path="/dashboard" component={StartDashboardWrapper} />
+        <HashRouter>
+          <StartDashboardWrapper />
+        </HashRouter>
         <Route path="/light" component={LightDashboardWrapper} />
         <Route path="/general" component={GeneralPageWrapper} />
         <Route path="/profile" component={ProfilePageWrapper} />

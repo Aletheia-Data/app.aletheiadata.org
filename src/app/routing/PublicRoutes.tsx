@@ -1,11 +1,13 @@
 import React from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, HashRouter } from "react-router-dom";
 import { AuthPage } from "../modules/auth";
 
 export function PublicRoutes() {
   return (
     <Switch>
-      <Route path="/auth" component={AuthPage} />
+      <HashRouter>
+        <AuthPage />
+      </HashRouter>
       <Redirect to="/auth" />
     </Switch>
   );

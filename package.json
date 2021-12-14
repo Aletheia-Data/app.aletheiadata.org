@@ -1,7 +1,7 @@
 {
   "name": "App-Aletheia-data",
   "version": "0.0.1",
-  "homepage": "/",
+  "homepage": "./",
   "dependencies": {
     "@apollo/react-hooks": "^4.0.0",
     "@fortawesome/fontawesome-free": "^5.15.1",
