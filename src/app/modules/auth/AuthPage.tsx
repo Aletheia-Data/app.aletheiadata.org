@@ -20,24 +20,21 @@ export function AuthPage() {
         id="kt_login"
       >
         {/* Aside */}
-        <div className="d-flex flex-column flex-lg-row-auto bg-primary w-lg-600px pt-15 pt-lg-0">
+        <div className="d-flex flex-column flex-lg-row-auto bg-light-grey w-lg-600px pt-15 pt-lg-0" style={{
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundImage: `url(${toAbsoluteUrl(
+            "/media/backgrounds/login.png"
+          )})`,
+        }}>
           {/* Top */}
-          <div className="d-flex flex-column-auto flex-column pt-lg-40 pt-15 text-center">
-            {/* begin::Aside Logo */}
-            <Link to="/" className="mb-6">
-              <img
-                alt="Logo"
-                src={toAbsoluteUrl("/media/logos/logo-default.svg")}
-                className="h-75px"
-              />
-            </Link>
-            {/* end::Aside Logo */}
+          <div className="flex-lg-row-fluid d-flex flex-column justify-content-center py-20 px-10 p-lg-7 mx-auto mw-450px w-100">
 
             {/* begin::Aside Subtitle */}
-            <h3 className="fw-bolder fs-2x text-white lh-lg">
-              Discover Start
+            <h3 className="fw-bolder fs-2x text-primary lh-lg">
+              "Aletheia (Verdad), que eres el principio de una gran virtud, evita que mi buena fe tropiece con una falsedad".
               <br />
-              with great build tools
+              - Pindar, 5th B.C.
             </h3>
             {/* end::Aside Subtitle */}
           </div>
@@ -45,11 +42,6 @@ export function AuthPage() {
           {/* Bottom */}
           <div
             className="d-flex flex-row-fluid bgi-size-contain bgi-no-repeat bgi-position-y-bottom bgi-position-x-center min-h-350px"
-            style={{
-              backgroundImage: `url(${toAbsoluteUrl(
-                "/media/illustrations/winner.png"
-              )})`,
-            }}
           ></div>
         </div>
 
@@ -65,12 +57,21 @@ export function AuthPage() {
             </Switch>
           </div>
           <div className="d-flex justify-content-lg-start justify-content-center align-items-center py-7 py-lg-0">
+
             <span className="text-primary fw-bolder fs-4 cursor-pointer">
-              Terms
+              <a href="https://github.com/Aletheia-Data/" target="_blank" className="menu-link ps-0 pe-2">
+                Github
+              </a>
             </span>
-            <span className="text-primary ms-10 fw-bolder fs-4">Plans</span>
             <span className="text-primary ms-10 fw-bolder fs-4">
-              Contact Us
+              <a href="https://aletheiadata.statuspage.io/" target="_blank" className="menu-link pe-0 pe-2">
+                Status
+              </a>
+            </span>
+            <span className="text-primary ms-10 fw-bolder fs-4">
+              <a href="https://docs.aletheiadata.org/" target="_blank" className="menu-link pe-0">
+                Documentation
+              </a>
             </span>
           </div>
         </div>

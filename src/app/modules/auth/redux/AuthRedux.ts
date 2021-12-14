@@ -33,7 +33,7 @@ export const reducer = persistReducer(
   (state: IAuthState = initialAuthState, action: ActionWithPayload<IAuthState>) => {
     switch (action.type) {
       case actionTypes.Login: {
-        console.log('cvdshvhvh');
+        console.log(action.payload);
 
         const accessToken = action.payload?.accessToken;
         return { accessToken, user: undefined };

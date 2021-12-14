@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import clsx from "clsx";
+import Web3 from 'web3';
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as auth from "../redux/AuthRedux";
@@ -25,6 +26,8 @@ const initialValues = {
   password: "demo",
 };
 
+declare let window: any;
+
 /*
   Formik+YUP+Typescript:
   https://jaredpalmer.com/formik/docs/tutorial#getfieldprops
@@ -32,12 +35,63 @@ const initialValues = {
 */
 
 export function Login() {
+
+  const web3 = new Web3(window.ethereum);
+
+  let [connected, setConnected] = useState(false);
+  let [account, setAccount] = useState('');
+  let [netId, setNetId] = useState('');
+
+  // init web3 if available
+  const initWeb3 = async () => {
+    if (typeof window.ethereum !== 'undefined') {
+      // first of all enabled ethereum
+      await window.ethereum.enable();
+
+      const netId: any = await web3.eth.net.getId()
+      const accounts: any = await web3.eth.getAccounts()
+
+      // console.log(web3, accounts);
+
+      //load balance
+      if (accounts[0] && typeof accounts[0] !== 'undefined') {
+
+        setConnected(true);
+        setAccount(accounts[0]);
+        setNetId(netId);
+
+      } else {
+        window.alert('Please login with MetaMask');
+        return;
+      }
+
+      //load contracts
+      /*
+      TODO: create contracts for uploads' credit
+      */
+    } else {
+      window.alert('Please install MetaMask')
+    }
+  }
+
+  useEffect(() => {
+    initWeb3();
+  }, [])
+
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues,
     validationSchema: loginSchema,
     onSubmit: (values, { setStatus, setSubmitting }) => {
+      if (!account) {
+        initWeb3();
+      }
+
+      console.log('check account: ', values, account);
+      // set email and password for metamask
+      const provider = 'metamask';
+
       setLoading(true);
       setTimeout(() => {
         login(values.email, values.password)
@@ -61,36 +115,54 @@ export function Login() {
       noValidate
       id="kt_login_signin_form"
     >
+
+      {/* begin::Aside Logo */}
+      <div style={{
+        borderRadius: '10px',
+        display: 'flex',
+        width: '60px',
+        overflow: 'hidden',
+        marginBottom: '20px'
+      }}>
+        <img
+          alt="Logo"
+          src={toAbsoluteUrl("/media/logos/logo-compact.png")}
+          className="h-75px"
+        />
+      </div>
+      {/* end::Aside Logo */}
+
       {/* begin::Title */}
       <div className="pb-lg-15">
-        <h3 className="fw-bolder text-dark display-6">Welcome to Start</h3>
+        <h3 className="fw-bolder text-dark display-6">Bienvenido</h3>
         <div className="text-muted fw-bold fs-3">
-          New Here?{" "}
+          ¿Nuevo aquí?{" "}
           <Link
-            to="/auth/registration"
+            to="#" // "/auth/registration"
             className="text-primary fw-bolder"
             id="kt_login_signin_form_singup_button"
           >
-            Create Account
+            Accede a nuestra Dashboard
           </Link>
         </div>
       </div>
       {/* begin::Title */}
 
-      {formik.status ? (
-        <div className="mb-lg-15 alert alert-danger">
-          <div className="alert-text font-weight-bold">{formik.status}</div>
-        </div>
-      ) : (
-        <div className="mb-lg-15 alert alert-info">
-          <div className="alert-text ">
-            Use credentials <strong>admin@demo.com</strong> and{" "}
-            <strong>demo</strong> to sign in.
+      {
+        formik.status ? (
+          <div className="mb-lg-15 alert alert-danger">
+            <div className="alert-text font-weight-bold">{formik.status}</div>
           </div>
-        </div>
-      )}
+        ) : (
+          <div className="mb-lg-15 alert alert-info">
+            <div className="alert-text ">
+              Accede con <strong>Metamask</strong>
+            </div>
+          </div>
+        )
+      }
 
-      {/* begin::Form group */}
+      {/* begin::Form group 
       <div className="v-row mb-10 fv-plugins-icon-container">
         <label className="form-label fs-6 fw-bolder text-dark">Email</label>
         <input
@@ -113,9 +185,10 @@ export function Login() {
           </div>
         )}
       </div>
+      */}
       {/* end::Form group */}
 
-      {/* begin::Form group */}
+      {/* begin::Form group 
       <div className="fv-row mb-10 fv-plugins-icon-container">
         <div className="d-flex justify-content-between mt-n5">
           <label className="form-label fs-6 fw-bolder text-dark pt-5">
@@ -150,6 +223,7 @@ export function Login() {
           </div>
         )}
       </div>
+      */}
       {/* end::Form group */}
 
       {/* begin::Action */}
@@ -160,24 +234,20 @@ export function Login() {
           className="btn btn-primary fw-bolder fs-6 px-8 py-4 my-3 me-3"
           disabled={formik.isSubmitting || !formik.isValid}
         >
-          {!loading && <span className="indicator-label">Sign In</span>}
+          {!loading && <span className="indicator-label">
+            <img
+              src={toAbsoluteUrl("/media/svg/brand-logos/metamask.svg")}
+              className="w-20px h-20px me-3"
+              alt=""
+            />
+            Sign in with Metamask
+          </span>}
           {loading && (
             <span className="indicator-progress" style={{ display: "block" }}>
               Please wait...{" "}
               <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
             </span>
           )}
-        </button>
-        <button
-          type="button"
-          className="btn btn-light-primary fw-bolder px-8 py-4 my-3 fs-6 mr-3"
-        >
-          <img
-            src={toAbsoluteUrl("/media/svg/brand-logos/google-icon.svg")}
-            className="w-20px h-20px me-3"
-            alt=""
-          />
-          Sign in with Google
         </button>
       </div>
       {/* end::Action */}

@@ -11,6 +11,8 @@ export const REQUEST_PASSWORD_URL = `${API_URL}/auth/forgot-password`;
 
 // Server should return AuthModel
 export function login(email: string, password: string) {
+  console.log(email, password);
+
   return axios.post(LOGIN_URL, { email, password });
 }
 
