@@ -51,7 +51,7 @@ const FeedsWidget3: React.FC<Props> = ({ className }) => {
               />
             </button>
             <div className="dropdown-menu dropdown-menu-end w-md-325px p-0 m-0">
-              <Dropdown2 />
+              <Dropdown2 id={'1'} />
             </div>
           </div>
           {/* end::Dropdown Menu*/}

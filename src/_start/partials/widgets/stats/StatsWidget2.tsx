@@ -5,7 +5,7 @@ import ApexCharts, { ApexOptions } from "apexcharts";
 import { KTSVG, toAbsoluteUrl } from "../../../helpers";
 import { Dropdown2 } from "../../content/dropdown/Dropdown2";
 import { getCSSVariableValue } from "../../../assets/ts/_utils";
-import { boolean } from "yup/lib/locale";
+import { Link } from "react-router-dom";
 
 type Props = {
   id: string;
@@ -27,6 +27,11 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
   const [activeTab, setActiveTab] = useState(`#${id}tab1`);
   const [elementTab, setElementTab] = useState(false);
   const [activeChart, setActiveChart] = useState<ApexCharts | undefined>();
+
+  // before rendering, order by n aletheias
+  if (items) {
+    items.sort((a, b) => (a.alexandrias.length > b.alexandrias.length ? -1 : 1));
+  }
 
   const setTab = (tab_n: number) => {
 
@@ -113,7 +118,7 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
         <div className="card-header align-items-center border-0 mt-5">
           <h3 className="card-title align-items-start flex-column">
             <span className="fw-bolder text-dark fs-3">{title}</span>
-            <span className="text-muted mt-2 fw-bold fs-6">890,344 Sales</span>
+            <span className="text-muted mt-2 fw-bold fs-6">Loading ...</span>
           </h3>
           <div className="card-toolbar">
             {/* begin::Dropdown */}
@@ -129,7 +134,7 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
                 path="/media/icons/duotone/Layout/Layout-4-blocks-2.svg"
               />
             </button>
-            <Dropdown2 />
+            <Dropdown2 id={'1'} />
             {/* end::Dropdown */}
           </div>
         </div>
@@ -198,24 +203,6 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
                     </span>
                   </div>
                   {/* end::Item */}
-
-                  {/* begin::Item */}
-                  <div className="px-10">
-                    <span className="text-muted fw-bold fs-7">Commission</span>
-                    <span className="text-gray-800 fw-bolder fs-3 d-block">
-                      Loading ...
-                    </span>
-                  </div>
-                  {/* end::Item */}
-
-                  {/* begin::Item */}
-                  <div className="px-10">
-                    <span className="text-muted fw-bold fs-7">Refers</span>
-                    <span className="text-gray-800 fw-bolder fs-3 d-block">
-                      Loading ...
-                    </span>
-                  </div>
-                  {/* end::Item */}
                 </div>
                 {/* end::Content  */}
               </div>
@@ -256,7 +243,7 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
               path="/media/icons/duotone/Layout/Layout-4-blocks-2.svg"
             />
           </button>
-          <Dropdown2 />
+          <Dropdown2 params={id} />
           {/* end::Dropdown */}
         </div>
       </div>
@@ -353,6 +340,13 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
                     {
                       getChart(i)
                     }
+
+                    <Link
+                      className="nav-link btn btn-active-light btn-color-muted py-2 px-4 fw-bolder me-2 active"
+                      to={`/listing/${id}/${item.id}`}
+                    >
+                      Ver todos
+                    </Link>
                   </div>
                 )
               })

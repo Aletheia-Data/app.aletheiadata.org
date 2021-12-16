@@ -165,6 +165,11 @@ const TablesWidget2: React.FC<Props> = ({ className, innerPadding = "" }) => {
 
   const walletsInfo = data.alexandriasConnection.groupBy.wallet_address;
 
+  // before rendering, order by n aletheias
+  if (walletsInfo) {
+    walletsInfo.sort((a: any, b: any) => (a.connection.aggregate.count > b.connection.aggregate.count ? -1 : 1));
+  }
+
   return (
     <div className={`card ${className}`}>
       {/* begin::Header */}

@@ -30,7 +30,7 @@ export const StartDashboardPage: React.FC = () => {
   query Sources {
     sources(
       limit: 5, 
-      sort: "alexandrias"
+      sort: "alexandrias:desc"
     ) {
       id,
       name, 
@@ -112,7 +112,7 @@ export const StartDashboardPage: React.FC = () => {
         </div>
 
         <div className="col-xl-8">
-          <TablesWidget1 archive={archive} loadingArchive={loadingArchive} className="card-stretch mb-5 mb-xxl-8" />
+          <TablesWidget1 className="card-stretch mb-5 mb-xxl-8" />
         </div>
       </div>
       {/* end::Row */}
@@ -136,7 +136,7 @@ export const StartDashboardPage: React.FC = () => {
         </div>
 
         <div className="col-xl-8">
-          <StatsWidget2 id={'deps'} title={'Fuentes'} loadingArchive={sourceLoading} items={sourceData?.sources} className="card-stretch mb-5 mb-xxl-8" />
+          <StatsWidget2 id={'src'} title={'Fuentes'} loadingArchive={sourceLoading} items={sourceData?.sources} className="card-stretch mb-5 mb-xxl-8" />
         </div>
       </div>
       {/* end::Row */}
@@ -148,7 +148,7 @@ export const StartDashboardPage: React.FC = () => {
         </div>
 
         <div className="col-xl-8">
-          <StatsWidget2 id={'min'} title={'Ministerios o instituciónes'} loadingArchive={depLoading} items={depData?.departments} className="card-stretch mb-5 mb-xxl-8" />
+          <StatsWidget2 id={'dep'} title={'Ministerios o instituciónes'} loadingArchive={depLoading} items={depData?.departments} className="card-stretch mb-5 mb-xxl-8" />
         </div>
       </div>
       {/* end::Row */}

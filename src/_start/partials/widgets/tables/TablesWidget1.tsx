@@ -4,11 +4,10 @@ import { KTSVG } from "../../../helpers";
 import { OverlayTrigger, Tooltip } from "react-bootstrap-v5";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
+import { Link } from "react-router-dom";
 
 type Props = {
   className: string;
-  archive: any;
-  loadingArchive: boolean;
   innerPadding?: string;
 };
 
@@ -378,12 +377,15 @@ const TablesWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
                             </OverlayTrigger>
                           </td>
                           <td className="text-end pe-0">
-                            <a className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
+                            <Link
+                              to={`#`}
+                              className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
+                            >
                               <KTSVG
                                 path="/media/icons/duotone/Navigation/Arrow-right.svg"
                                 className="svg-icon-4"
                               />
-                            </a>
+                            </Link>
                           </td>
                         </tr>
                       )

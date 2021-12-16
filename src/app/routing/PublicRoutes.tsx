@@ -5,9 +5,7 @@ import { AuthPage } from "../modules/auth";
 export function PublicRoutes() {
   return (
     <Switch>
-      <HashRouter>
-        <AuthPage />
-      </HashRouter>
+      <Route path="/auth" component={AuthPage} />
       <Redirect to="/auth" />
     </Switch>
   );

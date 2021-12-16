@@ -3,6 +3,7 @@ import { Redirect, Route, Switch, HashRouter } from "react-router-dom";
 import { FallbackView } from "../../_start/partials";
 import { LightDashboardWrapper } from "../pages/dashboards/light-dashboard/LightDashboardWrapper";
 import { StartDashboardWrapper } from "../pages/dashboards/start-dashboard/StartDashboardWrapper";
+import { ListingPageWrapper } from "../pages/listing/start-dashboard/ListingPageWrapper";
 import { MenuTestPage } from "../pages/MenuTestPage";
 
 export function PrivateRoutes() {
@@ -17,9 +18,8 @@ export function PrivateRoutes() {
   return (
     <Suspense fallback={<FallbackView />}>
       <Switch>
-        <HashRouter>
-          <StartDashboardWrapper />
-        </HashRouter>
+        <Route path="/dashboard" component={StartDashboardWrapper} />
+        <Route path="/listing/:entity/:id" component={ListingPageWrapper} />
         <Route path="/light" component={LightDashboardWrapper} />
         <Route path="/general" component={GeneralPageWrapper} />
         <Route path="/profile" component={ProfilePageWrapper} />

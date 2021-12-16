@@ -1,16 +1,34 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 import { KTSVG } from "../../../helpers";
+import { Link } from "react-router-dom";
 
-export function Dropdown2() {
+export function Dropdown2(params: any) {
   const [activeTab, setActiveTab] = useState("tab1");
   const [searchVal, setSearchVal] = useState("");
+
+  let type = params.params;
+  let entity;
+  switch (type) {
+    case 'src':
+      entity = 'Ver todas las Fuentes';
+      break;
+    case 'dep':
+      entity = 'Ver todos los Ministerios';
+      break;
+    case 'cat':
+      entity = 'Ver todas las Categorias';
+      break;
+    default:
+      break;
+  }
+
   return (
     <div
       className="menu menu-sub menu-sub-dropdown menu-column w-300px w-lg-350px p-5"
       data-kt-menu="true"
     >
-      {/* <!--begin::Input--> */}
+      {/* <!--begin::Input-->
       <div className="input-group input-group-solid mb-5">
         <div className="input-group-prepend">
           <span className="input-group-text">
@@ -31,6 +49,7 @@ export function Dropdown2() {
           }}
         />
       </div>
+       */}
       {/* <!--end::Input--> */}
 
       {/* <!--begin::Tabs--> */}
@@ -40,10 +59,11 @@ export function Dropdown2() {
             onClick={() => setActiveTab("tab1")}
             className={`nav-link ${activeTab === "tab1" ? "active" : ""}`}
           >
-            Today
+            Links
           </a>
         </li>
 
+        {/**
         <li className="nav-item">
           <a
             onClick={() => setActiveTab("tab2")}
@@ -52,6 +72,8 @@ export function Dropdown2() {
             Last Week
           </a>
         </li>
+        * 
+        */}
       </ul>
       {/* <!--end::Tabs--> */}
 
@@ -64,16 +86,20 @@ export function Dropdown2() {
         >
           <ul className="menu menu-custom menu-column menu-rounded menu-title-gray-600 menu-icon-muted menu-hover-bg-light-primary menu-active-bg-light-primary fw-bold">
             <li className="menu-item py-1">
-              <a href="#" className="menu-link px-3">
+              <Link
+                className="menu-link px-3"
+                to={`/listing/${type}/0`}
+              >
                 <span className="menu-icon">
                   <KTSVG
                     className="svg-icon-1"
-                    path="/media/icons/duotone/Files/Media.svg"
+                    path="/media/icons/duotone/General/Binocular.svg"
                   />
                 </span>
-                <span className="menu-title">Web & App History</span>
-              </a>
+                <span className="menu-title">{entity}</span>
+              </Link>
             </li>
+            {/**
             <li className="menu-item py-1">
               <a href="#" className="menu-link px-3">
                 <span className="menu-icon">
@@ -132,6 +158,8 @@ export function Dropdown2() {
                 <span className="menu-title">General Preference</span>
               </a>
             </li>
+             * 
+             */}
           </ul>
         </div>
         {/* <!--end::Tab Pane--> */}

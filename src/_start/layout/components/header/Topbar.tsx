@@ -52,7 +52,7 @@ export function Topbar() {
         {/* begin::Toggle */}
         <div
           className="btn btn-icon btn-sm btn-active-bg-accent"
-          // data-kt-menu-trigger="click" // TODO: open modal with selection user
+          data-kt-menu-trigger="click" // TODO: open modal with selection user
           data-kt-menu-placement="bottom-end"
         >
           <KTSVG
