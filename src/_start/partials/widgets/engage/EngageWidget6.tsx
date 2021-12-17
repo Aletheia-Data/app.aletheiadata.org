@@ -34,8 +34,6 @@ const EngageWidget6: React.FC<Props> = ({
     let source;
     let proof;
 
-    console.log(data);
-
     // sort by aletheias count +
     // get first record (most aletheias)
     data = data.alexandrias[0];
@@ -48,7 +46,6 @@ const EngageWidget6: React.FC<Props> = ({
 
     switch (entity) {
         case 'src':
-            console.log(data);
             countTotal = 0;
             entityCount = type === 'single' ? '' : 0;
             lastRecord = type === 'single' ? '' : data;
