@@ -110,7 +110,6 @@ export function SinglePageWrapper() {
   component = Single(type, query, entity);
 
   if (component?.props?.data) {
-    console.log(component.props.data.alexandrias[0].title);
     title = component.props.data.alexandrias[0].title;
     component.props.data.title = title;
   }
