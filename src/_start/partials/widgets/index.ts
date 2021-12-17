@@ -9,12 +9,16 @@ export * from "./tables/TablesWidget1";
 export * from "./tables/TablesWidget2";
 export * from './tables/TablesWidget3';
 export * from "./tables/TablesWidget4";
+export * from "./tables/TablesWidget5";
+export * from "./tables/TablesWidget6";
+export * from "./tables/TablesWidget7";
 
 // engage
 export * from "./engage/EngageWidget1";
 export * from "./engage/EngageWidget2";
 export * from "./engage/EngageWidget3";
 export * from "./engage/EngageWidget5";
+export * from "./engage/EngageWidget6";
 
 // stats
 export * from "./stats/StatsWidget1";

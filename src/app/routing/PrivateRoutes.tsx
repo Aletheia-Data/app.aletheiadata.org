@@ -3,7 +3,9 @@ import { Redirect, Route, Switch, HashRouter } from "react-router-dom";
 import { FallbackView } from "../../_start/partials";
 import { LightDashboardWrapper } from "../pages/dashboards/light-dashboard/LightDashboardWrapper";
 import { StartDashboardWrapper } from "../pages/dashboards/start-dashboard/StartDashboardWrapper";
-import { ListingPageWrapper } from "../pages/listing/start-dashboard/ListingPageWrapper";
+import { ListingPageWrapper } from "../pages/group/start-dashboard/ListingPageWrapper";
+import { CollectionPageWrapper } from "../pages/collection/start-dashboard/CollectionPageWrapper";
+import { SinglePageWrapper } from "../pages/single/start-dashboard/SinglePageWrapper";
 import { MenuTestPage } from "../pages/MenuTestPage";
 
 export function PrivateRoutes() {
@@ -19,7 +21,9 @@ export function PrivateRoutes() {
     <Suspense fallback={<FallbackView />}>
       <Switch>
         <Route path="/dashboard" component={StartDashboardWrapper} />
-        <Route path="/listing/:entity/:id" component={ListingPageWrapper} />
+        <Route path="/group/:entity" component={ListingPageWrapper} />
+        <Route path="/collection/:entity/:id" component={CollectionPageWrapper} />
+        <Route path="/single/:entity/:cid" component={SinglePageWrapper} />
         <Route path="/light" component={LightDashboardWrapper} />
         <Route path="/general" component={GeneralPageWrapper} />
         <Route path="/profile" component={ProfilePageWrapper} />
@@ -32,3 +36,10 @@ export function PrivateRoutes() {
     </Suspense>
   );
 }
+
+
+/*
+/group/:entity
+/collection/:entity
+/single/:entity/:id
+*/

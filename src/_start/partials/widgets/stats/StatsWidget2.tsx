@@ -343,7 +343,7 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
 
                     <Link
                       className="nav-link btn btn-active-light btn-color-muted py-2 px-4 fw-bolder me-2 active"
-                      to={`/listing/${id}/${item.id}`}
+                      to={`/collection/${id}/${item.id}`}
                     >
                       Ver todos
                     </Link>

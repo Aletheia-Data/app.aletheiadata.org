@@ -6,21 +6,22 @@ import { Link } from "react-router-dom";
 
 type Props = {
   className: string;
+  type: string;
   innerPadding?: string;
   data: any;
   color?: string;
 };
 
-const TablesWidget4: React.FC<Props> = ({
+const TablesWidget6: React.FC<Props> = ({
   className,
   data,
+  type,
   innerPadding = "",
   color = "primary",
 }) => {
 
   data = data.data;
   const entity = data.entity;
-  const type = data.type;
 
   let title;
   let desc;
@@ -29,31 +30,30 @@ const TablesWidget4: React.FC<Props> = ({
   let connection: any;
   let url;
 
+  // sort by aletheias count +
+  // get first record (most aletheias)
+  data = data.alexandrias[0];
+
   switch (entity) {
     case 'src':
-      title = type === 'single' ? data.source.name : '';
-      desc = type === 'single' ? data.source.description : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
-      connection = data.alexandriasConnection.groupBy.source;
-      records = type === 'single' ? data.source.alexandrias : data.sources;
+      title = data.title;
+      desc = data.description;
+      records = data.aletheias;
       break;
     case 'dep':
-      title = type === 'single' ? 'Ministerios o instituciónes' : 'Ministerios o instituciónes';
-      desc = type === 'single' ? '' : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
-      connection = data.alexandriasConnection.groupBy.department;
-      records = type === 'single' ? data.department : data.departments;
+      title = data.title;
+      desc = data.description;
+      records = data.aletheias;
       break;
     case 'cat':
-      title = type === 'single' ? data.source.name : '';
-      desc = type === 'single' ? '' : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
-      connection = data.alexandriasConnection.groupBy.category;
-      records = type === 'single' ? data.category : data.categories;
+      title = data.title;
+      desc = data.description;
+      records = data.aletheias;
       break;
   }
 
-  console.log(records);
-
-
-  entityCount = connection.length > 0 ? connection[0].connection.aggregate.totalCount : 0;
+  entityCount = data.aletheias.length > 0 ? data.aletheias.length : 0;
+  title = type === 'alexandrias' ? 'Archivos cargados' : 'Pruebas cargados'
 
   return (
     <div className={`card ${className}`}>
@@ -65,14 +65,11 @@ const TablesWidget4: React.FC<Props> = ({
             {`${entityCount} elementos registrados`}
           </span>
         </h3>
-        {
-          type === 'single' &&
-          <div className="card-toolbar">
-            <a href="#" className="disabled btn btn-primary fw-bolder fs-7">
-              Subir Archivo
-            </a>
-          </div>
-        }
+        <div className="card-toolbar">
+          <a href="#" className="btn btn-primary fw-bolder fs-7">
+            Subir Archivo
+          </a>
+        </div>
       </div>
       {/* end::Header*/}
 
@@ -102,23 +99,16 @@ const TablesWidget4: React.FC<Props> = ({
             <tbody>
               {
                 records && records.map((rec: any) => {
-                  let count = '0';
+                  let count = 0;
+                  let docs;
 
-                  let files = type === 'collection' ? rec.alexandrias : rec.aletheias;
-                  let badge;
-
-                  console.log();
-
-                  if (files.length > 0) {
-                    if (files.length >= 100) {
-                      count = `+100`;
-                      badge = 'badge-light-primary';
+                  if (connection.length > 0) {
+                    docs = connection.filter((item: any) => item.key === rec.id);
+                    if (docs.length > 0) {
+                      count = docs[0].connection.aggregate.count;
                     } else {
-                      count = `${files.length}`;
-                      badge = files.length < 5 ? 'badge-light-danger' : files.length >= 5 && files.length <= 10 ? 'badge-light-warning' : 'badge-light-primary';
+                      count = 0
                     }
-                  } else {
-                    badge = 'badge-light-danger';
                   }
 
                   let background_status;
@@ -144,7 +134,7 @@ const TablesWidget4: React.FC<Props> = ({
                     }
                   }
 
-                  const link = `/${type}/${entity}/${type === 'collection' ? rec.id : rec.cid}`;
+                  const link = `/${type}/${entity}/${rec.cid}`;
 
                   return (
                     <tr key={`item_${rec.id}`}>
@@ -168,11 +158,9 @@ const TablesWidget4: React.FC<Props> = ({
                         }
                         {
                           type === 'collection' &&
-                          <a href={rec.website || rec.url} target="_blank">
-                            <span className="text-gray-800 fw-bolder d-block fs-6">
-                              {rec.website || rec.url}
-                            </span>
-                          </a>
+                          <span className="text-gray-800 fw-bolder d-block fs-6">
+                            {rec.website || rec.url}
+                          </span>
                         }
                       </td>
                       <td>
@@ -181,7 +169,7 @@ const TablesWidget4: React.FC<Props> = ({
                         </span>
                       </td>
                       <td>
-                        <span className={`badge ${badge}`}>{count}</span>
+                        <span className={`badge ${count > 10 ? 'badge-light-primary' : count < 5 ? 'badge-light-danger' : 'badge-light-warning'}`}>{count}</span>
                       </td>
                       <td className="pe-0 text-end">
                         <a
@@ -209,4 +197,4 @@ const TablesWidget4: React.FC<Props> = ({
   );
 };
 
-export { TablesWidget4 };
+export { TablesWidget6 };

@@ -11,7 +11,7 @@ type Props = {
   color?: string;
 };
 
-const TablesWidget4: React.FC<Props> = ({
+const TablesWidget5: React.FC<Props> = ({
   className,
   data,
   innerPadding = "",
@@ -31,27 +31,26 @@ const TablesWidget4: React.FC<Props> = ({
 
   switch (entity) {
     case 'src':
-      title = type === 'single' ? data.source.name : '';
-      desc = type === 'single' ? data.source.description : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
+      title = data.source.name;
+      desc = data.source.description;
       connection = data.alexandriasConnection.groupBy.source;
-      records = type === 'single' ? data.source.alexandrias : data.sources;
+      records = data.source.alexandrias;
       break;
     case 'dep':
-      title = type === 'single' ? 'Ministerios o instituciónes' : 'Ministerios o instituciónes';
-      desc = type === 'single' ? '' : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
+      title = data.department.name;
+      desc = data.department.description;
       connection = data.alexandriasConnection.groupBy.department;
-      records = type === 'single' ? data.department : data.departments;
+      records = data.department.alexandrias;
       break;
     case 'cat':
-      title = type === 'single' ? data.source.name : '';
-      desc = type === 'single' ? '' : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
+      title = data.category.name;
+      desc = data.category.description;
       connection = data.alexandriasConnection.groupBy.category;
-      records = type === 'single' ? data.category : data.categories;
+      records = data.category.alexandrias;
       break;
   }
 
   console.log(records);
-
 
   entityCount = connection.length > 0 ? connection[0].connection.aggregate.totalCount : 0;
 
@@ -87,7 +86,7 @@ const TablesWidget4: React.FC<Props> = ({
             <thead>
               <tr className="text-start text-muted fw-bolder text-gray-400 text-uppercase fs-7 border-gray-100 border-bottom-1">
                 <td className="ps-0 min-w-250px py-5" width="30%">Nombre</td>
-                <td className="min-w-100px py-5" width="25%">{type === 'single' ? 'Status' : 'Website'}</td>
+                <td className="min-w-100px py-5" width="10%">{'Formato'}</td>
                 <td className="min-w-100px py-5" width="25%">
                   <span className={`text-${color}`}>Ultimo Cambio</span>
                   <KTSVG
@@ -95,7 +94,7 @@ const TablesWidget4: React.FC<Props> = ({
                     path="/media/icons/duotone/Navigation/Down-2.svg"
                   />
                 </td>
-                <td className="min-w-100px py-5" width="10%">{type === 'single' ? 'Pruebas' : 'Archivos'}</td>
+                <td className="min-w-100px py-5" width="25%">{'Status'}</td>
                 <td className="min-w-100px pe-0 text-end py-5" width="10%">Action</td>
               </tr>
             </thead>
@@ -104,76 +103,66 @@ const TablesWidget4: React.FC<Props> = ({
                 records && records.map((rec: any) => {
                   let count = '0';
 
-                  let files = type === 'collection' ? rec.alexandrias : rec.aletheias;
                   let badge;
-
-                  console.log();
-
-                  if (files.length > 0) {
-                    if (files.length >= 100) {
-                      count = `+100`;
-                      badge = 'badge-light-primary';
-                    } else {
-                      count = `${files.length}`;
-                      badge = files.length < 5 ? 'badge-light-danger' : files.length >= 5 && files.length <= 10 ? 'badge-light-warning' : 'badge-light-primary';
-                    }
-                  } else {
-                    badge = 'badge-light-danger';
-                  }
+                  console.log(rec);
 
                   let background_status;
                   let text_status;
-                  if (type === 'single') {
-                    switch (rec.status) {
-                      case 'under_review':
-                        background_status = 'background-csv';
-                        text_status = 'under review';
-                        break;
-                      case 'on_line':
-                        background_status = 'background-xls';
-                        text_status = 'online';
-                        break;
-                      case 'blocked':
-                        background_status = 'background-ods';
-                        text_status = 'blocked';
-                        break;
-                      case 'broken':
-                        background_status = 'background-pdf';
-                        text_status = 'broken';
-                        break;
-                    }
+                  switch (rec.status) {
+                    case 'under_review':
+                      background_status = 'background-csv';
+                      text_status = 'under review';
+                      break;
+                    case 'on_line':
+                      background_status = 'background-xls';
+                      text_status = 'online';
+                      break;
+                    case 'blocked':
+                      background_status = 'background-ods';
+                      text_status = 'blocked';
+                      break;
+                    case 'broken':
+                      background_status = 'background-pdf';
+                      text_status = 'broken';
+                      break;
                   }
 
-                  const link = `/${type}/${entity}/${type === 'collection' ? rec.id : rec.cid}`;
+                  let background_format;
+                  switch (rec.type) {
+                    case 'pdf':
+                      background_format = 'background-pdf';
+                      break;
+                    case 'csv':
+                      background_format = 'background-csv';
+                      break;
+                    case 'xls':
+                    case "xlsx":
+                      background_format = 'background-xls';
+                      break;
+                    case 'ods':
+                      background_format = 'background-ods';
+                      break;
+                    case 'other':
+                      background_format = 'background-other';
+                      break;
+                  }
+
+                  const link = `/${type}/${entity}/${rec.cid}`;
 
                   return (
                     <tr key={`item_${rec.id}`}>
                       <td className="ps-0">
                         <Link
-                          to={link}
+                          to={rec.cid ? link : '#'}
                           className="text-gray-800 fw-bolder text-hover-primary fs-6"
                         >
                           {rec.name || rec.title}
                         </Link>
                       </td>
                       <td>
-                        {
-                          type === 'single' &&
-                          <div className="text-muted mt-2 fw-bold fs-6 d-flex align-items-center mb-5">
-                            <span className="badge-container">
-                              <span className={`badge badge-circle ${background_status}`}></span>
-                            </span>
-                            {text_status}
-                          </div>
-                        }
-                        {
-                          type === 'collection' &&
-                          <a href={rec.website || rec.url} target="_blank">
-                            <span className="text-gray-800 fw-bolder d-block fs-6">
-                              {rec.website || rec.url}
-                            </span>
-                          </a>
-                        }
+                        <span className={`badge ${background_format}`}>
+                          {rec.type}
+                        </span>
                       </td>
                       <td>
                         <span className={`text-${color} fw-bolder d-block fs-6`}>
@@ -181,7 +170,9 @@ const TablesWidget4: React.FC<Props> = ({
                         </span>
                       </td>
                       <td>
-                        <span className={`badge ${badge}`}>{count}</span>
+                        <span className={`badge ${background_status}`}>
+                          {text_status}
+                        </span>
                       </td>
                       <td className="pe-0 text-end">
                         <a
@@ -209,4 +200,4 @@ const TablesWidget4: React.FC<Props> = ({
   );
 };
 
-export { TablesWidget4 };
+export { TablesWidget5 };

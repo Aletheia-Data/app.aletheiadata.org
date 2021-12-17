@@ -88,7 +88,7 @@ export function Dropdown2(params: any) {
             <li className="menu-item py-1">
               <Link
                 className="menu-link px-3"
-                to={`/listing/${type}/0`}
+                to={`/group/${type}`}
               >
                 <span className="menu-icon">
                   <KTSVG

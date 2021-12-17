@@ -11,7 +11,7 @@ type Props = {
   color?: string;
 };
 
-const TablesWidget4: React.FC<Props> = ({
+const TablesWidget7: React.FC<Props> = ({
   className,
   data,
   innerPadding = "",
@@ -144,7 +144,7 @@ const TablesWidget4: React.FC<Props> = ({
                     }
                   }
 
-                  const link = `/${type}/${entity}/${type === 'collection' ? rec.id : rec.cid}`;
+                  const link = `/${type}/${entity}/${rec.id}`;
 
                   return (
                     <tr key={`item_${rec.id}`}>
@@ -209,4 +209,4 @@ const TablesWidget4: React.FC<Props> = ({
   );
 };
 
-export { TablesWidget4 };
+export { TablesWidget7 };

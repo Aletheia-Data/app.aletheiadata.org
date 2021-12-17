@@ -14,9 +14,8 @@ import {
 import { ListingPage } from "./ListingPage";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
-import { title } from "process";
 
-const profileBreadCrumbs: Array<PageLink> = [
+let profileBreadCrumbs: Array<PageLink> = [
   {
     title: "Home",
     path: "/",
@@ -32,8 +31,61 @@ const listingPageConfig: Partial<IThemeConfig> = {
   },
 };
 
-function Dep(id: string, entity: string, title: string) {
-  let SOURCES_QUERY = gql`
+const getQuery = (type: string, id: string, entity: string) => {
+  console.log(`getting query for ${entity} - ${type} - ${id}`);
+
+  let SRC_QUERY = gql`
+  query Sources {
+    sources(
+      limit: 10, 
+      sort: "updatedAt:desc"
+    ) {
+      id,
+      name, 
+      url,
+      updatedAt,
+      alexandrias{
+        cid,
+        type
+      }
+  },
+  alexandriasConnection(
+    limit: 0
+  ){
+      groupBy {
+        source{
+          key,
+          __typename,
+          connection{
+            aggregate{
+              count,
+              totalCount
+            }
+          }
+        }
+      }
+  },
+    sourcesConnection(
+    where: {
+      
+    }){
+      groupBy {
+        id{
+          key,
+          __typename,
+          connection{
+            aggregate{
+              count,
+              totalCount
+            }
+          }
+        }
+      }
+    }
+  }
+  `;
+
+  let DEP_QUERY = gql`
   query Departments {
     departments(
       limit: 10, 
@@ -83,84 +135,7 @@ function Dep(id: string, entity: string, title: string) {
   }
   `;
 
-  var { data, loading, error } = useQuery(SOURCES_QUERY, {
-    variables: {}
-  });
-
-  if (loading) return <p>Loading ...</p>;
-
-  data.type = id || id !== '0' ? 'collection' : 'single';
-  data.entity = entity;
-  data.title = title;
-  return result(data);
-}
-
-function Src(id: string, entity: string, title: string) {
-  let SOURCES_QUERY = gql`
-  query Sources {
-    sources(
-      limit: 10, 
-      sort: "updatedAt:desc"
-    ) {
-      id,
-      name, 
-      url,
-    	updatedAt,
-      alexandrias{
-        cid,
-        type
-      }
-  },
-  alexandriasConnection(
-    limit: 1
-  ){
-      groupBy {
-        source{
-          key,
-          __typename,
-          connection{
-            aggregate{
-              count,
-              totalCount
-            }
-          }
-        }
-      }
-  },
-    sourcesConnection(
-    where: {
-      
-    }){
-      groupBy {
-        id{
-          key,
-          __typename,
-          connection{
-            aggregate{
-              count,
-              totalCount
-            }
-          }
-        }
-      }
-    }
-  }
-  `;
-
-  var { data, loading, error } = useQuery(SOURCES_QUERY, {
-    variables: {}
-  });
-
-  if (loading) return <p>Loading ...</p>;
-
-  data.type = id || id !== '0' ? 'collection' : 'single';
-  data.entity = entity;
-  data.title = title;
-  return result(data);
-}
-
-function Cat(id: string, entity: string, title: string) {
-  let SOURCES_QUERY = gql`
+  let CAT_QUERY = gql`
   query Categories {
     categories(
       limit: 5, 
@@ -211,15 +186,26 @@ function Cat(id: string, entity: string, title: string) {
   }
   `;
 
-  var { data, loading, error } = useQuery(SOURCES_QUERY, {
+  switch (entity) {
+    case 'src':
+      return SRC_QUERY;
+    case 'dep':
+      return DEP_QUERY;
+    case 'cat':
+      return CAT_QUERY;
+  }
+}
+
+function Collection(type: string, query: any, entity: string) {
+
+  var { data, loading, error } = useQuery(query, {
     variables: {}
   });
 
   if (loading) return <p>Loading ...</p>;
 
-  data.type = id || id !== '0' ? 'collection' : 'single';
+  data.type = type;
   data.entity = entity;
-  data.title = title;
   return result(data);
 }
 
@@ -232,22 +218,25 @@ export function ListingPageWrapper() {
   const { entity, id } = params;
   // if Id = 0 means that its a collection not a single item
   // console.log(id);
-
   let title;
   let component;
-  switch (params.entity) {
-    case 'src':
-      title = 'Fuentes';
-      component = Src(id, entity, title);
-      break;
-    case 'dep':
-      title = 'Ministerios o instituciónes';
-      component = Dep(id, entity, title);
-      break;
-    case 'cat':
-      title = 'Categorias';
-      component = Cat(id, entity, title);
-      break;
+  let type = 'collection';
+  title = 'Loading';
+  let query = getQuery(type, id, entity);
+  component = Collection(type, query, entity);
+
+  if (component?.props?.data) {
+    switch (entity) {
+      case 'src':
+        title = 'Fuentes';
+        break;
+      case 'dep':
+        title = 'Ministerios o instituciónes';
+        break;
+      case 'cat':
+        title = 'Categorias';
+        break;
+    }
   }
 
   const { setTheme } = useTheme();
