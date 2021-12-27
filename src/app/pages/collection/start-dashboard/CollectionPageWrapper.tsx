@@ -233,8 +233,6 @@ function Collection(type: string, query: any, entity: string) {
 
   if (loading) return <p>Loading ...</p>;
 
-  console.log();
-
   data.type = type;
   data.entity = entity;
   return result(data);

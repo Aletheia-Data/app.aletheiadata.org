@@ -50,9 +50,6 @@ const TablesWidget4: React.FC<Props> = ({
       break;
   }
 
-  console.log(records);
-
-
   entityCount = connection.length > 0 ? connection[0].connection.aggregate.totalCount : 0;
 
   return (
@@ -106,8 +103,6 @@ const TablesWidget4: React.FC<Props> = ({
 
                   let files = type === 'collection' ? rec.alexandrias : rec.aletheias;
                   let badge;
-
-                  console.log();
 
                   if (files.length > 0) {
                     if (files.length >= 100) {

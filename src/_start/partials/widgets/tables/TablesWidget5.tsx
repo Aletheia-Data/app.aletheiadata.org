@@ -50,8 +50,6 @@ const TablesWidget5: React.FC<Props> = ({
       break;
   }
 
-  console.log(records);
-
   entityCount = connection.length > 0 ? connection[0].connection.aggregate.totalCount : 0;
 
   return (
@@ -101,10 +99,9 @@ const TablesWidget5: React.FC<Props> = ({
             <tbody>
               {
                 records && records.map((rec: any) => {
-                  let count = '0';
 
+                  let count = '0';
                   let badge;
-                  console.log(rec);
 
                   let background_status;
                   let text_status;

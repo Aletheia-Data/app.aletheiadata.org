@@ -74,8 +74,6 @@ export function getPDF() {
   // if (loading) return 'Loading...';
   // if (error) return JSON.stringify(error);
 
-  console.log(data);
-
   return data;
 
   // Authorization head should be fulfilled in interceptor.

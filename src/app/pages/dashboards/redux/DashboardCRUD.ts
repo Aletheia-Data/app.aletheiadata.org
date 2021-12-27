@@ -74,15 +74,7 @@ export function getPDF() {
   // if (loading) return 'Loading...';
   // if (error) return JSON.stringify(error);
 
-  console.log(data);
-
   return data;
-
-  // Authorization head should be fulfilled in interceptor.
-  // Check common redux folder => setupAxios
-  return fetch(`${GET_ALL_PDF}?${NO_LIMIT}&${START}&${SORTING}`)
-    .then(response => response.json())
-    .then(data => data);
 }
 
 // get all imports

@@ -25,16 +25,12 @@ export interface IState {
 export const reducer = persistReducer(
   { storage, key: "dashboard-home", whitelist: ["departments"] },
   (state: IState = initialState, action: ActionWithPayload<IState>) => {
-    console.log('getting departments', action);
     switch (action.type) {
       case actionTypes.GetDepartments: {
-        console.log('gottent deps -- --');
         return { ...state };
       }
 
       case actionTypes.SetDepartments: {
-        console.log('here');
-
         const departments = action.payload?.departments;
         return { ...state, departments };
       }
@@ -56,15 +52,11 @@ export const actions = {
 
 export function* saga() {
   yield takeLatest(actionTypes.GetDepartments, function* getDepartmentsSaga() {
-    console.log('here');
-
     yield put(actions.getDepartments());
   });
 
   yield takeLatest(actionTypes.SetDepartments, function* setDepartmentsSaga() {
     const { data: departments } = yield getAllDepartments();
-    console.log('data: ', departments);
-
     yield put(actions.setDepartments(departments));
   });
 }
