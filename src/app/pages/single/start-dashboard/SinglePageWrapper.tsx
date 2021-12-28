@@ -63,6 +63,7 @@ const getQuery = (type: string, cid: string, entity: string) => {
         name
       },
       status,
+      wallet_address,
       cid,
       type,
       aletheias{

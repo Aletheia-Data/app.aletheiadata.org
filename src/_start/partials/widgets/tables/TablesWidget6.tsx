@@ -27,33 +27,23 @@ const TablesWidget6: React.FC<Props> = ({
   let desc;
   let entityCount;
   let records: any;
-  let connection: any;
-  let url;
 
   // sort by aletheias count +
   // get first record (most aletheias)
-  data = data.alexandrias[0];
+  let dataFile = data.alexandrias[0];
 
-  switch (entity) {
-    case 'src':
-      title = data.title;
-      desc = data.description;
-      records = data.aletheias;
-      break;
-    case 'dep':
-      title = data.title;
-      desc = data.description;
-      records = data.aletheias;
-      break;
-    case 'cat':
-      title = data.title;
-      desc = data.description;
-      records = data.aletheias;
-      break;
+  title = dataFile.title;
+  desc = dataFile.description;
+
+  if (type === 'alexandrias') {
+    entityCount = data.alexandrias.length > 0 ? data.alexandrias.length : 0;
+    title = 'Archivos cargados';
+    records = data.alexandrias;
+  } else {
+    entityCount = dataFile.aletheias.length > 0 ? dataFile.aletheias.length : 0;
+    title = 'Pruebas cargados';
+    records = dataFile.aletheias;
   }
-
-  entityCount = data.aletheias.length > 0 ? data.aletheias.length : 0;
-  title = type === 'alexandrias' ? 'Archivos cargados' : 'Pruebas cargados'
 
   return (
     <div className={`card ${className}`}>
@@ -83,8 +73,7 @@ const TablesWidget6: React.FC<Props> = ({
           >
             <thead>
               <tr className="text-start text-muted fw-bolder text-gray-400 text-uppercase fs-7 border-gray-100 border-bottom-1">
-                <td className="ps-0 min-w-250px py-5" width="30%">Nombre</td>
-                <td className="min-w-100px py-5" width="25%">{type === 'single' ? 'Status' : 'Website'}</td>
+                <td className="ps-0 min-w-250px py-5" width="30%">Usuario</td>
                 <td className="min-w-100px py-5" width="25%">
                   <span className={`text-${color}`}>Ultimo Cambio</span>
                   <KTSVG
@@ -92,46 +81,33 @@ const TablesWidget6: React.FC<Props> = ({
                     path="/media/icons/duotone/Navigation/Down-2.svg"
                   />
                 </td>
-                <td className="min-w-100px py-5" width="10%">{type === 'single' ? 'Pruebas' : 'Archivos'}</td>
+                <td className="min-w-100px py-5" width="10%">{'Estatus'}</td>
                 <td className="min-w-100px pe-0 text-end py-5" width="10%">Action</td>
               </tr>
             </thead>
             <tbody>
               {
                 records && records.map((rec: any) => {
-                  let count = 0;
-                  let docs;
-
-                  if (connection.length > 0) {
-                    docs = connection.filter((item: any) => item.key === rec.id);
-                    if (docs.length > 0) {
-                      count = docs[0].connection.aggregate.count;
-                    } else {
-                      count = 0
-                    }
-                  }
-
+                  console.log(rec);
                   let background_status;
                   let text_status;
-                  if (type === 'single') {
-                    switch (rec.status) {
-                      case 'under_review':
-                        background_status = 'background-csv';
-                        text_status = 'under review';
-                        break;
-                      case 'on_line':
-                        background_status = 'background-xls';
-                        text_status = 'online';
-                        break;
-                      case 'blocked':
-                        background_status = 'background-ods';
-                        text_status = 'blocked';
-                        break;
-                      case 'broken':
-                        background_status = 'background-pdf';
-                        text_status = 'broken';
-                        break;
-                    }
+                  switch (rec.status) {
+                    case 'under_review':
+                      background_status = 'background-csv';
+                      text_status = 'under review';
+                      break;
+                    case 'on_line':
+                      background_status = 'background-xls';
+                      text_status = 'online';
+                      break;
+                    case 'blocked':
+                      background_status = 'background-ods';
+                      text_status = 'blocked';
+                      break;
+                    case 'broken':
+                      background_status = 'background-pdf';
+                      text_status = 'broken';
+                      break;
                   }
 
                   const link = `/${type}/${entity}/${rec.cid}`;
@@ -140,28 +116,11 @@ const TablesWidget6: React.FC<Props> = ({
                     <tr key={`item_${rec.id}`}>
                       <td className="ps-0">
                         <Link
-                          to={link}
+                          to={'#'}
                           className="text-gray-800 fw-bolder text-hover-primary fs-6"
                         >
-                          {rec.name || rec.title}
+                          {rec.wallet_address ? rec.wallet_address : process.env.REACT_APP_WALLET_OWNER}
                         </Link>
-                      </td>
-                      <td>
-                        {
-                          type === 'single' &&
-                          <div className="text-muted mt-2 fw-bold fs-6 d-flex align-items-center mb-5">
-                            <span className="badge-container">
-                              <span className={`badge badge-circle ${background_status}`}></span>
-                            </span>
-                            {text_status}
-                          </div>
-                        }
-                        {
-                          type === 'collection' &&
-                          <span className="text-gray-800 fw-bolder d-block fs-6">
-                            {rec.website || rec.url}
-                          </span>
-                        }
                       </td>
                       <td>
                         <span className={`text-${color} fw-bolder d-block fs-6`}>
@@ -169,7 +128,9 @@ const TablesWidget6: React.FC<Props> = ({
                         </span>
                       </td>
                       <td>
-                        <span className={`badge ${count > 10 ? 'badge-light-primary' : count < 5 ? 'badge-light-danger' : 'badge-light-warning'}`}>{count}</span>
+                        <span className={`badge ${background_status}`}>
+                          {text_status}
+                        </span>
                       </td>
                       <td className="pe-0 text-end">
                         <a
