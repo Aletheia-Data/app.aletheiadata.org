@@ -28,6 +28,8 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
   const [elementTab, setElementTab] = useState(false);
   const [activeChart, setActiveChart] = useState<ApexCharts | undefined>();
 
+  console.log(items);
+
   // before rendering, order by n aletheias
   if (items) {
     items.sort((a, b) => (a.alexandrias.length > b.alexandrias.length ? -1 : 1));

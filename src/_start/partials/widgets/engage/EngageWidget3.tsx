@@ -39,7 +39,8 @@ const EngageWidget3: React.FC<Props> = ({
     case 'src':
       desc = type === 'single' ? data.source.description : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
       connection = data.alexandriasConnection.groupBy.source;
-      if (connection.lenght > 0) {
+      console.log(connection);
+      if (connection.length > 0) {
         countTotal = connection[0].connection.aggregate.totalCount;
         entityCount = type === 'single' ? '' : connection[0].connection.aggregate.totalCount;
       } else {
@@ -53,7 +54,7 @@ const EngageWidget3: React.FC<Props> = ({
     case 'dep':
       desc = type === 'single' ? data.department.desciption : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
       connection = data.alexandriasConnection.groupBy.department;
-      if (connection.lenght > 0) {
+      if (connection.length > 0) {
         countTotal = connection[0].connection.aggregate.totalCount;
         entityCount = type === 'single' ? '' : connection[0].connection.aggregate.totalCount;
       } else {
@@ -67,7 +68,7 @@ const EngageWidget3: React.FC<Props> = ({
     case 'cat':
       desc = type === 'single' ? data.category.desciption : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
       connection = data.alexandriasConnection.groupBy.category;
-      if (connection.lenght > 0) {
+      if (connection.length > 0) {
         countTotal = connection[0].connection.aggregate.totalCount;
         entityCount = type === 'single' ? '' : connection[0].connection.aggregate.totalCount;
       } else {
@@ -80,7 +81,7 @@ const EngageWidget3: React.FC<Props> = ({
       break;
   }
 
-  console.log(data.category);
+  console.log(connection);
 
 
   return (

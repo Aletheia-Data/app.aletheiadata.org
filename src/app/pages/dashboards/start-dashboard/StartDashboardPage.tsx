@@ -35,7 +35,7 @@ export const StartDashboardPage: React.FC = () => {
       id,
       name, 
       url,
-      alexandrias{
+      alexandrias(limit: 0){
         cid,
         type
       }
@@ -56,7 +56,7 @@ export const StartDashboardPage: React.FC = () => {
       id,
       name, 
       website,
-      alexandrias{
+      alexandrias(limit: 0){
         cid,
         type
       }
@@ -80,7 +80,7 @@ export const StartDashboardPage: React.FC = () => {
       icon{
         url
       },
-      alexandrias{
+      alexandrias(limit: 0){
         cid,
         type
       }

@@ -44,6 +44,9 @@ const EngageWidget6: React.FC<Props> = ({
     department = data.department.name;
     proof = data.proof ? data.proof.url : null;
 
+    console.log(data);
+
+
     switch (entity) {
         case 'src':
             countTotal = 0;
