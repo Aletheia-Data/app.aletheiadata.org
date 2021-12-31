@@ -44,9 +44,6 @@ const EngageWidget6: React.FC<Props> = ({
     department = data.department.name;
     proof = data.proof ? data.proof.url : null;
 
-    console.log(data);
-
-
     switch (entity) {
         case 'src':
             countTotal = 0;
@@ -120,7 +117,9 @@ const EngageWidget6: React.FC<Props> = ({
                                         proof &&
                                         <tr>
                                             <td className="text-gray-600 ps-0">Prueba</td>
-                                            <td className="text-dark pe-0">{proof}</td>
+                                            <td className="text-dark pe-0">
+                                                <a href={`${proof}`} target={'_blank'}>Ver</a>
+                                            </td>
                                         </tr>
                                     }
                                     <tr>
@@ -145,7 +144,9 @@ const EngageWidget6: React.FC<Props> = ({
                                         proof &&
                                         <tr>
                                             <td className="text-gray-600 ps-0">Prueba</td>
-                                            <td className="text-dark pe-0">{proof}</td>
+                                            <td className="text-dark pe-0">
+                                                <a href={`${proof}`} target={'_blank'}>Ver</a>
+                                            </td>
                                         </tr>
                                     }
                                     <tr>

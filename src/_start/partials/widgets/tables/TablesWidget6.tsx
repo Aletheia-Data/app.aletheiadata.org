@@ -35,6 +35,8 @@ const TablesWidget6: React.FC<Props> = ({
   title = dataFile.title;
   desc = dataFile.description;
 
+  console.log(data.alexandrias);
+
   if (type === 'alexandrias') {
     entityCount = data.alexandrias.length > 0 ? data.alexandrias.length : 0;
     title = 'Archivos cargados';
@@ -88,7 +90,7 @@ const TablesWidget6: React.FC<Props> = ({
             <tbody>
               {
                 records && records.map((rec: any) => {
-                  console.log(rec);
+
                   let background_status;
                   let text_status;
                   switch (rec.status) {
