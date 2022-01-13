@@ -34,9 +34,15 @@ export const reducer = persistReducer(
     switch (action.type) {
       case actionTypes.Login: {
         console.log(action.payload);
-
         const accessToken = action.payload?.accessToken;
-        return { accessToken, user: undefined };
+        let userInfo = `${atob(`${action.payload?.accessToken}`)}`;
+        console.log(userInfo);
+        let userData = {
+          id: 0,
+          account: '001',
+          provider: ''
+        }
+        return { accessToken, user: userData };
       }
 
       case actionTypes.Register: {
@@ -91,8 +97,12 @@ export function* saga() {
     yield put(actions.requestUser());
   });
 
-  yield takeLatest(actionTypes.UserRequested, function* userRequested() {
+  yield takeLatest(actionTypes.UserRequested, function* userRequested(e) {
+
+    // let userInfo = `${btoa(`${account}-${provider}`)}`;
     const { data: user } = yield getUserByToken();
+    // console.log('here 2', user);
     yield put(actions.fulfillUser(user));
+
   });
 }

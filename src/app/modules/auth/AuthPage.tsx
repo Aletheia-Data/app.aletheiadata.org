@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { Redirect, Route, Switch, Link } from "react-router-dom";
-import { Registration } from "./components/Registration";
 import { ForgotPassword } from "./components/ForgotPassword";
 import { Login } from "./components/Login";
 import { toAbsoluteUrl } from "../../../_start/helpers";
@@ -50,7 +49,6 @@ export function AuthPage() {
           <div className="d-flex flex-column-fluid flex-center py-10">
             <Switch>
               <Route path="/auth/login" component={Login} />
-              <Route path="/auth/registration" component={Registration} />
               <Route path="/auth/forgot-password" component={ForgotPassword} />
               <Redirect from="/auth" exact={true} to="/auth/login" />
               <Redirect to="/auth/login" />

@@ -86,7 +86,7 @@ const StatsWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
             <span className="text-muted mt-2 fw-bold fs-6">{'Cargando Archivos'}</span>
           </h3>
           <div className="card-toolbar">
-            {/* begin::Dropdown */}
+            {/* begin::Dropdown 
             <button
               type="button"
               className="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
@@ -100,6 +100,7 @@ const StatsWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
               />
             </button>
             <Dropdown1 />
+            */}
             {/* end::Dropdown */}
           </div>
         </div>
@@ -194,7 +195,7 @@ const StatsWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
           <span className="text-muted mt-2 fw-bold fs-6">{total} Archivos</span>
         </h3>
         <div className="card-toolbar">
-          {/* begin::Dropdown */}
+          {/* begin::Dropdown 
           <button
             type="button"
             className="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
@@ -208,6 +209,7 @@ const StatsWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
             />
           </button>
           <Dropdown1 />
+          */}
           {/* end::Dropdown */}
         </div>
       </div>
@@ -224,7 +226,7 @@ const StatsWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
             )}')`,
           }}
         >
-          <div className="fw-bolder fs-1 text-gray-800 position-absolute">
+          <div className="fw-bolder fs-1 text-gray-800 position-absolute" style={{ zIndex: '0' }}>
             {total}
           </div>
           <canvas id="kt_stats_widget_1_chart"></canvas>
@@ -239,6 +241,7 @@ const StatsWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
               const totalAll = format.connection.aggregate.totalCount;
               let label;
               let backColor;
+
               switch (format.key) {
                 case 'pdf':
                   label = 'PDF';
@@ -251,6 +254,10 @@ const StatsWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
                 case 'xlsx':
                   label = 'XLS';
                   backColor = colorXLS;
+                  break;
+                case 'ods':
+                  label = 'ODS';
+                  backColor = colorODS;
                   break;
                 case 'other':
                 case '':
@@ -291,6 +298,7 @@ function getChartOptions(data: any) {
   let count_pdf = counter.filter((c: any) => c.key === 'pdf')[0].connection.aggregate.count;
   let count_csv = counter.filter((c: any) => c.key === 'csv')[0].connection.aggregate.count;
   let count_xls = counter.filter((c: any) => c.key === 'xlsx')[0].connection.aggregate.count;
+  let count_ods = counter.filter((c: any) => c.key === 'ods')[0].connection.aggregate.count;
   let count_others = counter.filter((c: any) => c.key === 'other')[0].connection.aggregate.count;
 
   const options: ChartConfiguration = {
@@ -298,11 +306,11 @@ function getChartOptions(data: any) {
     data: {
       datasets: [
         {
-          data: [count_pdf, count_csv, count_xls, count_others],
-          backgroundColor: [colorPDF, colorCSV, colorXLS, colorOTHER],
+          data: [count_pdf, count_csv, count_xls, count_ods, count_others],
+          backgroundColor: [colorPDF, colorCSV, colorXLS, colorODS, colorOTHER],
         },
       ],
-      labels: ["PDF", "CSV", "XLS", "Others"],
+      labels: ["PDF", "CSV", "XLS", "ODS", "Others"],
     },
     options: {
       cutoutPercentage: 75,

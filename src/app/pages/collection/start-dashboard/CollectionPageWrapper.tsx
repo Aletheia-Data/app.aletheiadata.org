@@ -62,7 +62,7 @@ const getQuery = (type: string, id: string, entity: string) => {
         }
     },
     alexandriasConnection(
-      limit: 1
+      limit: 0
     ){
         groupBy {
           source{
@@ -77,9 +77,9 @@ const getQuery = (type: string, id: string, entity: string) => {
           }
         }
     },
-    aletheiasConnection{
+    sourcesConnection{
       groupBy {
-          alexandria{
+          id{
             key,
             connection{
               aggregate{

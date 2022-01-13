@@ -22,6 +22,9 @@ const TablesWidget7: React.FC<Props> = ({
   const entity = data.entity;
   const type = data.type;
 
+  let countTotal;
+  let countSrc;
+
   let title;
   let desc;
   let entityCount;
@@ -34,12 +37,25 @@ const TablesWidget7: React.FC<Props> = ({
       title = type === 'single' ? data.source.name : '';
       desc = type === 'single' ? data.source.description : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
       connection = data.alexandriasConnection.groupBy.source;
+
+      if (connection.length > 0) {
+        let totalConn = type === 'single' ? connection.filter((item: any) => item.key === data.source.id) : connection;
+        countTotal = totalConn[0].connection.aggregate.totalCount;
+        console.log(countTotal);
+        countSrc = totalConn[0].connection.aggregate.count;
+      } else {
+        countTotal = 0;
+        countSrc = 0;
+      }
+      console.log(countTotal, countSrc);
+
       records = type === 'single' ? data.source.alexandrias : data.sources;
       break;
     case 'dep':
       title = type === 'single' ? 'Ministerios o instituciónes' : 'Ministerios o instituciónes';
       desc = type === 'single' ? '' : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
-      connection = data.alexandriasConnection.groupBy.department;
+      connection = data.departmentsConnection.groupBy.id;
+
       records = type === 'single' ? data.department : data.departments;
       break;
     case 'cat':
@@ -51,6 +67,9 @@ const TablesWidget7: React.FC<Props> = ({
   }
 
   entityCount = connection.length > 0 ? connection[0].connection.aggregate.totalCount : 0;
+
+  console.log(data);
+
 
   return (
     <div className={`card ${className}`}>

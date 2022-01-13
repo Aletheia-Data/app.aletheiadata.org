@@ -1,8 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { KTSVG, toAbsoluteUrl } from "../../../helpers";
+import { getUserByToken } from "../../../../app/modules/auth/redux/AuthCRUD";
 
 export function HeaderUserMenu() {
+  getUserByToken()
+    .then(user => {
+      console.log(user);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+
+
   return (
     <div
       className="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg-light-primary fw-bold w-300px"

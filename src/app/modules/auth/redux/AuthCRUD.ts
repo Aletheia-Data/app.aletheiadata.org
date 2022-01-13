@@ -10,24 +10,19 @@ export const REGISTER_URL = `${API_URL}/auth/register`;
 export const REQUEST_PASSWORD_URL = `${API_URL}/auth/forgot-password`;
 
 // Server should return AuthModel
-export function login(email: string, password: string) {
-  console.log(email, password);
-
-  return axios.post(LOGIN_URL, { email, password });
+export function login(account: string, provider: string) {
+  // console.log(account, provider);
+  return `${btoa(`${account}-${provider}`)}`;
 }
 
 // Server should return AuthModel
 export function register(
-  email: string,
-  firstname: string,
-  lastname: string,
-  password: string
+  account: string,
+  provider: string
 ) {
   return axios.post<AuthModel>(REGISTER_URL, {
-    email,
-    firstname,
-    lastname,
-    password,
+    account,
+    provider,
   });
 }
 

@@ -15,7 +15,7 @@ import axios from "axios";
 type Props = {
   id: string;
   title: string;
-  items: any[];
+  items: any;
   loadingArchive: boolean;
   className: string;
   innerPadding?: string;
@@ -28,9 +28,10 @@ const colorXLS = '#20D489';
 const colorODS = '#A2A7F7';
 const colorOTHER = '#00A3FF';
 
-const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, className, innerPadding = "" }) => {
+const StatsWidget10: React.FC<Props> = ({ id, title, loadingArchive, items, className, innerPadding = "" }) => {
   const [activeTab, setActiveTab] = useState(`#${id}tab1`);
   const [activeTabTotal, setActiveTabTotal] = useState('Loading');
+  const [TabsTotal, setActiveTabsTotal] = useState(0);
   const [elementTab, setElementTab] = useState(false);
   const [activeChart, setActiveChart] = useState<ApexCharts | undefined>();
 
@@ -158,7 +159,7 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
 
     setActiveTabTotal('Loading');
 
-    let item = items[tab_n - 1];
+    let item = items[tab_n - 1].connection.values[0];
 
     getFilesType(id, item.id)
       .then((res: any) => {
@@ -186,11 +187,10 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
         };
 
         const height = parseInt(getCss(element, "height"));
-        if (height) {
-          const chart = new ApexCharts(element, getChartOptions(tab_n, height, dataCharts));
-          chart.render();
-          setActiveChart(chart);
-        }
+        const chart = new ApexCharts(element, getChartOptions(tab_n, height, dataCharts));
+
+        chart.render();
+        setActiveChart(chart);
 
       })
       .catch(err => {
@@ -210,7 +210,7 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
       }
     };
 
-  }, []);
+  }, [loadingArchive]);
 
   if (loadingArchive) {
     return (
@@ -316,8 +316,10 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
     )
   }
 
-  if (items && items.length > 5) {
-    items = items.slice(0, 5);
+  if (items) {
+    let itemsData = items.sourcesConnection.groupBy.name;
+    console.log(itemsData);
+    items = itemsData.slice(0, 5);
   }
 
   return (
@@ -326,7 +328,7 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
       <div className="card-header align-items-center border-0 mt-5">
         <h3 className="card-title align-items-start flex-column">
           <span className="fw-bolder text-dark fs-3">{title}</span>
-          <span className="text-muted mt-2 fw-bold fs-6">{items ? items.length : 0} {title} registradas</span>
+          <span className="text-muted mt-2 fw-bold fs-6">{TabsTotal} {title} registradas</span>
         </h3>
         <div className="card-toolbar">
           {/* begin::Dropdown */}
@@ -370,12 +372,14 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
           <div className="me-sm-10 me-0">
             <ul className="nav flex-column nav-pills nav-pills-custom">
               {
-                items && items.map((item, i) => {
+                items && items.map((item: any, i: number) => {
                   // increase index by 1
-                  let img = item.icon ? item.icon.url : '/media/svg/logo/gray/aven.svg';
+                  let current_item = item.connection.values[0];
+                  let img = current_item.icon ? current_item.icon.url : '/media/svg/logo/gray/aven.svg';
                   i++;
+
                   return (
-                    <li className="nav-item mb-3" key={`tabs_${item.id}`}>
+                    <li className="nav-item mb-3" key={`tabs_${current_item.id}`}>
                       <a
                         onClick={() => setTab(i)}
                         className={`nav-link w-225px h-70px ${activeTab === `#${id}tab${i}` ? "active btn-active-light" : ""
@@ -397,10 +401,10 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
                         </div>
                         <div className="ps-1 text-truncate">
                           <span className="nav-text text-gray-600 fw-bolder fs-6">
-                            {item.name || item.title}
+                            {item.key}
                           </span>
                           <span className="text-muted fw-bold d-block pt-1">
-                            {item.website || item.url || item.description}
+                            {current_item.url}
                           </span>
                         </div>
                       </a>
@@ -417,19 +421,26 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
           >
             {/* begin::Tab Pane */}
             {
-              items && items.map((item, i) => {
-                // console.log(item);
+              items && items.map((item: any, i: number) => {
+                let current_item = item.connection.values[0];
+                let current_count = item.connection.aggregate.count;
+                let current_total = item.connection.aggregate.totalCount;
+
+                if (!TabsTotal) {
+                  setActiveTabsTotal(current_total);
+                }
+
                 let type = id;
                 let entity;
                 switch (type) {
                   case 'src':
-                    entity = item.name;
+                    entity = current_item.name;
                     break;
                   case 'dep':
-                    entity = item.name;
+                    entity = current_item.name;
                     break;
                   case 'cat':
-                    entity = item.title;
+                    entity = current_item.title;
                     break;
                   default:
                     break;
@@ -449,7 +460,7 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
 
                     }}
                     id={`${id}tab${i}_content`}
-                    key={`content_${item.id}`}
+                    key={`content_${current_item.id}`}
                   >
                     {/* begin::Content */}
                     <div className="d-flex justify-content-end mb-10">
@@ -471,7 +482,7 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
 
                     <Link
                       className="nav-link btn btn-active-light btn-color-muted py-2 px-4 fw-bolder me-2 active"
-                      to={`/collection/${id}/${item.id}`}
+                      to={`/collection/${id}/${current_item.id}`}
                     >
                       {`Ver ${entity}`}
                     </Link>
@@ -490,7 +501,7 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
   );
 };
 
-export { StatsWidget2 };
+export { StatsWidget10 };
 
 function getChartOptions(
   tabNumber: number,
@@ -525,7 +536,7 @@ function getChartOptions(
       type: "bar",
       height: height,
       toolbar: {
-        show: false,
+        show: true,
       },
     },
     plotOptions: {

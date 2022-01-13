@@ -10,20 +10,19 @@ import { login } from "../redux/AuthCRUD";
 import { toAbsoluteUrl } from "../../../../_start/helpers";
 
 const loginSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Wrong email format")
+  account: Yup.string()
     .min(3, "Minimum 3 symbols")
     .max(50, "Maximum 50 symbols")
     .required("Email is required"),
-  password: Yup.string()
+  provider: Yup.string()
     .min(3, "Minimum 3 symbols")
     .max(50, "Maximum 50 symbols")
     .required("Password is required"),
 });
 
 const initialValues = {
-  email: "admin@demo.com",
-  password: "demo",
+  account: "none",
+  provider: "metamask",
 };
 
 declare let window: any;
@@ -70,7 +69,9 @@ export function Login() {
       TODO: create contracts for uploads' credit
       */
     } else {
-      window.alert('Please install MetaMask')
+      window.alert('Please install MetaMask');
+      window.open('https://metamask.io/', '_blank');
+      return;
     }
   }
 
@@ -84,26 +85,23 @@ export function Login() {
     initialValues,
     validationSchema: loginSchema,
     onSubmit: (values, { setStatus, setSubmitting }) => {
+
       if (!account) {
         initWeb3();
+        setLoading(false);
+        setSubmitting(false);
+        setStatus("Please login with MetaMask");
+        return;
       }
 
-      console.log('check account: ', values, account);
       // set email and password for metamask
       const provider = 'metamask';
 
       setLoading(true);
       setTimeout(() => {
-        login(values.email, values.password)
-          .then(({ data: { accessToken } }) => {
-            setLoading(false);
-            dispatch(auth.actions.login(accessToken));
-          })
-          .catch(() => {
-            setLoading(false);
-            setSubmitting(false);
-            setStatus("The login detail is incorrect");
-          });
+        let accessToken = login(account, provider);
+        setLoading(false);
+        dispatch(auth.actions.login(accessToken));
       }, 1000);
     },
   });

@@ -28,6 +28,7 @@ const TablesWidget5: React.FC<Props> = ({
   let records: any;
   let connection: any;
   let url;
+  let totalConn;
 
   switch (entity) {
     case 'src':
@@ -35,22 +36,28 @@ const TablesWidget5: React.FC<Props> = ({
       desc = data.source.description;
       connection = data.alexandriasConnection.groupBy.source;
       records = data.source.alexandrias;
+      totalConn = connection.filter((item: any) => item.key === data.source.id);
+      console.log(totalConn);
       break;
     case 'dep':
       title = data.department.name;
       desc = data.department.description;
       connection = data.alexandriasConnection.groupBy.department;
       records = data.department.alexandrias;
+      totalConn = connection.filter((item: any) => item.key === data.department.id);
       break;
     case 'cat':
       title = data.category.name;
       desc = data.category.description;
       connection = data.alexandriasConnection.groupBy.category;
       records = data.category.alexandrias;
+      totalConn = connection.filter((item: any) => item.key === data.category.id);
       break;
   }
 
-  entityCount = connection.length > 0 ? connection[0].connection.aggregate.totalCount : 0;
+  console.log(data, connection, totalConn);
+
+  entityCount = totalConn.length > 0 ? totalConn[0].connection.aggregate.count : 0;
 
   return (
     <div className={`card ${className}`}>

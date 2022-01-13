@@ -140,7 +140,7 @@ const ListsWidget1: React.FC<Props> = ({ className }) => {
           </span>
         </h3>
         <div className="card-toolbar">
-          {/* begin::Dropdown */}
+          {/* begin::Dropdown 
           <button
             type="button"
             className="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
@@ -154,6 +154,7 @@ const ListsWidget1: React.FC<Props> = ({ className }) => {
             />
           </button>
           <Dropdown1 />
+          */}
           {/* end::Dropdown */}
         </div>
       </div>
