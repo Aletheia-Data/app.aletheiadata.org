@@ -49,15 +49,15 @@ const TablesWidget5: React.FC<Props> = ({
     case 'cat':
       title = data.category.name;
       desc = data.category.description;
-      connection = data.alexandriasConnection.groupBy.category;
+      connection = data.alexandriasConnection.groupBy.department;
       records = data.category.alexandrias;
-      totalConn = connection.filter((item: any) => item.key === data.category.id);
+      totalConn = connection[0];
       break;
   }
 
   console.log(data, connection, totalConn);
 
-  entityCount = totalConn.length > 0 ? totalConn[0].connection.aggregate.count : 0;
+  entityCount = connection.length > 0 ? connection[0].connection.aggregate.totalCount : 0;
 
   return (
     <div className={`card ${className}`}>

@@ -40,43 +40,47 @@ export function Login() {
   let [connected, setConnected] = useState(false);
   let [account, setAccount] = useState('');
   let [netId, setNetId] = useState('');
+  let [provider, setProvider] = useState('');
 
   // init web3 if available
   const initWeb3 = async () => {
-    if (typeof window.ethereum !== 'undefined') {
-      // first of all enabled ethereum
-      await window.ethereum.enable();
+    if (window.ethereum) {
+      try {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        //load balance
+        if (accounts[0] && typeof accounts[0] !== 'undefined') {
 
-      const netId: any = await web3.eth.net.getId()
-      const accounts: any = await web3.eth.getAccounts()
+          setConnected(true);
+          setAccount(accounts[0]);
+          setNetId(netId);
+          setProvider('metamask');
 
-      // console.log(web3, accounts);
+          return accounts[0];
 
-      //load balance
-      if (accounts[0] && typeof accounts[0] !== 'undefined') {
+        } else {
+          window.alert('Please login with MetaMask');
+          throw false;
+        }
 
-        setConnected(true);
-        setAccount(accounts[0]);
-        setNetId(netId);
-
-      } else {
-        window.alert('Please login with MetaMask');
-        return;
+        //load contracts
+        /*
+        TODO: create contracts for uploads' credit
+        */
+      } catch (error: any) {
+        if (error.code === 4001) {
+          // User rejected request
+          throw false;
+        }
       }
-
-      //load contracts
-      /*
-      TODO: create contracts for uploads' credit
-      */
     } else {
       window.alert('Please install MetaMask');
       window.open('https://metamask.io/', '_blank');
-      return;
+      throw false;
     }
   }
 
   useEffect(() => {
-    initWeb3();
+    // initWeb3();
   }, [])
 
   const [loading, setLoading] = useState(false);
@@ -86,23 +90,29 @@ export function Login() {
     validationSchema: loginSchema,
     onSubmit: (values, { setStatus, setSubmitting }) => {
 
-      if (!account) {
-        initWeb3();
-        setLoading(false);
-        setSubmitting(false);
-        setStatus("Please login with MetaMask");
-        return;
-      }
-
-      // set email and password for metamask
-      const provider = 'metamask';
-
       setLoading(true);
-      setTimeout(() => {
-        let accessToken = login(account, provider);
+
+      const connect = (user: string) => {
+        let accessToken = login(user, 'metamask');
         setLoading(false);
         dispatch(auth.actions.login(accessToken));
-      }, 1000);
+      }
+
+      if (!account) {
+        initWeb3().then(user => {
+          connect(user);
+        })
+        setLoading(false);
+        setSubmitting(false);
+        // setStatus("Please login with MetaMask");
+        return;
+      } else {
+        initWeb3().then(user => {
+          connect(user);
+        });
+        setLoading(false);
+      }
+
     },
   });
 

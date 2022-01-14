@@ -111,7 +111,7 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
           break;
       }
       const endpoint = `${process.env.REACT_APP_API_ENDPOINT}/graphql`;
-
+      console.log('fetching data: ', endpoint)
       fetch(endpoint, {
         method: 'post',
         headers: {
@@ -123,7 +123,7 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
       })
         .then(response => response.json())
         .then(data => {
-          // console.log(data)
+          console.log(data)
           resolve(data);
         })
         .catch(err => {
@@ -173,7 +173,7 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
         const csvFile = csv.length > 0 ? csv[0].connection.aggregate.count : 0;
         const xlsFile = xls.length > 0 ? xls[0].connection.aggregate.count : 0;
         const otherFile = other.length > 0 ? other[0].connection.aggregate.count : 0;
-        // console.log(pdfFile, csvFile, xlsFile, otherFile);
+        console.log(pdfFile, csvFile, xlsFile, otherFile);
         setActiveTabTotal(
           pdfFile + csvFile + xlsFile + otherFile
         )
@@ -210,7 +210,7 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
       }
     };
 
-  }, []);
+  }, [loadingArchive]);
 
   if (loadingArchive) {
     return (

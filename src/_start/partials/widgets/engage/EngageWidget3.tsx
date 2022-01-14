@@ -38,23 +38,28 @@ const EngageWidget3: React.FC<Props> = ({
 
   switch (entity) {
     case 'src':
+      title = type === 'single' ? 'Fuentes' : 'Fuentes';
       desc = type === 'single' ? data.source.description : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
       connection = data.alexandriasConnection.groupBy.source;
+      let srcConn = data.sourcesConnection.groupBy.id;
       // console.log(data);
       if (connection.length > 0) {
         let totalConn = type === 'single' ? connection.filter((item: any) => item.key === data.source.id) : connection;
         countTotal = totalConn[0].connection.aggregate.totalCount;
+        countSrc = srcConn[0].connection.aggregate.totalCount;
         // console.log(countTotal);
         entityCount = totalConn[0].connection.aggregate.count;
       } else {
         countTotal = 0;
         entityCount = 0;
+        countSrc = srcConn[0].connection.aggregate.totalCount;
       }
       records = type === 'single' ? data.source : data.sources;
       lastRecord = type === 'single' ? records : records[0];
       url = type === 'single' ? records.url || records.website : '';
       break;
     case 'dep':
+      title = type === 'single' ? 'Ministerios o instituciónes' : 'Ministerios o instituciónes';
       desc = type === 'single' ? data.department.desciption : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
       connection = data.alexandriasConnection.groupBy.department;
       let depConn = data.departmentsConnection.groupBy.id;
@@ -66,20 +71,27 @@ const EngageWidget3: React.FC<Props> = ({
       } else {
         countTotal = 0;
         entityCount = 0;
+        countSrc = depConn[0].connection.aggregate.totalCount;
       }
       records = type === 'single' ? data.department : data.departments;
       lastRecord = type === 'single' ? records : records[0];
       url = type === 'single' ? records.url || records.website : '';
       break;
     case 'cat':
+      title = type === 'single' ? 'Categorias' : 'Categorias';
       desc = type === 'single' ? data.category.desciption : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
-      connection = data.alexandriasConnection.groupBy.category;
+      connection = data.alexandriasConnection.groupBy.department;
+      let catConn = data.categoriesConnection.groupBy.id;
+      console.log(data);
       if (connection.length > 0) {
         countTotal = connection[0].connection.aggregate.totalCount;
+        countSrc = catConn[0].connection.aggregate.totalCount;
+
         entityCount = type === 'single' ? '' : connection[0].connection.aggregate.totalCount;
       } else {
         countTotal = 0;
         entityCount = 0;
+        countSrc = catConn[0].connection.aggregate.totalCount;
       }
       records = type === 'single' ? data.category : data.categories;
       lastRecord = type === 'single' ? records : records[0];
@@ -116,9 +128,6 @@ const EngageWidget3: React.FC<Props> = ({
                 </span>
                 {'Online'}
               </div>
-              <a href="#" className="text-gray-800">
-                {title}
-              </a>
             </h3>
             <div className="fs-7 mb-8">
               {desc}
@@ -133,7 +142,7 @@ const EngageWidget3: React.FC<Props> = ({
                     <td className="text-dark pe-0">{countTotal}</td>
                   </tr>
                   <tr>
-                    <td className="text-gray-600 ps-0">Fuentes</td>
+                    <td className="text-gray-600 ps-0">{title}</td>
                     <td className="text-dark pe-0">{countSrc}</td>
                   </tr>
                   <tr>
@@ -148,7 +157,7 @@ const EngageWidget3: React.FC<Props> = ({
                 <tbody>
                   <tr>
                     <td className="text-gray-600 ps-0">Archivos</td>
-                    <td className="text-dark pe-0">{entityCount}</td>
+                    <td className="text-dark pe-0">{countTotal}</td>
                   </tr>
                   {
                     entity !== 'cat' &&

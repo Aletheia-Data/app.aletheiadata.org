@@ -1,17 +1,40 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { KTSVG, toAbsoluteUrl } from "../../../helpers";
 import { getUserByToken } from "../../../../app/modules/auth/redux/AuthCRUD";
 
 export function HeaderUserMenu() {
-  getUserByToken()
-    .then(user => {
-      console.log(user);
-    })
-    .catch(err => {
-      console.log(err);
-    })
+  const [user, setUser] = useState({
+    account: "0xXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    id: "0",
+    provider: "none"
+  });
 
+  useEffect(() => {
+    getUserByToken()
+      .then(res => {
+        // console.log(res.user);
+        setUser(res.user);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }, []);
+
+  const truncate = (fullStr: string, strLen: number, separator?: string) => {
+    if (fullStr.length <= strLen) return fullStr;
+
+    separator = separator || '...';
+
+    var sepLen = separator.length,
+      charsToShow = strLen - sepLen,
+      frontChars = Math.ceil(charsToShow / 2),
+      backChars = Math.floor(charsToShow / 2);
+
+    return fullStr.substr(0, frontChars) +
+      separator +
+      fullStr.substr(fullStr.length - backChars);
+  }
 
   return (
     <div
@@ -38,7 +61,7 @@ export function HeaderUserMenu() {
         <div className="">
           <span className="text-white fw-bolder fs-4">Hello, User</span>
           <span className="text-white fw-bold fs-7 d-block">
-            Lorem Ipsum
+            {truncate(user.account, 12)}
           </span>
         </div>
       </div>
@@ -55,30 +78,6 @@ export function HeaderUserMenu() {
             path="/media/icons/duotone/Layout/Layout-4-blocks-2.svg"
           />
           <span className="  fw-bolder fs-6 d-block pt-3">My Profile</span>
-        </Link>
-
-        <Link
-          to="/profile/settings"
-          className="col border-bottom text-center py-10 btn btn-active-color-primary rounded-0"
-          data-kt-menu-dismiss="true"
-        >
-          <KTSVG
-            className="svg-icon-3x me-n1"
-            path="/media/icons/duotone/General/Settings-1.svg"
-          />
-          <span className="fw-bolder fs-6 d-block pt-3">Settings</span>
-        </Link>
-
-        <Link
-          to="/profile/account"
-          className="col text-center border-end py-10 btn btn-active-color-primary rounded-0"
-          data-kt-menu-dismiss="true"
-        >
-          <KTSVG
-            className="svg-icon-3x me-n1"
-            path="/media/icons/duotone/Shopping/Euro.svg"
-          />
-          <span className="fw-bolder fs-6 d-block pt-3">Subscriptions</span>
         </Link>
 
         <Link

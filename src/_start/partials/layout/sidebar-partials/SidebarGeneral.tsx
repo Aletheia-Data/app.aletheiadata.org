@@ -180,9 +180,12 @@ export function SidebarGeneral() {
         },
       };
 
-      const chart = new ApexCharts(element, options);
-      chart.render();
-      setActiveChart(chart);
+      if (height) {
+        const chart = new ApexCharts(element, options);
+        chart.render();
+        setActiveChart(chart);
+      }
+
     }, 0);
   };
 
@@ -519,7 +522,7 @@ export function SidebarGeneral() {
       </div>
       {/* end::Sidebar Content */}
 
-      {/* begin::Sidebar footer */}
+      {/* begin::Sidebar footer 
       <div id="kt_sidebar_footer" className="py-2 px-5 pb-md-6 text-center" style={{ position: 'absolute', bottom: 0, width: '100%' }}>
         <a
           href="#"
@@ -528,6 +531,7 @@ export function SidebarGeneral() {
           Exportar PDF
         </a>
       </div>
+      */}
       {/* end::Sidebar footer */}
     </>
   );

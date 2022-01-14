@@ -187,10 +187,11 @@ const StatsWidget10: React.FC<Props> = ({ id, title, loadingArchive, items, clas
         };
 
         const height = parseInt(getCss(element, "height"));
-        const chart = new ApexCharts(element, getChartOptions(tab_n, height, dataCharts));
-
-        chart.render();
-        setActiveChart(chart);
+        if (height) {
+          const chart = new ApexCharts(element, getChartOptions(tab_n, height, dataCharts));
+          chart.render();
+          setActiveChart(chart);
+        }
 
       })
       .catch(err => {

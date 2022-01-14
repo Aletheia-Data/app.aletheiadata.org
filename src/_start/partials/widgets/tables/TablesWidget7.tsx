@@ -34,22 +34,11 @@ const TablesWidget7: React.FC<Props> = ({
 
   switch (entity) {
     case 'src':
-      title = type === 'single' ? data.source.name : '';
-      desc = type === 'single' ? data.source.description : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
-      connection = data.alexandriasConnection.groupBy.source;
+      title = type === 'single' ? 'Fuentes' : 'Fuentes';
+      desc = type === 'single' ? '' : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
+      connection = data.sourcesConnection.groupBy.id;
 
-      if (connection.length > 0) {
-        let totalConn = type === 'single' ? connection.filter((item: any) => item.key === data.source.id) : connection;
-        countTotal = totalConn[0].connection.aggregate.totalCount;
-        console.log(countTotal);
-        countSrc = totalConn[0].connection.aggregate.count;
-      } else {
-        countTotal = 0;
-        countSrc = 0;
-      }
-      console.log(countTotal, countSrc);
-
-      records = type === 'single' ? data.source.alexandrias : data.sources;
+      records = type === 'single' ? data.source : data.sources;
       break;
     case 'dep':
       title = type === 'single' ? 'Ministerios o instituciónes' : 'Ministerios o instituciónes';
@@ -59,17 +48,14 @@ const TablesWidget7: React.FC<Props> = ({
       records = type === 'single' ? data.department : data.departments;
       break;
     case 'cat':
-      title = type === 'single' ? data.source.name : '';
+      title = type === 'single' ? 'Categorias' : 'Categorias';
       desc = type === 'single' ? '' : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
-      connection = data.alexandriasConnection.groupBy.category;
+      connection = data.categoriesConnection.groupBy.id;
       records = type === 'single' ? data.category : data.categories;
       break;
   }
 
   entityCount = connection.length > 0 ? connection[0].connection.aggregate.totalCount : 0;
-
-  console.log(data);
-
 
   return (
     <div className={`card ${className}`}>
@@ -103,7 +89,10 @@ const TablesWidget7: React.FC<Props> = ({
             <thead>
               <tr className="text-start text-muted fw-bolder text-gray-400 text-uppercase fs-7 border-gray-100 border-bottom-1">
                 <td className="ps-0 min-w-250px py-5" width="30%">Nombre</td>
-                <td className="min-w-100px py-5" width="25%">{type === 'single' ? 'Status' : 'Website'}</td>
+                {
+                  entity !== 'cat' &&
+                  <td className="min-w-100px py-5" width="25%">{type === 'single' ? 'Status' : 'Website'}</td>
+                }
                 <td className="min-w-100px py-5" width="25%">
                   <span className={`text-${color}`}>Ultimo Cambio</span>
                   <KTSVG
@@ -170,25 +159,28 @@ const TablesWidget7: React.FC<Props> = ({
                           {rec.name || rec.title}
                         </Link>
                       </td>
-                      <td>
-                        {
-                          type === 'single' &&
-                          <div className="text-muted mt-2 fw-bold fs-6 d-flex align-items-center mb-5">
-                            <span className="badge-container">
-                              <span className={`badge badge-circle ${background_status}`}></span>
-                            </span>
-                            {text_status}
-                          </div>
-                        }
-                        {
-                          type === 'collection' &&
-                          <a href={rec.website || rec.url} target="_blank">
-                            <span className="text-gray-800 fw-bolder d-block fs-6">
-                              {rec.website || rec.url}
-                            </span>
-                          </a>
-                        }
-                      </td>
+                      {
+                        entity !== 'cat' &&
+                        <td>
+                          {
+                            type === 'single' &&
+                            <div className="text-muted mt-2 fw-bold fs-6 d-flex align-items-center mb-5">
+                              <span className="badge-container">
+                                <span className={`badge badge-circle ${background_status}`}></span>
+                              </span>
+                              {text_status}
+                            </div>
+                          }
+                          {
+                            type === 'collection' &&
+                            <a href={rec.website || rec.url} target="_blank">
+                              <span className="text-gray-800 fw-bolder d-block fs-6">
+                                {rec.website || rec.url}
+                              </span>
+                            </a>
+                          }
+                        </td>
+                      }
                       <td>
                         <span className={`text-${color} fw-bolder d-block fs-6`}>
                           {moment(rec.updatedAt).format('DD/MM/YYYY')}
