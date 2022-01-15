@@ -39,3 +39,6 @@ export * from "./feeds/FeedsWidget4";
 
 // Mixed
 export * from './mixed/MixedWidget1';
+
+// Pagination
+export * from "./pagination/Pagination1";
