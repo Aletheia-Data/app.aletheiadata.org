@@ -146,18 +146,11 @@ const getQuery = (type: string, id: string, entity: string) => {
     limit: 1
   ){
       groupBy {
-        department{
-          key,
-          __typename,
-          connection{
-            aggregate{
-              count,
-              totalCount
-            }
-          }
+        id{
+          key
         }
       }
-  },
+    },
     categoriesConnection(
     limit: 1 
   ){

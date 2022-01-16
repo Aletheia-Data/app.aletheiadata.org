@@ -6,57 +6,169 @@ import {
   Pagination1,
   TablesWidget5
 } from "../../../../_start/partials/widgets";
-
+import {
+  useParams
+} from "react-router-dom";
+import gql from "graphql-tag";
+import { useQuery } from "@apollo/react-hooks";
 import { CreateAppModal } from "../_modals/create-app-stepper/CreateAppModal";
 
-export const CollectionPage = (data: any) => {
-  const [show, setShow] = useState(false);
-  const [entityCount, setEntityCount] = useState(0);
+export const CollectionPage = (pageData: any) => {
 
-  const handlePagination = (page: number) => {
-    console.log(page);
+  let params: any = useParams();
+  const { entity, id } = params;
+  console.log(entity, id);
+  let entityName: any;
+  switch (entity) {
+    case 'src':
+      entityName = 'source';
+      break;
+    case 'dep':
+      entityName = 'department';
+      break;
+    case 'cat':
+      entityName = 'category';
+      break;
   }
 
-  useEffect(() => {
-    data = data.data;
-    const entity = data.entity;
-    const type = data.type;
+  const [show, setShow] = useState(false);
+  const [entityCount, setEntityCount] = useState(0);
+  const [dataTable, setDataTable] = useState('');
 
-    let records: any;
+  const getQuery = (id: string, entity: string, page: number) => {
+    console.log(`getting query for ${entity} - ${id}`);
+
+    let query = `
+    query SourceFromAlexandria {
+      alexandrias(
+        start: ${(page - 1) * 10},
+        limit: 10,
+        where:{
+          ${entityName}: "${id}"
+        }
+      ) {
+        id, 
+        title,
+        description,
+        status,
+        cid,
+        type,
+        aletheias{
+          id,
+          proof {
+            id,
+            url
+          }
+        }
+      }
+    }
+    `;
+
+    return query;
+  }
+
+  const handlePagination = (page: any) => {
+    // console.log(page);
+    getNewRecords(entity, id, page.newPage)
+      .then((res: any) => {
+        // console.log(res.data.alexandrias);
+        let items = res.data.alexandrias;
+        let oldData = dataTable;
+        if (items.length > 0) {
+          // console.log(data);
+          oldData[entityName]['alexandrias'] = res.data.alexandrias;
+          console.log(oldData);
+          setDataTable('');
+          setDataTable(oldData);
+        } else {
+          oldData[entityName]['alexandrias'] = [];
+          setDataTable('');
+          setDataTable(oldData);
+        }
+      })
+
+    return;
+  }
+
+  const getNewRecords = (entity: string, id: string, page: number) => {
+    return new Promise((resolve, reject) => {
+
+      let query = getQuery(id, entity, page);
+
+      // console.log(query);
+
+      const endpoint = `${process.env.REACT_APP_API_ENDPOINT}/graphql`;
+
+      fetch(endpoint, {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: query
+        })
+      })
+        .then(response => response.json())
+        .then(newData => {
+          resolve(newData);
+        })
+        .catch(err => {
+          console.log(err)
+          reject(err);
+        });
+
+    });
+  }
+
+  const init = (info: any) => {
+    let showData: any = info;
+    console.log(showData);
+
+    setDataTable(showData)
+
+    const entity = showData.entity;
+    const type = showData.type;
+
     let connection: any;
     let totalConn: any;
 
+    connection = showData.alexandriasConnection.groupBy.id;
     switch (entity) {
       case 'src':
-        connection = data.alexandriasConnection.groupBy.source;
-        records = data.source.alexandrias;
-        totalConn = connection.filter((item: any) => item.key === data.source.id);
+        totalConn = connection.filter((item: any) => item.key === showData.source.id);
         console.log(totalConn);
         break;
       case 'dep':
-        connection = data.alexandriasConnection.groupBy.department;
-        records = data.department.alexandrias;
-        totalConn = connection.filter((item: any) => item.key === data.department.id);
+        totalConn = connection.filter((item: any) => item.key === showData.department.id);
         break;
       case 'cat':
-        connection = data.alexandriasConnection.groupBy.department;
-        records = data.category.alexandrias;
         totalConn = connection[0];
         break;
     }
 
-    setEntityCount(connection.length > 0 ? connection[0].connection.aggregate.totalCount : 0);
-  }, [])
+    console.log(connection.length);
+
+    setEntityCount(connection.length);
+  }
+
+  useEffect(() => {
+
+    init(pageData.data);
+
+  }, []);
 
   return (
     <>
       {/* begin::Row */}
       <div className="row g-0 g-xl-5 g-xxl-12">
         <div className="col-xl-12">
-          <EngageWidget3
-            data={data}
-            color="white"
-            className="card-stretch mb-5 mb-xxl-8" />
+          {
+            pageData &&
+            <EngageWidget3
+              data={pageData.data}
+              color="white"
+              className="card-stretch mb-5 mb-xxl-8" />
+          }
         </div>
       </div>
       {/* end::Row */}
@@ -64,7 +176,10 @@ export const CollectionPage = (data: any) => {
       {/* begin::Row */}
       <div className="row g-0 g-xl-5 g-xxl-12">
         <div className="col-xl-12">
-          <TablesWidget5 data={data} className="card-stretch mb-5 mb-xxl-8" />
+          {
+            dataTable &&
+            <TablesWidget5 data={dataTable} className="card-stretch mb-5 mb-xxl-8" />
+          }
         </div>
       </div>
       {/* end::Row */}

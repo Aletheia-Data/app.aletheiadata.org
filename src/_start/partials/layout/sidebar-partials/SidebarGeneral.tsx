@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import clsx from "clsx";
 import React, { useState, useEffect } from "react";
-import ApexCharts from "apexcharts";
+import ApexCharts, { ApexOptions } from "apexcharts";
 import { toAbsoluteUrl, KTSVG } from "../../../helpers";
 import { Dropdown1 } from "../../content/dropdown/Dropdown1";
 import gql from "graphql-tag";
@@ -48,173 +48,36 @@ const chartsData: Array<{
   ];
 
 export function SidebarGeneral() {
-  const [activeTab, setActiveTab] = useState(2);
+  const id = 'cat';
+  const [activeTab, setActiveTab] = useState(`#${id}_tab1`);
+  const [activeTabTotal, setActiveTabTotal] = useState('Loading');
+  const [TabsTotal, setActiveTabsTotal] = useState(0);
+  const [elementTab, setElementTab] = useState(false);
   const [activeChart, setActiveChart] = useState<ApexCharts | undefined>();
 
-  const setTab = (tabId: number) => {
-    setActiveTab(tabId);
-  };
-
-  const activateChart = (tabId: number) => {
-    const chartData = chartsData[tabId];
-    if (!chartData) {
-      return;
-    }
-
-    setTimeout(() => {
-      const element = document.querySelector(chartData.selector);
-      if (!element) {
-        return;
-      }
-
-      if (activeChart) {
-        activeChart.destroy();
-      }
-
-      const height = parseInt(getCss(element as HTMLElement, "height"));
-
-      const options = {
-        series: [
-          {
-            name: "Profit",
-            data: chartData.values,
-          },
-        ],
-        chart: {
-          fontFamily: "inherit",
-          type: "bar",
-          height: height,
-          toolbar: {
-            show: false,
-          },
-        },
-        plotOptions: {
-          bar: {
-            horizontal: false,
-            columnWidth: ["30%"],
-            endingShape: "rounded",
-          },
-        },
-        legend: {
-          show: false,
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          show: true,
-          width: 2,
-          colors: ["transparent"],
-        },
-        xaxis: {
-          crosshairs: {
-            show: false,
-          },
-          categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
-          axisBorder: {
-            show: false,
-          },
-          axisTicks: {
-            show: false,
-          },
-          labels: {
-            style: {
-              colors: "#000",
-              fontSize: "12px",
-            },
-          },
-        },
-        yaxis: {
-          crosshairs: {
-            show: false,
-          },
-          labels: {
-            style: {
-              colors: "#000",
-              fontSize: "12px",
-            },
-          },
-        },
-        states: {
-          normal: {
-            filter: {
-              type: "none",
-              value: 0,
-            },
-          },
-          hover: {
-            filter: {
-              type: "none",
-            },
-          },
-          active: {
-            allowMultipleDataPointsSelection: false,
-            filter: {
-              type: "none",
-              value: 0,
-            },
-          },
-        },
-        fill: {
-          opacity: 1,
-        },
-        tooltip: {
-          style: {
-            fontSize: "12px",
-          },
-          y: {
-            formatter: (val: string) => {
-              return "$" + val + "k";
-            },
-          },
-        },
-        colors: ["#C7C7C7"],
-        grid: {
-          borderColor: "#C7C7C7",
-          strokeDashArray: 4,
-          yaxis: {
-            lines: {
-              show: true,
-            },
-          },
-        },
-      };
-
-      if (height) {
-        const chart = new ApexCharts(element, options);
-        chart.render();
-        setActiveChart(chart);
-      }
-
-    }, 0);
-  };
-
-  useEffect(() => {
-    setTab(2);
-    activateChart(2);
-
-    return function cleanup() {
-      if (activeChart) {
-        activeChart.destroy();
-      }
-    };
-  }, []);
-
   const CAT_QUERY = gql`
-  query Categories {
-    categories(
-      limit: 5, 
-      sort: "alexandrias:desc"
-    ) {
-      id,
-      title,
-      description,
-      icon{
-        url
-      },
-      alexandrias{
-        cid,
-        type
+  query CategoriesGroup {
+    categoriesConnection{
+      groupBy {
+        id {
+          key,
+          connection{
+            values{
+							id,
+              title,
+              description,
+              icon{
+                id,
+                name,
+                url
+              }
+            },
+            aggregate{
+              count,
+              totalCount
+            }
+          }
+        }
       }
     }
   }
@@ -223,6 +86,177 @@ export function SidebarGeneral() {
   var { data: catData, loading: catLoading, error } = useQuery(CAT_QUERY, {
     variables: {}
   });
+
+  const getFilesType = (item: string, id: string) => {
+    return new Promise((resolve, reject) => {
+
+      let query;
+      switch (item) {
+        case 'cat':
+          query = `
+            query TypeGroupBy {
+              alexandriasConnection(where: {
+                category: "${id}",
+              }) {
+                groupBy {
+                  type{
+                    key,
+                    connection{
+                      aggregate{
+                        count,
+                        totalCount
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          `;
+          break;
+        case 'dep':
+          query = `
+            query TypeGroupBy {
+              alexandriasConnection(where: {
+                department: "${id}",
+              }) {
+                groupBy {
+                  type{
+                    key,
+                    connection{
+                      aggregate{
+                        count,
+                        totalCount
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          `;
+          break;
+        case 'src':
+          query = `
+            query TypeGroupBy {
+              alexandriasConnection(where: {
+                source: "${id}",
+              }) {
+                groupBy {
+                  type{
+                    key,
+                    connection{
+                      aggregate{
+                        count,
+                        totalCount
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          `;
+          break;
+      }
+      const endpoint = `${process.env.REACT_APP_API_ENDPOINT}/graphql`;
+      console.log('fetching data: ', endpoint)
+      fetch(endpoint, {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query: query
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          resolve(data);
+        })
+        .catch(err => {
+          console.log(err)
+          reject(err);
+        });
+
+    });
+  }
+
+  const setTab = (tab_n: number) => {
+
+    if (activeChart) {
+      activeChart.destroy();
+    }
+
+    setActiveTab(`#${id}_tab${tab_n}`);
+
+    const element = document.querySelector(
+      `#${id}_tab${tab_n}_chart`
+    ) as HTMLElement;
+    setElementTab(true);
+
+    if (element) {
+      element.innerHTML = '';
+    }
+    console.log('element: ', id, tab_n, element);
+
+    if (!element) return;
+
+    console.log('getting: ', id, items);
+
+    setActiveTabTotal('Loading');
+
+    console.log(items, tab_n);
+
+
+    let item = items[tab_n - 1].connection.values[0];
+
+    getFilesType(id, item.id)
+      .then((res: any) => {
+        const types = res.data.alexandriasConnection.groupBy.type;
+
+        const pdf = types.filter((type: any) => type.key === 'pdf');
+        const csv = types.filter((type: any) => type.key === 'csv');
+        const xls = types.filter((type: any) => type.key === 'xls' || type.key === "xlsx");
+        const other = types.filter((type: any) => type.key === 'other');
+
+        const pdfFile = pdf.length > 0 ? pdf[0].connection.aggregate.count : 0;
+        const csvFile = csv.length > 0 ? csv[0].connection.aggregate.count : 0;
+        const xlsFile = xls.length > 0 ? xls[0].connection.aggregate.count : 0;
+        const otherFile = other.length > 0 ? other[0].connection.aggregate.count : 0;
+
+        setActiveTabTotal(
+          pdfFile + csvFile + xlsFile + otherFile
+        )
+
+        const dataCharts = {
+          pdfFile,
+          csvFile,
+          xlsFile,
+          otherFile
+        };
+
+        const height = parseInt(getCss(element, "height"));
+        if (height) {
+          const chart = new ApexCharts(element, getChartOptions(tab_n, height, dataCharts));
+          chart.render();
+          setActiveChart(chart);
+        }
+
+      })
+      .catch(err => {
+        console.log(err);
+      })
+
+  };
+
+  useEffect(() => {
+    setTab(1);
+
+    return function cleanup() {
+      if (activeChart) {
+        activeChart.destroy();
+      }
+    };
+  }, [catLoading]);
 
   if (catLoading) {
     return (
@@ -237,7 +271,7 @@ export function SidebarGeneral() {
           <li className="nav-item">
             <a
               onClick={() => { }}
-              className={clsx("nav-link", { active: activeTab === 1 })}
+              className={"nav-link"}
               id="kt_sidebar_tab_1"
             >
               <img
@@ -269,7 +303,7 @@ export function SidebarGeneral() {
           >
             <div className="tab-content">
               <div
-                className={clsx("tab-pane", { active: activeTab === 1 })}
+                className={"tab-pane"}
                 id="kt_sidebar_tab_pane_1"
                 role="tabpanel"
               >
@@ -319,22 +353,10 @@ export function SidebarGeneral() {
               {/* begin::Header */}
               <div className="card-header align-items-center border-0">
                 <h3 className="card-title fw-bolder fs-3">
-                  Mis Archivos
+                  Categorias
                 </h3>
                 <div className="card-toolbar">
-                  <button
-                    type="button"
-                    className="btn btn-md btn-icon btn-icon-white btn-info"
-                    data-kt-menu-trigger="click"
-                    data-kt-menu-overflow="true"
-                    data-kt-menu-placement="bottom-end"
-                    data-kt-menu-flip="top-end"
-                  >
-                    <KTSVG
-                      path="/media/icons/duotone/Layout/Layout-4-blocks-2.svg"
-                      className="svg-icon-1"
-                    />
-                  </button>
+
                   Loading ...
                 </div>
               </div>
@@ -348,6 +370,11 @@ export function SidebarGeneral() {
     )
   }
 
+  console.log(catData);
+  let items: any;
+  let itemsData = catData.categoriesConnection.groupBy.id;
+  items = itemsData;
+
   return (
     <>
       {/* begin::Sidebar Nav */}
@@ -358,17 +385,17 @@ export function SidebarGeneral() {
       >
 
         {
-          catData.categories.map((cat: any, i: number) => {
-            let img = cat.icon ? cat.icon.url : '/media/svg/logo/gray/aven.svg';
-
+          items.map((cat: any, i: number) => {
+            let current_item = cat.connection.values[0];
+            let img = current_item.icon ? current_item.icon.url : '/media/svg/logo/gray/aven.svg';
+            i++;
             return (
-              <li className="nav-item" key={`cat_sidebar_${i}`}>
+              <li className="nav-item" key={`cat_sidebar_${current_item.id}`}>
                 <a
                   onClick={() => {
                     setTab(i);
-                    activateChart(i);
                   }}
-                  className={clsx("nav-link", { active: activeTab === i })}
+                  className={clsx("nav-link", { active: activeTab === `#${id}_tab${i}` })}
                   id="kt_sidebar_tab_1"
                 >
                   <img
@@ -403,17 +430,19 @@ export function SidebarGeneral() {
         >
           <div className="tab-content">
             {
-              catData.categories.map((cat: any, i: number) => {
+              items.map((cat: any, i: number) => {
+                let current_item = cat.connection.values[0];
+                i++;
                 // increase index by 1
                 const getChart = (index: number) => {
                   return (
-                    <div id={`tab${index}_chart`} style={{ height: "250px" }} />
+                    <div id={`${id}_tab${index}_chart`} style={{ height: "250px" }} />
                   )
                 }
 
                 return (
                   <div
-                    className={clsx("tab-pane", { active: activeTab === i })}
+                    className={`tab-pane fade ${activeTab === `#${id}_tab${i}` ? "show active" : ""}`}
                     id="kt_sidebar_tab_pane_1"
                     role="tabpanel"
                     key={`cat_panel_${i}`}
@@ -423,7 +452,7 @@ export function SidebarGeneral() {
                       {/* begin::Header */}
                       <div className="card-header align-items-center border-0">
                         <h3 className="card-title fw-bolder fs-3">
-                          {cat.title}
+                          {current_item.title}
                         </h3>
                         <div className="card-toolbar">
                           <button
@@ -461,7 +490,8 @@ export function SidebarGeneral() {
           {/* begin::Card */}
           <div className="card card-custom bg-transparent">
             {/* begin::Header */}
-            <div className="card-header align-items-center border-0">
+            {/**
+             * <div className="card-header align-items-center border-0">
               <h3 className="card-title fw-bolder fs-3">
                 Mis Archivos
               </h3>
@@ -482,13 +512,9 @@ export function SidebarGeneral() {
                 <Dropdown1 />
               </div>
             </div>
-            {/* end::Header */}
-
-            {/* begin::Body */}
+             
             <div className="card-body pt-0">
-              {/* begin::Item */}
               <div className="d-flex align-items-center mb-7">
-                {/* begin::Symbol */}
                 <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
                   <img
                     src="/media/icons/aletheia/Formats/pdf.svg"
@@ -496,9 +522,7 @@ export function SidebarGeneral() {
                     alt={`pdf`}
                   />
                 </span>
-                {/* end::Symbol */}
-
-                {/* begin::Title */}
+                
                 <div className="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
                   <a
                     href="#"
@@ -510,11 +534,10 @@ export function SidebarGeneral() {
                     Este conjunto de datos...
                   </span>
                 </div>
-                {/* end::Title */}
               </div>
-              {/* end::Item */}
 
             </div>
+            */}
             {/* end: Card Body */}
           </div>
           {/* end::Card */}
@@ -535,6 +558,138 @@ export function SidebarGeneral() {
       {/* end::Sidebar footer */}
     </>
   );
+}
+
+function getChartOptions(
+  tabNumber: number,
+  height: string | number | undefined,
+  data: any
+): ApexOptions {
+
+  let series = [
+    {
+      name: "PDF",
+      data: [data.pdfFile],
+    },
+    {
+      name: "CSV",
+      data: [data.csvFile],
+    },
+    {
+      name: "XLS",
+      data: [data.xlsFile],
+    },
+    {
+      name: "Others",
+      data: [data.otherFile],
+    }
+  ]
+  // console.log(series);
+
+  return {
+    series: series,
+    chart: {
+      fontFamily: "inherit",
+      type: "bar",
+      height: height,
+      toolbar: {
+        show: false,
+      },
+    },
+    plotOptions: {
+      bar: {
+        horizontal: false,
+        columnWidth: "30%",
+        endingShape: "rounded",
+      },
+    },
+    legend: {
+      show: false,
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      show: true,
+      width: 2,
+      colors: ["transparent"],
+    },
+    xaxis: {
+      crosshairs: {
+        show: false,
+      },
+      categories: ["Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+      axisBorder: {
+        show: false,
+      },
+      axisTicks: {
+        show: false,
+      },
+      labels: {
+        style: {
+          colors: "#000",
+          fontSize: "12px",
+        },
+      },
+    },
+    yaxis: {
+      crosshairs: {
+        show: false,
+      },
+      labels: {
+        style: {
+          colors: "#000",
+          fontSize: "12px",
+        },
+      },
+    },
+    states: {
+      normal: {
+        filter: {
+          type: "none",
+          value: 0,
+        },
+      },
+      hover: {
+        filter: {
+          type: "none",
+        },
+      },
+      active: {
+        allowMultipleDataPointsSelection: false,
+        filter: {
+          type: "none",
+          value: 0,
+        },
+      },
+    },
+    fill: {
+      opacity: 1,
+    },
+    tooltip: {
+      style: {
+        fontSize: "12px",
+      },
+      x: {
+        show: false
+      },
+      y: {
+        formatter: function (val: number) {
+          return `${val} archivos`;
+        },
+      }
+    },
+    colors: ["#C7C7C7"],
+    grid: {
+      borderColor: "#C7C7C7",
+      strokeDashArray: 4,
+      yaxis: {
+        lines: {
+          show: true,
+        },
+      },
+    },
+  };
 }
 
 function getCss(el: HTMLElement, styleProp: string) {

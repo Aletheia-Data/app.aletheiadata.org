@@ -53,21 +53,16 @@ const getQuery = (type: string, id: string, entity: string) => {
         }
     },
     alexandriasConnection(
-      limit: 0
+      where: {
+        source: "${id}"
+      }
     ){
         groupBy {
-          source{
-            key,
-            __typename,
-            connection{
-              aggregate{
-                count,
-                totalCount
-              }
-            }
+          id{
+            key
           }
         }
-    },
+      },
     sourcesConnection{
       groupBy {
           id{
@@ -111,18 +106,13 @@ const getQuery = (type: string, id: string, entity: string) => {
         }
     },
     alexandriasConnection(
-      limit: 1
+      where: {
+        department: "${id}"
+      }
     ){
         groupBy {
-          department{
-            key,
-            __typename,
-            connection{
-              aggregate{
-                count,
-                totalCount
-              }
-            }
+          id{
+            key
           }
         }
       },
@@ -171,21 +161,16 @@ const getQuery = (type: string, id: string, entity: string) => {
         }
     },
     alexandriasConnection(
-      limit: 1
+      where: {
+        category: "${id}"
+      }
     ){
         groupBy {
-          department{
-            key,
-            __typename,
-            connection{
-              aggregate{
-                count,
-                totalCount
-              }
-            }
+          id{
+            key
           }
         }
-    },
+      },
       categoriesConnection(
       where: {
         

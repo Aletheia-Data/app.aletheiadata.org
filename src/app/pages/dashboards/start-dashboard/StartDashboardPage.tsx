@@ -31,7 +31,7 @@ export const StartDashboardPage: React.FC = () => {
   query SourceGroup {
     sourcesConnection{
       groupBy {
-        name {
+        id {
           key,
           connection{
             values{
@@ -60,14 +60,29 @@ export const StartDashboardPage: React.FC = () => {
   });
 
   const DEP_QUERY = gql`
-  query Departments {
-    departments(
-      limit: 5, 
-      sort: "alexandrias:asc"
-    ) {
-      id,
-      name, 
-      website
+  query DepartmentGroup {
+    departmentsConnection{
+      groupBy {
+        id {
+          key,
+          connection{
+            values{
+							id,
+              name,
+              website,
+              icon{
+                id,
+                name,
+                url
+              }
+            },
+            aggregate{
+              count,
+              totalCount
+            }
+          }
+        }
+      }
     }
   }
   `;
@@ -77,16 +92,28 @@ export const StartDashboardPage: React.FC = () => {
   });
 
   const CAT_QUERY = gql`
-  query Categories {
-    categories(
-      limit: 5, 
-      sort: "alexandrias:asc"
-    ) {
-      id,
-      title,
-      description,
-      icon{
-        url
+  query CategoriesGroup {
+    categoriesConnection{
+      groupBy {
+        id {
+          key,
+          connection{
+            values{
+							id,
+              title,
+              description,
+              icon{
+                id,
+                name,
+                url
+              }
+            },
+            aggregate{
+              count,
+              totalCount
+            }
+          }
+        }
       }
     }
   }
@@ -152,7 +179,7 @@ export const StartDashboardPage: React.FC = () => {
         </div>
 
         <div className="col-xl-8">
-          <StatsWidget2 id={'dep'} title={'Ministerios o instituciónes'} loadingArchive={depLoading} items={depData?.departments} className="card-stretch mb-5 mb-xxl-8" />
+          <StatsWidget2 id={'dep'} title={'Ministerios o instituciónes'} loadingArchive={depLoading} items={depData} className="card-stretch mb-5 mb-xxl-8" />
         </div>
       </div>
       {/* end::Row */}
@@ -164,7 +191,7 @@ export const StartDashboardPage: React.FC = () => {
         </div>
 
         <div className="col-xl-8">
-          <StatsWidget2 id={'cat'} title={'Categorias'} loadingArchive={catLoading} items={catData?.categories} className="card-stretch mb-5 mb-xxl-8" />
+          <StatsWidget2 id={'cat'} title={'Categorias'} loadingArchive={catLoading} items={catData} className="card-stretch mb-5 mb-xxl-8" />
         </div>
       </div>
       {/* end::Row */}

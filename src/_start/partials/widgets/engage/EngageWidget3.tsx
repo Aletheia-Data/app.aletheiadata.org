@@ -20,7 +20,13 @@ const EngageWidget3: React.FC<Props> = ({
   color = "primary",
 }) => {
 
-  data = data.data;
+  console.log(data);
+
+  /* TODO: remove after fixing issues with data */
+  if (data.data) {
+    data = data.data
+  }
+
   const entity = data.entity;
   const type = data.type;
 
@@ -40,15 +46,14 @@ const EngageWidget3: React.FC<Props> = ({
     case 'src':
       title = type === 'single' ? 'Fuentes' : 'Fuentes';
       desc = type === 'single' ? data.source.description : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
-      connection = data.alexandriasConnection.groupBy.source;
+      connection = data?.alexandriasConnection?.groupBy?.id || data?.alexandriasConnection?.groupBy?.source;
       let srcConn = data.sourcesConnection.groupBy.id;
       // console.log(data);
       if (connection.length > 0) {
-        let totalConn = type === 'single' ? connection.filter((item: any) => item.key === data.source.id) : connection;
-        countTotal = totalConn[0].connection.aggregate.totalCount;
-        countSrc = srcConn[0].connection.aggregate.totalCount;
+        countTotal = connection.length;
+        countSrc = type === 'single' ? srcConn[0].connection.aggregate.count : srcConn[0].connection.aggregate.totalCount;
         // console.log(countTotal);
-        entityCount = totalConn[0].connection.aggregate.count;
+        entityCount = connection.length;
       } else {
         countTotal = 0;
         entityCount = 0;
@@ -61,13 +66,13 @@ const EngageWidget3: React.FC<Props> = ({
     case 'dep':
       title = type === 'single' ? 'Ministerios o instituciónes' : 'Ministerios o instituciónes';
       desc = type === 'single' ? data.department.desciption : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
-      connection = data.alexandriasConnection.groupBy.department;
+      connection = data?.alexandriasConnection?.groupBy?.id || data?.alexandriasConnection?.groupBy?.department;
       let depConn = data.departmentsConnection.groupBy.id;
       // console.log(depConn);
       if (connection.length > 0) {
-        countTotal = connection[0].connection.aggregate.totalCount;
-        countSrc = depConn[0].connection.aggregate.totalCount;
-        entityCount = type === 'single' ? '' : connection[0].connection.aggregate.totalCount;
+        countTotal = connection.length;
+        countSrc = type === 'single' ? depConn[0].connection.aggregate.count : depConn[0].connection.aggregate.totalCount;
+        entityCount = connection.length;
       } else {
         countTotal = 0;
         entityCount = 0;
@@ -80,18 +85,18 @@ const EngageWidget3: React.FC<Props> = ({
     case 'cat':
       title = type === 'single' ? 'Categorias' : 'Categorias';
       desc = type === 'single' ? data.category.desciption : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
-      connection = data.alexandriasConnection.groupBy.department;
+      connection = data?.alexandriasConnection?.groupBy?.id || data?.alexandriasConnection?.groupBy?.department;
       let catConn = data.categoriesConnection.groupBy.id;
       console.log(data);
       if (connection.length > 0) {
-        countTotal = connection[0].connection.aggregate.totalCount;
-        countSrc = catConn[0].connection.aggregate.totalCount;
+        countTotal = connection.length;
+        countSrc = type === 'single' ? catConn[0].connection.aggregate.count : catConn[0].connection.aggregate.totalCount;
 
-        entityCount = type === 'single' ? '' : connection[0].connection.aggregate.totalCount;
+        entityCount = connection.length;
       } else {
         countTotal = 0;
         entityCount = 0;
-        countSrc = catConn[0].connection.aggregate.totalCount;
+        countSrc = type === 'single' ? catConn[0].connection.aggregate.count : catConn[0].connection.aggregate.totalCount;
       }
       records = type === 'single' ? data.category : data.categories;
       lastRecord = type === 'single' ? records : records[0];

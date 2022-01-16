@@ -318,8 +318,7 @@ const StatsWidget10: React.FC<Props> = ({ id, title, loadingArchive, items, clas
   }
 
   if (items) {
-    let itemsData = items.sourcesConnection.groupBy.name;
-    console.log(itemsData);
+    let itemsData = items.sourcesConnection.groupBy.id;
     items = itemsData.slice(0, 5);
   }
 
@@ -402,7 +401,7 @@ const StatsWidget10: React.FC<Props> = ({ id, title, loadingArchive, items, clas
                         </div>
                         <div className="ps-1 text-truncate">
                           <span className="nav-text text-gray-600 fw-bolder fs-6">
-                            {item.key}
+                            {current_item.name}
                           </span>
                           <span className="text-muted fw-bold d-block pt-1">
                             {current_item.url}
@@ -528,7 +527,6 @@ function getChartOptions(
       data: [data.otherFile],
     }
   ]
-  console.log(series);
 
   return {
     series: series,

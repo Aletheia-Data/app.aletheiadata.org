@@ -17,47 +17,34 @@ const TablesWidget5: React.FC<Props> = ({
   innerPadding = "",
   color = "primary",
 }) => {
+  console.log(data);
 
-  data = data.data;
   const entity = data.entity;
   const type = data.type;
 
   let title;
-  let desc;
   let entityCount;
   let records: any;
-  let connection: any;
-  let url;
-  let totalConn;
 
+  let connection: any = data.alexandriasConnection.groupBy.id;
+  let totalConn = connection.length;
   switch (entity) {
     case 'src':
       title = data.source.name;
-      desc = data.source.description;
-      connection = data.alexandriasConnection.groupBy.source;
       records = data.source.alexandrias;
-      totalConn = connection.filter((item: any) => item.key === data.source.id);
       console.log(totalConn);
       break;
     case 'dep':
       title = data.department.name;
-      desc = data.department.description;
-      connection = data.alexandriasConnection.groupBy.department;
       records = data.department.alexandrias;
-      totalConn = connection.filter((item: any) => item.key === data.department.id);
       break;
     case 'cat':
       title = data.category.name;
-      desc = data.category.description;
-      connection = data.alexandriasConnection.groupBy.department;
       records = data.category.alexandrias;
-      totalConn = connection[0];
       break;
   }
 
-  console.log(data, connection, totalConn);
-
-  entityCount = connection.length > 0 ? connection[0].connection.aggregate.totalCount : 0;
+  entityCount = connection.length;
 
   return (
     <div className={`card ${className}`}>

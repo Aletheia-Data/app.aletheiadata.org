@@ -41,7 +41,7 @@ const Pagination1: React.FC<Props> = ({ handleClick, totalItems }) => {
         }
 
         setCurrentPage(newPage);
-        handleClick(newPage);
+        handleClick({ newPage, numPages });
     }
 
     if (!totalItems) return (
