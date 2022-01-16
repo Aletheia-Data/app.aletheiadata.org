@@ -62,7 +62,6 @@ const TablesWidget7: React.FC<Props> = ({
       {/* begin::Header */}
       <div className="card-header border-0 py-5">
         <h3 className="card-title align-items-start flex-column">
-          <span className="card-label fw-bolder text-dark">{title}</span>
           <span className="text-muted mt-3 fw-bold fs-7">
             {`${entityCount} elementos registrados`}
           </span>
@@ -70,7 +69,7 @@ const TablesWidget7: React.FC<Props> = ({
         {
           type === 'single' &&
           <div className="card-toolbar">
-            <a href="#" className="disabled btn btn-primary fw-bolder fs-7">
+            <a href="#" className="disabled btn btn-primary fw-bolder fs-7 disabled">
               Subir Archivo
             </a>
           </div>

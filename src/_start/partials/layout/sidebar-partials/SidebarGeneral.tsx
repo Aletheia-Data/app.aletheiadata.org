@@ -266,6 +266,7 @@ export function SidebarGeneral() {
           className="sidebar-nav nav nav-tabs pt-15 pb-5 px-5"
           id="kt_sidebar_tabs"
           role="tablist"
+          style={{ paddingLeft: '0px' }}
         >
 
           <li className="nav-item">
@@ -328,7 +329,6 @@ export function SidebarGeneral() {
                           className="svg-icon-1"
                         />
                       </button>
-                      <Dropdown1 />
                     </div>
                   </div>
                   {/* end::Header */}
@@ -379,9 +379,10 @@ export function SidebarGeneral() {
     <>
       {/* begin::Sidebar Nav */}
       <ul
-        className="sidebar-nav nav nav-tabs pt-15 pb-5 px-5"
+        className="sidebar-nav nav nav-tabs pt-15 pb-15"
         id="kt_sidebar_tabs"
         role="tablist"
+        style={{ paddingLeft: '180px' }}
       >
 
         {
@@ -419,7 +420,7 @@ export function SidebarGeneral() {
 
       {/* begin::Sidebar Content */}
       {/* begin::Sidebar Content */}
-      <div id="kt_sidebar_content" className="py-10 px-5 px-lg-5">
+      <div id="kt_sidebar_content" className="py-5 px-5 px-lg-5">
         <div
           className="hover-scroll-y me-lg-n2 pe-lg-2"
           data-kt-scroll="true"
