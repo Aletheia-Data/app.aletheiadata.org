@@ -58,7 +58,7 @@ const TablesWidget6: React.FC<Props> = ({
           </span>
         </h3>
         <div className="card-toolbar">
-          <a href="#" className="btn btn-primary fw-bolder fs-7">
+          <a href="#" className="btn btn-primary fw-bolder fs-7 disabled">
             Subir Archivo
           </a>
         </div>

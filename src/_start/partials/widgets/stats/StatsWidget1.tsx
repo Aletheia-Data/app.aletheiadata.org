@@ -20,6 +20,7 @@ const colorCSV = '#FFC700';
 const colorXLS = '#20D489';
 const colorODS = '#A2A7F7';
 const colorOTHER = '#00A3FF';
+const colorUNDEFINED = '#dbdbdb';
 
 const StatsWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
 
@@ -86,7 +87,7 @@ const StatsWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
             <span className="text-muted mt-2 fw-bold fs-6">{'Cargando Archivos'}</span>
           </h3>
           <div className="card-toolbar">
-            {/* begin::Dropdown */}
+            {/* begin::Dropdown 
             <button
               type="button"
               className="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
@@ -100,6 +101,7 @@ const StatsWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
               />
             </button>
             <Dropdown1 />
+            */}
             {/* end::Dropdown */}
           </div>
         </div>
@@ -164,6 +166,13 @@ const StatsWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
             </div>
             {/* end::Item */}
 
+            {/* begin::Item */}
+            <div className="">
+              <span className="fw-bolder text-gray-800">{'Loading ...'}</span>
+              <span className="w-25px h-5px d-block rounded mt-1" style={{ backgroundColor: colorUNDEFINED }}></span>
+            </div>
+            {/* end::Item */}
+
             {/* begin::Item
             <div className="">
               <span className="fw-bolder text-gray-800">32% SAP</span>
@@ -183,6 +192,14 @@ const StatsWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
   let formats = data.alexandriasConnection.groupBy.type;
   let total = data.alexandriasConnection.groupBy.type[0].connection.aggregate.totalCount;
 
+  let count_pdf = formats.filter((c: any) => c.key === 'pdf')[0].connection.aggregate.count;
+  let count_csv = formats.filter((c: any) => c.key === 'csv')[0].connection.aggregate.count;
+  let count_xls = formats.filter((c: any) => c.key === 'xlsx')[0].connection.aggregate.count;
+  let count_ods = formats.filter((c: any) => c.key === 'ods')[0].connection.aggregate.count;
+  let count_others = formats.filter((c: any) => c.key === 'other')[0].connection.aggregate.count;
+
+  let count_undefined = total - (count_pdf + count_csv + count_xls + count_ods + count_others);
+
   return (
     <div className={`card ${className}`}>
       {/* begin::Header */}
@@ -194,7 +211,7 @@ const StatsWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
           <span className="text-muted mt-2 fw-bold fs-6">{total} Archivos</span>
         </h3>
         <div className="card-toolbar">
-          {/* begin::Dropdown */}
+          {/* begin::Dropdown 
           <button
             type="button"
             className="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
@@ -208,6 +225,7 @@ const StatsWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
             />
           </button>
           <Dropdown1 />
+          */}
           {/* end::Dropdown */}
         </div>
       </div>
@@ -224,7 +242,7 @@ const StatsWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
             )}')`,
           }}
         >
-          <div className="fw-bolder fs-1 text-gray-800 position-absolute">
+          <div className="fw-bolder fs-1 text-gray-800 position-absolute" style={{ zIndex: '0' }}>
             {total}
           </div>
           <canvas id="kt_stats_widget_1_chart"></canvas>
@@ -235,10 +253,12 @@ const StatsWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
         <div className="d-flex flex-wrap justify-content-around pt-18">
           {
             formats.map((format: any) => {
-              const total = format.connection.aggregate.count;
-              const totalAll = format.connection.aggregate.totalCount;
+              const totalFormat = format.connection.aggregate.count;
               let label;
               let backColor;
+
+              console.log(format);
+
               switch (format.key) {
                 case 'pdf':
                   label = 'PDF';
@@ -252,6 +272,10 @@ const StatsWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
                   label = 'XLS';
                   backColor = colorXLS;
                   break;
+                case 'ods':
+                  label = 'ODS';
+                  backColor = colorODS;
+                  break;
                 case 'other':
                 case '':
                   label = 'Others';
@@ -261,12 +285,17 @@ const StatsWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
 
               return (
                 <div className="" key={`formats_${label}`} style={{ width: '50%', alignItems: 'center', display: 'flex', marginBottom: '10px' }}>
-                  <span className="fw-bolder text-gray-800" style={{ marginRight: '15px' }}>{((total / totalAll) * 100).toFixed(2)}% {label}</span>
+                  <span className="fw-bolder text-gray-800" style={{ marginRight: '15px' }}>{((totalFormat / total) * 100).toFixed(2)}% {label}</span>
                   <span className="w-25px h-5px d-block rounded mt-1" style={{ backgroundColor: backColor }}></span>
                 </div>
               )
             })
           }
+
+          <div className="" key={`formats_undefined`} style={{ width: '50%', alignItems: 'center', display: 'flex', marginBottom: '10px' }}>
+            <span className="fw-bolder text-gray-800" style={{ marginRight: '15px' }}>{((count_undefined / total) * 100).toFixed(2)}% {'N/A'}</span>
+            <span className="w-25px h-5px d-block rounded mt-1" style={{ backgroundColor: colorUNDEFINED }}></span>
+          </div>
 
         </div>
         {/* end::Items */}
@@ -291,18 +320,22 @@ function getChartOptions(data: any) {
   let count_pdf = counter.filter((c: any) => c.key === 'pdf')[0].connection.aggregate.count;
   let count_csv = counter.filter((c: any) => c.key === 'csv')[0].connection.aggregate.count;
   let count_xls = counter.filter((c: any) => c.key === 'xlsx')[0].connection.aggregate.count;
+  let count_ods = counter.filter((c: any) => c.key === 'ods')[0].connection.aggregate.count;
   let count_others = counter.filter((c: any) => c.key === 'other')[0].connection.aggregate.count;
+  let count_total = counter.filter((c: any) => c.key === 'other')[0].connection.aggregate.totalCount;
+
+  let count_undefined = count_total - (count_pdf + count_csv + count_xls + count_ods + count_others);
 
   const options: ChartConfiguration = {
     type: "doughnut",
     data: {
       datasets: [
         {
-          data: [count_pdf, count_csv, count_xls, count_others],
-          backgroundColor: [colorPDF, colorCSV, colorXLS, colorOTHER],
+          data: [count_pdf, count_csv, count_xls, count_ods, count_others, count_undefined],
+          backgroundColor: [colorPDF, colorCSV, colorXLS, colorODS, colorOTHER, colorUNDEFINED],
         },
       ],
-      labels: ["PDF", "CSV", "XLS", "Others"],
+      labels: ["PDF", "CSV", "XLS", "ODS", "Others", "N/A"],
     },
     options: {
       cutoutPercentage: 75,

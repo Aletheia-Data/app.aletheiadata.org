@@ -29,14 +29,19 @@ export interface IAuthState {
 }
 
 export const reducer = persistReducer(
-  { storage, key: "v100-demo1-auth", whitelist: ["user", "accessToken"] },
+  { storage, key: "v100-auth", whitelist: ["user", "accessToken"] },
   (state: IAuthState = initialAuthState, action: ActionWithPayload<IAuthState>) => {
     switch (action.type) {
       case actionTypes.Login: {
-        console.log(action.payload);
-
         const accessToken = action.payload?.accessToken;
-        return { accessToken, user: undefined };
+        let userInfo = `${atob(`${action.payload?.accessToken}`)}`;
+        const words = userInfo.split('-');
+        let userData = {
+          id: action.payload?.accessToken,
+          account: words[0],
+          provider: words[1]
+        }
+        return { accessToken, user: userData };
       }
 
       case actionTypes.Register: {
@@ -91,8 +96,8 @@ export function* saga() {
     yield put(actions.requestUser());
   });
 
-  yield takeLatest(actionTypes.UserRequested, function* userRequested() {
-    const { data: user } = yield getUserByToken();
-    yield put(actions.fulfillUser(user));
+  yield takeLatest(actionTypes.UserRequested, function* userRequested(e) {
+    let userInfo = yield getUserByToken();
+    yield put(actions.fulfillUser(userInfo.user));
   });
 }

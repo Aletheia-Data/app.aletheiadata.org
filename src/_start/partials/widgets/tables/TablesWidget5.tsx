@@ -17,47 +17,44 @@ const TablesWidget5: React.FC<Props> = ({
   innerPadding = "",
   color = "primary",
 }) => {
+  console.log(data);
 
-  data = data.data;
+  if (data.data) {
+    data = data.data;
+  }
+
   const entity = data.entity;
   const type = data.type;
 
   let title;
-  let desc;
   let entityCount;
   let records: any;
-  let connection: any;
-  let url;
 
+  let connection: any = data.alexandriasConnection.groupBy.id;
+  let totalConn = connection.length;
   switch (entity) {
     case 'src':
       title = data.source.name;
-      desc = data.source.description;
-      connection = data.alexandriasConnection.groupBy.source;
       records = data.source.alexandrias;
+      console.log(totalConn);
       break;
     case 'dep':
       title = data.department.name;
-      desc = data.department.description;
-      connection = data.alexandriasConnection.groupBy.department;
       records = data.department.alexandrias;
       break;
     case 'cat':
       title = data.category.name;
-      desc = data.category.description;
-      connection = data.alexandriasConnection.groupBy.category;
       records = data.category.alexandrias;
       break;
   }
 
-  entityCount = connection.length > 0 ? connection[0].connection.aggregate.totalCount : 0;
+  entityCount = connection.length;
 
   return (
     <div className={`card ${className}`}>
       {/* begin::Header */}
       <div className="card-header border-0 py-5">
         <h3 className="card-title align-items-start flex-column">
-          <span className="card-label fw-bolder text-dark">{title}</span>
           <span className="text-muted mt-3 fw-bold fs-7">
             {`${entityCount} elementos registrados`}
           </span>
@@ -65,7 +62,7 @@ const TablesWidget5: React.FC<Props> = ({
         {
           type === 'single' &&
           <div className="card-toolbar">
-            <a href="#" className="disabled btn btn-primary fw-bolder fs-7">
+            <a href="#" className="disabled btn btn-primary fw-bolder fs-7 disabled">
               Subir Archivo
             </a>
           </div>
@@ -151,7 +148,7 @@ const TablesWidget5: React.FC<Props> = ({
                       <td className="ps-0">
                         <Link
                           to={rec.cid ? link : '#'}
-                          className="text-gray-800 fw-bolder text-hover-primary fs-6"
+                          className={`text-gray-800 fw-bolder text-hover-primary fs-6 ${rec.cid ? '' : 'disabled'}`}
                         >
                           {rec.name || rec.title}
                         </Link>

@@ -65,7 +65,7 @@ const TablesWidget4: React.FC<Props> = ({
         {
           type === 'single' &&
           <div className="card-toolbar">
-            <a href="#" className="disabled btn btn-primary fw-bolder fs-7">
+            <a href="#" className="disabled btn btn-primary fw-bolder fs-7 disabled">
               Subir Archivo
             </a>
           </div>

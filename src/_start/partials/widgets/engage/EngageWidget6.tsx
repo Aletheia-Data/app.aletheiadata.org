@@ -82,89 +82,132 @@ const EngageWidget6: React.FC<Props> = ({
                 ></div>
                 {/*end::Image*/}
 
+
                 {/*begin::Card*/}
                 <div className="card shadow-none w-auto w-md-400px w-lg-auto w-xxl-400px ml-auto" style={{ overflow: 'hidden' }}>
                     {/*begin::Card Body*/}
-                    <div className="card-body bg-light px-12 py-10">
-                        <h3 className="fw-bolder fs-1 mb-1">
-                            <div className="text-muted mt-2 fw-bold fs-6 d-flex align-items-center mb-5">
-                                <span className="badge-container">
-                                    <span className="badge badge-circle background-xls"></span>
-                                </span>
-                                {'Online'}
+                    <div className="card-body bg-light px-12 py-10 card card-custom">
+                        <div className="card-header">
+                            <h3 className="fw-bolder fs-1 card-toolbar">
+                                <div className="text-muted fw-bold fs-6 d-flex align-items-center">
+                                    <span className="badge-container">
+                                        <span className="badge badge-circle background-xls"></span>
+                                    </span>
+                                    {'Online'}
+                                </div>
+                            </h3>
+                            <div className="card-toolbar">
+                                {/**
+                 * <button type="button" className="btn btn-sm btn-light">
+                  Action
+                </button>
+                 */}
                             </div>
-                            <a href="#" className="text-gray-800">
-                                {title}
-                            </a>
-                        </h3>
-                        <div className="fs-7 mb-8">
+                        </div>
+                        <div className="card-body card-scroll h-200px">
                             {desc}
                         </div>
-                        {/*begin::Info*/}
-                        <table className="table table-borderless align-middle fw-bold">
-                            {
-                                type === 'collection' &&
-                                <tbody>
-                                    <tr>
-                                        <td className="text-gray-600 ps-0">Fuente</td>
-                                        <td className="text-dark pe-0">{source}</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="text-gray-600 ps-0">Fuentes</td>
-                                        <td className="text-dark pe-0">{department}</td>
-                                    </tr>
-                                    {
-                                        proof &&
+                        <div className="card-footer">
+                            {/*begin::Info*/}
+                            <table className="table table-borderless align-middle fw-bold">
+                                {
+                                    type === 'collection' &&
+                                    <tbody>
                                         <tr>
-                                            <td className="text-gray-600 ps-0">Prueba</td>
-                                            <td className="text-dark pe-0">
-                                                <a href={`${proof}`} target={'_blank'}>Ver</a>
-                                            </td>
+                                            <td className="text-gray-600 ps-0">Fuente</td>
+                                            {
+                                                data.source.url &&
+                                                <td className="text-dark pe-0">
+                                                    <a target="_blank" href={`${data.source.url}`} rel="noreferrer">{data.source.name}</a>
+                                                </td>
+                                            }
+                                            {
+                                                !data.source.url &&
+                                                <td className="text-dark pe-0">{
+                                                    source
+                                                }</td>
+                                            }
                                         </tr>
-                                    }
-                                    <tr>
-                                        <td className="text-gray-600 ps-0">Ultimo Archivo</td>
-                                        <td className="text-dark pe-0">{moment(lastRecord.updatedAt).format('DD/MM/YYYY')}</td>
-                                    </tr>
-                                </tbody>
-                            }
+                                        <tr>
+                                            <td className="text-gray-600 ps-0">Ministerio</td>
+                                            <td className="text-dark pe-0">{department}</td>
+                                        </tr>
+                                        {
+                                            proof &&
+                                            <tr>
+                                                <td className="text-gray-600 ps-0">Prueba</td>
+                                                <td className="text-dark pe-0">
+                                                    <a href={`${proof}`} target={'_blank'} rel="noreferrer">Ver</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td className="text-gray-600 ps-0">Ultimo Archivo</td>
+                                            <td className="text-dark pe-0">{moment(lastRecord.updatedAt).format('DD/MM/YYYY')}</td>
+                                        </tr>
+                                    </tbody>
+                                }
 
-                            {
-                                type === 'single' &&
-                                <tbody>
-                                    <tr>
-                                        <td className="text-gray-600 ps-0">Fuente</td>
-                                        <td className="text-dark pe-0">{source}</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="text-gray-600 ps-0">Ministerio</td>
-                                        <td className="text-dark pe-0">{department}</td>
-                                    </tr>
-                                    {
-                                        proof &&
+                                {
+                                    type === 'single' &&
+                                    <tbody>
                                         <tr>
-                                            <td className="text-gray-600 ps-0">Prueba</td>
-                                            <td className="text-dark pe-0">
-                                                <a href={`${proof}`} target={'_blank'}>Ver</a>
-                                            </td>
+                                            <td className="text-gray-600 ps-0">Fuente</td>
+                                            {
+                                                data.source.url &&
+                                                <td className="text-dark pe-0">
+                                                    <a target="_blank" href={`${data.source.url}`} rel="noreferrer">{data.source.name}</a>
+                                                </td>
+                                            }
+                                            {
+                                                !data.source.url &&
+                                                <td className="text-dark pe-0">{
+                                                    source
+                                                }</td>
+                                            }
                                         </tr>
-                                    }
-                                    <tr>
-                                        <td className="text-gray-600 ps-0">Formato</td>
-                                        <td className="text-dark pe-0">{data.type}</td>
-                                    </tr>
-                                    <tr>
-                                        <td className="text-gray-600 ps-0">Ultimo Archivo</td>
-                                        <td className="text-dark pe-0">{moment(lastRecord.updatedAt).format('DD/MM/YYYY')}</td>
-                                    </tr>
-                                </tbody>
-                            }
-                        </table>
-                        {/*end::Info*/}
+                                        <tr>
+                                            <td className="text-gray-600 ps-0">Ministerio</td>
+                                            {
+                                                data.department.website &&
+                                                <td className="text-dark pe-0">
+                                                    <a target="_blank" href={`${data.department.website}`} rel="noreferrer">{data.department.name}</a>
+                                                </td>
+                                            }
+                                            {
+                                                !data.department.website &&
+                                                <td className="text-dark pe-0">{
+                                                    department
+                                                }</td>
+                                            }
+                                        </tr>
+                                        {
+                                            proof &&
+                                            <tr>
+                                                <td className="text-gray-600 ps-0">Prueba</td>
+                                                <td className="text-dark pe-0">
+                                                    <a href={`${proof}`} target={'_blank'}>Ver</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                        <tr>
+                                            <td className="text-gray-600 ps-0">Formato</td>
+                                            <td className="text-dark pe-0">{data.type}</td>
+                                        </tr>
+                                        <tr>
+                                            <td className="text-gray-600 ps-0">Ultimo Archivo</td>
+                                            <td className="text-dark pe-0">{moment(lastRecord.updatedAt).format('DD/MM/YYYY')}</td>
+                                        </tr>
+                                    </tbody>
+                                }
+                            </table>
+                            {/*end::Info*/}
+                        </div>
                     </div>
                     {/*end::Card Body*/}
                 </div>
                 {/*end::Card*/}
+
             </div>
             {/*end::Card Body*/}
         </div>

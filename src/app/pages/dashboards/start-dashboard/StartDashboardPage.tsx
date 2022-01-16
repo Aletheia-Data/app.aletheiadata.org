@@ -5,6 +5,7 @@ import {
   ListsWidget1,
   StatsWidget1,
   StatsWidget2,
+  StatsWidget10,
   TablesWidget1,
   TablesWidget2,
 } from "../../../../_start/partials/widgets";
@@ -13,7 +14,7 @@ import { useDispatch } from "react-redux";
 import * as dashboard from "../redux/DashboardRedux";
 import { getAllDepartments, getArchive, getImports, getImportsCount, getAllSources } from "../redux/DashboardCRUD";
 import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
+import { useQuery } from "@apollo/client";
 
 export const StartDashboardPage: React.FC = () => {
   const [show, setShow] = useState(false);
@@ -27,17 +28,28 @@ export const StartDashboardPage: React.FC = () => {
   const [archiveCount, setArchiveCount] = useState({});
 
   const SOURCES_QUERY = gql`
-  query Sources {
-    sources(
-      limit: 5, 
-      sort: "alexandrias:desc"
-    ) {
-      id,
-      name, 
-      url,
-      alexandrias(limit: 0){
-        cid,
-        type
+  query SourceGroup {
+    sourcesConnection{
+      groupBy {
+        id {
+          key,
+          connection{
+            values{
+							id,
+              name,
+              url,
+              icon{
+                id,
+                name,
+                url
+              }
+            },
+            aggregate{
+              count,
+              totalCount
+            }
+          }
+        }
       }
     }
   }
@@ -48,17 +60,28 @@ export const StartDashboardPage: React.FC = () => {
   });
 
   const DEP_QUERY = gql`
-  query Departments {
-    departments(
-      limit: 5, 
-      sort: "alexandrias"
-    ) {
-      id,
-      name, 
-      website,
-      alexandrias(limit: 0){
-        cid,
-        type
+  query DepartmentGroup {
+    departmentsConnection{
+      groupBy {
+        id {
+          key,
+          connection{
+            values{
+							id,
+              name,
+              website,
+              icon{
+                id,
+                name,
+                url
+              }
+            },
+            aggregate{
+              count,
+              totalCount
+            }
+          }
+        }
       }
     }
   }
@@ -69,20 +92,28 @@ export const StartDashboardPage: React.FC = () => {
   });
 
   const CAT_QUERY = gql`
-  query Categories {
-    categories(
-      limit: 5, 
-      sort: "alexandrias:desc"
-    ) {
-      id,
-      title,
-      description,
-      icon{
-        url
-      },
-      alexandrias(limit: 0){
-        cid,
-        type
+  query CategoriesGroup {
+    categoriesConnection{
+      groupBy {
+        id {
+          key,
+          connection{
+            values{
+							id,
+              title,
+              description,
+              icon{
+                id,
+                name,
+                url
+              }
+            },
+            aggregate{
+              count,
+              totalCount
+            }
+          }
+        }
       }
     }
   }
@@ -136,7 +167,7 @@ export const StartDashboardPage: React.FC = () => {
         </div>
 
         <div className="col-xl-8">
-          <StatsWidget2 id={'src'} title={'Fuentes'} loadingArchive={sourceLoading} items={sourceData?.sources} className="card-stretch mb-5 mb-xxl-8" />
+          <StatsWidget10 id={'src'} title={'Fuentes'} loadingArchive={sourceLoading} items={sourceData} className="card-stretch mb-5 mb-xxl-8" />
         </div>
       </div>
       {/* end::Row */}
@@ -148,7 +179,7 @@ export const StartDashboardPage: React.FC = () => {
         </div>
 
         <div className="col-xl-8">
-          <StatsWidget2 id={'dep'} title={'Ministerios o instituciónes'} loadingArchive={depLoading} items={depData?.departments} className="card-stretch mb-5 mb-xxl-8" />
+          <StatsWidget2 id={'dep'} title={'Ministerios o instituciónes'} loadingArchive={depLoading} items={depData} className="card-stretch mb-5 mb-xxl-8" />
         </div>
       </div>
       {/* end::Row */}
@@ -160,7 +191,7 @@ export const StartDashboardPage: React.FC = () => {
         </div>
 
         <div className="col-xl-8">
-          <StatsWidget2 id={'cat'} title={'Categorias'} loadingArchive={catLoading} items={catData?.categories} className="card-stretch mb-5 mb-xxl-8" />
+          <StatsWidget2 id={'cat'} title={'Categorias'} loadingArchive={catLoading} items={catData} className="card-stretch mb-5 mb-xxl-8" />
         </div>
       </div>
       {/* end::Row */}

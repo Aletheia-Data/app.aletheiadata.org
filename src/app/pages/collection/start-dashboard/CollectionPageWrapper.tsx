@@ -14,15 +14,6 @@ import {
 import { CollectionPage } from "./CollectionPage";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
-import { title } from "process";
-
-let profileBreadCrumbs: Array<PageLink> = [
-  {
-    title: "Home",
-    path: "/",
-    isActive: false,
-  }
-];
 
 const defaultPageConfig = getConfig();
 const listingPageConfig: Partial<IThemeConfig> = {
@@ -62,24 +53,19 @@ const getQuery = (type: string, id: string, entity: string) => {
         }
     },
     alexandriasConnection(
-      limit: 1
+      where: {
+        source: "${id}"
+      }
     ){
         groupBy {
-          source{
-            key,
-            __typename,
-            connection{
-              aggregate{
-                count,
-                totalCount
-              }
-            }
+          id{
+            key
           }
         }
-    },
-    aletheiasConnection{
+      },
+    sourcesConnection{
       groupBy {
-          alexandria{
+          id{
             key,
             connection{
               aggregate{
@@ -120,18 +106,13 @@ const getQuery = (type: string, id: string, entity: string) => {
         }
     },
     alexandriasConnection(
-      limit: 1
+      where: {
+        department: "${id}"
+      }
     ){
         groupBy {
-          department{
-            key,
-            __typename,
-            connection{
-              aggregate{
-                count,
-                totalCount
-              }
-            }
+          id{
+            key
           }
         }
       },
@@ -180,21 +161,16 @@ const getQuery = (type: string, id: string, entity: string) => {
         }
     },
     alexandriasConnection(
-      limit: 1
+      where: {
+        category: "${id}"
+      }
     ){
         groupBy {
-          category{
-            key,
-            __typename,
-            connection{
-              aggregate{
-                count,
-                totalCount
-              }
-            }
+          id{
+            key
           }
         }
-    },
+      },
       categoriesConnection(
       where: {
         
@@ -253,6 +229,7 @@ export function CollectionPageWrapper() {
 
   title = 'Loading';
   let query = getQuery(type, id, entity);
+  let prevRoute = 'Loading';
   console.log(`calling query: `, query);
   component = Collection(type, query, entity);
 
@@ -260,13 +237,16 @@ export function CollectionPageWrapper() {
     console.log(`got data: `, component.props.data);
     switch (params.entity) {
       case 'src':
-        title = type === 'single' ? component.props.data.source.name : 'Fuentes';
+        title = component.props.data.source.name;
+        prevRoute = type === 'single' ? 'Fuentes' : 'Fuentes';
         break;
       case 'dep':
-        title = type === 'single' ? component.props.data.department.name : 'Fuentes';
+        title = component.props.data.department.name;
+        prevRoute = type === 'single' ? 'Ministerios o instituciónes' : 'Ministerios o instituciónes';
         break;
       case 'cat':
-        title = type === 'single' ? component.props.data.category.title : 'Fuentes';
+        title = component.props.data.category.title;
+        prevRoute = type === 'single' ? 'Categorias' : 'Categorias';
         break;
     }
   }
@@ -279,6 +259,25 @@ export function CollectionPageWrapper() {
       setTheme(defaultPageConfig);
     };
   }, []);
+
+  const getBreadcrumbs = (prevRoute: any) => {
+    console.log(prevRoute);
+
+    return [
+      {
+        title: "Home",
+        path: "/",
+        isActive: false,
+      },
+      {
+        title: prevRoute,
+        path: `/group/${entity}`,
+        isActive: false,
+      }
+    ]
+  }
+
+  let profileBreadCrumbs: Array<PageLink> = getBreadcrumbs(prevRoute);
 
   return <>
     <PageTitle>{title}</PageTitle>

@@ -28,7 +28,7 @@ const colorXLS = '#20D489';
 const colorODS = '#A2A7F7';
 const colorOTHER = '#00A3FF';
 
-const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, className, innerPadding = "" }) => {
+const StatsWidget10: React.FC<Props> = ({ id, title, loadingArchive, items, className, innerPadding = "" }) => {
   const [activeTab, setActiveTab] = useState(`#${id}tab1`);
   const [activeTabTotal, setActiveTabTotal] = useState('Loading');
   const [TabsTotal, setActiveTabsTotal] = useState(0);
@@ -112,7 +112,7 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
           break;
       }
       const endpoint = `${process.env.REACT_APP_API_ENDPOINT}/graphql`;
-      // console.log('fetching data: ', endpoint)
+
       fetch(endpoint, {
         method: 'post',
         headers: {
@@ -167,14 +167,14 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
 
         const pdf = types.filter((type: any) => type.key === 'pdf');
         const csv = types.filter((type: any) => type.key === 'csv');
-        const xls = types.filter((type: any) => type.key === 'xls' || type.key === "xlsx");
+        const xls = types.filter((type: any) => type.key === 'xls');
         const other = types.filter((type: any) => type.key === 'other');
 
         const pdfFile = pdf.length > 0 ? pdf[0].connection.aggregate.count : 0;
         const csvFile = csv.length > 0 ? csv[0].connection.aggregate.count : 0;
         const xlsFile = xls.length > 0 ? xls[0].connection.aggregate.count : 0;
         const otherFile = other.length > 0 ? other[0].connection.aggregate.count : 0;
-
+        // console.log(pdfFile, csvFile, xlsFile, otherFile);
         setActiveTabTotal(
           pdfFile + csvFile + xlsFile + otherFile
         )
@@ -318,7 +318,7 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
   }
 
   if (items) {
-    let itemsData = items?.departmentsConnection?.groupBy?.id || items?.categoriesConnection?.groupBy?.id;
+    let itemsData = items.sourcesConnection.groupBy.id;
     items = itemsData.slice(0, 5);
   }
 
@@ -377,6 +377,7 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
                   let current_item = item.connection.values[0];
                   let img = current_item.icon ? current_item.icon.url : '/media/svg/logo/gray/aven.svg';
                   i++;
+
                   return (
                     <li className="nav-item mb-3" key={`tabs_${current_item.id}`}>
                       <a
@@ -400,10 +401,10 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
                         </div>
                         <div className="ps-1 text-truncate">
                           <span className="nav-text text-gray-600 fw-bolder fs-6">
-                            {current_item.name || current_item.title}
+                            {current_item.name}
                           </span>
                           <span className="text-muted fw-bold d-block pt-1">
-                            {current_item.website || current_item.url || current_item.description}
+                            {current_item.url}
                           </span>
                         </div>
                       </a>
@@ -421,7 +422,6 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
             {/* begin::Tab Pane */}
             {
               items && items.map((item: any, i: number) => {
-
                 let current_item = item.connection.values[0];
                 let current_count = item.connection.aggregate.count;
                 let current_total = item.connection.aggregate.totalCount;
@@ -429,7 +429,7 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
                 if (!TabsTotal) {
                   setActiveTabsTotal(current_total);
                 }
-                // console.log(item);
+
                 let type = id;
                 let entity;
                 switch (type) {
@@ -501,7 +501,7 @@ const StatsWidget2: React.FC<Props> = ({ id, title, loadingArchive, items, class
   );
 };
 
-export { StatsWidget2 };
+export { StatsWidget10 };
 
 function getChartOptions(
   tabNumber: number,
@@ -535,7 +535,7 @@ function getChartOptions(
       type: "bar",
       height: height,
       toolbar: {
-        show: false,
+        show: true,
       },
     },
     plotOptions: {

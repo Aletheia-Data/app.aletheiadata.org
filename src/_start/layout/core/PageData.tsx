@@ -22,11 +22,11 @@ export interface PageDataContextModel {
 }
 
 const PageDataContext = createContext<PageDataContextModel>({
-  setModuleName: (_moduleName: string) => {},
-  setPageSubmenu: (_submenu: Array<PageLink>) => {},
-  setPageTitle: (_title: string) => {},
-  setPageBreadcrumbs: (_breadcrumbs: Array<PageLink>) => {},
-  setPageDescription: (_description: string) => {},
+  setModuleName: (_moduleName: string) => { },
+  setPageSubmenu: (_submenu: Array<PageLink>) => { },
+  setPageTitle: (_title: string) => { },
+  setPageBreadcrumbs: (_breadcrumbs: Array<PageLink>) => { },
+  setPageDescription: (_description: string) => { },
 });
 
 const PageDataProvider: React.FC = ({ children }) => {
@@ -85,7 +85,7 @@ const PageDataContainer: React.FC<Props> = ({
       setPageBreadcrumbs(new Array<PageLink>());
       setPageSubmenu(new Array<PageLink>());
     };
-  }, []);
+  }, [breadcrumbs]);
   return <>{children}</>;
 };
 

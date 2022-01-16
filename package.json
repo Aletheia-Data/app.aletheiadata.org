@@ -1,9 +1,10 @@
 {
   "name": "App-Aletheia-data",
-  "version": "0.0.2",
+  "version": "1.1.0",
   "homepage": "/",
   "dependencies": {
     "@apollo/react-hooks": "^4.0.0",
+    "@apollo/client": "~3.4.0",
     "@fortawesome/fontawesome-free": "^5.15.1",
     "@manaflair/redux-batch": "^1.0.0",
     "@popperjs/core": "^2.6.0",

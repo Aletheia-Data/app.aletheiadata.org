@@ -15,14 +15,6 @@ import { ListingPage } from "./ListingPage";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 
-let profileBreadCrumbs: Array<PageLink> = [
-  {
-    title: "Home",
-    path: "/",
-    isActive: false,
-  }
-];
-
 const defaultPageConfig = getConfig();
 const listingPageConfig: Partial<IThemeConfig> = {
   toolbar: {
@@ -138,7 +130,7 @@ const getQuery = (type: string, id: string, entity: string) => {
   let CAT_QUERY = gql`
   query Categories {
     categories(
-      limit: 5, 
+      limit: 10, 
       sort: "updatedAt:desc"
     ) {
       id,
@@ -154,22 +146,14 @@ const getQuery = (type: string, id: string, entity: string) => {
     limit: 1
   ){
       groupBy {
-        category{
-          key,
-          __typename,
-          connection{
-            aggregate{
-              count,
-              totalCount
-            }
-          }
+        id{
+          key
         }
       }
-  },
+    },
     categoriesConnection(
-    where: {
-      
-    }){
+    limit: 1 
+  ){
       groupBy {
         id{
           key,
@@ -239,6 +223,9 @@ export function ListingPageWrapper() {
     }
   }
 
+  console.log(title);
+
+
   const { setTheme } = useTheme();
   // Refresh UI after config updates
   useEffect(() => {
@@ -248,10 +235,16 @@ export function ListingPageWrapper() {
     };
   }, []);
 
+  const pageBreadcrumbs = [{
+    title: "Home",
+    path: "/",
+    isActive: false,
+  }];
+
   return <>
     <PageTitle>{title}</PageTitle>
     <PageDataContainer
-      breadcrumbs={profileBreadCrumbs}
+      breadcrumbs={pageBreadcrumbs}
     />
     {component}
   </>

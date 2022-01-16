@@ -20,11 +20,18 @@ const EngageWidget3: React.FC<Props> = ({
   color = "primary",
 }) => {
 
-  data = data.data;
+  console.log(data);
+
+  /* TODO: remove after fixing issues with data */
+  if (data.data) {
+    data = data.data
+  }
+
   const entity = data.entity;
   const type = data.type;
 
   let countTotal;
+  let countSrc;
   let title;
   let desc;
   let entityCount;
@@ -37,52 +44,65 @@ const EngageWidget3: React.FC<Props> = ({
 
   switch (entity) {
     case 'src':
+      title = type === 'single' ? 'Fuentes' : 'Fuentes';
       desc = type === 'single' ? data.source.description : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
-      connection = data.alexandriasConnection.groupBy.source;
-      console.log(connection);
+      connection = data?.alexandriasConnection?.groupBy?.id || data?.alexandriasConnection?.groupBy?.source;
+      let srcConn = data.sourcesConnection.groupBy.id;
+      // console.log(data);
       if (connection.length > 0) {
-        countTotal = connection[0].connection.aggregate.totalCount;
-        entityCount = type === 'single' ? '' : connection[0].connection.aggregate.totalCount;
+        countTotal = connection.length;
+        countSrc = type === 'single' ? srcConn[0].connection.aggregate.count : srcConn[0].connection.aggregate.totalCount;
+        // console.log(countTotal);
+        entityCount = connection.length;
       } else {
         countTotal = 0;
         entityCount = 0;
+        countSrc = srcConn[0].connection.aggregate.totalCount;
       }
       records = type === 'single' ? data.source : data.sources;
       lastRecord = type === 'single' ? records : records[0];
       url = type === 'single' ? records.url || records.website : '';
       break;
     case 'dep':
+      title = type === 'single' ? 'Ministerios o instituciónes' : 'Ministerios o instituciónes';
       desc = type === 'single' ? data.department.desciption : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
-      connection = data.alexandriasConnection.groupBy.department;
+      connection = data?.alexandriasConnection?.groupBy?.id || data?.alexandriasConnection?.groupBy?.department;
+      let depConn = data.departmentsConnection.groupBy.id;
+      // console.log(depConn);
       if (connection.length > 0) {
-        countTotal = connection[0].connection.aggregate.totalCount;
-        entityCount = type === 'single' ? '' : connection[0].connection.aggregate.totalCount;
+        countTotal = connection.length;
+        countSrc = type === 'single' ? depConn[0].connection.aggregate.count : depConn[0].connection.aggregate.totalCount;
+        entityCount = connection.length;
       } else {
         countTotal = 0;
         entityCount = 0;
+        countSrc = depConn[0].connection.aggregate.totalCount;
       }
       records = type === 'single' ? data.department : data.departments;
       lastRecord = type === 'single' ? records : records[0];
       url = type === 'single' ? records.url || records.website : '';
       break;
     case 'cat':
-      desc = type === 'single' ? data.category.desciption : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
-      connection = data.alexandriasConnection.groupBy.category;
+      title = type === 'single' ? 'Categorias' : 'Categorias';
+      desc = type === 'single' ? data.category.description : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
+      connection = data?.alexandriasConnection?.groupBy?.id || data?.alexandriasConnection?.groupBy?.department;
+      let catConn = data.categoriesConnection.groupBy.id;
+      console.log(data);
       if (connection.length > 0) {
-        countTotal = connection[0].connection.aggregate.totalCount;
-        entityCount = type === 'single' ? '' : connection[0].connection.aggregate.totalCount;
+        countTotal = connection.length;
+        countSrc = type === 'single' ? catConn[0].connection.aggregate.count : catConn[0].connection.aggregate.totalCount;
+
+        entityCount = connection.length;
       } else {
         countTotal = 0;
         entityCount = 0;
+        countSrc = type === 'single' ? catConn[0].connection.aggregate.count : catConn[0].connection.aggregate.totalCount;
       }
-      records = type === 'single' ? data.category : data.departments;
+      records = type === 'single' ? data.category : data.categories;
       lastRecord = type === 'single' ? records : records[0];
       url = type === 'single' ? records.url || records.website : '';
       break;
   }
-
-  console.log(connection);
-
 
   return (
     <div className={`card card-custom ${className}`} style={{ overflow: 'hidden' }}>
@@ -105,67 +125,75 @@ const EngageWidget3: React.FC<Props> = ({
         {/*begin::Card*/}
         <div className="card shadow-none w-auto w-md-400px w-lg-auto w-xxl-400px ml-auto" style={{ overflow: 'hidden' }}>
           {/*begin::Card Body*/}
-          <div className="card-body bg-light px-12 py-10">
-            <h3 className="fw-bolder fs-1 mb-1">
-              <div className="text-muted mt-2 fw-bold fs-6 d-flex align-items-center mb-5">
-                <span className="badge-container">
-                  <span className="badge badge-circle background-xls"></span>
-                </span>
-                {'Online'}
+          <div className="card-body bg-light px-12 py-10 card card-custom">
+            <div className="card-header">
+              <h3 className="fw-bolder fs-1 card-toolbar">
+                <div className="text-muted fw-bold fs-6 d-flex align-items-center">
+                  <span className="badge-container">
+                    <span className="badge badge-circle background-xls"></span>
+                  </span>
+                  {'Online'}
+                </div>
+              </h3>
+              <div className="card-toolbar">
+                {/**
+                 * <button type="button" className="btn btn-sm btn-light">
+                  Action
+                </button>
+                 */}
               </div>
-              <a href="#" className="text-gray-800">
-                {title}
-              </a>
-            </h3>
-            <div className="fs-7 mb-8">
+            </div>
+            <div className="card-body card-scroll h-200px">
               {desc}
             </div>
-            {/*begin::Info*/}
-            <table className="table table-borderless align-middle fw-bold">
-              {
-                type === 'collection' &&
-                <tbody>
-                  <tr>
-                    <td className="text-gray-600 ps-0">Archivos</td>
-                    <td className="text-dark pe-0">{countTotal}</td>
-                  </tr>
-                  <tr>
-                    <td className="text-gray-600 ps-0">Fuentes</td>
-                    <td className="text-dark pe-0">{entityCount}</td>
-                  </tr>
-                  <tr>
-                    <td className="text-gray-600 ps-0">Ultimo Archivo</td>
-                    <td className="text-dark pe-0">{moment(lastRecord.updatedAt).format('DD/MM/YYYY')}</td>
-                  </tr>
-                </tbody>
-              }
-
-              {
-                type === 'single' &&
-                <tbody>
-                  <tr>
-                    <td className="text-gray-600 ps-0">Archivos</td>
-                    <td className="text-dark pe-0">{countTotal}</td>
-                  </tr>
-                  {
-                    entity !== 'cat' &&
+            <div className="card-footer">
+              {/*begin::Info*/}
+              <table className="table table-borderless align-middle fw-bold">
+                {
+                  type === 'collection' &&
+                  <tbody>
                     <tr>
-                      <td className="text-gray-600 ps-0">URL</td>
-                      <td className="text-dark pe-0">
-                        <a href={url} target={'_blank'}>
-                          {url}
-                        </a>
-                      </td>
+                      <td className="text-gray-600 ps-0">Archivos</td>
+                      <td className="text-dark pe-0">{countTotal}</td>
                     </tr>
-                  }
-                  <tr>
-                    <td className="text-gray-600 ps-0">Ultimo Archivo</td>
-                    <td className="text-dark pe-0">{moment(lastRecord.updatedAt).format('DD/MM/YYYY')}</td>
-                  </tr>
-                </tbody>
-              }
-            </table>
-            {/*end::Info*/}
+                    <tr>
+                      <td className="text-gray-600 ps-0">{title}</td>
+                      <td className="text-dark pe-0">{countSrc}</td>
+                    </tr>
+                    <tr>
+                      <td className="text-gray-600 ps-0">Ultimo Archivo</td>
+                      <td className="text-dark pe-0">{moment(lastRecord.updatedAt).format('DD/MM/YYYY')}</td>
+                    </tr>
+                  </tbody>
+                }
+
+                {
+                  type === 'single' &&
+                  <tbody>
+                    <tr>
+                      <td className="text-gray-600 ps-0">Archivos</td>
+                      <td className="text-dark pe-0">{countTotal}</td>
+                    </tr>
+                    {
+                      entity !== 'cat' &&
+                      <tr>
+                        <td className="text-gray-600 ps-0">URL</td>
+                        <td className="text-dark pe-0">
+                          <a href={url} target={'_blank'}>
+                            {url}
+                          </a>
+                        </td>
+                      </tr>
+                    }
+                    <tr>
+                      <td className="text-gray-600 ps-0">Ultimo Archivo</td>
+                      <td className="text-dark pe-0">{moment(lastRecord.updatedAt).format('DD/MM/YYYY')}</td>
+                    </tr>
+                  </tbody>
+                }
+              </table>
+              {/*end::Info*/}
+            </div>
           </div>
           {/*end::Card Body*/}
         </div>

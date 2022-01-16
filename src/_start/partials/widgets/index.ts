@@ -30,6 +30,7 @@ export * from "./stats/StatsWidget6";
 export * from "./stats/StatsWidget7";
 export * from "./stats/StatsWidget8";
 export * from "./stats/StatsWidget9";
+export * from "./stats/StatsWidget10";
 
 // feeds
 export * from "./feeds/FeedsWidget2";
@@ -38,3 +39,6 @@ export * from "./feeds/FeedsWidget4";
 
 // Mixed
 export * from './mixed/MixedWidget1';
+
+// Pagination
+export * from "./pagination/Pagination1";

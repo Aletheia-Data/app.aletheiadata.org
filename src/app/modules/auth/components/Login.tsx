@@ -10,20 +10,19 @@ import { login } from "../redux/AuthCRUD";
 import { toAbsoluteUrl } from "../../../../_start/helpers";
 
 const loginSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Wrong email format")
+  account: Yup.string()
     .min(3, "Minimum 3 symbols")
     .max(50, "Maximum 50 symbols")
     .required("Email is required"),
-  password: Yup.string()
+  provider: Yup.string()
     .min(3, "Minimum 3 symbols")
     .max(50, "Maximum 50 symbols")
     .required("Password is required"),
 });
 
 const initialValues = {
-  email: "admin@demo.com",
-  password: "demo",
+  account: "none",
+  provider: "metamask",
 };
 
 declare let window: any;
@@ -41,41 +40,47 @@ export function Login() {
   let [connected, setConnected] = useState(false);
   let [account, setAccount] = useState('');
   let [netId, setNetId] = useState('');
+  let [provider, setProvider] = useState('');
 
   // init web3 if available
   const initWeb3 = async () => {
-    if (typeof window.ethereum !== 'undefined') {
-      // first of all enabled ethereum
-      await window.ethereum.enable();
+    if (window.ethereum) {
+      try {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        //load balance
+        if (accounts[0] && typeof accounts[0] !== 'undefined') {
 
-      const netId: any = await web3.eth.net.getId()
-      const accounts: any = await web3.eth.getAccounts()
+          setConnected(true);
+          setAccount(accounts[0]);
+          setNetId(netId);
+          setProvider('metamask');
 
-      // console.log(web3, accounts);
+          return accounts[0];
 
-      //load balance
-      if (accounts[0] && typeof accounts[0] !== 'undefined') {
+        } else {
+          window.alert('Please login with MetaMask');
+          throw false;
+        }
 
-        setConnected(true);
-        setAccount(accounts[0]);
-        setNetId(netId);
-
-      } else {
-        window.alert('Please login with MetaMask');
-        return;
+        //load contracts
+        /*
+        TODO: create contracts for uploads' credit
+        */
+      } catch (error: any) {
+        if (error.code === 4001) {
+          // User rejected request
+          throw false;
+        }
       }
-
-      //load contracts
-      /*
-      TODO: create contracts for uploads' credit
-      */
     } else {
-      window.alert('Please install MetaMask')
+      window.alert('Please install MetaMask');
+      window.open('https://metamask.io/', '_blank');
+      throw false;
     }
   }
 
   useEffect(() => {
-    initWeb3();
+    // initWeb3();
   }, [])
 
   const [loading, setLoading] = useState(false);
@@ -84,27 +89,30 @@ export function Login() {
     initialValues,
     validationSchema: loginSchema,
     onSubmit: (values, { setStatus, setSubmitting }) => {
-      if (!account) {
-        initWeb3();
-      }
-
-      console.log('check account: ', values, account);
-      // set email and password for metamask
-      const provider = 'metamask';
 
       setLoading(true);
-      setTimeout(() => {
-        login(values.email, values.password)
-          .then(({ data: { accessToken } }) => {
-            setLoading(false);
-            dispatch(auth.actions.login(accessToken));
-          })
-          .catch(() => {
-            setLoading(false);
-            setSubmitting(false);
-            setStatus("The login detail is incorrect");
-          });
-      }, 1000);
+
+      const connect = (user: string) => {
+        let accessToken = login(user, 'metamask');
+        setLoading(false);
+        dispatch(auth.actions.login(accessToken));
+      }
+
+      if (!account) {
+        initWeb3().then(user => {
+          connect(user);
+        })
+        setLoading(false);
+        setSubmitting(false);
+        // setStatus("Please login with MetaMask");
+        return;
+      } else {
+        initWeb3().then(user => {
+          connect(user);
+        });
+        setLoading(false);
+      }
+
     },
   });
 

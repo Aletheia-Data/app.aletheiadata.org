@@ -54,7 +54,9 @@ const getQuery = (type: string, cid: string, entity: string) => {
       },
       department{
         id,
-        name
+        name, 
+        desciption,
+        website,
       },
       source_url,
       source{

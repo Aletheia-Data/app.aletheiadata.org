@@ -10,18 +10,18 @@ import { UsersTableMock } from "./usersTableMock";
 
 export function mockAuth(mock: MockAdapter) {
   mock.onPost(LOGIN_URL).reply(({ data }) => {
-    const { email, password } = JSON.parse(data);
+    const { account, provider } = JSON.parse(data);
 
-    if (email && password) {
+    if (account && provider) {
       const user = UsersTableMock.table.find(
         (x) =>
-          x.email.toLowerCase() === email.toLowerCase() &&
-          x.password === password
+          x.account.toLowerCase() === account.toLowerCase() &&
+          x.provider === provider
       );
 
       if (user) {
         const auth = user.auth;
-        return [200, { ...auth, password: undefined }];
+        return [200, { ...auth, provider: undefined }];
       }
     }
 
@@ -29,45 +29,43 @@ export function mockAuth(mock: MockAdapter) {
   });
 
   mock.onPost(REGISTER_URL).reply(({ data }) => {
-    const { email, firstname, lastname, password } = JSON.parse(data);
+    const { account, firstname, lastname, provider } = JSON.parse(data);
 
-    if (email && firstname && lastname &&  password) {
+    if (account && firstname && lastname && provider) {
       const user: UserModel = {
         id: generateUserId(),
-        email,
-        firstname,
-        lastname,
-        username: `${firstname}-${lastname}`,
-        password,
-        roles: [2], // Manager
+        account,
+        provider,
         auth: {
           accessToken: "access-token-" + Math.random(),
           refreshToken: "access-token-" + Math.random(),
         },
-        pic: process.env.PUBLIC_URL + "/media/users/default.jpg",
+        avatar: {
+          type: 1
+        },
       };
 
       UsersTableMock.table.push(user);
       const auth = user.auth;
 
-      return [200, { ...auth, password: undefined }];
+      return [200, { ...auth, provider: undefined }];
     }
 
     return [400];
   });
 
   mock.onPost(REQUEST_PASSWORD_URL).reply(({ data }) => {
-    const { email } = JSON.parse(data);
+    const { account } = JSON.parse(data);
 
-    if (email) {
+    if (account) {
       const user = UsersTableMock.table.find(
-        (x) => x.email.toLowerCase() === email.toLowerCase()
+        (x) => x.account.toLowerCase() === account.toLowerCase()
       );
       let result = false;
       if (user) {
-        user.password = undefined;
+        user.provider = undefined;
         result = true;
-        return [200, { result, password: undefined }];
+        return [200, { result, provider: undefined }];
       }
     }
 
@@ -77,7 +75,7 @@ export function mockAuth(mock: MockAdapter) {
   mock
     .onGet(GET_USER_BY_ACCESSTOKEN_URL)
     .reply(({ headers: { Authorization } }) => {
-      
+
 
       const accessToken =
         Authorization &&
@@ -90,7 +88,7 @@ export function mockAuth(mock: MockAdapter) {
         );
 
         if (user) {
-          return [200, { ...user, password: undefined }];
+          return [200, { ...user, provider: undefined }];
         }
       }
 
