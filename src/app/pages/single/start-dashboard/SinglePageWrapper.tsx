@@ -14,19 +14,35 @@ import {
 import { SinglePage } from "./SinglePage";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
+import { Sidebar } from "../../../../_start/layout/components/Sidebar";
 
-let profileBreadCrumbs: Array<PageLink> = [
-  {
-    title: "Home",
-    path: "/",
-    isActive: false,
-  }
-];
+const getBreadcrumbs = () => {
+
+  return [
+    {
+      title: "Home",
+      path: "/",
+      isActive: false,
+    },
+    {
+      title: 'Back',
+      path: '/',
+      isBack: true,
+      isActive: false,
+    }
+  ]
+}
+
+let profileBreadCrumbs: Array<PageLink> = getBreadcrumbs();
 
 const defaultPageConfig = getConfig();
 const listingPageConfig: Partial<IThemeConfig> = {
   toolbar: {
     ...defaultPageConfig.toolbar,
+    display: true,
+  },
+  sidebar: {
+    ...defaultPageConfig.sidebar,
     display: true,
   },
 };
@@ -44,6 +60,11 @@ const getQuery = (type: string, cid: string, entity: string) => {
       id,
       title,
       description,
+      file{
+        id,
+        url
+      },
+      api_endpoint,
       proof{
         id,
         url
@@ -115,6 +136,9 @@ export function SinglePageWrapper() {
   if (component?.props?.data) {
     title = component.props.data.alexandrias[0].title;
     component.props.data.title = title;
+    component.props.data.sidebar = 'single';
+    console.log(component.props.data);
+
   }
 
   const { setTheme } = useTheme();
@@ -132,6 +156,7 @@ export function SinglePageWrapper() {
       breadcrumbs={profileBreadCrumbs}
     />
     {component}
+    <Sidebar props={component.props.data} />
   </>
 }
 

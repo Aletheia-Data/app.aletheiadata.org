@@ -14,6 +14,7 @@ import {
 import { CollectionPage } from "./CollectionPage";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
+import { Sidebar } from "../../../../_start/layout/components/Sidebar";
 
 const defaultPageConfig = getConfig();
 const listingPageConfig: Partial<IThemeConfig> = {
@@ -235,6 +236,7 @@ export function CollectionPageWrapper() {
 
   if (component?.props?.data) {
     console.log(`got data: `, component.props.data);
+    component.props.data.sidebar = 'default';
     switch (params.entity) {
       case 'src':
         title = component.props.data.source.name;
@@ -285,6 +287,7 @@ export function CollectionPageWrapper() {
       breadcrumbs={profileBreadCrumbs}
     />
     {component}
+    <Sidebar props={component.props.data} />
   </>
 }
 

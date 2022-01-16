@@ -37,21 +37,42 @@ export function Toolbar() {
                   <>
                     {/* begin::Breadcrumbs */}
                     <ul className="breadcrumb breadcrumb-line bg-transparent text-muted fw-bold p-0 my-1 fs-7">
-                      {Array.from(pageBreadcrumbs).map((item, index) => (
-                        <li
-                          className={clsx("breadcrumb-item", {
-                            "text-dark": item.isActive,
-                          })}
-                          key={`${item.path}${index}`}
-                        >
-                          <Link
-                            className="text-muted text-hover-primary"
-                            to={item.path}
+                      {Array.from(pageBreadcrumbs).map((item: any, index) => {
+
+                        const goBack = () => {
+                          window.history.back();
+                        }
+
+                        return (
+                          <li
+                            className={clsx("breadcrumb-item", {
+                              "text-dark": item.isActive,
+                            })}
+                            key={`${item.path}${index}`}
                           >
-                            {item.title}
-                          </Link>
-                        </li>
-                      ))}
+                            {
+                              !item.isBack &&
+                              <Link
+                                className="text-muted text-hover-primary"
+                                to={item.path}
+                              >
+                                {item.title}
+                              </Link>
+                            }
+
+                            {
+                              item.isBack &&
+                              // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                              <a
+                                className="text-muted text-hover-primary"
+                                onClick={goBack}
+                              >
+                                {item.title}
+                              </a>
+                            }
+                          </li>
+                        )
+                      })}
                       <li className="breadcrumb-item text-dark">{pageTitle}</li>
                     </ul>
                     {/* end::Breadcrumbs */}
