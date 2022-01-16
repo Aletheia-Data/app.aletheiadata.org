@@ -6,7 +6,11 @@ import { toAbsoluteUrl } from "../../helpers";
 
 const BG_COLORS = ['bg-white', 'bg-info'];
 
-export function Sidebar() {
+type Props = {
+  props: any;
+};
+
+export const Sidebar: React.FC<Props> = ({ props }) => {
   const { config, classes } = useTheme();
   const sidebarCSSClass = classes.sidebar;
   const sideBarRef = useRef<HTMLDivElement | null>(null);
@@ -44,7 +48,7 @@ export function Sidebar() {
         >
           {/* begin::Sidebar Content */}
           <div className="d-flex flex-column sidebar-body">
-            {config.sidebar.content === "general" && <SidebarGeneral />}
+            {config.sidebar.content === "general" && <SidebarGeneral props={props} />}
             {config.sidebar.content === "shop" && (
               <SidebarShop sidebarRef={sideBarRef} />
             )}

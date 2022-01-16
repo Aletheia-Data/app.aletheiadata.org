@@ -14,6 +14,22 @@ import "./_start/assets/sass/style.scss";
 // Apollo
 import { ApolloProvider } from "@apollo/react-hooks";
 import client from "./setup/apollo/SetupApollo";
+const { version } = require('../package.json');
+
+console.log(`
+***********************************************
+***** Aletheia Data ***
+**** version: ${version} ******
+**** web3: ${process.env.REACT_WEB3_STORAGE_API_KEY ? true : false} ******
+**** nft: ${process.env.REACT_WEB3_STORAGE_API_KEY ? true : false} ******
+**** endpoint: ${process.env.REACT_APP_API_ENDPOINT} ******
+**** backend: ${process.env.REACT_APP_BACKEND_URL} ******
+***********************************************
+`);
+
+if (window.location.hostname === 'app.aletheiadata.org') {
+  console.log = function () { }
+}
 
 /**
  * Base URL of the website.

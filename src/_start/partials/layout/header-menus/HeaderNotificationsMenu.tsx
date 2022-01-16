@@ -10,7 +10,7 @@ export function HeaderNotificationsMenu() {
     >
       <div className="menu-item mx-3">
         <div className="menu-content fs-6 text-dark fw-bolder py-6">
-          4 New Notifications
+          1 New Notifications
         </div>
       </div>
 
@@ -29,62 +29,9 @@ export function HeaderNotificationsMenu() {
 
           <div className="ps-4">
             <span className="menu-title fw-bold mb-1">
-              New Uer Library Added
+              Welcome
             </span>
             <span className="text-muted fw-bold d-block fs-7">3 Hours ago</span>
-          </div>
-        </a>
-      </div>
-
-      <div className="menu-item mx-3">
-        <a href="#" className="menu-link px-4 py-3">
-          <div className="symbol symbol-35px">
-            <span className="symbol-label bg-light-warning">
-              <KTSVG
-                className="svg-icon-3 svg-icon-warning"
-                path="/media/icons/duotone/Devices/Mic.svg"
-              />
-            </span>
-          </div>
-          <div className="ps-4">
-            <span className="menu-title fw-bold mb-1">Clean Microphone</span>
-            <span className="text-muted fw-bold d-block fs-7">5 Hours ago</span>
-          </div>
-        </a>
-      </div>
-
-      <div className="menu-item mx-3">
-        <a href="#" className="menu-link px-4 py-3">
-          <div className="symbol symbol-35px">
-            <span className="symbol-label bg-light-primary">
-              <KTSVG
-                className="svg-icon-3 svg-icon-primary"
-                path="/media/icons/duotone/Communication/Group-chat.svg"
-              />
-            </span>
-          </div>
-
-          <div className="ps-4">
-            <span className="menu-title fw-bold mb-1">Quick Chat Created</span>
-            <span className="text-muted fw-bold d-block fs-7">A Day ago</span>
-          </div>
-        </a>
-      </div>
-
-      <div className="menu-item mx-3">
-        <a href="#" className="menu-link px-4 py-3">
-          <div className="symbol symbol-35px">
-            <span className="symbol-label bg-light-danger">
-              <KTSVG
-                className="svg-icon-3 svg-icon-danger"
-                path="/media/icons/duotone/General/Attachment2.svg"
-              />
-            </span>
-          </div>
-
-          <div className="ps-4">
-            <span className="menu-title fw-bold mb-1">32 New Attachements</span>
-            <span className="text-muted fw-bold d-block fs-7">2 Day ago</span>
           </div>
         </a>
       </div>
@@ -93,11 +40,8 @@ export function HeaderNotificationsMenu() {
 
       <div className="menu-item mx-2">
         <div className="menu-content py-5">
-          <a href="#" className="btn btn-primary fw-bolder me-2 px-5">
-            Report
-          </a>
           <a href="#" className="btn btn-light fw-bolder px-5">
-            Reset
+            Clear
           </a>
         </div>
       </div>

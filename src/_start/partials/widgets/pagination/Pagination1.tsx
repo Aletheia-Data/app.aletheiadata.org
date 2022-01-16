@@ -20,8 +20,8 @@ const Pagination1: React.FC<Props> = ({ handleClick, totalItems }) => {
     const perPage = 10;
 
     const pagesRatio = total / perPage;
-    const numPages = parseInt(`${Math.round(pagesRatio)}`);
-    // console.log(`${total / perPage}`);
+    const numPages = parseInt(`${Math.ceil(pagesRatio)}`);
+    console.log(numPages);
 
     const changePage = (e: any) => {
         const elem = e.currentTarget;

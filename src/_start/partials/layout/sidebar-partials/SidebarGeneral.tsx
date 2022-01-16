@@ -7,6 +7,7 @@ import { toAbsoluteUrl, KTSVG } from "../../../helpers";
 import { Dropdown1 } from "../../content/dropdown/Dropdown1";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
+import { useLocation } from 'react-router-dom'
 
 // TODO: move to global
 const colorPDF = '#FFE6E2';
@@ -15,45 +16,23 @@ const colorXLS = '#E4FFF4';
 const colorODS = '#F7F0FF';
 const colorOTHER = '#00A3FF';
 
-const chartsData: Array<{
-  tabId: number;
-  selector: string;
-  values: Array<number>;
-}> = [
-    {
-      tabId: 0,
-      selector: "#kt_sidebar_tab_1_chart",
-      values: [40, 30, 25, 40, 50, 30],
-    },
-    {
-      tabId: 1,
-      selector: "#kt_sidebar_tab_2_chart",
-      values: [30, 30, 25, 45, 30, 40],
-    },
-    {
-      tabId: 2,
-      selector: "#kt_sidebar_tab_3_chart",
-      values: [25, 30, 40, 30, 35, 30],
-    },
-    {
-      tabId: 3,
-      selector: "#kt_sidebar_tab_4_chart",
-      values: [25, 30, 35, 40, 50, 30],
-    },
-    {
-      tabId: 4,
-      selector: "#kt_sidebar_tab_5_chart",
-      values: [40, 20, 50, 50, 55, 45],
-    },
-  ];
+type Props = {
+  props: any;
+};
 
-export function SidebarGeneral() {
+export const SidebarGeneral: React.FC<Props> = ({ props }) => {
+
   const id = 'cat';
   const [activeTab, setActiveTab] = useState(`#${id}_tab1`);
   const [activeTabTotal, setActiveTabTotal] = useState('Loading');
-  const [TabsTotal, setActiveTabsTotal] = useState(0);
   const [elementTab, setElementTab] = useState(false);
   const [activeChart, setActiveChart] = useState<ApexCharts | undefined>();
+
+  if (!props) {
+    props = {
+      alexandrias: []
+    }
+  }
 
   const CAT_QUERY = gql`
   query CategoriesGroup {
@@ -169,7 +148,7 @@ export function SidebarGeneral() {
       })
         .then(response => response.json())
         .then(data => {
-          console.log(data)
+          // console.log(data)
           resolve(data);
         })
         .catch(err => {
@@ -204,8 +183,7 @@ export function SidebarGeneral() {
 
     setActiveTabTotal('Loading');
 
-    console.log(items, tab_n);
-
+    // console.log(items, tab_n);
 
     let item = items[tab_n - 1].connection.values[0];
 
@@ -370,10 +348,13 @@ export function SidebarGeneral() {
     )
   }
 
-  console.log(catData);
   let items: any;
   let itemsData = catData.categoriesConnection.groupBy.id;
   items = itemsData;
+
+  const checkStatus = (cid: string) => {
+    // https://filfox.info/en/deal/${deailID}
+  }
 
   return (
     <>
@@ -491,10 +472,9 @@ export function SidebarGeneral() {
           {/* begin::Card */}
           <div className="card card-custom bg-transparent">
             {/* begin::Header */}
-            {/**
-             * <div className="card-header align-items-center border-0">
+            <div className="card-header align-items-center border-0">
               <h3 className="card-title fw-bolder fs-3">
-                Mis Archivos
+                {props.sidebar && props.sidebar === 'single' ? 'Connect' : ''} {/** TODO: restore 'Mis Archivos' gatting them from db */}
               </h3>
               <div className="card-toolbar">
                 <button
@@ -513,32 +493,162 @@ export function SidebarGeneral() {
                 <Dropdown1 />
               </div>
             </div>
-             
-            <div className="card-body pt-0">
-              <div className="d-flex align-items-center mb-7">
-                <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
-                  <img
-                    src="/media/icons/aletheia/Formats/pdf.svg"
-                    className="svg-icon-1 svg-icon-success"
-                    alt={`pdf`}
-                  />
-                </span>
-                
-                <div className="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
-                  <a
-                    href="#"
-                    className=" fw-bolder text-hover-primary fs-6"
-                  >
-                    Estadísticas de Estudiantes Matriculas...
-                  </a>
-                  <span className=" opacity-25 fw-bold fs-7 my-1">
-                    Este conjunto de datos...
-                  </span>
-                </div>
-              </div>
 
-            </div>
-            */}
+            {
+              props.sidebar && props.sidebar === 'single' &&
+              <div className="card-body pt-0">
+
+                <a
+                  href={props.alexandrias[0].file.length > 0 ? props.alexandrias[0].file[0].url : `https://${props.alexandrias[0]?.cid}.ipfs.dweb.link/`}
+                  target={'_blank'}
+                  rel="noreferrer"
+                  className=" fw-bolder text-hover-primary fs-6"
+                >
+                  <div className="d-flex align-items-center mb-7">
+                    <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
+                      <img
+                        src="/media/icons/aletheia/Formats/ipfs.svg"
+                        className="svg-icon-1 svg-icon-success"
+                        alt={`ipfs`}
+                      />
+                    </span>
+
+                    <div className="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
+                      IPFS
+                      <span className=" opacity-25 fw-bold fs-7 my-1">
+                        File System Decentralizado
+                      </span>
+                    </div>
+                  </div>
+                </a>
+
+
+                <a
+                  href={props.alexandrias[0].source_url}
+                  target={'_blank'}
+                  className=" fw-bolder text-hover-primary fs-6" rel="noreferrer"
+                >
+                  <div className="d-flex align-items-center mb-7">
+                    <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
+                      <img
+                        src="/media/icons/aletheia/Formats/source.svg"
+                        className="svg-icon-1 svg-icon-success"
+                        alt={`source`}
+                      />
+                    </span>
+
+                    <div className="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
+                      Fuente
+                      <span className=" opacity-25 fw-bold fs-7 my-1">
+                        {props.alexandrias[0].source.name}
+                      </span>
+                    </div>
+                  </div>
+                </a>
+
+                <a
+                  href={'#'}
+                  className=" fw-bolder text-hover-primary fs-6 disabled" rel="noreferrer"
+                >
+                  <div className="d-flex align-items-center mb-7">
+                    <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
+                      <img
+                        src="/media/icons/aletheia/Formats/search.svg"
+                        className="svg-icon-1 svg-icon-success"
+                        alt={`search`}
+                      />
+                    </span>
+
+                    <div className="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
+                      Mini Search
+                      <span className=" opacity-25 fw-bold fs-7 my-1">
+                        Busqueda simple <span className="unavailable">(coming soon)</span>
+                      </span>
+                    </div>
+                  </div>
+                </a>
+
+
+                <a
+                  href={props.alexandrias[0].file.length > 0 ? props.alexandrias[0].file[0].url : `https://${props.alexandrias[0]?.cid}.ipfs.dweb.link/`}
+                  target={'_blank'}
+                  rel="noreferrer"
+                  className=" fw-bolder text-hover-primary fs-6"
+                >
+                  <div className="d-flex align-items-center mb-7">
+                    <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
+                      <img
+                        src="/media/icons/aletheia/Formats/download.svg"
+                        className="svg-icon-1 svg-icon-success"
+                        alt={`download`}
+                      />
+                    </span>
+
+                    <div className="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
+                      Descarga
+                      <span className=" opacity-25 fw-bold fs-7 my-1">
+                        Descarga archivo
+                      </span>
+                    </div>
+                  </div>
+                </a>
+
+                <a
+                  href={props.alexandrias[0].api_endpoint > 0 ? props.alexandrias[0].api_endpoint : `https://rapidapi.com/aletheia-data-aletheia-data-default/api/aletheia2/`}
+                  target={'_blank'}
+                  rel="noreferrer"
+                  className=" fw-bolder text-hover-primary fs-6"
+                >
+                  <div className="d-flex align-items-center mb-7">
+                    <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
+                      <img
+                        src="/media/icons/aletheia/Formats/rapid.svg"
+                        className="svg-icon-1 svg-icon-success"
+                        alt={`rapid`}
+                      />
+                    </span>
+
+                    <div className="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
+                      Rapid API
+                      <span className=" opacity-25 fw-bold fs-7 my-1">
+                        Usa nuestro API
+                      </span>
+                    </div>
+                  </div>
+                </a>
+
+              </div>
+            }
+
+            {
+              props?.sidebar === 'hide' &&
+              <div className="card-body pt-0">
+                <div className="d-flex align-items-center mb-7">
+                  <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
+                    <img
+                      src="/media/icons/aletheia/Formats/pdf.svg"
+                      className="svg-icon-1 svg-icon-success"
+                      alt={`pdf`}
+                    />
+                  </span>
+
+                  <div className="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
+                    <a
+                      href="#"
+                      className=" fw-bolder text-hover-primary fs-6"
+                    >
+                      Estadísticas de Estudiantes Matriculas...
+                    </a>
+                    <span className=" opacity-25 fw-bold fs-7 my-1">
+                      Este conjunto de datos...
+                    </span>
+                  </div>
+                </div>
+
+              </div>
+            }
+
+
             {/* end: Card Body */}
           </div>
           {/* end::Card */}

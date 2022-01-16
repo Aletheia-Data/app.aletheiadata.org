@@ -14,6 +14,7 @@ import {
 import { ListingPage } from "./ListingPage";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
+import { Sidebar } from "../../../../_start/layout/components/Sidebar";
 
 const defaultPageConfig = getConfig();
 const listingPageConfig: Partial<IThemeConfig> = {
@@ -188,8 +189,10 @@ function Collection(type: string, query: any, entity: string) {
 
   if (loading) return <p>Loading ...</p>;
 
-  data.type = type;
-  data.entity = entity;
+  if (data) {
+    data.type = type;
+    data.entity = entity;
+  }
   return result(data);
 }
 
@@ -210,6 +213,7 @@ export function ListingPageWrapper() {
   component = Collection(type, query, entity);
 
   if (component?.props?.data) {
+    component.props.data.sidebar = 'default';
     switch (entity) {
       case 'src':
         title = 'Fuentes';
@@ -222,9 +226,6 @@ export function ListingPageWrapper() {
         break;
     }
   }
-
-  console.log(title);
-
 
   const { setTheme } = useTheme();
   // Refresh UI after config updates
@@ -247,6 +248,7 @@ export function ListingPageWrapper() {
       breadcrumbs={pageBreadcrumbs}
     />
     {component}
+    <Sidebar props={component.props.data} />
   </>
 }
 

@@ -1,6 +1,14 @@
 //
 // Table
 //
+.table-custom {
+	opacity: 1;
+	transition: 0.3s ease-in-out opacity;
+}
+
+.table-loading {
+	opacity: 0.3;
+}
 
 // Table
 .table {
@@ -8,7 +16,9 @@
 		border-bottom-color: inherit;
 	}
 
-	tr, th, td {
+	tr,
+	th,
+	td {
 		border-color: inherit;
 		border-width: inherit;
 		border-style: inherit;
@@ -33,14 +43,17 @@
 		tr:last-child {
 			border-bottom: 0 !important;
 
-			th, td {
+			th,
+			td {
 				border-bottom: 0 !important;
 			}
 		}
 	}
 
 	tfoot {
-		th, td {
+
+		th,
+		td {
 			border-top: inherit;
 		}
 	}
@@ -54,7 +67,10 @@
 
 	// Flush
 	&.table-flush {
-		tr, th, td {
+
+		tr,
+		th,
+		td {
 			padding: inherit;
 		}
 	}
@@ -68,7 +84,9 @@
 		}
 
 		tfoot {
-			th, td {
+
+			th,
+			td {
 				border-top-width: 1px !important;
 			}
 		}
@@ -83,16 +101,19 @@
 		}
 
 		tfoot {
-			th, td {
+
+			th,
+			td {
 				border-top-width: 1px !important;
 			}
 		}
 	}
 
 	// Row border colors
-	@each $color, $value in $grays {
+	@each $color,
+	$value in $grays {
 		&.table-row-gray-#{$color} {
-			tr { 
+			tr {
 				border-bottom-color: $value;
 			}
 		}
@@ -101,41 +122,50 @@
 
 // Cell gutters
 @each $breakpoint in map-keys($grid-breakpoints) {
-    @include media-breakpoint-up($breakpoint) {
-        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+	@include media-breakpoint-up($breakpoint) {
+		$infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
-        @each $name, $value in $gutters {
+		@each $name,
+		$value in $gutters {
 			.table.g#{$infix}-#{$name} {
-				th, td {
+
+				th,
+				td {
 					padding: $value;
 				}
-            }
+			}
 
-            .table.gy#{$infix}-#{$name} {
-				th, td {
+			.table.gy#{$infix}-#{$name} {
+
+				th,
+				td {
 					padding-top: $value;
 					padding-bottom: $value;
 				}
-            }
+			}
 
 			.table.gx#{$infix}-#{$name} {
-				th, td {
+
+				th,
+				td {
 					padding-left: $value;
 					padding-right: $value;
 				}
-            }
+			}
 
 			.table.gs#{$infix}-#{$name} {
-				 th, td {
+
+				th,
+				td {
 					&:first-child {
-	   					padding-left: $value;
+						padding-left: $value;
 					}
 
 					&:last-child {
-	   					padding-right: $value;
+						padding-right: $value;
 					}
 				}
-            }
-        }
-    }
+			}
+		}
+	}
 }

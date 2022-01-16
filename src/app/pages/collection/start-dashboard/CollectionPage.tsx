@@ -32,6 +32,7 @@ export const CollectionPage = (pageData: any) => {
   }
 
   const [show, setShow] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [entityCount, setEntityCount] = useState(0);
   const [dataTable, setDataTable] = useState('');
 
@@ -68,6 +69,7 @@ export const CollectionPage = (pageData: any) => {
   }
 
   const handlePagination = (page: any) => {
+    setLoading(true);
     // console.log(page);
     getNewRecords(entity, id, page.newPage)
       .then((res: any) => {
@@ -80,10 +82,12 @@ export const CollectionPage = (pageData: any) => {
           console.log(oldData);
           setDataTable('');
           setDataTable(oldData);
+          setLoading(false);
         } else {
           oldData[entityName]['alexandrias'] = [];
           setDataTable('');
           setDataTable(oldData);
+          setLoading(false);
         }
       })
 
@@ -178,7 +182,7 @@ export const CollectionPage = (pageData: any) => {
         <div className="col-xl-12">
           {
             dataTable &&
-            <TablesWidget5 data={dataTable} className="card-stretch mb-5 mb-xxl-8" />
+            <TablesWidget5 data={dataTable} className={`table-custom card-stretch mb-5 mb-xxl-8 ${isLoading ? 'table-loading' : ''}`} />
           }
         </div>
       </div>

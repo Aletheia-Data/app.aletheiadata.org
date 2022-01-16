@@ -6,6 +6,7 @@ import {
   getConfig,
 } from "../../../../_start/layout/core";
 import { StartDashboardPage } from "./StartDashboardPage";
+import { Sidebar } from "../../../../_start/layout/components/Sidebar";
 
 const defaultPageConfig = getConfig();
 const dashboardPageConfig: Partial<IThemeConfig> = {
@@ -25,5 +26,8 @@ export function StartDashboardWrapper() {
     };
   }, []);
 
-  return <StartDashboardPage />;
+  return <>
+    <StartDashboardPage />;
+    <Sidebar props={null} />
+  </>
 }
