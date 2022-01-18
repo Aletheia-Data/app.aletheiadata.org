@@ -18,8 +18,6 @@ import client from "./setup/apollo/SetupApollo";
 const { version } = require('../package.json');
 require('dotenv').config();
 
-console.log(process.env);
-
 console.log(`
 ***********************************************
 ***** Aletheia Data ***
