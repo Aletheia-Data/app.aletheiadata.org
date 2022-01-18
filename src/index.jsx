@@ -16,6 +16,9 @@ import "./_start/assets/sass/style.scss";
 import { ApolloProvider } from "@apollo/react-hooks";
 import client from "./setup/apollo/SetupApollo";
 const { version } = require('../package.json');
+require('dotenv').config();
+
+console.log(process.env);
 
 console.log(`
 ***********************************************
