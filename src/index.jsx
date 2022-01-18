@@ -21,8 +21,9 @@ console.log(`
 ***********************************************
 ***** Aletheia Data ***
 **** version: ${version} ******
-**** web3: ${process.env.REACT_WEB3_STORAGE_API_KEY ? true : false} ******
-**** nft: ${process.env.REACT_WEB3_STORAGE_API_KEY ? true : false} ******
+**** web3.storage: ${process.env.REACT_APP_WEB3_STORAGE_API_KEY ? true : false} ******
+**** nft.storage: ${process.env.REACT_APP_NFT_STORAGE_API_KEY ? true : false} ******
+**** moralis: ${process.env.REACT_APP_MORALIS_APP_ID ? true : false} ******
 **** endpoint: ${process.env.REACT_APP_API_ENDPOINT} ******
 **** backend: ${process.env.REACT_APP_BACKEND_URL} ******
 ***********************************************

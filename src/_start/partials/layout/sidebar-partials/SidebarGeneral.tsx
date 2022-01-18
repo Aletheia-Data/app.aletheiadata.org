@@ -175,11 +175,11 @@ export const SidebarGeneral: React.FC<Props> = ({ props }) => {
     if (element) {
       element.innerHTML = '';
     }
-    console.log('element: ', id, tab_n, element);
+    // console.log('element: ', id, tab_n, element);
 
     if (!element) return;
 
-    console.log('getting: ', id, items);
+    // console.log('getting: ', id, items);
 
     setActiveTabTotal('Loading');
 
