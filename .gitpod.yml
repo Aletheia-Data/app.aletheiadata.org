@@ -1,0 +1,10 @@
+# Commands to start on workspace startup
+image:
+  file: .gitpod.Dockerfile
+tasks:
+  - init: npm install && npm install -g gulp-cli
+    command: npm start
+# Ports to expose on workspace startup
+ports:
+  - port: 8000
+    onOpen: open-preview
