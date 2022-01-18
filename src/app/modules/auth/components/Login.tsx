@@ -8,6 +8,7 @@ import { useFormik } from "formik";
 import * as auth from "../redux/AuthRedux";
 import { login } from "../redux/AuthCRUD";
 import { toAbsoluteUrl } from "../../../../_start/helpers";
+import { useMoralis } from "react-moralis";
 
 const loginSchema = Yup.object().shape({
   account: Yup.string()
@@ -41,42 +42,46 @@ export function Login() {
   let [account, setAccount] = useState('');
   let [netId, setNetId] = useState('');
   let [provider, setProvider] = useState('');
+  const { authenticate, isAuthenticated, user } = useMoralis();
+
+  const signAuth = async () => {
+    return new Promise(async (resolve, reject) => {
+      await authenticate({ signingMessage: "Aletheia Data te dà la bienvenida" });
+      // const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      // console.log(accounts);
+      let userWallet: any = await user?.get("ethAddress");
+      console.log(isAuthenticated, user?.get("ethAddress"));
+      resolve(userWallet);
+    })
+  }
 
   // init web3 if available
   const initWeb3 = async () => {
-    if (window.ethereum) {
-      try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    return new Promise(async (resolve, reject) => {
+      if (window.ethereum) {
+        // const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        await signAuth();
         //load balance
-        if (accounts[0] && typeof accounts[0] !== 'undefined') {
+        if (isAuthenticated) {
 
           setConnected(true);
-          setAccount(accounts[0]);
+          setAccount(user?.get("ethAddress"));
           setNetId(netId);
           setProvider('metamask');
 
-          return accounts[0];
+          resolve(user?.get("ethAddress"));
 
-        } else {
-          window.alert('Please login with MetaMask');
-          throw false;
         }
+        // user rejection
+        setLoading(false);
+        reject(false);
 
-        //load contracts
-        /*
-        TODO: create contracts for uploads' credit
-        */
-      } catch (error: any) {
-        if (error.code === 4001) {
-          // User rejected request
-          throw false;
-        }
+      } else {
+        window.alert('Please install MetaMask');
+        window.open('https://metamask.io/', '_blank');
+        reject(false);
       }
-    } else {
-      window.alert('Please install MetaMask');
-      window.open('https://metamask.io/', '_blank');
-      throw false;
-    }
+    });
   }
 
   useEffect(() => {
@@ -92,25 +97,31 @@ export function Login() {
 
       setLoading(true);
 
-      const connect = (user: string) => {
+      const connect = (user: any) => {
         let accessToken = login(user, 'metamask');
         setLoading(false);
         dispatch(auth.actions.login(accessToken));
       }
 
       if (!account) {
-        initWeb3().then(user => {
-          connect(user);
-        })
-        setLoading(false);
-        setSubmitting(false);
-        // setStatus("Please login with MetaMask");
-        return;
-      } else {
-        initWeb3().then(user => {
-          connect(user);
-        });
-        setLoading(false);
+        try {
+          initWeb3().then(user => {
+            console.log(user);
+            if (!user) { return 'error login with metamask'; }
+            connect(user);
+            setLoading(false);
+            setSubmitting(false);
+          })
+            .catch(error => {
+              setLoading(false);
+              setSubmitting(false);
+              throw error;
+            })
+        } catch (error) {
+          setLoading(false);
+          setSubmitting(false);
+          throw error;
+        }
       }
 
     },

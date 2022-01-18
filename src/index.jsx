@@ -6,6 +6,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import * as _redux from "./setup";
 import store, { persistor } from "./setup/redux/Store";
+import { MoralisProvider } from "react-moralis";
 // Axios
 import axios from "axios";
 // Apps
@@ -53,13 +54,15 @@ const { PUBLIC_URL } = process.env;
 _redux.setupAxios(axios, store);
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <Provider store={store}>
-      {/* Asynchronously persist redux stores and show `SplashScreen` while it's loading. */}
-      <PersistGate persistor={persistor} loading={<div>Loading...</div>}>
-        <App basename={PUBLIC_URL} />
-      </PersistGate>
-    </Provider>
-  </ApolloProvider>,
+  <MoralisProvider appId={process.env.REACT_APP_MORALIS_APP_ID} serverUrl={process.env.REACT_APP_MORALIS_SERVER_URL}>
+    <ApolloProvider client={client}>
+      <Provider store={store}>
+        {/* Asynchronously persist redux stores and show `SplashScreen` while it's loading. */}
+        <PersistGate persistor={persistor} loading={<div>Loading...</div>}>
+          <App basename={PUBLIC_URL} />
+        </PersistGate>
+      </Provider>
+    </ApolloProvider>
+  </MoralisProvider>,
   document.getElementById("root")
 );
