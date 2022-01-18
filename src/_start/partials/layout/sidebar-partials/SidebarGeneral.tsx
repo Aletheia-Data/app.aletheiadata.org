@@ -7,7 +7,7 @@ import { toAbsoluteUrl, KTSVG } from "../../../helpers";
 import { Dropdown1 } from "../../content/dropdown/Dropdown1";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
-import { useLocation } from 'react-router-dom'
+import Clipboard from 'react-clipboard.js';
 
 // TODO: move to global
 const colorPDF = '#FFE6E2';
@@ -26,6 +26,7 @@ export const SidebarGeneral: React.FC<Props> = ({ props }) => {
   const [activeTab, setActiveTab] = useState(`#${id}_tab1`);
   const [activeTabTotal, setActiveTabTotal] = useState('Loading');
   const [elementTab, setElementTab] = useState(false);
+  const [copied, setCopy] = useState(false);
   const [activeChart, setActiveChart] = useState<ApexCharts | undefined>();
 
   if (!props) {
@@ -356,6 +357,14 @@ export const SidebarGeneral: React.FC<Props> = ({ props }) => {
     // https://filfox.info/en/deal/${deailID}
   }
 
+  const onCopy = () =>{
+    console.log('copied!');
+    setCopy(true);
+    setTimeout(() => {
+      setCopy(false);
+    }, 1000);
+  }
+
   return (
     <>
       {/* begin::Sidebar Nav */}
@@ -477,7 +486,7 @@ export const SidebarGeneral: React.FC<Props> = ({ props }) => {
                 {props.sidebar && props.sidebar === 'single' ? 'Connect' : ''} {/** TODO: restore 'Mis Archivos' gatting them from db */}
               </h3>
               <div className="card-toolbar">
-                <button
+                <button 
                   type="button"
                   className="btn btn-md btn-icon btn-icon-white btn-info"
                   data-kt-menu-trigger="click"
@@ -498,11 +507,10 @@ export const SidebarGeneral: React.FC<Props> = ({ props }) => {
               props.sidebar && props.sidebar === 'single' &&
               <div className="card-body pt-0">
 
-                <a
-                  href={props.alexandrias[0].file.length > 0 ? props.alexandrias[0].file[0].url : `https://${props.alexandrias[0]?.cid}.ipfs.dweb.link/`}
-                  target={'_blank'}
-                  rel="noreferrer"
-                  className=" fw-bolder text-hover-primary fs-6"
+                <Clipboard 
+                  data-clipboard-text={props.alexandrias[0] ? props.alexandrias[0].cid : `not available`}
+                  onSuccess={onCopy}
+                  className="clipboard fw-bolder text-hover-primary fs-6"
                 >
                   <div className="d-flex align-items-center mb-7">
                     <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
@@ -513,14 +521,21 @@ export const SidebarGeneral: React.FC<Props> = ({ props }) => {
                       />
                     </span>
 
-                    <div className="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
+                    <div className={`d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3 ${copied ? 'hide' : ''}`}>
                       IPFS
                       <span className=" opacity-25 fw-bold fs-7 my-1">
                         File System Decentralizado
                       </span>
                     </div>
+
+                    <div className={`d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3 ${copied ? '' : 'hide'}`}>
+                      COPIED
+                      <span className=" opacity-25 fw-bold fs-7 my-1">
+                        
+                      </span>
+                    </div>
                   </div>
-                </a>
+                </Clipboard>
 
 
                 <a
