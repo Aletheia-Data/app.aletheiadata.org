@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useParams
 } from "react-router-dom";
@@ -123,6 +123,7 @@ const result = (data: any) => {
 
 export function SinglePageWrapper() {
   let params: any = useParams();
+  const [minisearchActive, setMinisearchActive] = useState(false);
   const { entity, cid } = params;
   // if Id = 0 means that its a Single not a single item
   // console.log(id);
@@ -133,14 +134,6 @@ export function SinglePageWrapper() {
   let query = getQuery(type, cid, entity);
   component = Single(type, query, entity);
 
-  if (component?.props?.data) {
-    title = component.props.data.alexandrias[0].title;
-    component.props.data.title = title;
-    component.props.data.sidebar = 'single';
-    console.log(component.props.data);
-
-  }
-
   const { setTheme } = useTheme();
   // Refresh UI after config updates
   useEffect(() => {
@@ -150,13 +143,26 @@ export function SinglePageWrapper() {
     };
   }, []);
 
+  const toogleMinisearch = () => {
+    
+    setMinisearchActive(!minisearchActive);
+  }
+
+  if (component?.props?.data) {
+    title = component.props.data.alexandrias[0].title;
+    component.props.data.title = title;
+    component.props.data.sidebar = 'single';
+    component.props.data.minisearchActive = minisearchActive;
+    component.props.data.toogleMinisearch = toogleMinisearch;
+  }
+
   return <>
     <PageTitle>{title}</PageTitle>
     <PageDataContainer
       breadcrumbs={profileBreadCrumbs}
     />
     {component}
-    <Sidebar props={component.props.data} />
+    <Sidebar props={component.props.data} toogleMinisearch={toogleMinisearch} />
   </>
 }
 

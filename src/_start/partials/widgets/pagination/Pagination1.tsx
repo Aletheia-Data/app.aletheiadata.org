@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 type Props = {
     handleClick: Function;
     totalItems: number;
+    perPageItems?: number;
 };
 
 const colorPDF = '#F1416C';
@@ -13,15 +14,15 @@ const colorODS = '#A2A7F7';
 const colorOTHER = '#00A3FF';
 const colorUNDEFINED = '#dbdbdb';
 
-const Pagination1: React.FC<Props> = ({ handleClick, totalItems }) => {
+const Pagination1: React.FC<Props> = ({ handleClick, totalItems, perPageItems }) => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const total = totalItems;
-    const perPage = 10;
+    const perPage = perPageItems ? perPageItems : 10;
 
     const pagesRatio = total / perPage;
     const numPages = parseInt(`${Math.ceil(pagesRatio)}`);
-    console.log(numPages);
+    // console.log(numPages);
 
     const changePage = (e: any) => {
         const elem = e.currentTarget;

@@ -46,12 +46,12 @@ export function Login() {
 
   const signAuth = async () => {
     return new Promise(async (resolve, reject) => {
-      await authenticate({ signingMessage: "Aletheia Data te dà la bienvenida" });
-      // const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      // await authenticate({ signingMessage: "Aletheia Data te dà la bienvenida" });
+      // let userWallet: any = await user?.get("ethAddress");
+      // console.log(isAuthenticated, user?.get("ethAddress"));
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
       // console.log(accounts);
-      let userWallet: any = await user?.get("ethAddress");
-      console.log(isAuthenticated, user?.get("ethAddress"));
-      resolve(userWallet);
+      resolve(accounts[0]);
     })
   }
 
@@ -60,16 +60,16 @@ export function Login() {
     return new Promise(async (resolve, reject) => {
       if (window.ethereum) {
         // const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        await signAuth();
+        let user:any = await signAuth();
         //load balance
-        if (isAuthenticated) {
+        if (user) {
 
           setConnected(true);
-          setAccount(user?.get("ethAddress"));
+          setAccount(user);
           setNetId(netId);
           setProvider('metamask');
 
-          resolve(user?.get("ethAddress"));
+          resolve(user);
 
         }
         // user rejection
