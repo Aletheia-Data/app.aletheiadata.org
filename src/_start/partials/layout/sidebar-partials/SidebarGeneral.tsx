@@ -18,9 +18,10 @@ const colorOTHER = '#00A3FF';
 
 type Props = {
   props: any;
+  toogleMinisearch?: any;
 };
 
-export const SidebarGeneral: React.FC<Props> = ({ props }) => {
+export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => {
 
   const id = 'cat';
   const [activeTab, setActiveTab] = useState(`#${id}_tab1`);
@@ -561,28 +562,30 @@ export const SidebarGeneral: React.FC<Props> = ({ props }) => {
                   </div>
                 </a>
 
-                <a
-                  href={'#'}
-                  className=" fw-bolder text-hover-primary fs-6 disabled" rel="noreferrer"
-                >
-                  <div className="d-flex align-items-center mb-7">
-                    <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
-                      <img
-                        src="/media/icons/aletheia/Formats/search.svg"
-                        className="svg-icon-1 svg-icon-success"
-                        alt={`search`}
-                      />
-                    </span>
-
-                    <div className="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
-                      Mini Search
-                      <span className=" opacity-25 fw-bold fs-7 my-1">
-                        Busqueda simple <span className="unavailable">(coming soon)</span>
+                {
+                  props.alexandrias[0].type === 'csv' &&
+                  <a
+                    onClick={toogleMinisearch}
+                    className=" fw-bolder text-hover-primary fs-6" rel="noreferrer"
+                  >
+                    <div className="d-flex align-items-center mb-7">
+                      <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
+                        <img
+                          src="/media/icons/aletheia/Formats/search.svg"
+                          className="svg-icon-1 svg-icon-success"
+                          alt={`search`}
+                        />
                       </span>
-                    </div>
-                  </div>
-                </a>
 
+                      <div className="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
+                        Mini Search
+                        <span className=" opacity-25 fw-bold fs-7 my-1">
+                          Busqueda simple
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                }
 
                 <a
                   href={props.alexandrias[0].file.length > 0 ? props.alexandrias[0].file[0].url : `https://${props.alexandrias[0]?.cid}.ipfs.dweb.link/`}

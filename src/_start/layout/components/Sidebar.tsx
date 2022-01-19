@@ -7,10 +7,11 @@ import { toAbsoluteUrl } from "../../helpers";
 const BG_COLORS = ['bg-white', 'bg-info'];
 
 type Props = {
-  props: any;
+  props: any,
+  toogleMinisearch?: Function
 };
 
-export const Sidebar: React.FC<Props> = ({ props }) => {
+export const Sidebar: React.FC<Props> = ({ props, toogleMinisearch }) => {
   const { config, classes } = useTheme();
   const sidebarCSSClass = classes.sidebar;
   const sideBarRef = useRef<HTMLDivElement | null>(null);
@@ -48,7 +49,7 @@ export const Sidebar: React.FC<Props> = ({ props }) => {
         >
           {/* begin::Sidebar Content */}
           <div className="d-flex flex-column sidebar-body">
-            {config.sidebar.content === "general" && <SidebarGeneral props={props} />}
+            {config.sidebar.content === "general" && <SidebarGeneral props={props} toogleMinisearch={toogleMinisearch} />}
             {config.sidebar.content === "shop" && (
               <SidebarShop sidebarRef={sideBarRef} />
             )}
