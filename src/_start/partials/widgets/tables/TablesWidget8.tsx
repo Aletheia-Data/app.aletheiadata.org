@@ -55,9 +55,14 @@ const TablesWidget8: React.FC<Props> = ({
   
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
-    setCid(dataFile.file[0].url);
 
-    Papa.parse(dataFile.file[0].url, {
+    const cid: any  = dataFile.file[0] ? dataFile.file[0].url : dataFile.cid ? dataFile.cid : null;
+
+    setCid(cid);
+
+    console.log(`loading CID: ${cid}`);
+    
+    Papa.parse(cid, {
       download: true,
       encoding: "ISO-8859-1",
       header: true,
