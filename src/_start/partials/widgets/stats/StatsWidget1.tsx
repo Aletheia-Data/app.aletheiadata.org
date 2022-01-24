@@ -191,11 +191,11 @@ const StatsWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
 
   let formats = data.alexandriasConnection.groupBy.type;
   let total = data.alexandriasConnection.groupBy.type[0].connection.aggregate.totalCount;
-
+  
   let count_pdf = formats.filter((c: any) => c.key === 'pdf')[0].connection.aggregate.count;
   let count_csv = formats.filter((c: any) => c.key === 'csv')[0].connection.aggregate.count;
   let count_xls = formats.filter((c: any) => c.key === 'xlsx')[0].connection.aggregate.count;
-  let count_ods = formats.filter((c: any) => c.key === 'ods')[0].connection.aggregate.count;
+  let count_ods = (formats.filter((c: any) => c.key === 'ods')).length > 0 ? formats.filter((c: any) => c.key === 'ods')[0].connection.aggregate.count : 0;
   let count_others = formats.filter((c: any) => c.key === 'other')[0].connection.aggregate.count;
 
   let count_undefined = total - (count_pdf + count_csv + count_xls + count_ods + count_others);
@@ -320,7 +320,7 @@ function getChartOptions(data: any) {
   let count_pdf = counter.filter((c: any) => c.key === 'pdf')[0].connection.aggregate.count;
   let count_csv = counter.filter((c: any) => c.key === 'csv')[0].connection.aggregate.count;
   let count_xls = counter.filter((c: any) => c.key === 'xlsx')[0].connection.aggregate.count;
-  let count_ods = counter.filter((c: any) => c.key === 'ods')[0].connection.aggregate.count;
+  let count_ods = (counter.filter((c: any) => c.key === 'ods')).length > 0 ? counter.filter((c: any) => c.key === 'ods')[0].connection.aggregate.count : 0;
   let count_others = counter.filter((c: any) => c.key === 'other')[0].connection.aggregate.count;
   let count_total = counter.filter((c: any) => c.key === 'other')[0].connection.aggregate.totalCount;
 
