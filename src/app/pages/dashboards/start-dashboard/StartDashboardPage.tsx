@@ -29,7 +29,7 @@ export const StartDashboardPage: React.FC = () => {
 
   const SOURCES_QUERY = gql`
   query SourceGroup {
-    sourcesConnection{
+    sourcesConnection(limit: 5){
       groupBy {
         id {
           key,

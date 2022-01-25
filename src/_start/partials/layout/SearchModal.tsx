@@ -75,7 +75,7 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
 
             {/* begin::Shop Goods */}
             <div className="py-10">
-              <h3 className="fw-bolder mb-8">Shop Goods</h3>
+              <h3 className="fw-bolder mb-8">Ministerios o instituciónes</h3>
 
               {/* begin::Row */}
               <div className="row g-5">

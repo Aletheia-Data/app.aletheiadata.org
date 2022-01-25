@@ -64,6 +64,28 @@ const EngageWidget6: React.FC<Props> = ({
             break;
     }
 
+    let background_status;
+    let text_status;
+    switch (data?.status) {
+    case 'under_review':
+        background_status = 'background-csv';
+        text_status = 'Under review';
+        break;
+    case 'on_line':
+        background_status = 'background-xls';
+        text_status = 'Online';
+        break;
+    case 'blocked':
+        background_status = 'background-ods';
+        text_status = 'Blocked';
+        break;
+    case 'broken':
+        background_status = 'background-pdf';
+        text_status = 'Broken';
+        break;
+    }
+    
+
     return (
         <div className={`card card-custom ${className}`} style={{ overflow: 'hidden' }}>
             {/* begin::Card Body */}
@@ -91,9 +113,9 @@ const EngageWidget6: React.FC<Props> = ({
                             <h3 className="fw-bolder fs-1 card-toolbar">
                                 <div className="text-muted fw-bold fs-6 d-flex align-items-center">
                                     <span className="badge-container">
-                                        <span className="badge badge-circle background-xls"></span>
+                                        <span className={`badge badge-circle ${background_status}`}></span>
                                     </span>
-                                    {'Online'}
+                                    {text_status}
                                 </div>
                             </h3>
                             <div className="card-toolbar">
