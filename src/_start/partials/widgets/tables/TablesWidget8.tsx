@@ -56,13 +56,14 @@ const TablesWidget8: React.FC<Props> = ({
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
 
-    const cid: any  = dataFile.file[0] ? dataFile.file[0].url : dataFile.cid ? dataFile.cid : null;
-
+    const cid: any  = dataFile.cid ? dataFile.cid : null;
+    // console.log(dataFile);
+    
     setCid(cid);
 
     console.log(`loading CID: ${cid}`);
     
-    Papa.parse(cid, {
+    Papa.parse(`https://${cid}.ipfs.dweb.link/`, {
       download: true,
       encoding: "ISO-8859-1",
       header: true,
@@ -73,7 +74,10 @@ const TablesWidget8: React.FC<Props> = ({
         if (data){
           setData(data);
           let fields:any = response.meta.fields;
-          setHeader(fields);
+          const filtered = fields.filter((n:any) => n); // remove all empty values
+          // console.log(filtered);
+          
+          setHeader(filtered);
           let errors = response.meta;
           // console.log('GET Data: ', response, errors);
           response_index = response;
@@ -332,6 +336,14 @@ const TablesWidget8: React.FC<Props> = ({
     }
   }
 
+  const clickItemTable = (e:any) =>{
+
+    let value = e.target.id;
+    setSearch(value);
+    e.key = 'Enter';
+    _handleKeyDown(e);
+  }
+
   const handlePageClick = (data:any) =>{
     let selected = data.selected;
     let offset = Math.ceil(selected * perPage);
@@ -444,8 +456,7 @@ const TablesWidget8: React.FC<Props> = ({
       {/* begin::Body*/}
       <div className="card-body py-0">
         {/* begin::Table*/}
-        <div className="table-responsive">
-          <div className="mb-3">
+        <div className="mb-3">
             <label className="form-label">Buscador</label>
             <input
               type="text"
@@ -453,12 +464,13 @@ const TablesWidget8: React.FC<Props> = ({
               onChange={searchChange}
               onKeyDown={_handleKeyDown} 
               value={search}
-              placeholder={header.join(', ')}
+              placeholder={header.length>0 ? header.join(', ') : 'Loading ...'}
             />
           </div>
           <span className="text-muted fw-bold fs-7">
             {`presione ENTER para buscar`}
           </span>
+        <div className="table-responsive">
           <table
             className="table align-middle border-gray-100 mt-5"
             id="kt_advance_table_widget_4"
@@ -483,16 +495,18 @@ const TablesWidget8: React.FC<Props> = ({
                   return (
                     <tr key={`item_${rec.id}`}>
                       {
-                        header.map(h => {
+                        header.map((h, i) => {
                           if (!rec[h]) return;
+                          
                           return(
-                            <td className="ps-0">
-                              <Link
-                                to={'#'}
+                            <td className="ps-0" key={`item_single_${i}`}>
+                              <a
+                                onClick={clickItemTable}
+                                id={`${rec[h]}`}
                                 className="text-gray-800 fw-bolder text-hover-primary fs-6"
                               >
                                 {rec[h]}
-                              </Link>
+                              </a>
                             </td>
                           )
                         })
