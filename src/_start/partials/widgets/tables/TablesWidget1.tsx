@@ -15,6 +15,7 @@ type Props = {
 const colorPDF = '#FFE6E2';
 const colorCSV = '#FFF8DD';
 const colorXLS = '#E4FFF4';
+const colorODS = '#F7F0FF';
 const colorOTHER = '#E7F6FF';
 
 const TablesWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
@@ -199,23 +200,50 @@ const TablesWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
     return `${perc.toFixed(0)}%`
   }
 
+  const checkFormats = [false, false, false, false, false];
+  const availableFormats = ['pdf', 'csv', 'xlsx', 'ods', 'other'];
   // order by
   formats.map((f: any) => {
     switch (f.key) {
       case 'pdf':
         f.id = 1;
+        checkFormats[0] = true;
         break;
       case 'csv':
         f.id = 2;
+        checkFormats[1] = true;
         break;
       case 'xlsx':
         f.id = 3;
+        checkFormats[2] = true;
+        break;
+      case 'ods':
+        f.id = 4;
+        checkFormats[3] = true;
         break;
       case 'other':
-        f.id = 4;
+        f.id = 5;
+        checkFormats[4] = true;
         break;
     }
   })
+
+  checkFormats.map((bool, index) => {
+    if (!bool) {
+      // check if there's any format that's been process fully (100% doesn't show up on query)
+      formats.push({
+        connection: {
+          aggregate: {
+            count: 0,
+            totalCount: 10784
+          }
+        },
+        id: index,
+        key: availableFormats[index]
+      })
+    }
+  })
+  
   formats.sort((a: any, b: any) => a.id - b.id);
 
   return (
@@ -315,6 +343,12 @@ const TablesWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
                           icon = '/media/icons/aletheia/Formats/xls.svg';
                           barColor = 'background-xls';
                           barBack = 'background-xls-backdrop';
+                          break;
+                        case 'ods':
+                          color = colorODS;
+                          icon = '/media/icons/aletheia/Formats/ods.svg';
+                          barColor = 'background-ods';
+                          barBack = 'background-ods-backdrop';
                           break;
                         default:
                           color = colorOTHER;
