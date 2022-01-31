@@ -373,7 +373,7 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
         className="sidebar-nav nav nav-tabs pt-15 pb-15"
         id="kt_sidebar_tabs"
         role="tablist"
-        style={{ paddingLeft: '180px' }}
+        style={{ paddingLeft: '350px', paddingRight: '30px' }}
       >
 
         {
@@ -581,6 +581,60 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
                         Mini Search
                         <span className=" opacity-25 fw-bold fs-7 my-1">
                           Busqueda simple
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                }
+
+
+                {
+                  props.alexandrias[0].type === 'xlsx' &&
+                  <a
+                    href={`http://view.officeapps.live.com/op/view.aspx?src=${props.alexandrias[0].file.length > 0 ? props.alexandrias[0].file[0].url : `https://${props.alexandrias[0]?.cid}.ipfs.dweb.link/`}`}
+                    target={'_blank'}
+                    className=" fw-bolder text-hover-primary fs-6" rel="noreferrer"
+                  >
+                    <div className="d-flex align-items-center mb-7">
+                      <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
+                        <img
+                          src="/media/icons/aletheia/Formats/xls.svg"
+                          className="svg-icon-1 svg-icon-success"
+                          alt={`open xls`}
+                        />
+                      </span>
+
+                      <div className="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
+                        Excel Online
+                        <span className=" opacity-25 fw-bold fs-7 my-1">
+                        Abrir Documento
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                }
+
+
+                {
+                  props.alexandrias[0].type === 'pdf' &&
+                  <a
+                    href={`${props.alexandrias[0].file.length > 0 ? props.alexandrias[0].file[0].url : `https://${props.alexandrias[0]?.cid}.ipfs.dweb.link/`}`}
+                    target={'_blank'}
+                    className=" fw-bolder text-hover-primary fs-6" rel="noreferrer"
+                  >
+                    <div className="d-flex align-items-center mb-7">
+                      <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
+                        <img
+                          src="/media/icons/aletheia/Formats/pdf.svg"
+                          className="svg-icon-1 svg-icon-success"
+                          alt={`open xls`}
+                        />
+                      </span>
+
+                      <div className="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
+                        PDF Online
+                        <span className=" opacity-25 fw-bold fs-7 my-1">
+                        Abrir Documento
                         </span>
                       </div>
                     </div>

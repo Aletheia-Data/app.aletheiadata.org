@@ -154,7 +154,7 @@ const EngageWidget3: React.FC<Props> = ({
                   <tbody>
                     <tr>
                       <td className="text-gray-600 ps-0">Archivos</td>
-                      <td className="text-dark pe-0">{countTotal}</td>
+                      <td className="text-dark pe-0">{countTotal === 100 ? '+100' : countTotal}</td>
                     </tr>
                     <tr>
                       <td className="text-gray-600 ps-0">{title}</td>
@@ -172,7 +172,7 @@ const EngageWidget3: React.FC<Props> = ({
                   <tbody>
                     <tr>
                       <td className="text-gray-600 ps-0">Archivos</td>
-                      <td className="text-dark pe-0">{countTotal}</td>
+                      <td className="text-dark pe-0">{countTotal === 100 ? '+100' : countTotal}</td>
                     </tr>
                     {
                       entity !== 'cat' &&

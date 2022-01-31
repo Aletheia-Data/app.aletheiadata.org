@@ -359,8 +359,6 @@ const TablesWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
                       }
                       const info = format.connection.aggregate;
 
-                      console.log(getPercentage(info.count, total.connection.aggregate.count));
-
                       return (
                         <tr key={`format_${format.key}`}>
                           <th className="px-0 py-3">
