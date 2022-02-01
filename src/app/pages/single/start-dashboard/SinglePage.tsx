@@ -28,6 +28,8 @@ export const SinglePage = (data: any) => {
     // console.log(data.data);
   }
 
+  console.log(data.data.alexandrias[0].type);
+
   return (
     <>
       {/* begin::Row */}
@@ -58,11 +60,14 @@ export const SinglePage = (data: any) => {
       {/* end::Row */}
 
       {/* begin::Row - Minisearch */}
-      <div className={`row g-0 g-xl-5 g-xxl-12 ${ data.minisearchActive ? '' : data.data.minisearchActive ? '' : 'hide' }`}>
-        <div className="col-xl-12">
-          <TablesWidget8 type={'aletheias'} data={data} className="card-stretch mb-5 mb-xxl-8" getPagination={getPagination} paginationPage={paginationPage} handleExit={handleExit} />
+      {
+        data.data.alexandrias[0].type === 'csv' &&
+        <div className={`row g-0 g-xl-5 g-xxl-12 ${ data.minisearchActive ? '' : data.data.minisearchActive ? '' : 'hide' }`}>
+          <div className="col-xl-12">
+            <TablesWidget8 type={'aletheias'} data={data} className="card-stretch mb-5 mb-xxl-8" getPagination={getPagination} paginationPage={paginationPage} handleExit={handleExit} />
+          </div>
         </div>
-      </div>
+      }
       {/* end::Row */}
 
       {/* begin::Row - Minisearch Pagination */}

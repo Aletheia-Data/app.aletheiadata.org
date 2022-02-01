@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
+import { Link } from "react-router-dom";
 import { toAbsoluteUrl } from "../../../helpers";
 import moment from 'moment';
 
@@ -175,33 +176,15 @@ const EngageWidget6: React.FC<Props> = ({
                                     <tbody>
                                         <tr>
                                             <td className="text-gray-600 ps-0">Fuente</td>
-                                            {
-                                                data.source.url &&
-                                                <td className="text-dark pe-0">
-                                                    <a target="_blank" href={`${data.source.url}`} rel="noreferrer">{data.source.name}</a>
-                                                </td>
-                                            }
-                                            {
-                                                !data.source.url &&
-                                                <td className="text-dark pe-0">{
-                                                    source
-                                                }</td>
-                                            }
+                                            <td className="text-dark pe-0">
+                                                <Link to={`/collection/src/${data.source.id}`}>{data.source?.name}</Link>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td className="text-gray-600 ps-0">Ministerio</td>
-                                            {
-                                                data.department.website &&
-                                                <td className="text-dark pe-0">
-                                                    <a target="_blank" href={`${data.department.website}`} rel="noreferrer">{data.department.name}</a>
-                                                </td>
-                                            }
-                                            {
-                                                !data.department.website &&
-                                                <td className="text-dark pe-0">{
-                                                    department
-                                                }</td>
-                                            }
+                                            <td className="text-dark pe-0">
+                                                <Link to={`/collection/dep/${data.department.id}`}>{data.department.name}</Link>
+                                            </td>
                                         </tr>
                                         {
                                             proof &&
