@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { KTSVG } from "../../../helpers";
-import moment from 'moment';
+import { Ktsvg } from "../../../helpers";
+import moment from "moment";
 import { Link } from "react-router-dom";
 
 type Props = {
@@ -17,7 +17,6 @@ const TablesWidget4: React.FC<Props> = ({
   innerPadding = "",
   color = "primary",
 }) => {
-
   data = data.data;
   const entity = data.entity;
   const type = data.type;
@@ -30,27 +29,40 @@ const TablesWidget4: React.FC<Props> = ({
   let url;
 
   switch (entity) {
-    case 'src':
-      title = type === 'single' ? data.source.name : '';
-      desc = type === 'single' ? data.source.description : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
+    case "src":
+      title = type === "single" ? data.source.name : "";
+      desc =
+        type === "single"
+          ? data.source.description
+          : "Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.";
       connection = data.alexandriasConnection.groupBy.source;
-      records = type === 'single' ? data.source.alexandrias : data.sources;
+      records = type === "single" ? data.source.alexandrias : data.sources;
       break;
-    case 'dep':
-      title = type === 'single' ? 'Ministerios o instituciónes' : 'Ministerios o instituciónes';
-      desc = type === 'single' ? '' : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
+    case "dep":
+      title =
+        type === "single"
+          ? "Ministerios o instituciónes"
+          : "Ministerios o instituciónes";
+      desc =
+        type === "single"
+          ? ""
+          : "Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.";
       connection = data.alexandriasConnection.groupBy.department;
-      records = type === 'single' ? data.department : data.departments;
+      records = type === "single" ? data.department : data.departments;
       break;
-    case 'cat':
-      title = type === 'single' ? data.source.name : '';
-      desc = type === 'single' ? '' : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
+    case "cat":
+      title = type === "single" ? data.source.name : "";
+      desc =
+        type === "single"
+          ? ""
+          : "Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.";
       connection = data.alexandriasConnection.groupBy.category;
-      records = type === 'single' ? data.category : data.categories;
+      records = type === "single" ? data.category : data.categories;
       break;
   }
 
-  entityCount = connection.length > 0 ? connection[0].connection.aggregate.totalCount : 0;
+  entityCount =
+    connection.length > 0 ? connection[0].connection.aggregate.totalCount : 0;
 
   return (
     <div className={`card ${className}`}>
@@ -62,14 +74,16 @@ const TablesWidget4: React.FC<Props> = ({
             {`${entityCount} elementos registrados`}
           </span>
         </h3>
-        {
-          type === 'single' &&
+        {type === "single" && (
           <div className="card-toolbar">
-            <a href="#" className="disabled btn btn-primary fw-bolder fs-7 disabled">
+            <a
+              href="#"
+              className="disabled btn btn-primary fw-bolder fs-7 disabled"
+            >
               Subir Archivo
             </a>
           </div>
-        }
+        )}
       </div>
       {/* end::Header*/}
 
@@ -83,63 +97,79 @@ const TablesWidget4: React.FC<Props> = ({
           >
             <thead>
               <tr className="text-start text-muted fw-bolder text-gray-400 text-uppercase fs-7 border-gray-100 border-bottom-1">
-                <td className="ps-0 min-w-250px py-5" width="30%">Nombre</td>
-                <td className="min-w-100px py-5" width="25%">{type === 'single' ? 'Status' : 'Website'}</td>
+                <td className="ps-0 min-w-250px py-5" width="30%">
+                  Nombre
+                </td>
+                <td className="min-w-100px py-5" width="25%">
+                  {type === "single" ? "Status" : "Website"}
+                </td>
                 <td className="min-w-100px py-5" width="25%">
                   <span className={`text-${color}`}>Ultimo Cambio</span>
-                  <KTSVG
+                  <Ktsvg
                     className={`svg-icon-sm svg-icon-${color}`}
                     path="/media/icons/duotone/Navigation/Down-2.svg"
                   />
                 </td>
-                <td className="min-w-100px py-5" width="10%">{type === 'single' ? 'Pruebas' : 'Archivos'}</td>
-                <td className="min-w-100px pe-0 text-end py-5" width="10%">Action</td>
+                <td className="min-w-100px py-5" width="10%">
+                  {type === "single" ? "Pruebas" : "Archivos"}
+                </td>
+                <td className="min-w-100px pe-0 text-end py-5" width="10%">
+                  Action
+                </td>
               </tr>
             </thead>
             <tbody>
-              {
-                records && records.map((rec: any) => {
-                  let count = '0';
+              {records &&
+                records.map((rec: any) => {
+                  let count = "0";
 
-                  let files = type === 'collection' ? rec.alexandrias : rec.aletheias;
+                  let files =
+                    type === "collection" ? rec.alexandrias : rec.aletheias;
                   let badge;
 
                   if (files.length > 0) {
                     if (files.length >= 100) {
                       count = `+100`;
-                      badge = 'badge-light-primary';
+                      badge = "badge-light-primary";
                     } else {
                       count = `${files.length}`;
-                      badge = files.length < 5 ? 'badge-light-danger' : files.length >= 5 && files.length <= 10 ? 'badge-light-warning' : 'badge-light-primary';
+                      badge =
+                        files.length < 5
+                          ? "badge-light-danger"
+                          : files.length >= 5 && files.length <= 10
+                          ? "badge-light-warning"
+                          : "badge-light-primary";
                     }
                   } else {
-                    badge = 'badge-light-danger';
+                    badge = "badge-light-danger";
                   }
 
                   let background_status;
                   let text_status;
-                  if (type === 'single') {
+                  if (type === "single") {
                     switch (rec.status) {
-                      case 'under_review':
-                        background_status = 'background-csv';
-                        text_status = 'under review';
+                      case "under_review":
+                        background_status = "background-csv";
+                        text_status = "under review";
                         break;
-                      case 'on_line':
-                        background_status = 'background-xls';
-                        text_status = 'online';
+                      case "on_line":
+                        background_status = "background-xls";
+                        text_status = "online";
                         break;
-                      case 'blocked':
-                        background_status = 'background-ods';
-                        text_status = 'blocked';
+                      case "blocked":
+                        background_status = "background-ods";
+                        text_status = "blocked";
                         break;
-                      case 'broken':
-                        background_status = 'background-pdf';
-                        text_status = 'broken';
+                      case "broken":
+                        background_status = "background-pdf";
+                        text_status = "broken";
                         break;
                     }
                   }
 
-                  const link = `/${type}/${entity}/${type === 'collection' ? rec.id : rec.cid}`;
+                  const link = `/${type}/${entity}/${
+                    type === "collection" ? rec.id : rec.cid
+                  }`;
 
                   return (
                     <tr key={`item_${rec.id}`}>
@@ -152,27 +182,29 @@ const TablesWidget4: React.FC<Props> = ({
                         </Link>
                       </td>
                       <td>
-                        {
-                          type === 'single' &&
+                        {type === "single" && (
                           <div className="text-muted mt-2 fw-bold fs-6 d-flex align-items-center mb-5">
                             <span className="badge-container">
-                              <span className={`badge badge-circle ${background_status}`}></span>
+                              <span
+                                className={`badge badge-circle ${background_status}`}
+                              ></span>
                             </span>
                             {text_status}
                           </div>
-                        }
-                        {
-                          type === 'collection' &&
+                        )}
+                        {type === "collection" && (
                           <a href={rec.website || rec.url} target="_blank">
                             <span className="text-gray-800 fw-bolder d-block fs-6">
                               {rec.website || rec.url}
                             </span>
                           </a>
-                        }
+                        )}
                       </td>
                       <td>
-                        <span className={`text-${color} fw-bolder d-block fs-6`}>
-                          {moment(rec.updatedAt).format('DD/MM/YYYY')}
+                        <span
+                          className={`text-${color} fw-bolder d-block fs-6`}
+                        >
+                          {moment(rec.updatedAt).format("DD/MM/YYYY")}
                         </span>
                       </td>
                       <td>
@@ -183,17 +215,15 @@ const TablesWidget4: React.FC<Props> = ({
                           href="#"
                           className="btn btn-icon btn-bg-light  btn-color-muted btn-active-color-primary btn-sm"
                         >
-                          <KTSVG
+                          <Ktsvg
                             className="svg-icon-4"
                             path="/media/icons/duotone/General/Sad.svg"
                           />
                         </a>
                       </td>
                     </tr>
-                  )
-                })
-              }
-
+                  );
+                })}
             </tbody>
           </table>
         </div>

@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { KTSVG } from "../../../helpers";
+import { Ktsvg } from "../../../helpers";
 
 export function HeaderNotificationsMenu() {
   return (
@@ -20,7 +20,7 @@ export function HeaderNotificationsMenu() {
         <a href="#" className="menu-link px-4 py-3">
           <div className="symbol symbol-35px">
             <span className="symbol-label bg-light-info">
-              <KTSVG
+              <Ktsvg
                 className="svg-icon-3 svg-icon-info"
                 path="/media/icons/duotone/Home/Library.svg"
               />
@@ -28,9 +28,7 @@ export function HeaderNotificationsMenu() {
           </div>
 
           <div className="ps-4">
-            <span className="menu-title fw-bold mb-1">
-              Welcome
-            </span>
+            <span className="menu-title fw-bold mb-1">Welcome</span>
             <span className="text-muted fw-bold d-block fs-7">3 Hours ago</span>
           </div>
         </a>

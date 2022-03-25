@@ -1,8 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
-import {
-  useParams
-} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   IThemeConfig,
   useTheme,
@@ -27,7 +25,7 @@ const listingPageConfig: Partial<IThemeConfig> = {
 const getQuery = (type: string, id: string, entity: string) => {
   console.log(`getting query for ${entity} - ${type} - ${id}`);
 
-  let SRC_QUERY = gql`
+  const SRC_QUERY = gql`
     query Source {
       source(
         id: "${id}"
@@ -80,7 +78,7 @@ const getQuery = (type: string, id: string, entity: string) => {
     }
     `;
 
-  let DEP_QUERY = gql`
+  const DEP_QUERY = gql`
     query Departments {
       department(
         id: "${id}"
@@ -136,7 +134,7 @@ const getQuery = (type: string, id: string, entity: string) => {
     }
     `;
 
-  let CAT_QUERY = gql`
+  const CAT_QUERY = gql`
     query Category {
       category(
         id: "${id}"
@@ -193,62 +191,65 @@ const getQuery = (type: string, id: string, entity: string) => {
     `;
 
   switch (entity) {
-    case 'src':
+    case "src":
       return SRC_QUERY;
-    case 'dep':
+    case "dep":
       return DEP_QUERY;
-    case 'cat':
+    case "cat":
       return CAT_QUERY;
   }
-}
+};
 
 function Collection(type: string, query: any, entity: string) {
-
-  var { data, loading, error } = useQuery(query, {
-    variables: {}
+  const { data, loading } = useQuery(query, {
+    variables: {},
   });
 
   if (loading) return <p>Loading ...</p>;
 
   data.type = type;
   data.entity = entity;
+
   return result(data);
 }
 
 const result = (data: any) => {
-  return <CollectionPage data={data} />
-}
+  return <CollectionPage data={data} />;
+};
 
-export function CollectionPageWrapper() {
-  let params: any = useParams();
+export function CollectionPageWrapper(): JSX.Element {
+  const params: any = useParams();
   const { entity, id } = params;
   // if Id = 0 means that its a collection not a single item
   // console.log(id);
   let title;
-  let component;
-  let type = 'single';
+  const type = "single";
 
-  title = 'Loading';
-  let query = getQuery(type, id, entity);
-  let prevRoute = 'Loading';
+  title = "Loading";
+  const query = getQuery(type, id, entity);
+  let prevRoute = "Loading";
   console.log(`calling query: `, query);
-  component = Collection(type, query, entity);
+  const component = Collection(type, query, entity);
 
   if (component?.props?.data) {
     console.log(`got data: `, component.props.data);
-    component.props.data.sidebar = 'default';
+    component.props.data.sidebar = "default";
     switch (params.entity) {
-      case 'src':
+      case "src":
         title = component.props.data.source.name;
-        prevRoute = type === 'single' ? 'Fuentes' : 'Fuentes';
+        prevRoute = type === "single" ? "Fuentes" : "Fuentes";
         break;
-      case 'dep':
+      case "dep":
         title = component.props.data.department.name;
-        prevRoute = type === 'single' ? 'Ministerios o instituciónes' : 'Ministerios o instituciónes';
+        prevRoute =
+          type === "single"
+            ? "Ministerios o instituciónes"
+            : "Ministerios o instituciónes";
         break;
-      case 'cat':
+      case "cat":
+        // eslint-disable-next-line prefer-destructuring
         title = component.props.data.category.title;
-        prevRoute = type === 'single' ? 'Categorias' : 'Categorias';
+        prevRoute = type === "single" ? "Categorias" : "Categorias";
         break;
     }
   }
@@ -257,6 +258,7 @@ export function CollectionPageWrapper() {
   // Refresh UI after config updates
   useEffect(() => {
     setTheme(listingPageConfig);
+
     return () => {
       setTheme(defaultPageConfig);
     };
@@ -275,19 +277,18 @@ export function CollectionPageWrapper() {
         title: prevRoute,
         path: `/group/${entity}`,
         isActive: false,
-      }
-    ]
-  }
+      },
+    ];
+  };
 
-  let profileBreadCrumbs: Array<PageLink> = getBreadcrumbs(prevRoute);
+  const profileBreadCrumbs: Array<PageLink> = getBreadcrumbs(prevRoute);
 
-  return <>
-    <PageTitle>{title}</PageTitle>
-    <PageDataContainer
-      breadcrumbs={profileBreadCrumbs}
-    />
-    {component}
-    <Sidebar props={component.props.data} />
-  </>
+  return (
+    <>
+      <PageTitle>{title}</PageTitle>
+      <PageDataContainer breadcrumbs={profileBreadCrumbs} />
+      {component}
+      <Sidebar props={component.props.data} />
+    </>
+  );
 }
-

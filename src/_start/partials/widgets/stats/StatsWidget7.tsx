@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
-import { KTSVG } from "../../../helpers";
+import { Ktsvg } from "../../../helpers";
 
 type Props = {
   className: string;
@@ -46,7 +46,7 @@ const StatsWidget7: React.FC<Props> = ({ className, innerPadding = "" }) => {
               }`}
               htmlFor="kt_form_options_1"
             >
-              <KTSVG
+              <Ktsvg
                 path="/media/icons/duotone/Files/Media.svg"
                 className="svg-icon-2x me-1"
               />
@@ -68,7 +68,7 @@ const StatsWidget7: React.FC<Props> = ({ className, innerPadding = "" }) => {
               }`}
               htmlFor="kt_form_options_2"
             >
-              <KTSVG
+              <Ktsvg
                 path="/media/icons/duotone/Devices/LTE2.svg"
                 className="svg-icon-2x me-1"
               />
@@ -90,7 +90,7 @@ const StatsWidget7: React.FC<Props> = ({ className, innerPadding = "" }) => {
               }`}
               htmlFor="kt_form_options_3"
             >
-              <KTSVG
+              <Ktsvg
                 path="/media/icons/duotone/Shopping/Cart3.svg"
                 className="svg-icon-2x me-1"
               />
@@ -112,7 +112,7 @@ const StatsWidget7: React.FC<Props> = ({ className, innerPadding = "" }) => {
               }`}
               htmlFor="kt_form_options_4"
             >
-              <KTSVG
+              <Ktsvg
                 path="/media/icons/duotone/Media/Equalizer.svg"
                 className="svg-icon-2x me-1"
               />

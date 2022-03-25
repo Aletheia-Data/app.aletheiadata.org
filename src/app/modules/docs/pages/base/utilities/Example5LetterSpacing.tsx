@@ -1,19 +1,18 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { CodeBlock } from "../../../../../../_start/partials";
 
-export function Example5LetterSpacing() {
+export function Example5LetterSpacing(): JSX.Element {
   return (
     <div className="pb-10">
       <h1 className="anchor fw-bolder mb-5" id="letter-spacing">
-        <a href="#letter-spacing"></a>Letter Spacing
+        <a href="#letter-spacing" />
+        Letter Spacing
       </h1>
       <div className="py-5">
         Use
-        <code>.ls-{`{value}`}</code>class to set an element's letter spacing
-        where
+        <code>.ls-{`{value}`}</code>
+        class to set an element&apos;s letter spacing where
         <code>value</code>is one of:
       </div>
 
@@ -64,7 +63,7 @@ export function Example5LetterSpacing() {
         </div>
       </div>
 
-      <CodeBlock language="markup" code={code} />
+      <CodeBlock code={code} language="markup" />
     </div>
   );
 }

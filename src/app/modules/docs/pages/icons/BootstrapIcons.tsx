@@ -1,24 +1,24 @@
 /* eslint-disable react/jsx-no-target-blank */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function BootstrapIcons() {
+export function BootstrapIcons(): JSX.Element {
   const { REACT_APP_SASS_VARIABLES_PATH } = process.env;
+
   return (
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="overview">
-          <a href="#overview"></a>Overview
+          <a href="#overview" />
+          Overview
         </h1>
 
         <div className="py-5">
           <a
+            className="fw-bold"
             href="https://icons.getbootstrap.com/"
             target="_blank"
-            className="fw-bold"
           >
             Bootstrap Icons
           </a>
@@ -29,7 +29,8 @@ export function BootstrapIcons() {
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-3" id="usage">
-          <a href="#usage"></a>Ugage
+          <a href="#usage" />
+          Ugage
         </h1>
         <div className="py-5">
           Use Bootstrap Icons with a spesific class as explained in the
@@ -44,21 +45,22 @@ export function BootstrapIcons() {
         </div>
         <div className="py-5">
           <div className="rounded border d-flex flex-wrap p-10">
-            <i className="bi bi-bookmarks-fill fs-2x me-15"></i>
-            <i className="bi bi-calendar-check fs-2x me-15"></i>
-            <i className="bi bi-check2-square fs-2x me-15"></i>
-            <i className="bi bi-diagram-3 fs-2x me-15"></i>
-            <i className="bi bi-gear fs-2x me-15"></i>
-            <i className="bi bi-circle-square fs-2x me-15"></i>
-            <i className="bi bi-graph-down fs-2x me-15"></i>
-            <i className="bi bi-vector-pen fs-2x me-15"></i>
+            <i className="bi bi-bookmarks-fill fs-2x me-15" />
+            <i className="bi bi-calendar-check fs-2x me-15" />
+            <i className="bi bi-check2-square fs-2x me-15" />
+            <i className="bi bi-diagram-3 fs-2x me-15" />
+            <i className="bi bi-gear fs-2x me-15" />
+            <i className="bi bi-circle-square fs-2x me-15" />
+            <i className="bi bi-graph-down fs-2x me-15" />
+            <i className="bi bi-vector-pen fs-2x me-15" />
           </div>
         </div>
         <CodeBlock code={code} language="markup" />
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-3" id="icon-colors">
-          <a href="#icon-colors"></a>Icon Colors
+          <a href="#icon-colors" />
+          Icon Colors
         </h1>
 
         <div className="py-5">
@@ -70,79 +72,79 @@ export function BootstrapIcons() {
         <div className="py-5">
           <div className="rounded border d-flex flex-wrap p-10">
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <i className="bi bi-droplet-half fs-2x text-white bg-dark"></i>
+              <i className="bi bi-droplet-half fs-2x text-white bg-dark" />
               <div className="fw-bold py-2">white</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <i className="bi bi-droplet-half fs-2x text-primary"></i>
+              <i className="bi bi-droplet-half fs-2x text-primary" />
               <div className="fw-bold py-2">primary</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <i className="bi bi-droplet-half fs-2x text-secondary"></i>
+              <i className="bi bi-droplet-half fs-2x text-secondary" />
               <div className="fw-bold py-2">secondary</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <i className="bi bi-droplet-half fs-2x text-light"></i>
+              <i className="bi bi-droplet-half fs-2x text-light" />
               <div className="fw-bold py-2">light</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <i className="bi bi-droplet-half fs-2x text-success"></i>
+              <i className="bi bi-droplet-half fs-2x text-success" />
               <div className="fw-bold py-2">success</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <i className="bi bi-droplet-half fs-2x text-info"></i>
+              <i className="bi bi-droplet-half fs-2x text-info" />
               <div className="fw-bold py-2">info</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <i className="bi bi-droplet-half fs-2x text-warning"></i>
+              <i className="bi bi-droplet-half fs-2x text-warning" />
               <div className="fw-bold py-2">warning</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <i className="bi bi-droplet-half fs-2x text-danger"></i>
+              <i className="bi bi-droplet-half fs-2x text-danger" />
               <div className="fw-bold py-2">danger</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <i className="bi bi-droplet-half fs-2x text-dark"></i>
+              <i className="bi bi-droplet-half fs-2x text-dark" />
               <div className="fw-bold py-2">dark</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <i className="bi bi-droplet-half fs-2x text-muted"></i>
+              <i className="bi bi-droplet-half fs-2x text-muted" />
               <div className="fw-bold py-2">muted</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <i className="bi bi-droplet-half fs-2x text-gray-100"></i>
+              <i className="bi bi-droplet-half fs-2x text-gray-100" />
               <div className="fw-bold py-2">gray-100</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <i className="bi bi-droplet-half fs-2x text-gray-200"></i>
+              <i className="bi bi-droplet-half fs-2x text-gray-200" />
               <div className="fw-bold py-2">gray-200</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <i className="bi bi-droplet-half fs-2x text-gray-300"></i>
+              <i className="bi bi-droplet-half fs-2x text-gray-300" />
               <div className="fw-bold py-2">gray-300</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <i className="bi bi-droplet-half fs-2x text-gray-400"></i>
+              <i className="bi bi-droplet-half fs-2x text-gray-400" />
               <div className="fw-bold py-2">gray-400</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <i className="bi bi-droplet-half fs-2x text-gray-500"></i>
+              <i className="bi bi-droplet-half fs-2x text-gray-500" />
               <div className="fw-bold py-2">gray-500</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <i className="bi bi-droplet-half fs-2x text-gray-600"></i>
+              <i className="bi bi-droplet-half fs-2x text-gray-600" />
               <div className="fw-bold py-2">gray-600</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <i className="bi bi-droplet-half fs-2x text-gray-700"></i>
+              <i className="bi bi-droplet-half fs-2x text-gray-700" />
               <div className="fw-bold py-2">gray-700</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <i className="bi bi-droplet-half fs-2x text-gray-800"></i>
+              <i className="bi bi-droplet-half fs-2x text-gray-800" />
               <div className="fw-bold py-2">gray-800</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <i className="bi bi-droplet-half fs-2x text-gray-900"></i>
+              <i className="bi bi-droplet-half fs-2x text-gray-900" />
               <div className="fw-bold py-2">gray-900</div>
             </div>
           </div>
@@ -151,7 +153,8 @@ export function BootstrapIcons() {
       </div>
       <div className="pt-10">
         <h1 className="anchor fw-bolder mb-3" id="icon-sizes">
-          <a href="#icon-sizes"></a>Icon Sizes
+          <a href="#icon-sizes" />
+          Icon Sizes
         </h1>
         <div className="py-5">
           The font icons can be sized using
@@ -306,73 +309,73 @@ export function BootstrapIcons() {
           <div className="rounded border d-flex flex-wrap p-10">
             <div className="d-flex flex-column h-100px w-100px me-10 mb-5">
               <div className="d-flex flex-center flex-grow-1">
-                <i className="bi bi-droplet-half fs-5x"></i>
+                <i className="bi bi-droplet-half fs-5x" />
               </div>
               <div className="fw-bold py-2 text-center">.fs-5x</div>
             </div>
             <div className="d-flex flex-column h-100px w-100px me-10 mb-5">
               <div className="d-flex flex-center flex-grow-1">
-                <i className="bi bi-droplet-half fs-4x"></i>
+                <i className="bi bi-droplet-half fs-4x" />
               </div>
               <div className="fw-bold py-2 text-center">.fs-4x</div>
             </div>
             <div className="d-flex flex-column h-100px w-100px me-10 mb-5">
               <div className="d-flex flex-center flex-grow-1">
-                <i className="bi bi-droplet-half fs-3x"></i>
+                <i className="bi bi-droplet-half fs-3x" />
               </div>
               <div className="fw-bold py-2 text-center">.fs-3x</div>
             </div>
             <div className="d-flex flex-column h-100px w-100px me-10 mb-5">
               <div className="d-flex flex-center flex-grow-1">
-                <i className="bi bi-droplet-half fs-2tx"></i>
+                <i className="bi bi-droplet-half fs-2tx" />
               </div>
               <div className="fw-bold py-2 text-center">.fs-2tx</div>
             </div>
             <div className="d-flex flex-column h-100px w-100px me-10 mb-5">
               <div className="d-flex flex-center flex-grow-1">
-                <i className="bi bi-droplet-half fs-2hx"></i>
+                <i className="bi bi-droplet-half fs-2hx" />
               </div>
               <div className="fw-bold py-2 text-center">.fs-2hx</div>
             </div>
             <div className="d-flex flex-column h-100px w-100px me-10 mb-5">
               <div className="d-flex flex-center flex-grow-1">
-                <i className="bi bi-droplet-half fs-2qx"></i>
+                <i className="bi bi-droplet-half fs-2qx" />
               </div>
               <div className="fw-bold py-2 text-center">.fs-2qx</div>
             </div>
             <div className="d-flex flex-column h-100px w-100px me-10 mb-5">
               <div className="d-flex flex-center flex-grow-1">
-                <i className="bi bi-droplet-half fs-2x"></i>
+                <i className="bi bi-droplet-half fs-2x" />
               </div>
               <div className="fw-bold py-2 text-center">.fs-2x</div>
             </div>
             <div className="d-flex flex-column h-100px w-100px me-10 mb-5">
               <div className="d-flex flex-center flex-grow-1">
-                <i className="bi bi-droplet-half fs-1"></i>
+                <i className="bi bi-droplet-half fs-1" />
               </div>
               <div className="fw-bold py-2 text-center">.fs-1</div>
             </div>
             <div className="d-flex flex-column h-100px w-100px me-10 mb-5">
               <div className="d-flex flex-center flex-grow-1">
-                <i className="bi bi-droplet-half fs-2"></i>
+                <i className="bi bi-droplet-half fs-2" />
               </div>
               <div className="fw-bold py-2 text-center">.fs-2</div>
             </div>
             <div className="d-flex flex-column h-100px w-100px me-10 mb-5">
               <div className="d-flex flex-center flex-grow-1">
-                <i className="bi bi-droplet-half fs-3"></i>
+                <i className="bi bi-droplet-half fs-3" />
               </div>
               <div className="fw-bold py-2 text-center">.fs-3</div>
             </div>
             <div className="d-flex flex-column h-100px w-100px me-10 mb-5">
               <div className="d-flex flex-center flex-grow-1">
-                <i className="bi bi-droplet-half fs-5"></i>
+                <i className="bi bi-droplet-half fs-5" />
               </div>
               <div className="fw-bold py-2 text-center">.fs-5</div>
             </div>
             <div className="d-flex flex-column h-100px w-100px me-10 mb-5">
               <div className="d-flex flex-center flex-grow-1">
-                <i className="bi bi-droplet-half fs-6"></i>
+                <i className="bi bi-droplet-half fs-6" />
               </div>
               <div className="fw-bold py-2 text-center">.fs-6</div>
             </div>

@@ -1,15 +1,14 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
-import { KTSVG } from "../../../../../../_start/helpers";
+import { Ktsvg } from "../../../../../../_start/helpers";
 import { CodeBlock } from "../../../../../../_start/partials";
 
-export function Example11UtilityClasses() {
+export function Example11UtilityClasses(): JSX.Element {
   return (
     <div className="pb-10">
       <h1 className="anchor fw-bolder mb-5" id="utility-classes">
-        <a href="#utility-classes"></a>Utility Classes
+        <a href="#utility-classes" />
+        Utility Classes
       </h1>
       <div className="py-5">
         Use
@@ -18,12 +17,12 @@ export function Example11UtilityClasses() {
       </div>
       <div className="py-5">
         <div className="rounded border p-10">
-          <a href="#" className="btn btn-flush">
+          <a className="btn btn-flush" href="#">
             Flushed button
           </a>
         </div>
       </div>
-      <CodeBlock language="markup" code={code} />
+      <CodeBlock code={code} language="markup" />
       <div className="pt-10 pb-5">
         Use
         <code>.btn-flex</code>class to vertically center button inner elements
@@ -33,10 +32,10 @@ export function Example11UtilityClasses() {
       </div>
       <div className="py-5">
         <div className="rounded border p-10">
-          <a href="#" className="btn btn-flex btn-primary px-6">
-            <KTSVG
-              path="/media/icons/duotone/Shopping/Chart-bar3.svg"
+          <a className="btn btn-flex btn-primary px-6" href="#">
+            <Ktsvg
               className="svg-icon svg-icon-2x"
+              path="/media/icons/duotone/Shopping/Chart-bar3.svg"
             />
 
             <span className="d-flex flex-column align-items-start ms-2">
@@ -46,7 +45,7 @@ export function Example11UtilityClasses() {
           </a>
         </div>
       </div>
-      <CodeBlock language="markup" code={code2} />
+      <CodeBlock code={code2} language="markup" />
     </div>
   );
 }

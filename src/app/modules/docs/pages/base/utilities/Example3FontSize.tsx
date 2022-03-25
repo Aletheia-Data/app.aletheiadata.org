@@ -1,28 +1,28 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { CodeBlock } from "../../../../../../_start/partials";
 
-export function Example3FontSize() {
+export function Example3FontSize(): JSX.Element {
   const { REACT_APP_THEME_NAME, REACT_APP_BOOTSTRAP_DOCS_LINK } = process.env;
+
   return (
     <div className="pb-10">
       <h1 className="anchor fw-bolder mb-5" id="font-size">
-        <a href="#font-size"></a>Font Sizes
+        <a href="#font-size" />
+        Font Sizes
       </h1>
       <div className="py-5">
-        <strong>{REACT_APP_THEME_NAME}</strong>&nbsp; extends{' '}
+        <strong>{REACT_APP_THEME_NAME}</strong>&nbsp; extends{" "}
         <a
-          href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/utilities/text/#font-size`}
           className="fw-bold"
+          href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/utilities/text/#font-size`}
         >
           Bootstrap Font Size Classes
         </a>
         &nbsp; to provide additonal sizing options by overidding the default
         font size SASS variable as shown below:
       </div>
-      <CodeBlock language="scss" code={code} />
+      <CodeBlock code={code} language="scss" />
     </div>
   );
 }

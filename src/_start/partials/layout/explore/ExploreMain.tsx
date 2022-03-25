@@ -4,7 +4,7 @@ import React from "react";
 import { Toggle } from "./Toggle";
 import { Free } from "./Free";
 import { FreeRelatedProducts } from "./FreeRelatedProducts";
-import { KTSVG } from "../../../helpers";
+import { Ktsvg } from "../../../helpers";
 
 export function ExploreMain() {
   return (
@@ -34,7 +34,7 @@ export function ExploreMain() {
                 className="btn btn-sm btn-icon explore-btn-dismiss me-n5"
                 id="kt_explore_close"
               >
-                <KTSVG
+                <Ktsvg
                   path="/media/icons/duotone/Navigation/Close.svg"
                   className="svg-icon-2"
                 />

@@ -3,7 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import { Modal } from "react-bootstrap-v5";
 import { Link, useLocation } from "react-router-dom";
-import { KTSVG, toAbsoluteUrl } from "../../helpers";
+import { Ktsvg, toAbsoluteUrl } from "../../helpers";
 
 type Props = {
   show: boolean;
@@ -50,7 +50,7 @@ const MenuModal: React.FC<Props> = ({ show, handleClose, children }) => {
             className="btn btn-icon btn-sm btn-light-primary ms-2"
             onClick={handleClose}
           >
-            <KTSVG
+            <Ktsvg
               path="/media/icons/duotone/Navigation/Close.svg"
               className="svg-icon-2"
             />

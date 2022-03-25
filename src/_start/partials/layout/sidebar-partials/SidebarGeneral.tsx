@@ -3,77 +3,82 @@
 import clsx from "clsx";
 import React, { useState, useEffect } from "react";
 import ApexCharts, { ApexOptions } from "apexcharts";
-import { toAbsoluteUrl, KTSVG } from "../../../helpers";
+import { toAbsoluteUrl, Ktsvg } from "../../../helpers";
 import { Dropdown1 } from "../../content/dropdown/Dropdown1";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
-import Clipboard from 'react-clipboard.js';
+import Clipboard from "react-clipboard.js";
 
 // TODO: move to global
-const colorPDF = '#FFE6E2';
-const colorCSV = '#FFF8DD';
-const colorXLS = '#E4FFF4';
-const colorODS = '#F7F0FF';
-const colorOTHER = '#00A3FF';
+const colorPDF = "#FFE6E2";
+const colorCSV = "#FFF8DD";
+const colorXLS = "#E4FFF4";
+const colorODS = "#F7F0FF";
+const colorOTHER = "#00A3FF";
 
 type Props = {
   props: any;
   toogleMinisearch?: any;
 };
 
-export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => {
-
-  const id = 'cat';
+export const SidebarGeneral: React.FC<Props> = ({
+  props,
+  toogleMinisearch,
+}) => {
+  const id = "cat";
   const [activeTab, setActiveTab] = useState(`#${id}_tab1`);
-  const [activeTabTotal, setActiveTabTotal] = useState('Loading');
+  const [activeTabTotal, setActiveTabTotal] = useState("Loading");
   const [elementTab, setElementTab] = useState(false);
   const [copied, setCopy] = useState(false);
   const [activeChart, setActiveChart] = useState<ApexCharts | undefined>();
 
   if (!props) {
     props = {
-      alexandrias: []
-    }
+      alexandrias: [],
+    };
   }
 
   const CAT_QUERY = gql`
-  query CategoriesGroup {
-    categoriesConnection{
-      groupBy {
-        id {
-          key,
-          connection{
-            values{
-							id,
-              title,
-              description,
-              icon{
-                id,
-                name,
-                url
+    query CategoriesGroup {
+      categoriesConnection {
+        groupBy {
+          id {
+            key
+            connection {
+              values {
+                id
+                title
+                description
+                icon {
+                  id
+                  name
+                  url
+                }
               }
-            },
-            aggregate{
-              count,
-              totalCount
+              aggregate {
+                count
+                totalCount
+              }
             }
           }
         }
       }
     }
-  }
   `;
 
-  var { data: catData, loading: catLoading, error } = useQuery(CAT_QUERY, {
-    variables: {}
+  var {
+    data: catData,
+    loading: catLoading,
+    error,
+  } = useQuery(CAT_QUERY, {
+    variables: {},
   });
 
   const getFilesType = (item: string, id: string) => {
     return new Promise((resolve, reject) => {
-
       let query;
       switch (item) {
-        case 'cat':
+        case "cat":
           query = `
             query TypeGroupBy {
               alexandriasConnection(where: {
@@ -94,7 +99,7 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
             }
           `;
           break;
-        case 'dep':
+        case "dep":
           query = `
             query TypeGroupBy {
               alexandriasConnection(where: {
@@ -115,7 +120,7 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
             }
           `;
           break;
-        case 'src':
+        case "src":
           query = `
             query TypeGroupBy {
               alexandriasConnection(where: {
@@ -138,31 +143,29 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
           break;
       }
       const endpoint = `${process.env.REACT_APP_API_ENDPOINT}/graphql`;
-      console.log('fetching data: ', endpoint)
+      console.log("fetching data: ", endpoint);
       fetch(endpoint, {
-        method: 'post',
+        method: "post",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          query: query
-        })
+          query: query,
+        }),
       })
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
           // console.log(data)
           resolve(data);
         })
-        .catch(err => {
-          console.log(err)
+        .catch((err) => {
+          console.log(err);
           reject(err);
         });
-
     });
-  }
+  };
 
   const setTab = (tab_n: number) => {
-
     if (activeChart) {
       activeChart.destroy();
     }
@@ -175,7 +178,7 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
     setElementTab(true);
 
     if (element) {
-      element.innerHTML = '';
+      element.innerHTML = "";
     }
     // console.log('element: ', id, tab_n, element);
 
@@ -183,7 +186,7 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
 
     // console.log('getting: ', id, items);
 
-    setActiveTabTotal('Loading');
+    setActiveTabTotal("Loading");
 
     // console.log(items, tab_n);
 
@@ -193,39 +196,41 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
       .then((res: any) => {
         const types = res.data.alexandriasConnection.groupBy.type;
 
-        const pdf = types.filter((type: any) => type.key === 'pdf');
-        const csv = types.filter((type: any) => type.key === 'csv');
-        const xls = types.filter((type: any) => type.key === 'xls' || type.key === "xlsx");
-        const other = types.filter((type: any) => type.key === 'other');
+        const pdf = types.filter((type: any) => type.key === "pdf");
+        const csv = types.filter((type: any) => type.key === "csv");
+        const xls = types.filter(
+          (type: any) => type.key === "xls" || type.key === "xlsx"
+        );
+        const other = types.filter((type: any) => type.key === "other");
 
         const pdfFile = pdf.length > 0 ? pdf[0].connection.aggregate.count : 0;
         const csvFile = csv.length > 0 ? csv[0].connection.aggregate.count : 0;
         const xlsFile = xls.length > 0 ? xls[0].connection.aggregate.count : 0;
-        const otherFile = other.length > 0 ? other[0].connection.aggregate.count : 0;
+        const otherFile =
+          other.length > 0 ? other[0].connection.aggregate.count : 0;
 
-        setActiveTabTotal(
-          pdfFile + csvFile + xlsFile + otherFile
-        )
+        setActiveTabTotal(pdfFile + csvFile + xlsFile + otherFile);
 
         const dataCharts = {
           pdfFile,
           csvFile,
           xlsFile,
-          otherFile
+          otherFile,
         };
 
         const height = parseInt(getCss(element, "height"));
         if (height) {
-          const chart = new ApexCharts(element, getChartOptions(tab_n, height, dataCharts));
+          const chart = new ApexCharts(
+            element,
+            getChartOptions(tab_n, height, dataCharts)
+          );
           chart.render();
           setActiveChart(chart);
         }
-
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
-      })
-
+      });
   };
 
   useEffect(() => {
@@ -246,15 +251,10 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
           className="sidebar-nav nav nav-tabs pt-15 pb-5 px-5"
           id="kt_sidebar_tabs"
           role="tablist"
-          style={{ paddingLeft: '0px' }}
+          style={{ paddingLeft: "0px" }}
         >
-
           <li className="nav-item">
-            <a
-              onClick={() => { }}
-              className={"nav-link"}
-              id="kt_sidebar_tab_1"
-            >
+            <a onClick={() => {}} className={"nav-link"} id="kt_sidebar_tab_1">
               <img
                 alt=""
                 src={toAbsoluteUrl("/media/svg/logo/purple/aven.svg")}
@@ -267,7 +267,6 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
               />
             </a>
           </li>
-
         </ul>
         {/* end::Sidebar Nav */}
 
@@ -292,9 +291,7 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
                 <div className="card card-custom bg-transparent">
                   {/* begin::Header */}
                   <div className="card-header align-items-center border-0">
-                    <h3 className="card-title fw-bolder fs-3">
-                      Loading ...
-                    </h3>
+                    <h3 className="card-title fw-bolder fs-3">Loading ...</h3>
                     <div className="card-toolbar">
                       <button
                         type="button"
@@ -304,7 +301,7 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
                         data-kt-menu-placement="bottom-end"
                         data-kt-menu-flip="top-end"
                       >
-                        <KTSVG
+                        <Ktsvg
                           path="/media/icons/duotone/Layout/Layout-4-blocks-2.svg"
                           className="svg-icon-1"
                         />
@@ -332,13 +329,8 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
             <div className="card card-custom bg-transparent">
               {/* begin::Header */}
               <div className="card-header align-items-center border-0">
-                <h3 className="card-title fw-bolder fs-3">
-                  Categorias
-                </h3>
-                <div className="card-toolbar">
-
-                  Loading ...
-                </div>
+                <h3 className="card-title fw-bolder fs-3">Categorias</h3>
+                <div className="card-toolbar">Loading ...</div>
               </div>
               {/* end::Header */}
             </div>
@@ -347,7 +339,7 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
         </div>
         {/* end::Sidebar Content */}
       </>
-    )
+    );
   }
 
   let items: any;
@@ -356,15 +348,15 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
 
   const checkStatus = (cid: string) => {
     // https://filfox.info/en/deal/${deailID}
-  }
+  };
 
-  const onCopy = () =>{
-    console.log('copied!');
+  const onCopy = () => {
+    console.log("copied!");
     setCopy(true);
     setTimeout(() => {
       setCopy(false);
     }, 1000);
-  }
+  };
 
   return (
     <>
@@ -373,39 +365,31 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
         className="sidebar-nav nav nav-tabs pt-15 pb-15"
         id="kt_sidebar_tabs"
         role="tablist"
-        style={{ paddingLeft: '350px', paddingRight: '30px' }}
+        style={{ paddingLeft: "350px", paddingRight: "30px" }}
       >
-
-        {
-          items.map((cat: any, i: number) => {
-            let current_item = cat.connection.values[0];
-            let img = current_item.icon ? current_item.icon.url : '/media/svg/logo/gray/aven.svg';
-            i++;
-            return (
-              <li className="nav-item" key={`cat_sidebar_${current_item.id}`}>
-                <a
-                  onClick={() => {
-                    setTab(i);
-                  }}
-                  className={clsx("nav-link", { active: activeTab === `#${id}_tab${i}` })}
-                  id="kt_sidebar_tab_1"
-                >
-                  <img
-                    alt=""
-                    src={toAbsoluteUrl(img)}
-                    className="default"
-                  />
-                  <img
-                    alt=""
-                    src={toAbsoluteUrl(img)}
-                    className="active"
-                  />
-                </a>
-              </li>
-            )
-          })
-        }
-
+        {items.map((cat: any, i: number) => {
+          let current_item = cat.connection.values[0];
+          let img = current_item.icon
+            ? current_item.icon.url
+            : "/media/svg/logo/gray/aven.svg";
+          i++;
+          return (
+            <li className="nav-item" key={`cat_sidebar_${current_item.id}`}>
+              <a
+                onClick={() => {
+                  setTab(i);
+                }}
+                className={clsx("nav-link", {
+                  active: activeTab === `#${id}_tab${i}`,
+                })}
+                id="kt_sidebar_tab_1"
+              >
+                <img alt="" src={toAbsoluteUrl(img)} className="default" />
+                <img alt="" src={toAbsoluteUrl(img)} className="active" />
+              </a>
+            </li>
+          );
+        })}
       </ul>
       {/* end::Sidebar Nav */}
 
@@ -421,73 +405,73 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
           data-kt-scroll-wrappers="#kt_sidebar_content"
         >
           <div className="tab-content">
-            {
-              items.map((cat: any, i: number) => {
-                let current_item = cat.connection.values[0];
-                i++;
-                // increase index by 1
-                const getChart = (index: number) => {
-                  return (
-                    <div id={`${id}_tab${index}_chart`} style={{ height: "250px" }} />
-                  )
-                }
-
+            {items.map((cat: any, i: number) => {
+              let current_item = cat.connection.values[0];
+              i++;
+              // increase index by 1
+              const getChart = (index: number) => {
                 return (
                   <div
-                    className={`tab-pane fade ${activeTab === `#${id}_tab${i}` ? "show active" : ""}`}
-                    id="kt_sidebar_tab_pane_1"
-                    role="tabpanel"
-                    key={`cat_panel_${i}`}
-                  >
-                    {/* begin::Card */}
-                    <div className="card card-custom bg-transparent">
-                      {/* begin::Header */}
-                      <div className="card-header align-items-center border-0">
-                        <h3 className="card-title fw-bolder fs-3">
-                          {current_item.title}
-                        </h3>
-                        <div className="card-toolbar">
-                          <button
-                            type="button"
-                            className="btn btn-md btn-icon btn-icon-white btn-info"
-                            data-kt-menu-trigger="click"
-                            data-kt-menu-overflow="true"
-                            data-kt-menu-placement="bottom-end"
-                            data-kt-menu-flip="top-end"
-                          >
-                            <KTSVG
-                              path="/media/icons/duotone/Layout/Layout-4-blocks-2.svg"
-                              className="svg-icon-1"
-                            />
-                          </button>
-                          <Dropdown1 />
-                        </div>
-                      </div>
-                      {/* end::Header */}
+                    id={`${id}_tab${index}_chart`}
+                    style={{ height: "250px" }}
+                  />
+                );
+              };
 
-                      {/* begin::Body */}
-                      <div className="card-body px-3 py-0">
-                        {
-                          getChart(i)
-                        }
+              return (
+                <div
+                  className={`tab-pane fade ${
+                    activeTab === `#${id}_tab${i}` ? "show active" : ""
+                  }`}
+                  id="kt_sidebar_tab_pane_1"
+                  role="tabpanel"
+                  key={`cat_panel_${i}`}
+                >
+                  {/* begin::Card */}
+                  <div className="card card-custom bg-transparent">
+                    {/* begin::Header */}
+                    <div className="card-header align-items-center border-0">
+                      <h3 className="card-title fw-bolder fs-3">
+                        {current_item.title}
+                      </h3>
+                      <div className="card-toolbar">
+                        <button
+                          type="button"
+                          className="btn btn-md btn-icon btn-icon-white btn-info"
+                          data-kt-menu-trigger="click"
+                          data-kt-menu-overflow="true"
+                          data-kt-menu-placement="bottom-end"
+                          data-kt-menu-flip="top-end"
+                        >
+                          <Ktsvg
+                            path="/media/icons/duotone/Layout/Layout-4-blocks-2.svg"
+                            className="svg-icon-1"
+                          />
+                        </button>
+                        <Dropdown1 />
                       </div>
-                      {/* end: Card Body */}
                     </div>
-                    {/* end::Card */}
+                    {/* end::Header */}
+
+                    {/* begin::Body */}
+                    <div className="card-body px-3 py-0">{getChart(i)}</div>
+                    {/* end: Card Body */}
                   </div>
-                )
-              })
-            }
+                  {/* end::Card */}
+                </div>
+              );
+            })}
           </div>
           {/* begin::Card */}
           <div className="card card-custom bg-transparent">
             {/* begin::Header */}
             <div className="card-header align-items-center border-0">
               <h3 className="card-title fw-bolder fs-3">
-                {props.sidebar && props.sidebar === 'single' ? 'Connect' : ''} {/** TODO: restore 'Mis Archivos' gatting them from db */}
+                {props.sidebar && props.sidebar === "single" ? "Connect" : ""}{" "}
+                {/** TODO: restore 'Mis Archivos' gatting them from db */}
               </h3>
               <div className="card-toolbar">
-                <button 
+                <button
                   type="button"
                   className="btn btn-md btn-icon btn-icon-white btn-info"
                   data-kt-menu-trigger="click"
@@ -495,7 +479,7 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
                   data-kt-menu-placement="bottom-end"
                   data-kt-menu-flip="top-end"
                 >
-                  <KTSVG
+                  <Ktsvg
                     path="/media/icons/duotone/Layout/Layout-4-blocks-2.svg"
                     className="svg-icon-1"
                   />
@@ -504,17 +488,22 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
               </div>
             </div>
 
-            {
-              props.sidebar && props.sidebar === 'single' &&
+            {props.sidebar && props.sidebar === "single" && (
               <div className="card-body pt-0">
-
-                <Clipboard 
-                  data-clipboard-text={props.alexandrias[0] ? props.alexandrias[0].cid : `not available`}
+                <Clipboard
+                  data-clipboard-text={
+                    props.alexandrias[0]
+                      ? props.alexandrias[0].cid
+                      : `not available`
+                  }
                   onSuccess={onCopy}
                   className="clipboard fw-bolder text-hover-primary fs-6"
                 >
                   <div className="d-flex align-items-center mb-7">
-                    <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
+                    <span
+                      className="symbol symbol-60px me-4"
+                      style={{ backgroundColor: colorPDF }}
+                    >
                       <img
                         src="/media/icons/aletheia/Formats/ipfs.svg"
                         className="svg-icon-1 svg-icon-success"
@@ -522,30 +511,39 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
                       />
                     </span>
 
-                    <div className={`d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3 ${copied ? 'hide' : ''}`}>
+                    <div
+                      className={`d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3 ${
+                        copied ? "hide" : ""
+                      }`}
+                    >
                       IPFS
                       <span className=" opacity-25 fw-bold fs-7 my-1">
                         File System Decentralizado
                       </span>
                     </div>
 
-                    <div className={`d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3 ${copied ? '' : 'hide'}`}>
+                    <div
+                      className={`d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3 ${
+                        copied ? "" : "hide"
+                      }`}
+                    >
                       COPIED
-                      <span className=" opacity-25 fw-bold fs-7 my-1">
-                        
-                      </span>
+                      <span className=" opacity-25 fw-bold fs-7 my-1"></span>
                     </div>
                   </div>
                 </Clipboard>
 
-
                 <a
                   href={props.alexandrias[0].source_url}
-                  target={'_blank'}
-                  className=" fw-bolder text-hover-primary fs-6" rel="noreferrer"
+                  target={"_blank"}
+                  className=" fw-bolder text-hover-primary fs-6"
+                  rel="noreferrer"
                 >
                   <div className="d-flex align-items-center mb-7">
-                    <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
+                    <span
+                      className="symbol symbol-60px me-4"
+                      style={{ backgroundColor: colorPDF }}
+                    >
                       <img
                         src="/media/icons/aletheia/Formats/source.svg"
                         className="svg-icon-1 svg-icon-success"
@@ -562,14 +560,17 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
                   </div>
                 </a>
 
-                {
-                  props.alexandrias[0].type === 'csv' &&
+                {props.alexandrias[0].type === "csv" && (
                   <a
                     onClick={toogleMinisearch}
-                    className=" fw-bolder text-hover-primary fs-6" rel="noreferrer"
+                    className=" fw-bolder text-hover-primary fs-6"
+                    rel="noreferrer"
                   >
                     <div className="d-flex align-items-center mb-7">
-                      <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
+                      <span
+                        className="symbol symbol-60px me-4"
+                        style={{ backgroundColor: colorPDF }}
+                      >
                         <img
                           src="/media/icons/aletheia/Formats/search.svg"
                           className="svg-icon-1 svg-icon-success"
@@ -585,18 +586,24 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
                       </div>
                     </div>
                   </a>
-                }
+                )}
 
-
-                {
-                  props.alexandrias[0].type === 'xlsx' &&
+                {props.alexandrias[0].type === "xlsx" && (
                   <a
-                    href={`http://view.officeapps.live.com/op/view.aspx?src=${props.alexandrias[0].file.length > 0 ? props.alexandrias[0].file[0].url : `https://${props.alexandrias[0]?.cid}.ipfs.dweb.link/`}`}
-                    target={'_blank'}
-                    className=" fw-bolder text-hover-primary fs-6" rel="noreferrer"
+                    href={`http://view.officeapps.live.com/op/view.aspx?src=${
+                      props.alexandrias[0].file.length > 0
+                        ? props.alexandrias[0].file[0].url
+                        : `https://${props.alexandrias[0]?.cid}.ipfs.dweb.link/`
+                    }`}
+                    target={"_blank"}
+                    className=" fw-bolder text-hover-primary fs-6"
+                    rel="noreferrer"
                   >
                     <div className="d-flex align-items-center mb-7">
-                      <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
+                      <span
+                        className="symbol symbol-60px me-4"
+                        style={{ backgroundColor: colorPDF }}
+                      >
                         <img
                           src="/media/icons/aletheia/Formats/xls.svg"
                           className="svg-icon-1 svg-icon-success"
@@ -607,23 +614,29 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
                       <div className="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
                         Excel Online
                         <span className=" opacity-25 fw-bold fs-7 my-1">
-                        Abrir Documento
+                          Abrir Documento
                         </span>
                       </div>
                     </div>
                   </a>
-                }
+                )}
 
-
-                {
-                  props.alexandrias[0].type === 'pdf' &&
+                {props.alexandrias[0].type === "pdf" && (
                   <a
-                    href={`${props.alexandrias[0].file.length > 0 ? props.alexandrias[0].file[0].url : `https://${props.alexandrias[0]?.cid}.ipfs.dweb.link/`}`}
-                    target={'_blank'}
-                    className=" fw-bolder text-hover-primary fs-6" rel="noreferrer"
+                    href={`${
+                      props.alexandrias[0].file.length > 0
+                        ? props.alexandrias[0].file[0].url
+                        : `https://${props.alexandrias[0]?.cid}.ipfs.dweb.link/`
+                    }`}
+                    target={"_blank"}
+                    className=" fw-bolder text-hover-primary fs-6"
+                    rel="noreferrer"
                   >
                     <div className="d-flex align-items-center mb-7">
-                      <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
+                      <span
+                        className="symbol symbol-60px me-4"
+                        style={{ backgroundColor: colorPDF }}
+                      >
                         <img
                           src="/media/icons/aletheia/Formats/pdf.svg"
                           className="svg-icon-1 svg-icon-success"
@@ -634,21 +647,28 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
                       <div className="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
                         PDF Online
                         <span className=" opacity-25 fw-bold fs-7 my-1">
-                        Abrir Documento
+                          Abrir Documento
                         </span>
                       </div>
                     </div>
                   </a>
-                }
+                )}
 
                 <a
-                  href={props.alexandrias[0].file.length > 0 ? props.alexandrias[0].file[0].url : `https://${props.alexandrias[0]?.cid}.ipfs.dweb.link/`}
-                  target={'_blank'}
+                  href={
+                    props.alexandrias[0].file.length > 0
+                      ? props.alexandrias[0].file[0].url
+                      : `https://${props.alexandrias[0]?.cid}.ipfs.dweb.link/`
+                  }
+                  target={"_blank"}
                   rel="noreferrer"
                   className=" fw-bolder text-hover-primary fs-6"
                 >
                   <div className="d-flex align-items-center mb-7">
-                    <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
+                    <span
+                      className="symbol symbol-60px me-4"
+                      style={{ backgroundColor: colorPDF }}
+                    >
                       <img
                         src="/media/icons/aletheia/Formats/download.svg"
                         className="svg-icon-1 svg-icon-success"
@@ -666,13 +686,20 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
                 </a>
 
                 <a
-                  href={props.alexandrias[0].api_endpoint > 0 ? props.alexandrias[0].api_endpoint : `https://rapidapi.com/aletheia-data-aletheia-data-default/api/aletheia2/`}
-                  target={'_blank'}
+                  href={
+                    props.alexandrias[0].api_endpoint > 0
+                      ? props.alexandrias[0].api_endpoint
+                      : `https://rapidapi.com/aletheia-data-aletheia-data-default/api/aletheia2/`
+                  }
+                  target={"_blank"}
                   rel="noreferrer"
                   className=" fw-bolder text-hover-primary fs-6"
                 >
                   <div className="d-flex align-items-center mb-7">
-                    <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
+                    <span
+                      className="symbol symbol-60px me-4"
+                      style={{ backgroundColor: colorPDF }}
+                    >
                       <img
                         src="/media/icons/aletheia/Formats/rapid.svg"
                         className="svg-icon-1 svg-icon-success"
@@ -688,15 +715,16 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
                     </div>
                   </div>
                 </a>
-
               </div>
-            }
+            )}
 
-            {
-              props?.sidebar === 'hide' &&
+            {props?.sidebar === "hide" && (
               <div className="card-body pt-0">
                 <div className="d-flex align-items-center mb-7">
-                  <span className="symbol symbol-60px me-4" style={{ backgroundColor: colorPDF }}>
+                  <span
+                    className="symbol symbol-60px me-4"
+                    style={{ backgroundColor: colorPDF }}
+                  >
                     <img
                       src="/media/icons/aletheia/Formats/pdf.svg"
                       className="svg-icon-1 svg-icon-success"
@@ -705,10 +733,7 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
                   </span>
 
                   <div className="d-flex flex-column flex-grow-1 my-lg-0 my-2 pe-3">
-                    <a
-                      href="#"
-                      className=" fw-bolder text-hover-primary fs-6"
-                    >
+                    <a href="#" className=" fw-bolder text-hover-primary fs-6">
                       Estadísticas de Estudiantes Matriculas...
                     </a>
                     <span className=" opacity-25 fw-bold fs-7 my-1">
@@ -716,10 +741,8 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
                     </span>
                   </div>
                 </div>
-
               </div>
-            }
-
+            )}
 
             {/* end: Card Body */}
           </div>
@@ -741,14 +764,13 @@ export const SidebarGeneral: React.FC<Props> = ({ props, toogleMinisearch }) => 
       {/* end::Sidebar footer */}
     </>
   );
-}
+};
 
 function getChartOptions(
   tabNumber: number,
   height: string | number | undefined,
   data: any
 ): ApexOptions {
-
   let series = [
     {
       name: "PDF",
@@ -765,8 +787,8 @@ function getChartOptions(
     {
       name: "Others",
       data: [data.otherFile],
-    }
-  ]
+    },
+  ];
   // console.log(series);
 
   return {
@@ -854,13 +876,13 @@ function getChartOptions(
         fontSize: "12px",
       },
       x: {
-        show: false
+        show: false,
       },
       y: {
         formatter: function (val: number) {
           return `${val} archivos`;
         },
-      }
+      },
     },
     colors: ["#C7C7C7"],
     grid: {

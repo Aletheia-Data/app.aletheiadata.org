@@ -1,20 +1,20 @@
 /* eslint-disable react/jsx-no-target-blank */
-/* eslint-disable jsx-a11y/anchor-has-content */
 import React from "react";
 
-export function References() {
+export function References(): JSX.Element {
   const { REACT_APP_THEME_NAME } = process.env;
 
   return (
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-2" id="overview">
-          <a href="#overview"></a>Overview
+          <a href="#overview" />
+          Overview
         </h1>
 
         <div className="pt-5">
-          <strong>{REACT_APP_THEME_NAME}</strong>&nbsp; uses the following open source
-          resources:
+          <strong>{REACT_APP_THEME_NAME}</strong>&nbsp; uses the following open
+          source resources:
         </div>
         <div className="py-5">
           <div className="table-responsive border rounded">
@@ -107,7 +107,7 @@ export function References() {
                   </td>
                   <td>^7.2.2</td>
                 </tr>
-               
+
                 <tr className="p-6">
                   <td>
                     <code>TypeScript</code>
@@ -155,7 +155,7 @@ export function References() {
                   </td>
                   <td>1.4.0</td>
                 </tr>
-                
+
                 <tr className="p-6">
                   <td>
                     <code>Formik</code>

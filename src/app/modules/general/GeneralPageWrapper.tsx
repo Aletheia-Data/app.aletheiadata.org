@@ -38,6 +38,7 @@ const GeneralPageWrapper: React.FC = () => {
   // Refresh UI after config updates
   useEffect(() => {
     setTheme(generalPageConfig);
+
     return () => {
       setTheme(defaultPageConfig);
     };

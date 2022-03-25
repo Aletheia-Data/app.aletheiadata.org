@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
-import { KTSVG, toAbsoluteUrl } from "../../../helpers";
+import { Ktsvg, toAbsoluteUrl } from "../../../helpers";
 
 type Props = {
   createProductFormWrapperRef: React.MutableRefObject<HTMLDivElement | null>;
@@ -68,7 +68,7 @@ const NewProductForm: React.FC<Props> = ({
               href="#"
               className="h-70px w-70px btn btn-light d-flex flex-column flex-center fw-bolder p-0"
             >
-              <KTSVG
+              <Ktsvg
                 path="/media/icons/duotone/Design/Image.svg"
                 className="svg-icon-1 svg-icon-gray-600 m-0"
               />

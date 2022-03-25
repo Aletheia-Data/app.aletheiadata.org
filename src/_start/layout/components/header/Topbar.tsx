@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { KTSVG } from "../../../helpers";
+import { Ktsvg } from "../../../helpers";
 import {
   HeaderNotificationsMenu,
   SearchModal,
@@ -20,7 +20,7 @@ export function Topbar() {
         className="btn btn-icon btn-sm btn-active-bg-accent ms-1 ms-lg-6"
         onClick={() => setShowSearchModal(true)}
       >
-        <KTSVG
+        <Ktsvg
           path="/media/icons/duotone/General/Search.svg"
           className="svg-icon-1 svg-icon-dark"
         />
@@ -36,7 +36,7 @@ export function Topbar() {
         className="btn btn-icon btn-sm btn-active-bg-accent ms-1 ms-lg-6"
         onClick={() => setShowInboxComposeModal(true)}
       >
-        <KTSVG
+        <Ktsvg
           path="/media/icons/duotone/Communication/Chat6.svg"
           className="svg-icon-1 svg-icon-dark"
         />
@@ -55,7 +55,7 @@ export function Topbar() {
           data-kt-menu-trigger="click" // TODO: open modal with selection user
           data-kt-menu-placement="bottom-end"
         >
-          <KTSVG
+          <Ktsvg
             path="/media/icons/duotone/General/User.svg"
             className="svg-icon-1 svg-icon-dark"
           />
@@ -87,7 +87,7 @@ export function Topbar() {
           className="btn btn-icon btn-sm btn-active-bg-accent d-lg-none ms-1 ms-lg-6"
           id="kt_aside_toggler"
         >
-          <KTSVG
+          <Ktsvg
             path="/media/icons/duotone/Text/Menu.svg"
             className="svg-icon-1 svg-icon-dark"
           />
@@ -101,7 +101,7 @@ export function Topbar() {
           className="btn btn-icon btn-sm btn-active-bg-accent d-lg-none ms-1 ms-lg-6"
           id="kt_sidebar_toggler"
         >
-          <KTSVG
+          <Ktsvg
             path="/media/icons/duotone/Text/Menu.svg"
             className="svg-icon-1 svg-icon-dark"
           />

@@ -1,4 +1,3 @@
-import { toAbsoluteUrl } from "../../../../_start/helpers";
 import { UserModel } from "../models/UserModel";
 
 export class UsersTableMock {
@@ -12,8 +11,8 @@ export class UsersTableMock {
         refreshToken: "access-token-f8c137a2c98743f48b643e71161d90aa",
       },
       avatar: {
-        type: 1
-      }
-    }
+        type: 1,
+      },
+    },
   ];
 }

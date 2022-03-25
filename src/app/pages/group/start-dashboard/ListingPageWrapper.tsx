@@ -1,14 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect } from "react";
-import {
-  useParams
-} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   IThemeConfig,
   useTheme,
   PageTitle,
   PageDataContainer,
-  PageLink,
   getConfig,
 } from "../../../../_start/layout/core";
 import { ListingPage } from "./ListingPage";
@@ -27,164 +24,141 @@ const listingPageConfig: Partial<IThemeConfig> = {
 const getQuery = (type: string, id: string, entity: string) => {
   console.log(`getting query for ${entity} - ${type} - ${id}`);
 
-  let SRC_QUERY = gql`
-  query Sources {
-    sources(
-      limit: 10, 
-      sort: "updatedAt:desc"
-    ) {
-      id,
-      name, 
-      url,
-      updatedAt,
-      alexandrias{
-        cid,
-        type
+  const SRC_QUERY = gql`
+    query Sources {
+      sources(limit: 10, sort: "updatedAt:desc") {
+        id
+        name
+        url
+        updatedAt
+        alexandrias {
+          cid
+          type
+        }
       }
-  },
-  alexandriasConnection(
-    limit: 0
-  ){
-      groupBy {
-        source{
-          key,
-          __typename,
-          connection{
-            aggregate{
-              count,
-              totalCount
+      alexandriasConnection(limit: 0) {
+        groupBy {
+          source {
+            key
+            __typename
+            connection {
+              aggregate {
+                count
+                totalCount
+              }
             }
           }
         }
       }
-  },
-    sourcesConnection(
-    where: {
-      
-    }){
-      groupBy {
-        id{
-          key,
-          __typename,
-          connection{
-            aggregate{
-              count,
-              totalCount
+      sourcesConnection(where: {}) {
+        groupBy {
+          id {
+            key
+            __typename
+            connection {
+              aggregate {
+                count
+                totalCount
+              }
             }
           }
         }
       }
     }
-  }
   `;
 
-  let DEP_QUERY = gql`
-  query Departments {
-    departments(
-      limit: 10, 
-      sort: "updatedAt:desc"
-    ) {
-      id,
-      name, 
-      website,
-      updatedAt,
-      alexandrias{
-        cid,
-        type
+  const DEP_QUERY = gql`
+    query Departments {
+      departments(limit: 10, sort: "updatedAt:desc") {
+        id
+        name
+        website
+        updatedAt
+        alexandrias {
+          cid
+          type
+        }
       }
-  },
-  alexandriasConnection(
-    limit: 1
-  ){
-      groupBy {
-        department{
-          key,
-          __typename,
-          connection{
-            aggregate{
-              count,
-              totalCount
+      alexandriasConnection(limit: 1) {
+        groupBy {
+          department {
+            key
+            __typename
+            connection {
+              aggregate {
+                count
+                totalCount
+              }
             }
           }
         }
       }
-    },
-  departmentsConnection(
-    limit: 1
-  ){
-      groupBy {
-        id{
-          key,
-          __typename,
-          connection{
-            aggregate{
-              count,
-              totalCount
+      departmentsConnection(limit: 1) {
+        groupBy {
+          id {
+            key
+            __typename
+            connection {
+              aggregate {
+                count
+                totalCount
+              }
             }
           }
         }
       }
     }
-  }
   `;
 
-  let CAT_QUERY = gql`
-  query Categories {
-    categories(
-      limit: 10, 
-      sort: "updatedAt:desc"
-    ) {
-      id,
-    	title,
-    	description,
-    	updatedAt,
-      alexandrias{
-        cid,
-        type
-      }
-  },
-  alexandriasConnection(
-    limit: 1
-  ){
-      groupBy {
-        id{
-          key
+  const CAT_QUERY = gql`
+    query Categories {
+      categories(limit: 10, sort: "updatedAt:desc") {
+        id
+        title
+        description
+        updatedAt
+        alexandrias {
+          cid
+          type
         }
       }
-    },
-    categoriesConnection(
-    limit: 1 
-  ){
-      groupBy {
-        id{
-          key,
-          __typename,
-          connection{
-            aggregate{
-              count,
-              totalCount
+      alexandriasConnection(limit: 1) {
+        groupBy {
+          id {
+            key
+          }
+        }
+      }
+      categoriesConnection(limit: 1) {
+        groupBy {
+          id {
+            key
+            __typename
+            connection {
+              aggregate {
+                count
+                totalCount
+              }
             }
           }
         }
       }
     }
-  }
   `;
 
   switch (entity) {
-    case 'src':
+    case "src":
       return SRC_QUERY;
-    case 'dep':
+    case "dep":
       return DEP_QUERY;
-    case 'cat':
+    case "cat":
       return CAT_QUERY;
   }
-}
+};
 
 function Collection(type: string, query: any, entity: string) {
-
-  var { data, loading, error } = useQuery(query, {
-    variables: {}
+  const { data, loading } = useQuery(query, {
+    variables: {},
   });
 
   if (loading) return <p>Loading ...</p>;
@@ -193,36 +167,36 @@ function Collection(type: string, query: any, entity: string) {
     data.type = type;
     data.entity = entity;
   }
+
   return result(data);
 }
 
 const result = (data: any) => {
-  return <ListingPage data={data} />
-}
+  return <ListingPage data={data} />;
+};
 
-export function ListingPageWrapper() {
-  let params: any = useParams();
+export function ListingPageWrapper(): JSX.Element {
+  const params: any = useParams();
   const { entity, id } = params;
   // if Id = 0 means that its a collection not a single item
   // console.log(id);
   let title;
-  let component;
-  let type = 'collection';
-  title = 'Loading';
-  let query = getQuery(type, id, entity);
-  component = Collection(type, query, entity);
+  const type = "collection";
+  title = "Loading";
+  const query = getQuery(type, id, entity);
+  const component = Collection(type, query, entity);
 
   if (component?.props?.data) {
-    component.props.data.sidebar = 'default';
+    component.props.data.sidebar = "default";
     switch (entity) {
-      case 'src':
-        title = 'Fuentes';
+      case "src":
+        title = "Fuentes";
         break;
-      case 'dep':
-        title = 'Ministerios o instituciónes';
+      case "dep":
+        title = "Ministerios o instituciónes";
         break;
-      case 'cat':
-        title = 'Categorias';
+      case "cat":
+        title = "Categorias";
         break;
     }
   }
@@ -231,24 +205,26 @@ export function ListingPageWrapper() {
   // Refresh UI after config updates
   useEffect(() => {
     setTheme(listingPageConfig);
+
     return () => {
       setTheme(defaultPageConfig);
     };
   }, []);
 
-  const pageBreadcrumbs = [{
-    title: "Home",
-    path: "/",
-    isActive: false,
-  }];
+  const pageBreadcrumbs = [
+    {
+      title: "Home",
+      path: "/",
+      isActive: false,
+    },
+  ];
 
-  return <>
-    <PageTitle>{title}</PageTitle>
-    <PageDataContainer
-      breadcrumbs={pageBreadcrumbs}
-    />
-    {component}
-    <Sidebar props={component.props.data} />
-  </>
+  return (
+    <>
+      <PageTitle>{title}</PageTitle>
+      <PageDataContainer breadcrumbs={pageBreadcrumbs} />
+      {component}
+      <Sidebar props={component.props.data} />
+    </>
+  );
 }
-

@@ -28,11 +28,12 @@ const dashboardPageConfig: Partial<IThemeConfig> = {
   },
 };
 
-export function LightDashboardWrapper() {
+export function LightDashboardWrapper(): JSX.Element {
   const { setTheme } = useTheme();
   // Refresh UI after config updates
   useEffect(() => {
     setTheme(dashboardPageConfig);
+
     return () => {
       setTheme(defaultPageConfig);
     };

@@ -1,0 +1,8 @@
+node_modules
+public
+# types
+*d.ts
+*.js
+
+local-testnet
+src/_start/*

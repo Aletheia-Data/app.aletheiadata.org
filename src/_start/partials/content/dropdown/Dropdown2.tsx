@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
-import { KTSVG } from "../../../helpers";
+import { Ktsvg } from "../../../helpers";
 import { Link } from "react-router-dom";
 
 export function Dropdown2(params: any) {
@@ -10,14 +10,14 @@ export function Dropdown2(params: any) {
   let type = params.params;
   let entity;
   switch (type) {
-    case 'src':
-      entity = 'Ver todas las Fuentes';
+    case "src":
+      entity = "Ver todas las Fuentes";
       break;
-    case 'dep':
-      entity = 'Ver todos los Ministerios';
+    case "dep":
+      entity = "Ver todos los Ministerios";
       break;
-    case 'cat':
-      entity = 'Ver todas las Categorias';
+    case "cat":
+      entity = "Ver todas las Categorias";
       break;
     default:
       break;
@@ -32,7 +32,7 @@ export function Dropdown2(params: any) {
       <div className="input-group input-group-solid mb-5">
         <div className="input-group-prepend">
           <span className="input-group-text">
-            <KTSVG
+            <Ktsvg
               className="svg-icon-4"
               path="/media/icons/duotone/General/Search.svg"
             />
@@ -86,12 +86,9 @@ export function Dropdown2(params: any) {
         >
           <ul className="menu menu-custom menu-column menu-rounded menu-title-gray-600 menu-icon-muted menu-hover-bg-light-primary menu-active-bg-light-primary fw-bold">
             <li className="menu-item py-1">
-              <Link
-                className="menu-link px-3"
-                to={`/group/${type}`}
-              >
+              <Link className="menu-link px-3" to={`/group/${type}`}>
                 <span className="menu-icon">
-                  <KTSVG
+                  <Ktsvg
                     className="svg-icon-1"
                     path="/media/icons/duotone/General/Binocular.svg"
                   />
@@ -103,7 +100,7 @@ export function Dropdown2(params: any) {
             <li className="menu-item py-1">
               <a href="#" className="menu-link px-3">
                 <span className="menu-icon">
-                  <KTSVG
+                  <Ktsvg
                     className="svg-icon-1"
                     path="/media/icons/duotone/Communication/Mail-heart.svg"
                   />
@@ -117,7 +114,7 @@ export function Dropdown2(params: any) {
             <li className="menu-item py-1">
               <a href="#" className="menu-link px-3">
                 <span className="menu-icon">
-                  <KTSVG
+                  <Ktsvg
                     className="svg-icon-1"
                     path="/media/icons/duotone/Communication/Incoming-box.svg"
                   />
@@ -128,7 +125,7 @@ export function Dropdown2(params: any) {
             <li className="menu-item py-1">
               <a href="#" className="menu-link px-3">
                 <span className="menu-icon">
-                  <KTSVG
+                  <Ktsvg
                     className="svg-icon-1"
                     path="/media/icons/duotone/Design/Flatten.svg"
                   />
@@ -139,7 +136,7 @@ export function Dropdown2(params: any) {
             <li className="menu-item py-1">
               <a href="#" className="menu-link px-3">
                 <span className="menu-icon">
-                  <KTSVG
+                  <Ktsvg
                     className="svg-icon-1"
                     path="/media/icons/duotone/Design/Saturation.svg"
                   />
@@ -150,7 +147,7 @@ export function Dropdown2(params: any) {
             <li className="menu-item py-1">
               <a href="#" className="menu-link px-3">
                 <span className="menu-icon">
-                  <KTSVG
+                  <Ktsvg
                     className="svg-icon-1"
                     path="/media/icons/duotone/General/Notification2.svg"
                   />
@@ -173,7 +170,7 @@ export function Dropdown2(params: any) {
             <li className="menu-item py-1">
               <a href="#" className="menu-link active px-3">
                 <span className="menu-icon">
-                  <KTSVG
+                  <Ktsvg
                     className="svg-icon-1"
                     path="/media/icons/duotone/Communication/Mail-heart.svg"
                   />
@@ -188,7 +185,7 @@ export function Dropdown2(params: any) {
             <li className="menu-item py-1">
               <a href="#" className="menu-link px-3">
                 <span className="menu-icon">
-                  <KTSVG
+                  <Ktsvg
                     className="svg-icon-1"
                     path="/media/icons/duotone/Communication/Incoming-box.svg"
                   />
@@ -200,7 +197,7 @@ export function Dropdown2(params: any) {
             <li className="menu-item py-1">
               <a href="#" className="menu-link px-3">
                 <span className="menu-icon">
-                  <KTSVG
+                  <Ktsvg
                     className="svg-icon-1"
                     path="/media/icons/duotone/Design/Flatten.svg"
                   />
@@ -212,7 +209,7 @@ export function Dropdown2(params: any) {
             <li className="menu-item py-1">
               <a href="#" className="menu-link px-3">
                 <span className="menu-icon">
-                  <KTSVG
+                  <Ktsvg
                     className="svg-icon-1"
                     path="/media/icons/duotone/Design/Saturation.svg"
                   />
@@ -224,7 +221,7 @@ export function Dropdown2(params: any) {
             <li className="menu-item py-1">
               <a href="#" className="menu-link px-3">
                 <span className="menu-icon">
-                  <KTSVG
+                  <Ktsvg
                     className="svg-icon-1"
                     path="/media/icons/duotone/General/Notification2.svg"
                   />
@@ -236,7 +233,7 @@ export function Dropdown2(params: any) {
             <li className="menu-item py-1">
               <a href="#" className="menu-link px-3">
                 <span className="menu-icon">
-                  <KTSVG
+                  <Ktsvg
                     className="svg-icon-1"
                     path="/media/icons/duotone/Files/Media.svg"
                   />

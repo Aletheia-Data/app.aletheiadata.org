@@ -1,40 +1,42 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { KTSVG, toAbsoluteUrl } from "../../../helpers";
+import { Ktsvg, toAbsoluteUrl } from "../../../helpers";
 import { getUserByToken } from "../../../../app/modules/auth/redux/AuthCRUD";
 
 export function HeaderUserMenu() {
   const [user, setUser] = useState({
     account: "0xXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
     id: "0",
-    provider: "none"
+    provider: "none",
   });
 
   useEffect(() => {
     getUserByToken()
-      .then(res => {
+      .then((res) => {
         // console.log(res.user);
         setUser(res.user);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
-      })
+      });
   }, []);
 
   const truncate = (fullStr: string, strLen: number, separator?: string) => {
     if (fullStr.length <= strLen) return fullStr;
 
-    separator = separator || '...';
+    separator = separator || "...";
 
     var sepLen = separator.length,
       charsToShow = strLen - sepLen,
       frontChars = Math.ceil(charsToShow / 2),
       backChars = Math.floor(charsToShow / 2);
 
-    return fullStr.substr(0, frontChars) +
+    return (
+      fullStr.substr(0, frontChars) +
       separator +
-      fullStr.substr(fullStr.length - backChars);
-  }
+      fullStr.substr(fullStr.length - backChars)
+    );
+  };
 
   return (
     <div
@@ -73,7 +75,7 @@ export function HeaderUserMenu() {
           className="border-bottom border-end text-center py-10 btn btn-active-color-primary rounded-0"
           data-kt-menu-dismiss="true"
         >
-          <KTSVG
+          <Ktsvg
             className="svg-icon-3x me-n1"
             path="/media/icons/duotone/Layout/Layout-4-blocks-2.svg"
           />
@@ -85,7 +87,7 @@ export function HeaderUserMenu() {
           className="col text-center py-10 btn btn-active-color-primary rounded-0"
           data-kt-menu-dismiss="true"
         >
-          <KTSVG
+          <Ktsvg
             className="svg-icon-3x me-n1"
             path="/media/icons/duotone/Navigation/Sign-out.svg"
           />

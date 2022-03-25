@@ -1,11 +1,9 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
-import { KTSVG } from "../../../../../_start/helpers";
+import { Ktsvg } from "../../../../../_start/helpers";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function Modal() {
+export function Modal(): JSX.Element {
   const {
     REACT_APP_THEME_NAME,
     REACT_APP_BOOTSTRAP_DOCS_LINK,
@@ -17,14 +15,15 @@ export function Modal() {
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="overview">
-          <a href="#overview"></a>Overview
+          <a href="#overview" />
+          Overview
         </h1>
 
         <div className="py-5">
           <strong>{REACT_APP_THEME_NAME}</strong>&nbsp; customizes the{" "}
           <a
-            href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/components/modal/`}
             className="fw-bold"
+            href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/components/modal/`}
           >
             Bootstrap Modal
           </a>
@@ -37,7 +36,8 @@ export function Modal() {
 
       <div className="pt-10">
         <h1 className="anchor fw-bolder mb-5" id="basic">
-          <a href="#basic"></a>Basic Example
+          <a href="#basic" />
+          Basic Example
         </h1>
 
         <div className="py-5">
@@ -48,26 +48,26 @@ export function Modal() {
         <div className="py-5">
           <div className="rounded border p-10">
             <button
-              type="button"
               className="btn btn-primary"
-              data-bs-toggle="modal"
               data-bs-target="#kt_modal_1"
+              data-bs-toggle="modal"
+              type="button"
             >
               Launch demo modal
             </button>
-            <div className="modal fade" tabIndex={-1} id="kt_modal_1">
+            <div className="modal fade" id="kt_modal_1" tabIndex={-1}>
               <div className="modal-dialog">
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title">Modal title</h5>
                     <div
+                      aria-label="Close"
                       className="btn btn-icon btn-sm btn-active-light-primary ms-2"
                       data-bs-dismiss="modal"
-                      aria-label="Close"
                     >
-                      <KTSVG
-                        path="/media/icons/duotone/Navigation/Close.svg"
+                      <Ktsvg
                         className="svg-icon svg-icon-2x"
+                        path="/media/icons/duotone/Navigation/Close.svg"
                       />
                     </div>
                   </div>
@@ -76,13 +76,13 @@ export function Modal() {
                   </div>
                   <div className="modal-footer">
                     <button
-                      type="button"
                       className="btn btn-light"
                       data-bs-dismiss="modal"
+                      type="button"
                     >
                       Close
                     </button>
-                    <button type="button" className="btn btn-primary">
+                    <button className="btn btn-primary" type="button">
                       Save changes
                     </button>
                   </div>
@@ -96,7 +96,8 @@ export function Modal() {
 
       <div className="pt-10">
         <h1 className="anchor fw-bolder mb-5" id="fullscreen">
-          <a href="#fullscreen"></a>Fullscreen
+          <a href="#fullscreen" />
+          Fullscreen
         </h1>
 
         <div className="py-5">
@@ -111,26 +112,26 @@ export function Modal() {
         <div className="py-5">
           <div className="rounded border p-10">
             <button
-              type="button"
               className="btn btn-primary"
-              data-bs-toggle="modal"
               data-bs-target="#kt_modal_2"
+              data-bs-toggle="modal"
+              type="button"
             >
               Launch demo modal
             </button>
-            <div className="modal bg-white fade" tabIndex={-1} id="kt_modal_2">
+            <div className="modal bg-white fade" id="kt_modal_2" tabIndex={-1}>
               <div className="modal-dialog modal-fullscreen">
                 <div className="modal-content shadow-none">
                   <div className="modal-header">
                     <h5 className="modal-title">Modal title</h5>
                     <div
+                      aria-label="Close"
                       className="btn btn-icon btn-sm btn-active-light-primary ms-2"
                       data-bs-dismiss="modal"
-                      aria-label="Close"
                     >
-                      <KTSVG
-                        path="/media/icons/duotone/Navigation/Close.svg"
+                      <Ktsvg
                         className="svg-icon svg-icon-2x"
+                        path="/media/icons/duotone/Navigation/Close.svg"
                       />
                     </div>
                   </div>
@@ -139,13 +140,13 @@ export function Modal() {
                   </div>
                   <div className="modal-footer">
                     <button
-                      type="button"
                       className="btn btn-light"
                       data-bs-dismiss="modal"
+                      type="button"
                     >
                       Close
                     </button>
-                    <button type="button" className="btn btn-primary">
+                    <button className="btn btn-primary" type="button">
                       Save changes
                     </button>
                   </div>
@@ -177,7 +178,7 @@ const code = `<button type="button"
           data-bs-dismiss="modal"
           aria-label="Close"
         >
-          <KTSVG
+          <Ktsvg
             path="/media/icons/duotone/Navigation/Close.svg"
             className="svg-icon svg-icon-2x"
           />
@@ -220,7 +221,7 @@ const code2 = `<button type="button"
           data-bs-dismiss="modal"
           aria-label="Close"
         >
-          <KTSVG
+          <Ktsvg
             path="/media/icons/duotone/Navigation/Close.svg"
             className="svg-icon svg-icon-2x"
           />

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { KTSVG, toAbsoluteUrl } from "../../../helpers";
+import { Ktsvg, toAbsoluteUrl } from "../../../helpers";
 
 type Props = {
   className: string;
@@ -56,7 +56,7 @@ const StatsWidget6: React.FC<Props> = ({
                 type="button"
                 className="btn btn-outline btn-bg-light btn-color-gray-600 btn-active-light-primary border-dashed border-active border-primary px-6 py-7 text-start w-100 min-w-150px"
               >
-                <KTSVG
+                <Ktsvg
                   className="svg-icon-2x ms-n1"
                   path="/media/icons/duotone/Files/Media.svg"
                 />{" "}
@@ -70,7 +70,7 @@ const StatsWidget6: React.FC<Props> = ({
                 type="button"
                 className="btn btn-outline btn-bg-light btn-color-gray-600 btn-active-light-primary border-dashed border-active px-6 py-7 text-start w-100 min-w-150px"
               >
-                <KTSVG
+                <Ktsvg
                   className="svg-icon-2x ms-n1"
                   path="/media/icons/duotone/General/Clipboard.svg"
                 />{" "}
@@ -89,7 +89,7 @@ const StatsWidget6: React.FC<Props> = ({
                 type="button"
                 className="btn btn-outline btn-bg-light btn-color-gray-600 btn-active-light-primary border-dashed border-active px-6 py-7 text-start w-100 min-w-150px"
               >
-                <KTSVG
+                <Ktsvg
                   className="svg-icon-2x ms-n1"
                   path="/media/icons/duotone/Files/Media.svg"
                 />{" "}
@@ -103,7 +103,7 @@ const StatsWidget6: React.FC<Props> = ({
                 type="button"
                 className="btn btn-outline btn-bg-light btn-color-gray-600 btn-active-light-primary border-dashed border-active px-6 py-7 text-start w-100 min-w-150px"
               >
-                <KTSVG
+                <Ktsvg
                   className="svg-icon-2x ms-n1"
                   path="/media/icons/duotone/General/Clipboard.svg"
                 />{" "}
@@ -122,7 +122,7 @@ const StatsWidget6: React.FC<Props> = ({
                 type="button"
                 className="btn btn-outline btn-bg-light btn-color-gray-600 btn-active-light-primary border-dashed border-active px-6 py-7 text-start w-100 min-w-150px"
               >
-                <KTSVG
+                <Ktsvg
                   className="svg-icon-2x ms-n1"
                   path="/media/icons/duotone/Files/Compiled-file.svg"
                 />{" "}
@@ -136,7 +136,7 @@ const StatsWidget6: React.FC<Props> = ({
                 type="button"
                 className="btn btn-outline btn-bg-light btn-color-gray-600 btn-active-light-primary border-dashed border-active px-6 py-7  text-start w-100 min-w-150px"
               >
-                <KTSVG
+                <Ktsvg
                   className="svg-icon-2x ms-n1"
                   path="/media/icons/duotone/Files/File-cloud.svg"
                 />{" "}

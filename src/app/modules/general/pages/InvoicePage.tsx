@@ -1,9 +1,8 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { toAbsoluteUrl } from "../../../../_start/helpers";
 
-export function InvoicePage() {
+export function InvoicePage(): JSX.Element {
   const location = useLocation();
   // We need this class for corrent printed version of invoice
   document.body.classList.add("print-content-only");
@@ -25,11 +24,11 @@ export function InvoicePage() {
               <h1 className="display-6 text-dark fw-bolder mb-10">INVOICE</h1>
               <div className="d-flex flex-column align-items-md-end px-0">
                 {/* begin::Logo */}
-                <a href="#" className="mb-5">
+                <a className="mb-5" href="#">
                   <img
-                    src={toAbsoluteUrl("/media/svg/brand-logos/duolingo.svg")}
-                    className="h-50px"
                     alt="img"
+                    className="h-50px"
+                    src={toAbsoluteUrl("/media/svg/brand-logos/duolingo.svg")}
                   />
                 </a>
                 {/* end::Logo */}
@@ -58,7 +57,7 @@ export function InvoicePage() {
                       <tr>
                         <td className="fw-bolder ps-0 pt-10">
                           <div className="d-flex align-items-center">
-                            <i className="fa fa-genderless text-danger fs-1 me-2"></i>
+                            <i className="fa fa-genderless text-danger fs-1 me-2" />
                             Creative Design
                           </div>
                         </td>
@@ -71,7 +70,7 @@ export function InvoicePage() {
                       <tr>
                         <td className="fw-bolder ps-0">
                           <div className="d-flex align-items-center">
-                            <i className="fa fa-genderless text-success fs-1 me-2"></i>
+                            <i className="fa fa-genderless text-success fs-1 me-2" />
                             Front-End Development
                           </div>
                         </td>
@@ -84,7 +83,7 @@ export function InvoicePage() {
                       <tr>
                         <td className="fw-bolder ps-0">
                           <div className="d-flex align-items-center">
-                            <i className="fa fa-genderless text-primary fs-1 me-2"></i>
+                            <i className="fa fa-genderless text-primary fs-1 me-2" />
                             Back-End Development
                           </div>
                         </td>
@@ -98,7 +97,7 @@ export function InvoicePage() {
                   </table>
                 </div>
 
-                <div className="border-bottom w-100 mt-7 mb-13"></div>
+                <div className="border-bottom w-100 mt-7 mb-13" />
 
                 <div className="d-flex flex-column flex-md-row">
                   <div className="d-flex flex-column mb-10 mb-md-0">
@@ -130,7 +129,7 @@ export function InvoicePage() {
                 <div className="text-muted fw-bold mb-16">Taxes included</div>
                 {/* end::Total Amount */}
 
-                <div className="border-bottom w-100 mb-16"></div>
+                <div className="border-bottom w-100 mb-16" />
 
                 {/* begin::Invoice To */}
                 <div className="text-gray-600 fs-6 fw-bold mb-3">
@@ -164,21 +163,21 @@ export function InvoicePage() {
           <div className="col-md-10">
             <div className="d-flex fs-7 flex-wrap">
               <button
-                type="button"
                 className="btn btn-primary fw-bolder fs-6 py-4 px-6 me-3 me-sm-6 my-1"
+                type="button"
                 onClick={() => window.print()}
               >
                 Print Invoice
               </button>
               <button
-                type="button"
                 className="btn btn-light-primary fw-bolder fs-6 me-3 px-6 my-1"
+                type="button"
               >
                 Download
               </button>
               <button
-                type="button"
                 className="btn bg-gray-800 text-white text-hover-gray-800 bg-hover-gray-200 fw-bolder fs-6 ms-sm-auto my-1 px-6"
+                type="button"
               >
                 Create Invoice
               </button>

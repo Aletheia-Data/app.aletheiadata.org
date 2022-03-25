@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { KTSVG, toAbsoluteUrl } from "../../../helpers";
+import { Ktsvg, toAbsoluteUrl } from "../../../helpers";
 
 type Props = {
   className: string;
@@ -59,7 +59,7 @@ const ListsWidget4: React.FC<Props> = ({ className, innerPadding = "" }) => {
                     href="#"
                     className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
                   >
-                    <KTSVG
+                    <Ktsvg
                       className="svg-icon-4"
                       path="/media/icons/duotone/Navigation/Arrow-right.svg"
                     />
@@ -113,7 +113,7 @@ const ListsWidget4: React.FC<Props> = ({ className, innerPadding = "" }) => {
                     href="#"
                     className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
                   >
-                    <KTSVG
+                    <Ktsvg
                       className="svg-icon-4"
                       path="/media/icons/duotone/Navigation/Arrow-right.svg"
                     />
@@ -167,7 +167,7 @@ const ListsWidget4: React.FC<Props> = ({ className, innerPadding = "" }) => {
                     href="#"
                     className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
                   >
-                    <KTSVG
+                    <Ktsvg
                       className="svg-icon-4"
                       path="/media/icons/duotone/Navigation/Arrow-right.svg"
                     />
@@ -221,7 +221,7 @@ const ListsWidget4: React.FC<Props> = ({ className, innerPadding = "" }) => {
                     href="#"
                     className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
                   >
-                    <KTSVG
+                    <Ktsvg
                       className="svg-icon-4"
                       path="/media/icons/duotone/Navigation/Arrow-right.svg"
                     />

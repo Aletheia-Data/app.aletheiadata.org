@@ -1,21 +1,21 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { CodeBlock } from "../../../../../../_start/partials";
 
-export function Example2Spacing() {
+export function Example2Spacing(): JSX.Element {
   const { REACT_APP_THEME_NAME, REACT_APP_BOOTSTRAP_DOCS_LINK } = process.env;
+
   return (
     <div className="pb-10">
       <h1 className="anchor fw-bolder mb-5" id="spacing">
-        <a href="#spacing"></a>Spacing
+        <a href="#spacing" />
+        Spacing
       </h1>
       <div className="py-5">
-        <strong>{REACT_APP_THEME_NAME}</strong>&nbsp; extends{' '}
+        <strong>{REACT_APP_THEME_NAME}</strong>&nbsp; extends{" "}
         <a
-          href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/utilities/spacing/`}
           className="fw-bold"
+          href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/utilities/spacing/`}
         >
           Bootstrap Spacing Classes
         </a>
@@ -23,7 +23,7 @@ export function Example2Spacing() {
         spacing SASS variable as shown below:
       </div>
 
-      <CodeBlock language="scss" code={code} />
+      <CodeBlock code={code} language="scss" />
     </div>
   );
 }

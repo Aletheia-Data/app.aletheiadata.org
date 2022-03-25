@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { KTSVG, toAbsoluteUrl } from "../../../helpers";
+import { Ktsvg, toAbsoluteUrl } from "../../../helpers";
 import { Dropdown1 } from "../../content/dropdown/Dropdown1";
 
 type Props = {
@@ -27,7 +27,7 @@ const ListsWidget2: React.FC<Props> = ({ className }) => {
             data-kt-menu-placement="bottom-end"
             data-kt-menu-flip="top-end"
           >
-            <KTSVG
+            <Ktsvg
               path="/media/icons/duotone/Layout/Layout-4-blocks-2.svg"
               className="svg-icon-1"
             />

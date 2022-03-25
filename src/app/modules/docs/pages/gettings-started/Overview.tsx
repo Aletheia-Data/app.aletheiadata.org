@@ -1,14 +1,14 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
 import React from "react";
 
-export function Overview() {
+export function Overview(): JSX.Element {
   const { REACT_APP_THEME_NAME } = process.env;
 
   return (
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="overview">
-          <a href="#overview"></a>Overview
+          <a href="#overview" />
+          Overview
         </h1>
         <div className="py-5">
           React makes it painless to create interactive UIs. Design simple views
@@ -25,7 +25,8 @@ export function Overview() {
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="files-structure">
-          <a href="#files-structure"></a>Files Structure
+          <a href="#files-structure" />
+          Files Structure
         </h1>
         <div className="py-5">
           <table className="table table-hover table-rounded table-striped border gy-7 gs-7">
@@ -67,14 +68,14 @@ export function Overview() {
                   <code>&lt;link&gt;</code> and <code>&lt;script&gt;</code>{" "}
                   tags. For more details check{" "}
                   <a
-                    target="_blank"
-                    rel="noopener noreferrer"
                     href="https://facebook.github.io/create-react-app/docs/using-the-public-folder#docsNav"
+                    rel="noopener noreferrer"
+                    target="_blank"
                   >
                     official documentation
                   </a>
-                  . Also in '/public/media' folder you able to find all
-                  images/icons/SVGs and
+                  . Also in &apos;/public/media&apos; folder you able to find
+                  all images/icons/SVGs and
                   <code>Splash Screen</code> styles.
                 </td>
               </tr>
@@ -89,16 +90,19 @@ export function Overview() {
               </tr>
               <tr>
                 <td colSpan={2}>
-                  /src/<strong>_{REACT_APP_THEME_NAME?.toLocaleLowerCase()}</strong>
+                  /src/
+                  <strong>_{REACT_APP_THEME_NAME?.toLocaleLowerCase()}</strong>
                 </td>
               </tr>
               <tr>
                 <td>
-                  /src/_{REACT_APP_THEME_NAME?.toLocaleLowerCase()}/<strong>assets</strong>
+                  /src/_{REACT_APP_THEME_NAME?.toLocaleLowerCase()}/
+                  <strong>assets</strong>
                 </td>
                 <td>
-                  Contains the {REACT_APP_THEME_NAME} common parts: ts(Layout ts helpers),
-                  plugins(icons plugins), sass(common style structure).
+                  Contains the {REACT_APP_THEME_NAME} common parts: ts(Layout ts
+                  helpers), plugins(icons plugins), sass(common style
+                  structure).
                 </td>
               </tr>
               <tr>
@@ -139,7 +143,8 @@ export function Overview() {
               </tr> */}
               <tr>
                 <td colSpan={2}>
-                  /src/_{REACT_APP_THEME_NAME?.toLocaleLowerCase()}/<strong>layout</strong>
+                  /src/_{REACT_APP_THEME_NAME?.toLocaleLowerCase()}/
+                  <strong>layout</strong>
                 </td>
               </tr>
               <tr>
@@ -172,11 +177,11 @@ export function Overview() {
                   /src/app/<strong>modules</strong>
                 </td>
                 <td>
-                  Contains application{' '}
+                  Contains application{" "}
                   <a
                     href="https://en.reactjs.org/docs/code-splitting.html"
-                    target="_blank"
                     rel="noopener noreferrer"
+                    target="_blank"
                   >
                     lazy
                   </a>{" "}
@@ -202,8 +207,8 @@ export function Overview() {
                   Application routing is based on{" "}
                   <a
                     href="https://reacttraining.com/react-router/web"
-                    target="_blank"
                     rel="noopener noreferrer"
+                    target="_blank"
                   >
                     React Routing.
                   </a>
@@ -213,13 +218,19 @@ export function Overview() {
                 <td>
                   /src/app/routing/<strong>PublicRoutes.tsx</strong>
                 </td>
-                <td>Public routes entry point. (Pages are available for unauthorized users)</td>
+                <td>
+                  Public routes entry point. (Pages are available for
+                  unauthorized users)
+                </td>
               </tr>
               <tr>
                 <td>
                   /src/app/routing/<strong>PrivateRoutes.tsx</strong>
                 </td>
-                <td>Private routes entry point. (Pages are unavailable for unauthorized users)</td>
+                <td>
+                  Private routes entry point. (Pages are unavailable for
+                  unauthorized users)
+                </td>
               </tr>
               <tr>
                 <td>
@@ -229,14 +240,14 @@ export function Overview() {
                   Contains redux setup(rootReducer, store), axios setup and{" "}
                   <a
                     href="https://github.com/ctimmerm/axios-mock-adapter"
-                    target="_blank"
                     rel="noopener noreferrer"
+                    target="_blank"
                   >
                     mock adapter
                   </a>{" "}
                   setup.
                 </td>
-                <td></td>
+                <td />
               </tr>
               <tr>
                 <td>
@@ -246,7 +257,8 @@ export function Overview() {
               </tr>
               <tr>
                 <td>
-                _{REACT_APP_THEME_NAME?.toLocaleLowerCase()}/assets/scss/<strong>style.scss</strong>
+                  _{REACT_APP_THEME_NAME?.toLocaleLowerCase()}/assets/scss/
+                  <strong>style.scss</strong>
                 </td>
                 <td>Styles entry point.</td>
               </tr>

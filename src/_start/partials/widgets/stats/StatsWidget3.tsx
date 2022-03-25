@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { KTSVG } from "../../../helpers";
+import { Ktsvg } from "../../../helpers";
 
 type Props = {
   className: string;
@@ -18,7 +18,7 @@ const StatsWidget3: React.FC<Props> = ({ className, innerPadding = "" }) => {
           {/* begin::Symbol */}
           <div className="symbol symbol-50px me-5">
             <span className="symbol-label bg-white bg-opacity-10">
-              <KTSVG
+              <Ktsvg
                 className="svg-icon-2x svg-icon-white"
                 path="/media/icons/duotone/Communication/Group-chat.svg"
               />

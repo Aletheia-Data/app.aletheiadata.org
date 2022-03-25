@@ -1,14 +1,13 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function HelpersFlexLayout() {
+export function HelpersFlexLayout(): JSX.Element {
   return (
     <div className="py-0">
       <h1 className="anchor fw-bolder mb-5" id="overview">
-        <a href="#overview"></a>Overview
+        <a href="#overview" />
+        Overview
       </h1>
       <div className="py-5">
         Where
@@ -16,8 +15,9 @@ export function HelpersFlexLayout() {
         <ul className="pt-3">
           <li className="py-2">
             <code>root</code>- to define the root node of the flex
-            layout(usually it's used when the layout is placed as a direct child
-            of the body element in order to fully occupy the window height)
+            layout(usually it&apos;s used when the layout is placed as a direct
+            child of the body element in order to fully occupy the window
+            height)
           </li>
           <li className="py-2">
             <code>column-auto</code>- to set a column with auto height
@@ -32,7 +32,7 @@ export function HelpersFlexLayout() {
             <code>row-fluid</code>- to set a column with fluid width
           </li>
           <li className="py-2">
-            <code>center</code>- to set a column's content vertically and
+            <code>center</code>- to set a column&apos;s content vertically and
             horizontally centered
           </li>
         </ul>
@@ -64,7 +64,7 @@ export function HelpersFlexLayout() {
           </div>
         </div>
       </div>
-      <CodeBlock language="markup" code={code} />
+      <CodeBlock code={code} language="markup" />
     </div>
   );
 }

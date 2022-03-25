@@ -1,17 +1,16 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function HelpersBackground() {
+export function HelpersBackground(): JSX.Element {
   const { REACT_APP_SASS_VARIABLES_PATH } = process.env;
 
   return (
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-3" id="bg-colors">
-          <a href="#bg-colors"></a>Background Colors
+          <a href="#bg-colors" />
+          Background Colors
         </h1>
 
         <div className="py-5">
@@ -50,17 +49,18 @@ export function HelpersBackground() {
             </p>
           </div>
         </div>
-        <CodeBlock language="markup" code={code} />
+        <CodeBlock code={code} language="markup" />
       </div>
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-3" id="light-bg-colors">
-          <a href="#light-bg-colors"></a>Light Background Colors
+          <a href="#light-bg-colors" />
+          Light Background Colors
         </h1>
 
         <div className="py-5">
           Use
-          <code>.bg-light-{`{color}`}</code>class to set an element's light
+          <code>.bg-light-{`{color}`}</code>class to set an element&apos;s light
           background color defined with
           <code>$theme-light-colors</code>in
           <code>{REACT_APP_SASS_VARIABLES_PATH}</code>:
@@ -89,18 +89,19 @@ export function HelpersBackground() {
           </div>
         </div>
 
-        <CodeBlock language="markup" code={code2} />
+        <CodeBlock code={code2} language="markup" />
       </div>
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-3" id="active-bg-colors">
-          <a href="#active-bg-colors"></a>Active Background Colors
+          <a href="#active-bg-colors" />
+          Active Background Colors
         </h1>
 
         <div className="py-5">
           Use
-          <code>.bg-active-{`{color}`}</code>class to toggle an element's active
-          background color state with
+          <code>.bg-active-{`{color}`}</code>class to toggle an element&apos;s
+          active background color state with
           <code>.active</code>class:
         </div>
 
@@ -136,17 +137,18 @@ export function HelpersBackground() {
           </div>
         </div>
 
-        <CodeBlock language="markup" code={code3} />
+        <CodeBlock code={code3} language="markup" />
       </div>
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-3" id="hover-bg-colors">
-          <a href="#hover-bg-colors"></a>Hover Background Colors
+          <a href="#hover-bg-colors" />
+          Hover Background Colors
         </h1>
 
         <div className="py-5">
           Use
-          <code>.bg-hover-{`{color}`}</code>class to set an element's hover
+          <code>.bg-hover-{`{color}`}</code>class to set an element&apos;s hover
           background color:
         </div>
 
@@ -181,17 +183,18 @@ export function HelpersBackground() {
             </p>
           </div>
         </div>
-        <CodeBlock language="markup" code={code4} />
+        <CodeBlock code={code4} language="markup" />
       </div>
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-3" id="hover-light-bg-colors">
-          <a href="#hover-light-bg-colors"></a>Hover Light Background Colors
+          <a href="#hover-light-bg-colors" />
+          Hover Light Background Colors
         </h1>
 
         <div className="py-5">
           Use
-          <code>.bg-hover-light-{`{color}`}</code>class to set an element's
+          <code>.bg-hover-light-{`{color}`}</code>class to set an element&apos;s
           hover light background color:
         </div>
 
@@ -217,19 +220,20 @@ export function HelpersBackground() {
             </p>
           </div>
         </div>
-        <CodeBlock language="markup" code={code5} />
+        <CodeBlock code={code5} language="markup" />
       </div>
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-3" id="hoverable-bg-colors">
-          <a href="#hoverable-bg-colors"></a>Hoverable Background Colors
+          <a href="#hoverable-bg-colors" />
+          Hoverable Background Colors
         </h1>
 
         <div className="py-5">
           Use
           <code>.hoverable</code>with
-          <code>.bg-{`{color}`}</code>class to set an element's background color
-          with hover state:
+          <code>.bg-{`{color}`}</code>class to set an element&apos;s background
+          color with hover state:
         </div>
 
         <div className="py-5">
@@ -263,18 +267,19 @@ export function HelpersBackground() {
             </p>
           </div>
         </div>
-        <CodeBlock language="markup" code={code6} />
+        <CodeBlock code={code6} language="markup" />
       </div>
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-3" id="hoverable-bg-colors">
-          <a href="#hoverable-bg-colors"></a>Hoverable Light Background Colors
+          <a href="#hoverable-bg-colors" />
+          Hoverable Light Background Colors
         </h1>
 
         <div className="py-5">
           Use
           <code>.hoverable</code>with
-          <code>.bg-light-{`{color}`}</code>class to set an element's light
+          <code>.bg-light-{`{color}`}</code>class to set an element&apos;s light
           background color with hover state:
         </div>
 
@@ -300,12 +305,13 @@ export function HelpersBackground() {
             </p>
           </div>
         </div>
-        <CodeBlock language="markup" code={code7} />
+        <CodeBlock code={code7} language="markup" />
       </div>
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="opacity">
-          <a href="#opacity"></a>Background Opacity
+          <a href="#opacity" />
+          Background Opacity
         </h1>
 
         <div className="py-5">
@@ -313,56 +319,57 @@ export function HelpersBackground() {
           <code>.bg-opacity-{`{0, 5, 10, 15, 20, 25, 50, 75, 100}`}</code>class
           with
           <code>.bg-{`{color}`}</code>or
-          <code>.bg-light-{`{color}`}</code>to set an element's background color
-          with opacity:
+          <code>.bg-light-{`{color}`}</code>to set an element&apos;s background
+          color with opacity:
         </div>
 
         <div className="py-5">
           <div className="rounded border p-10 d-flex flex-wrap">
             <div className="d-flex flex-column me-5 mb-5">
-              <div className="w-90px h-90px bg-opacity-0 bg-primary flex-grow-1"></div>
+              <div className="w-90px h-90px bg-opacity-0 bg-primary flex-grow-1" />
               <div className="fw-bold py-2 w-150px">bg-opacity-0</div>
             </div>
             <div className="d-flex flex-column me-5 mb-5">
-              <div className="w-90px h-90px bg-opacity-5 bg-primary flex-grow-1"></div>
+              <div className="w-90px h-90px bg-opacity-5 bg-primary flex-grow-1" />
               <div className="fw-bold py-2 w-150px">bg-opacity-5</div>
             </div>
             <div className="d-flex flex-column me-5 mb-5">
-              <div className="w-90px h-90px bg-opacity-10 bg-primary flex-grow-1"></div>
+              <div className="w-90px h-90px bg-opacity-10 bg-primary flex-grow-1" />
               <div className="fw-bold py-2 w-150px">bg-opacity-10</div>
             </div>
             <div className="d-flex flex-column me-5 mb-5">
-              <div className="w-90px h-90px bg-opacity-15 bg-primary flex-grow-1"></div>
+              <div className="w-90px h-90px bg-opacity-15 bg-primary flex-grow-1" />
               <div className="fw-bold py-2 w-150px">bg-opacity-15</div>
             </div>
             <div className="d-flex flex-column me-5 mb-5">
-              <div className="w-90px h-90px bg-opacity-20 bg-primary flex-grow-1"></div>
+              <div className="w-90px h-90px bg-opacity-20 bg-primary flex-grow-1" />
               <div className="fw-bold py-2 w-150px">bg-opacity-20</div>
             </div>
             <div className="d-flex flex-column me-5 mb-5">
-              <div className="w-90px h-90px bg-opacity-25 bg-primary flex-grow-1"></div>
+              <div className="w-90px h-90px bg-opacity-25 bg-primary flex-grow-1" />
               <div className="fw-bold py-2 w-150px">bg-opacity-25</div>
             </div>
             <div className="d-flex flex-column me-5 mb-5">
-              <div className="w-90px h-90px bg-opacity-50 bg-primary flex-grow-1"></div>
+              <div className="w-90px h-90px bg-opacity-50 bg-primary flex-grow-1" />
               <div className="fw-bold py-2 w-150px">bg-opacity-50</div>
             </div>
             <div className="d-flex flex-column me-5 mb-5">
-              <div className="w-90px h-90px bg-opacity-75 bg-primary flex-grow-1"></div>
+              <div className="w-90px h-90px bg-opacity-75 bg-primary flex-grow-1" />
               <div className="fw-bold py-2 w-150px">bg-opacity-75</div>
             </div>
             <div className="d-flex flex-column me-5 mb-5">
-              <div className="w-90px h-90px bg-opacity-100 bg-primary flex-grow-1"></div>
+              <div className="w-90px h-90px bg-opacity-100 bg-primary flex-grow-1" />
               <div className="fw-bold py-2 w-150px">bg-opacity-100</div>
             </div>
           </div>
         </div>
-        <CodeBlock language="markup" code={code8} />
+        <CodeBlock code={code8} language="markup" />
       </div>
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="bg-image-classes">
-          <a href="#bg-image-classes"></a>Background Image Classes
+          <a href="#bg-image-classes" />
+          Background Image Classes
         </h1>
 
         <div className="py-5">
@@ -413,12 +420,13 @@ export function HelpersBackground() {
             </li>
           </ul>
         </div>
-        <CodeBlock language="markup" code={code9} />
+        <CodeBlock code={code9} language="markup" />
       </div>
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="bg-image-size-classes">
-          <a href="#bg-image-size-classes"></a>Background Image Size Classes
+          <a href="#bg-image-size-classes" />
+          Background Image Size Classes
         </h1>
 
         <div className="py-5">
@@ -451,7 +459,7 @@ export function HelpersBackground() {
             </li>
           </ul>
         </div>
-        <CodeBlock language="markup" code={code10} />
+        <CodeBlock code={code10} language="markup" />
       </div>
     </>
   );

@@ -8,7 +8,7 @@ import {
   ToggleComponent,
   StickyComponent,
 } from "../../assets/ts/components";
-import { KTSVG } from "../../helpers";
+import { Ktsvg } from "../../helpers";
 
 export function ScrollTop() {
   const { pathname } = useLocation();
@@ -60,7 +60,7 @@ export function ScrollTop() {
 
   return (
     <div id="kt_scrolltop" className="scrolltop" data-kt-scrolltop="true">
-      <KTSVG path="/media/icons/duotone/Navigation/Up-2.svg" />
+      <Ktsvg path="/media/icons/duotone/Navigation/Up-2.svg" />
     </div>
   );
 }
