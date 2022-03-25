@@ -7,8 +7,8 @@ export class UsersTableMock {
       account: "none",
       provider: "metamask",
       auth: {
-        accessToken: "access-token-8f3ae836da744329a6f93bf20594b5cc",
-        refreshToken: "access-token-f8c137a2c98743f48b643e71161d90aa",
+        accessToken: process.env.REACT_APP_ACCESS_TOKEN,
+        refreshToken: process.env.REACT_APP_REFRESH_TOKEN,
       },
       avatar: {
         type: 1,
