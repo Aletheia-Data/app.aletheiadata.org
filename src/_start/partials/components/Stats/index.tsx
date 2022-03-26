@@ -34,8 +34,6 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
 
     setTab(items, 1);
 
-    console.log(items);
-
     return function cleanUp() {
       if (activeChart) {
         activeChart.destroy();
@@ -46,28 +44,39 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
 
   useEffect(()=>{
 
-    console.log('here');
+    let entity;
+    switch (id) {
+      case 'src':
+        entity = 'sources'
+        break;
+      case 'dep':
+        entity = 'departments'
+        break;
+      case 'cat':
+        entity = 'categories'
+        break;
+      default:
+        return
+    }
     
-    fetch(`https://cors-aletheiadata.herokuapp.com/${process.env.REACT_APP_ALETHEIA_API}/search/categories/getAll`, {
+    fetch(`${process.env.REACT_APP_ALETHEIA_API}/${entity}/getAll?limit=5`, {
       method: 'get',
       headers: {
-        'Content-Type': 'application/json',
         'Access-Control-Request-Headers': '*'
       }
     })
     .then(res => {
       return res.json()
     })
-      .then(newData => {
-        console.log(newData.body);
-        const body = JSON.parse(newData.body)
-        setItems(body.documents);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.log(err)
-        setLoading(false);
-      });
+    .then(newData => {
+      const body = JSON.parse(newData.body)
+      setItems(body);
+      setLoading(false);
+    })
+    .catch(err => {
+      console.log(err)
+      setLoading(false);
+    });
 
   }, [])
 
@@ -153,7 +162,7 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
       })
         .then(response => response.json())
         .then(data => {
-          console.log(data)
+          //console.log(data)
           resolve(data);
         })
         .catch(err => {
@@ -187,8 +196,6 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
     setActiveTabTotal('Loading');
 
     let item:any = items[tab_n - 1];
-
-    console.log(item._id);
 
     getFilesType(id, item._id)
       .then((res: any) => {
@@ -339,7 +346,7 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
       <div className="card-header align-items-center border-0 mt-5">
         <h3 className="card-title align-items-start flex-column">
           <span className="fw-bolder text-dark fs-3">{title}</span>
-          <span className="text-muted mt-2 fw-bold fs-6">{TabsTotal} {title} registradas</span>
+          {/** <span className="text-muted mt-2 fw-bold fs-6">{TabsTotal} {title} registradas</span> */}
         </h3>
         <div className="card-toolbar">
           {/* begin::Dropdown */}
