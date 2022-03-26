@@ -1,12 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Chart, { ChartConfiguration } from "chart.js";
 import { getCSSVariableValue } from "../../../assets/ts/_utils";
-import { Ktsvg, toAbsoluteUrl } from "../../../helpers";
-import { Dropdown1 } from "../../content/dropdown/Dropdown1";
+import { toAbsoluteUrl } from "../../../helpers";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
-import { format } from "path";
 
 type Props = {
   files: any;
@@ -277,36 +275,35 @@ const StatsWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
 
         {/* begin::Items */}
         <div className="d-flex flex-wrap justify-content-around pt-18">
-          {formats.map((format: any) => {
-            const totalFormat = format.connection.aggregate.count;
-            let label;
-            let backColor;
+          {
+            formats.map((format: any) => {
+              const totalFormat = format.connection.aggregate.count;
+              let label;
+              let backColor;
 
-            console.log(format);
-
-            switch (format.key) {
-              case "pdf":
-                label = "PDF";
-                backColor = colorPDF;
-                break;
-              case "csv":
-                label = "CSV";
-                backColor = colorCSV;
-                break;
-              case "xlsx":
-                label = "XLS";
-                backColor = colorXLS;
-                break;
-              case "ods":
-                label = "ODS";
-                backColor = colorODS;
-                break;
-              case "other":
-              case "":
-                label = "Others";
-                backColor = colorOTHER;
-                break;
-            }
+              switch (format.key) {
+                case 'pdf':
+                  label = 'PDF';
+                  backColor = colorPDF;
+                  break;
+                case 'csv':
+                  label = 'CSV';
+                  backColor = colorCSV;
+                  break;
+                case 'xlsx':
+                  label = 'XLS';
+                  backColor = colorXLS;
+                  break;
+                case 'ods':
+                  label = 'ODS';
+                  backColor = colorODS;
+                  break;
+                case 'other':
+                case '':
+                  label = 'Others';
+                  backColor = colorOTHER;
+                  break;
+              }
 
             return (
               <div

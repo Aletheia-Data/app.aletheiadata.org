@@ -32,6 +32,7 @@ console.log(`
 **** moralis: ${process.env.REACT_APP_MORALIS_APP_ID ? true : false} ******
 **** endpoint: ${process.env.REACT_APP_API_ENDPOINT} ******
 **** backend: ${process.env.REACT_APP_BACKEND_URL} ******
+**** API: ${process.env.REACT_APP_ALETHEIA_API} ******
 ***********************************************
 `);
 
