@@ -1,6 +1,6 @@
 {
   "name": "App-Aletheia-data",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "homepage": "/",
   "dependencies": {
     "@apollo/client": "~3.4.0",
