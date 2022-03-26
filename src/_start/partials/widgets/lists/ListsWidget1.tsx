@@ -7,9 +7,6 @@ import { useQuery } from "@apollo/react-hooks";
 
 type Props = {
   className: string;
-  imports: any;
-  importsCount: number;
-  loadingArchive: boolean;
 };
 
 const ListsWidget1: React.FC<Props> = ({ className }) => {
