@@ -68,7 +68,8 @@ export function Topbar() {
       {/* begin::Notifications */}
       <div className="ms-1 ms-lg-6">
         {/* begin::Dropdown */}
-        <button
+        {/**
+         * <button
           className="btn btn-icon btn-sm btn-light-primary fw-bolder pulse pulse-primary"
           data-kt-menu-trigger="click"
           data-kt-menu-placement="bottom-end"
@@ -76,6 +77,7 @@ export function Topbar() {
           <span className="position-absolute fs-6">1</span>
           <span className="pulse-ring"></span>
         </button>
+         */}
         <HeaderNotificationsMenu />
         {/* end::Dropdown */}
       </div>
