@@ -15,15 +15,20 @@ import "./_start/assets/sass/style.scss";
 // Apollo
 import { ApolloProvider } from "@apollo/react-hooks";
 import client from "./setup/apollo/SetupApollo";
-const { version } = require('../package.json');
-require('dotenv').config();
+import { version } from "../package.json";
+import * as dotenv from "dotenv";
+dotenv.config();
 
 console.log(`
 ***********************************************
 ***** Aletheia Data ***
 **** version: ${version} ******
-**** web3.storage: ${process.env.REACT_APP_WEB3_STORAGE_API_KEY ? true : false} ******
-**** nft.storage: ${process.env.REACT_APP_NFT_STORAGE_API_KEY ? true : false} ******
+**** web3.storage: ${
+  process.env.REACT_APP_WEB3_STORAGE_API_KEY ? true : false
+} ******
+**** nft.storage: ${
+  process.env.REACT_APP_NFT_STORAGE_API_KEY ? true : false
+} ******
 **** moralis: ${process.env.REACT_APP_MORALIS_APP_ID ? true : false} ******
 **** endpoint: ${process.env.REACT_APP_API_ENDPOINT} ******
 **** backend: ${process.env.REACT_APP_BACKEND_URL} ******
@@ -31,8 +36,7 @@ console.log(`
 ***********************************************
 `);
 
-if (window.location.hostname === 'app.aletheiadata.org') {
-  console.log = function () { }
+if (window.location.hostname === "app.aletheiadata.org") {
 }
 
 /**
@@ -57,11 +61,14 @@ const { PUBLIC_URL } = process.env;
 _redux.setupAxios(axios, store);
 
 ReactDOM.render(
-  <MoralisProvider appId={process.env.REACT_APP_MORALIS_APP_ID} serverUrl={process.env.REACT_APP_MORALIS_SERVER_URL}>
+  <MoralisProvider
+    appId={process.env.REACT_APP_MORALIS_APP_ID}
+    serverUrl={process.env.REACT_APP_MORALIS_SERVER_URL}
+  >
     <ApolloProvider client={client}>
       <Provider store={store}>
         {/* Asynchronously persist redux stores and show `SplashScreen` while it's loading. */}
-        <PersistGate persistor={persistor} loading={<div>Loading...</div>}>
+        <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
           <App basename={PUBLIC_URL} />
         </PersistGate>
       </Provider>

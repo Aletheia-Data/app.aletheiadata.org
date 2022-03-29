@@ -1,8 +1,14 @@
-export default function setupAxios(axios: any, store: any) {
+import { EnhancedStore } from "@reduxjs/toolkit";
+import { AxiosStatic } from "axios";
+
+export default function setupAxios(
+  axios: AxiosStatic,
+  store: EnhancedStore
+): void {
   axios.interceptors.request.use(
     (config: any) => {
       const {
-        auth: { accessToken }
+        auth: { accessToken },
       } = store.getState();
 
       if (accessToken) {

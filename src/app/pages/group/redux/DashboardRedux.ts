@@ -1,7 +1,7 @@
 import { Action } from "@reduxjs/toolkit";
 import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import { put, takeLatest } from "redux-saga/effects";
+import { ForkEffect, put, takeLatest } from "redux-saga/effects";
 import { DepartmentModel } from "../models/DepartmentModel";
 import { getAllDepartments } from "./ListingCRUD";
 
@@ -15,7 +15,7 @@ export const actionTypes = {
 };
 
 const initialState: IState = {
-  departments: undefined
+  departments: undefined,
 };
 
 export interface IState {
@@ -32,6 +32,7 @@ export const reducer = persistReducer(
 
       case actionTypes.SetDepartments: {
         const departments = action.payload?.departments;
+
         return { ...state, departments };
       }
 
@@ -41,16 +42,30 @@ export const reducer = persistReducer(
   }
 );
 
+export interface SetDepartmentsReturn {
+  type: string;
+  payload: {
+    departments: DepartmentModel;
+  };
+}
+
+export interface GetDepartmentsReturn {
+  type: string;
+  payload: Record<string, unknown>;
+}
+
 export const actions = {
-  getDepartments: () => ({
+  getDepartments: (): GetDepartmentsReturn => ({
     type: actionTypes.GetDepartments,
     payload: {},
   }),
-  setDepartments: (departments: DepartmentModel) => ({ type: actionTypes.SetDepartments, payload: { departments } })
+  setDepartments: (departments: DepartmentModel): SetDepartmentsReturn => ({
+    type: actionTypes.SetDepartments,
+    payload: { departments },
+  }),
 };
 
-
-export function* saga() {
+export function* saga(): Generator<ForkEffect<never>, void, unknown> {
   yield takeLatest(actionTypes.GetDepartments, function* getDepartmentsSaga() {
     yield put(actions.getDepartments());
   });

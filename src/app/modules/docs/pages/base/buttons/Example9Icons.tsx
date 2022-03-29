@@ -1,23 +1,22 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { Link } from "react-router-dom";
-import { KTSVG } from "../../../../../../_start/helpers";
+import { Ktsvg } from "../../../../../../_start/helpers";
 import { CodeBlock } from "../../../../../../_start/partials";
 
-export function Example9Icons() {
+export function Example9Icons(): JSX.Element {
   return (
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="icons">
-          <a href="#icons"></a>Icons
+          <a href="#icons" />
+          Icons
         </h1>
         <div className="py-5">
           Use{" "}
           <a
-            href="/themes/start/html/dist/?page=documentation/general/icons/duotone"
             className="fw-bold"
+            href="/themes/start/html/dist/?page=documentation/general/icons/duotone"
           >
             Duotone Svg Icons
           </a>
@@ -26,191 +25,203 @@ export function Example9Icons() {
 
         <div className="py-5">
           <div className="rounded border p-10">
-            <a href="#" className="btn btn-primary me-2 mb-2">
-              <KTSVG
-                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
+            <a className="btn btn-primary me-2 mb-2" href="#">
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
               />{" "}
               Caption
             </a>
 
-            <a href="#" className="btn btn-info me-2 mb-2">
-              <KTSVG
-                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
+            <a className="btn btn-info me-2 mb-2" href="#">
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
               />{" "}
               Caption
             </a>
-            <a href="#" className="btn btn-warning me-2 mb-2">
-              <KTSVG
-                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
+            <a className="btn btn-warning me-2 mb-2" href="#">
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
               />{" "}
               Caption
             </a>
-            <a href="#" className="btn btn-danger me-2 mb-2">
-              <KTSVG
-                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
+            <a className="btn btn-danger me-2 mb-2" href="#">
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
               />{" "}
               Caption
             </a>
-            <a href="#" className="btn btn-dark me-2 mb-2">
-              <KTSVG
-                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
+            <a className="btn btn-dark me-2 mb-2" href="#">
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
               />{" "}
               Caption
             </a>
-            <div className="separator my-10"></div>
-            <a href="#" className="btn btn-icon btn-primary me-2 mb-2">
-              <KTSVG
-                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
+            <div className="separator my-10" />
+            <a className="btn btn-icon btn-primary me-2 mb-2" href="#">
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
               />
             </a>
-            <a href="#" className="btn btn-icon btn-success me-2 mb-2">
-              <KTSVG
-                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
+            <a className="btn btn-icon btn-success me-2 mb-2" href="#">
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
               />
             </a>
-            <a href="#" className="btn btn-icon btn-info me-2 mb-2">
-              <KTSVG
-                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
+            <a className="btn btn-icon btn-info me-2 mb-2" href="#">
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
               />
             </a>
-            <a href="#" className="btn btn-icon btn-warning me-2 mb-2">
-              <KTSVG
-                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
+            <a className="btn btn-icon btn-warning me-2 mb-2" href="#">
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
               />
             </a>
-            <a href="#" className="btn btn-icon btn-danger me-2 mb-2">
-              <KTSVG
-                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
+            <a className="btn btn-icon btn-danger me-2 mb-2" href="#">
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
               />
             </a>
-            <a href="#" className="btn btn-icon btn-dark me-2 mb-2">
-              <KTSVG
-                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
+            <a className="btn btn-icon btn-dark me-2 mb-2" href="#">
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Shopping/Chart-bar3.svg"
               />
             </a>
           </div>
         </div>
-        <CodeBlock language="markup" code={code} />
+        <CodeBlock code={code} language="markup" />
       </div>
       <div className="pt-5 pb-20">
         <div className="py-5">
           Use{` `}
-          <Link to="/docs/icons/bootstrap" className="fw-bold">
+          <Link className="fw-bold" to="/docs/icons/bootstrap">
             Bootstrap Icons
           </Link>
           &nbsp;in conbination with buttons as shown below:
         </div>
         <div className="py-5">
           <div className="rounded border p-10">
-            <a href="#" className="btn btn-primary me-2 mb-2">
-              <i className="bi bi-chat-square-text-fill fs-4 me-2"></i>Caption
+            <a className="btn btn-primary me-2 mb-2" href="#">
+              <i className="bi bi-chat-square-text-fill fs-4 me-2" />
+              Caption
             </a>
-            <a href="#" className="btn btn-success me-2 mb-2">
-              <i className="bi bi-chat-square-text-fill fs-4 me-2"></i>Caption
+            <a className="btn btn-success me-2 mb-2" href="#">
+              <i className="bi bi-chat-square-text-fill fs-4 me-2" />
+              Caption
             </a>
-            <a href="#" className="btn btn-info me-2 mb-2">
-              <i className="bi bi-chat-square-text-fill fs-4 me-2"></i>Caption
+            <a className="btn btn-info me-2 mb-2" href="#">
+              <i className="bi bi-chat-square-text-fill fs-4 me-2" />
+              Caption
             </a>
-            <a href="#" className="btn btn-warning me-2 mb-2">
-              <i className="bi bi-chat-square-text-fill fs-4 me-2"></i>Caption
+            <a className="btn btn-warning me-2 mb-2" href="#">
+              <i className="bi bi-chat-square-text-fill fs-4 me-2" />
+              Caption
             </a>
-            <a href="#" className="btn btn-danger me-2 mb-2">
-              <i className="bi bi-chat-square-text-fill fs-4 me-2"></i>Caption
+            <a className="btn btn-danger me-2 mb-2" href="#">
+              <i className="bi bi-chat-square-text-fill fs-4 me-2" />
+              Caption
             </a>
-            <a href="#" className="btn btn-dark me-2 mb-2">
-              <i className="bi bi-chat-square-text-fill fs-4 me-2"></i>Caption
+            <a className="btn btn-dark me-2 mb-2" href="#">
+              <i className="bi bi-chat-square-text-fill fs-4 me-2" />
+              Caption
             </a>
-            <div className="separator my-10"></div>
-            <a href="#" className="btn btn-icon btn-primary me-2 mb-2">
-              <i className="bi bi-chat-square-text-fill fs-4"></i>
+            <div className="separator my-10" />
+            <a className="btn btn-icon btn-primary me-2 mb-2" href="#">
+              <i className="bi bi-chat-square-text-fill fs-4" />
             </a>
-            <a href="#" className="btn btn-icon btn-success me-2 mb-2">
-              <i className="bi bi-chat-square-text-fill fs-4"></i>
+            <a className="btn btn-icon btn-success me-2 mb-2" href="#">
+              <i className="bi bi-chat-square-text-fill fs-4" />
             </a>
-            <a href="#" className="btn btn-icon btn-info me-2 mb-2">
-              <i className="bi bi-chat-square-text-fill fs-4"></i>
+            <a className="btn btn-icon btn-info me-2 mb-2" href="#">
+              <i className="bi bi-chat-square-text-fill fs-4" />
             </a>
-            <a href="#" className="btn btn-icon btn-warning me-2 mb-2">
-              <i className="bi bi-chat-square-text-fill fs-4"></i>
+            <a className="btn btn-icon btn-warning me-2 mb-2" href="#">
+              <i className="bi bi-chat-square-text-fill fs-4" />
             </a>
-            <a href="#" className="btn btn-icon btn-danger me-2 mb-2">
-              <i className="bi bi-chat-square-text-fill fs-4"></i>
+            <a className="btn btn-icon btn-danger me-2 mb-2" href="#">
+              <i className="bi bi-chat-square-text-fill fs-4" />
             </a>
-            <a href="#" className="btn btn-icon btn-dark me-2 mb-2">
-              <i className="bi bi-chat-square-text-fill fs-4"></i>
+            <a className="btn btn-icon btn-dark me-2 mb-2" href="#">
+              <i className="bi bi-chat-square-text-fill fs-4" />
             </a>
           </div>
         </div>
-        <CodeBlock language="markup" code={code2} />
+        <CodeBlock code={code2} language="markup" />
       </div>
 
       <div className="pt-5 pb-20">
         <div className="py-5">
           Use{" "}
-          <Link to="/docs/icons/fontawesome" className="fw-bold">
+          <Link className="fw-bold" to="/docs/icons/fontawesome">
             Font Awesome Icons
           </Link>
           &nbsp;in conbination with buttons as shown below:
         </div>
         <div className="py-5">
           <div className="rounded border p-10">
-            <a href="#" className="btn btn-primary me-2 mb-2">
-              <i className="fas fa-envelope-open-text fs-4 me-2"></i>Caption
+            <a className="btn btn-primary me-2 mb-2" href="#">
+              <i className="fas fa-envelope-open-text fs-4 me-2" />
+              Caption
             </a>
-            <a href="#" className="btn btn-success me-2 mb-2">
-              <i className="fas fa-envelope-open-text fs-4 me-2"></i>Caption
+            <a className="btn btn-success me-2 mb-2" href="#">
+              <i className="fas fa-envelope-open-text fs-4 me-2" />
+              Caption
             </a>
-            <a href="#" className="btn btn-info me-2 mb-2">
-              <i className="fas fa-envelope-open-text fs-4 me-2"></i>Caption
+            <a className="btn btn-info me-2 mb-2" href="#">
+              <i className="fas fa-envelope-open-text fs-4 me-2" />
+              Caption
             </a>
-            <a href="#" className="btn btn-warning me-2 mb-2">
-              <i className="fas fa-envelope-open-text fs-4 me-2"></i>Caption
+            <a className="btn btn-warning me-2 mb-2" href="#">
+              <i className="fas fa-envelope-open-text fs-4 me-2" />
+              Caption
             </a>
-            <a href="#" className="btn btn-danger me-2 mb-2">
-              <i className="fas fa-envelope-open-text fs-4 me-2"></i>Caption
+            <a className="btn btn-danger me-2 mb-2" href="#">
+              <i className="fas fa-envelope-open-text fs-4 me-2" />
+              Caption
             </a>
-            <a href="#" className="btn btn-dark me-2 mb-2">
-              <i className="fas fa-envelope-open-text fs-4 me-2"></i>Caption
+            <a className="btn btn-dark me-2 mb-2" href="#">
+              <i className="fas fa-envelope-open-text fs-4 me-2" />
+              Caption
             </a>
-            <div className="separator my-10"></div>
-            <a href="#" className="btn btn-icon btn-primary me-2 mb-2">
-              <i className="fas fa-envelope-open-text fs-4"></i>
+            <div className="separator my-10" />
+            <a className="btn btn-icon btn-primary me-2 mb-2" href="#">
+              <i className="fas fa-envelope-open-text fs-4" />
             </a>
-            <a href="#" className="btn btn-icon btn-success me-2 mb-2">
-              <i className="fas fa-envelope-open-text fs-4"></i>
+            <a className="btn btn-icon btn-success me-2 mb-2" href="#">
+              <i className="fas fa-envelope-open-text fs-4" />
             </a>
-            <a href="#" className="btn btn-icon btn-info me-2 mb-2">
-              <i className="fas fa-envelope-open-text fs-4"></i>
+            <a className="btn btn-icon btn-info me-2 mb-2" href="#">
+              <i className="fas fa-envelope-open-text fs-4" />
             </a>
-            <a href="#" className="btn btn-icon btn-warning me-2 mb-2">
-              <i className="fas fa-envelope-open-text fs-4"></i>
+            <a className="btn btn-icon btn-warning me-2 mb-2" href="#">
+              <i className="fas fa-envelope-open-text fs-4" />
             </a>
-            <a href="#" className="btn btn-icon btn-danger me-2 mb-2">
-              <i className="fas fa-envelope-open-text fs-4"></i>
+            <a className="btn btn-icon btn-danger me-2 mb-2" href="#">
+              <i className="fas fa-envelope-open-text fs-4" />
             </a>
-            <a href="#" className="btn btn-icon btn-dark me-2 mb-2">
-              <i className="fas fa-envelope-open-text fs-4"></i>
+            <a className="btn btn-icon btn-dark me-2 mb-2" href="#">
+              <i className="fas fa-envelope-open-text fs-4" />
             </a>
           </div>
         </div>
-        <CodeBlock language="markup" code={code3} />
+        <CodeBlock code={code3} language="markup" />
       </div>
 
       <div className="pt-5 pb-20">
         <div className="py-5">
           Use{" "}
-          <Link to="/docs/icons/lineawesome" className="fw-bold">
+          <Link className="fw-bold" to="/docs/icons/lineawesome">
             Line Awesome Icons
           </Link>
           &nbsp;in conbination with buttons as shown below:
@@ -218,47 +229,53 @@ export function Example9Icons() {
 
         <div className="py-5">
           <div className="rounded border p-10">
-            <a href="#" className="btn btn-primary me-2 mb-2">
-              <i className="las la-wallet fs-2 me-2"></i>Caption
+            <a className="btn btn-primary me-2 mb-2" href="#">
+              <i className="las la-wallet fs-2 me-2" />
+              Caption
             </a>
-            <a href="#" className="btn btn-success me-2 mb-2">
-              <i className="las la-wallet fs-2 me-2"></i>Caption
+            <a className="btn btn-success me-2 mb-2" href="#">
+              <i className="las la-wallet fs-2 me-2" />
+              Caption
             </a>
-            <a href="#" className="btn btn-info me-2 mb-2">
-              <i className="las la-wallet fs-2 me-2"></i>Caption
+            <a className="btn btn-info me-2 mb-2" href="#">
+              <i className="las la-wallet fs-2 me-2" />
+              Caption
             </a>
-            <a href="#" className="btn btn-warning me-2 mb-2">
-              <i className="las la-wallet fs-2 me-2"></i>Caption
+            <a className="btn btn-warning me-2 mb-2" href="#">
+              <i className="las la-wallet fs-2 me-2" />
+              Caption
             </a>
-            <a href="#" className="btn btn-danger me-2 mb-2">
-              <i className="las la-wallet fs-2 me-2"></i>Caption
+            <a className="btn btn-danger me-2 mb-2" href="#">
+              <i className="las la-wallet fs-2 me-2" />
+              Caption
             </a>
-            <a href="#" className="btn btn-dark me-2 mb-2">
-              <i className="las la-wallet fs-2 me-2"></i>Caption
+            <a className="btn btn-dark me-2 mb-2" href="#">
+              <i className="las la-wallet fs-2 me-2" />
+              Caption
             </a>
-            <div className="separator my-10"></div>
-            <a href="#" className="btn btn-icon btn-primary me-2 mb-2">
-              <i className="las la-wallet fs-2"></i>
+            <div className="separator my-10" />
+            <a className="btn btn-icon btn-primary me-2 mb-2" href="#">
+              <i className="las la-wallet fs-2" />
             </a>
-            <a href="#" className="btn btn-icon btn-success me-2 mb-2">
-              <i className="las la-wallet fs-2"></i>
+            <a className="btn btn-icon btn-success me-2 mb-2" href="#">
+              <i className="las la-wallet fs-2" />
             </a>
-            <a href="#" className="btn btn-icon btn-info me-2 mb-2">
-              <i className="las la-wallet fs-2"></i>
+            <a className="btn btn-icon btn-info me-2 mb-2" href="#">
+              <i className="las la-wallet fs-2" />
             </a>
-            <a href="#" className="btn btn-icon btn-warning me-2 mb-2">
-              <i className="las la-wallet fs-2"></i>
+            <a className="btn btn-icon btn-warning me-2 mb-2" href="#">
+              <i className="las la-wallet fs-2" />
             </a>
-            <a href="#" className="btn btn-icon btn-danger me-2 mb-2">
-              <i className="las la-wallet fs-2"></i>
+            <a className="btn btn-icon btn-danger me-2 mb-2" href="#">
+              <i className="las la-wallet fs-2" />
             </a>
-            <a href="#" className="btn btn-icon btn-dark me-2 mb-2">
-              <i className="las la-wallet fs-2"></i>
+            <a className="btn btn-icon btn-dark me-2 mb-2" href="#">
+              <i className="las la-wallet fs-2" />
             </a>
           </div>
         </div>
 
-        <CodeBlock language="markup" code={code4} />
+        <CodeBlock code={code4} language="markup" />
       </div>
     </>
   );

@@ -1,22 +1,21 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { CodeBlock } from "../../../../../../_start/partials";
 
-export function Example4LineHeight() {
+export function Example4LineHeight(): JSX.Element {
   const { REACT_APP_THEME_NAME, REACT_APP_BOOTSTRAP_DOCS_LINK } = process.env;
 
   return (
     <div className="pb-10">
       <h1 className="anchor fw-bolder mb-5" id="line-height">
-        <a href="#line-height"></a>Line Height
+        <a href="#line-height" />
+        Line Height
       </h1>
       <div className="py-5">
-        <strong>{REACT_APP_THEME_NAME}</strong>&nbsp; extends {' '}
+        <strong>{REACT_APP_THEME_NAME}</strong>&nbsp; extends{" "}
         <a
-          href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/utilities/text/#line-height`}
           className="fw-bold"
+          href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/utilities/text/#line-height`}
         >
           Bootstrap Line Height Classes
         </a>
@@ -92,7 +91,7 @@ export function Example4LineHeight() {
         </div>
       </div>
 
-      <CodeBlock language="markup" code={code} />
+      <CodeBlock code={code} language="markup" />
     </div>
   );
 }

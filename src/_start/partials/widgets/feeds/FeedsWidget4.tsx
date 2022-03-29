@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { KTSVG, toAbsoluteUrl } from "../../../helpers";
+import { Ktsvg, toAbsoluteUrl } from "../../../helpers";
 import { Dropdown1 } from "../../content/dropdown/Dropdown1";
 
 type Props = {
@@ -48,7 +48,7 @@ const FeedsWidget4: React.FC<Props> = ({ className }) => {
               data-kt-menu-placement="bottom-end"
               data-kt-menu-flip="top-end"
             >
-              <KTSVG
+              <Ktsvg
                 path="/media/icons/duotone/Layout/Layout-4-blocks-2.svg"
                 className="svg-icon-1"
               />
@@ -74,7 +74,7 @@ const FeedsWidget4: React.FC<Props> = ({ className }) => {
                 href="#"
                 className="btn btn-sm btn-color-muted btn-active-light-primary fw-bolder"
               >
-                <KTSVG
+                <Ktsvg
                   path="/media/icons/duotone/Communication/Group-chat.svg"
                   className="svg-icon-3 pe-2"
                 />
@@ -85,7 +85,7 @@ const FeedsWidget4: React.FC<Props> = ({ className }) => {
                 href="#"
                 className="btn btn-sm btn-color-muted btn-active-light-danger fw-bolder"
               >
-                <KTSVG
+                <Ktsvg
                   path="/media/icons/duotone/General/Heart.svg"
                   className="svg-icon-3 pe-1"
                 />

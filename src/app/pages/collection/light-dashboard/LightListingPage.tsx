@@ -1,6 +1,5 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
-import { KTSVG } from "../../../../_start/helpers";
+import { Ktsvg } from "../../../../_start/helpers";
 import {
   StatsWidget3,
   StatsWidget4,
@@ -15,6 +14,7 @@ import { CreateAppModal } from "../_modals/create-app-stepper/CreateAppModal";
 
 export const LightListingPage: React.FC = () => {
   const [showCreateAppModal, setShowCreateAppModal] = useState(false);
+
   return (
     <>
       {/* begin::Row */}
@@ -38,11 +38,11 @@ export const LightListingPage: React.FC = () => {
         <div className="col-xxl-4">
           <StatsWidget6 className="card-stretch mb-5  mb-xxl-8">
             <a
-              onClick={() => setShowCreateAppModal(true)}
               className="btn btn-primary btn-sm fw-bolder fs-6 ps-4 mt-6"
+              onClick={() => setShowCreateAppModal(true)}
             >
               Boost{" "}
-              <KTSVG
+              <Ktsvg
                 className="svg-icon-3 me-0"
                 path="/media/icons/duotone/Navigation/Up-right.svg"
               />
@@ -66,8 +66,8 @@ export const LightListingPage: React.FC = () => {
             </span>
 
             <a
-              href="#"
               className="btn btn-sm btn-primary fw-bolder px-6 cursor-pointer"
+              href="#"
             >
               Map
             </a>
@@ -82,8 +82,8 @@ export const LightListingPage: React.FC = () => {
 
       {/* begin::Modals */}
       <CreateAppModal
-        show={showCreateAppModal}
         handleClose={() => setShowCreateAppModal(false)}
+        show={showCreateAppModal}
       />
       {/* end::Modals */}
     </>

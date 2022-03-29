@@ -17,7 +17,7 @@ const forgotPasswordSchema = Yup.object().shape({
     .required("Email is required"),
 });
 
-export function ForgotPassword() {
+export function ForgotPassword(): JSX.Element {
   const [loading, setLoading] = useState(false);
   const [hasErrors, setHasErrors] = useState<boolean | undefined>(undefined);
   const formik = useFormik({
@@ -28,7 +28,7 @@ export function ForgotPassword() {
       setHasErrors(undefined);
       setTimeout(() => {
         requestPassword(values.email)
-          .then(({ data: { result } }) => {
+          .then(() => {
             setHasErrors(false);
             setLoading(false);
           })
@@ -45,8 +45,8 @@ export function ForgotPassword() {
   return (
     <>
       <form
-        className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework"
         noValidate
+        className="form w-100 fv-plugins-bootstrap5 fv-plugins-framework"
         id="kt_login_password_reset_form"
         onSubmit={formik.handleSubmit}
       >
@@ -84,9 +84,9 @@ export function ForgotPassword() {
             Email
           </label>
           <input
-            type="email"
-            placeholder=""
             autoComplete="off"
+            placeholder=""
+            type="email"
             {...formik.getFieldProps("email")}
             className={clsx(
               "form-control form-control-lg form-control-solid",
@@ -107,18 +107,18 @@ export function ForgotPassword() {
         {/* begin::Form group */}
         <div className="d-flex flex-wrap pb-lg-0">
           <button
-            type="submit"
-            id="kt_login_password_reset_form_submit_button"
             className="btn btn-primary fw-bolder fs-6 px-8 py-4 my-3 me-4"
+            id="kt_login_password_reset_form_submit_button"
+            type="submit"
           >
             Submit
           </button>
           <Link to="/auth/login">
             <button
-              type="button"
-              id="kt_login_password_reset_form_cancel_button"
               className="btn btn-light-primary fw-bolder fs-6 px-8 py-4 my-3"
               disabled={formik.isSubmitting || !formik.isValid}
+              id="kt_login_password_reset_form_cancel_button"
+              type="button"
             >
               Cancel
             </button>

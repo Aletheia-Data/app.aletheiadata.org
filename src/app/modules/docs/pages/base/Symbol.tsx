@@ -1,16 +1,15 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { toAbsoluteUrl } from "../../../../../_start/helpers";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function Symbol() {
+export function Symbol(): JSX.Element {
   return (
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="overview">
-          <a href="#overview"></a>Overview
+          <a href="#overview" />
+          Overview
         </h1>
         <div className="py-5">
           Symbol is a custom component for avatars or labels with content
@@ -19,7 +18,8 @@ export function Symbol() {
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="avatar">
-          <a href="#avatar"></a>Avatar
+          <a href="#avatar" />
+          Avatar
         </h1>
         <div className="py-5">
           Refer to below example to use Symbol for avatar image display:
@@ -27,25 +27,22 @@ export function Symbol() {
         <div className="py-5">
           <div className="rounded border p-10 pb-0 d-flex flex-wrap">
             <div className="symbol symbol-50px me-10 mb-10">
-              <img src={toAbsoluteUrl("/media/avatars/150-1.jpg")} alt="" />
+              <img alt="" src={toAbsoluteUrl("/media/avatars/150-1.jpg")} />
             </div>
             <div className="symbol symbol-50px me-10 mb-10">
-              <img src={toAbsoluteUrl("/media/avatars/150-2.jpg")} alt="" />
+              <img alt="" src={toAbsoluteUrl("/media/avatars/150-2.jpg")} />
             </div>
             <div className="symbol symbol-50px me-10 mb-10">
-              <img src={toAbsoluteUrl("/media/avatars/150-3.jpg")} alt="" />
+              <img alt="" src={toAbsoluteUrl("/media/avatars/150-3.jpg")} />
             </div>
             <div className="symbol symbol-50px me-10 mb-10">
-              <img
-                src={toAbsoluteUrl("/media/avatars/150-4.jpg")}
-                alt=""
-              />
+              <img alt="" src={toAbsoluteUrl("/media/avatars/150-4.jpg")} />
             </div>
             <div className="symbol symbol-50px me-10 mb-10">
-              <img src={toAbsoluteUrl("/media/avatars/150-5.jpg")} alt="" />
+              <img alt="" src={toAbsoluteUrl("/media/avatars/150-5.jpg")} />
             </div>
             <div className="symbol symbol-50px me-10 mb-10">
-              <img src={toAbsoluteUrl("/media/avatars/150-6.jpg")} alt="" />
+              <img alt="" src={toAbsoluteUrl("/media/avatars/150-6.jpg")} />
             </div>
           </div>
         </div>
@@ -54,7 +51,8 @@ export function Symbol() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="avatar-bg">
-          <a href="#avatar-bg"></a>Avatar Background
+          <a href="#avatar-bg" />
+          Avatar Background
         </h1>
         <div className="py-5">
           Refer to below example to place avatar as background image:
@@ -69,7 +67,7 @@ export function Symbol() {
                     "/media/avatars/150-7.jpg"
                   )}')`,
                 }}
-              ></div>
+              />
             </div>
             <div className="symbol symbol-50px me-10 mb-10">
               <div
@@ -79,7 +77,7 @@ export function Symbol() {
                     "/media/avatars/150-8.jpg"
                   )}')`,
                 }}
-              ></div>
+              />
             </div>
             <div className="symbol symbol-50px me-10 mb-10">
               <div
@@ -89,7 +87,7 @@ export function Symbol() {
                     "/media/avatars/150-9.jpg"
                   )}')`,
                 }}
-              ></div>
+              />
             </div>
             <div className="symbol symbol-50px me-10 mb-10">
               <div
@@ -99,7 +97,7 @@ export function Symbol() {
                     "/media/avatars/150-10.jpg"
                   )}')`,
                 }}
-              ></div>
+              />
             </div>
             <div className="symbol symbol-50px me-10 mb-10">
               <div
@@ -109,7 +107,7 @@ export function Symbol() {
                     "/media/avatars/150-11.jpg"
                   )}')`,
                 }}
-              ></div>
+              />
             </div>
             <div className="symbol symbol-50px me-10 mb-10">
               <div
@@ -119,7 +117,7 @@ export function Symbol() {
                     "/media/avatars/150-12.jpg"
                   )}')`,
                 }}
-              ></div>
+              />
             </div>
           </div>
         </div>
@@ -128,7 +126,8 @@ export function Symbol() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="avatar-ratio">
-          <a href="#avatar-ratio"></a>Avatar Ratio
+          <a href="#avatar-ratio" />
+          Avatar Ratio
         </h1>
         <div className="py-5">
           Use
@@ -145,7 +144,7 @@ export function Symbol() {
                     "/media/avatars/150-1.jpg"
                   )}')`,
                 }}
-              ></div>
+              />
             </div>
             <div className="symbol symbol-50px symbol-2by3 me-10 mb-10">
               <div
@@ -155,7 +154,7 @@ export function Symbol() {
                     "/media/avatars/150-2.jpg"
                   )}')`,
                 }}
-              ></div>
+              />
             </div>
             <div className="symbol symbol-50px symbol-2by3 me-10 mb-10">
               <div
@@ -165,7 +164,7 @@ export function Symbol() {
                     "/media/avatars/150-3.jpg"
                   )}')`,
                 }}
-              ></div>{" "}
+              />{" "}
             </div>
             <div className="symbol symbol-50px symbol-2by3 me-10 mb-10">
               <div
@@ -175,7 +174,7 @@ export function Symbol() {
                     "/media/avatars/150-4.jpg"
                   )}')`,
                 }}
-              ></div>{" "}
+              />{" "}
             </div>
             <div className="symbol symbol-50px symbol-2by3 me-10 mb-10">
               <div
@@ -185,7 +184,7 @@ export function Symbol() {
                     "/media/avatars/150-5.jpg"
                   )}')`,
                 }}
-              ></div>{" "}
+              />{" "}
             </div>
             <div className="symbol symbol-50px symbol-2by3 me-10 mb-10">
               <div
@@ -195,7 +194,7 @@ export function Symbol() {
                     "/media/avatars/150-6.jpg"
                   )}')`,
                 }}
-              ></div>{" "}
+              />{" "}
             </div>
           </div>
         </div>
@@ -204,7 +203,8 @@ export function Symbol() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="label">
-          <a href="#badge"></a>Label
+          <a href="#badge" />
+          Label
         </h1>
 
         <div className="py-5">
@@ -245,7 +245,8 @@ export function Symbol() {
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="badge">
-          <a href="#badge"></a>Badge
+          <a href="#badge" />
+          Badge
         </h1>
         <div className="py-5">
           Add a badge element using
@@ -278,13 +279,15 @@ export function Symbol() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="styles">
-          <a href="#sizes"></a>Styles
+          <a href="#sizes" />
+          Styles
         </h1>
 
         <div className="py-5">
           Use
           <code>.symbol-circle</code>and
-          <code>.symbol-square</code>classes to change a symbol element's style:
+          <code>.symbol-square</code>
+          classes to change a symbol element&apos;s style:
         </div>
         <div className="py-5">
           <div className="rounded border p-10 pb-0 d-flex flex-wrap">
@@ -296,7 +299,7 @@ export function Symbol() {
                     "/media/avatars/150-1.jpg"
                   )}')`,
                 }}
-              ></div>
+              />
             </div>
             <div className="symbol symbol-50px me-10 mb-10">
               <div className="symbol-label fs-2 fw-bold text-success">A</div>
@@ -309,7 +312,7 @@ export function Symbol() {
                     "/media/avatars/150-1.jpg"
                   )}')`,
                 }}
-              ></div>
+              />
             </div>
             <div className="symbol symbol-50px symbol-circle me-10 mb-10">
               <div className="symbol-label fs-2 fw-bold text-success">A</div>
@@ -322,7 +325,7 @@ export function Symbol() {
                     "/media/avatars/150-1.jpg"
                   )}')`,
                 }}
-              ></div>{" "}
+              />{" "}
             </div>
             <div className="symbol symbol-50px symbol-square me-10 mb-10">
               <div className="symbol-label fs-2 fw-bold text-success">A</div>
@@ -334,7 +337,8 @@ export function Symbol() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="sizes">
-          <a href="#sizes"></a>Sizes
+          <a href="#sizes" />
+          Sizes
         </h1>
         <div className="py-5">
           Assign responsive-friendly size to a symbol element with shorthand
@@ -431,7 +435,8 @@ export function Symbol() {
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="group">
-          <a href="#group"></a>Group
+          <a href="#group" />
+          Group
         </h1>
 
         <div className="py-5">
@@ -444,27 +449,27 @@ export function Symbol() {
           <div className="rounded border p-10 pb-0 d-flex flex-wrap">
             <div className="symbol-group symbol-hover">
               <div className="symbol symbol-circle symbol-50px mb-10">
-                <img src={toAbsoluteUrl("/media/avatars/150-1.jpg")} alt="" />
+                <img alt="" src={toAbsoluteUrl("/media/avatars/150-1.jpg")} />
               </div>
               <div className="symbol symbol-circle symbol-50px mb-10">
-                <img src={toAbsoluteUrl("/media/avatars/150-2.jpg")} alt="" />
+                <img alt="" src={toAbsoluteUrl("/media/avatars/150-2.jpg")} />
               </div>
               <div className="symbol symbol-circle symbol-50px mb-10">
-                <img src={toAbsoluteUrl("/media/avatars/150-3.jpg")} alt="" />
+                <img alt="" src={toAbsoluteUrl("/media/avatars/150-3.jpg")} />
               </div>
               <div className="symbol symbol-circle symbol-50px mb-10">
-                <img src={toAbsoluteUrl("/media/avatars/150-4.jpg")} alt="" />
+                <img alt="" src={toAbsoluteUrl("/media/avatars/150-4.jpg")} />
               </div>
               <div className="symbol symbol-circle symbol-50px mb-10">
-                <img src={toAbsoluteUrl("/media/avatars/150-5.jpg")} alt="" />
+                <img alt="" src={toAbsoluteUrl("/media/avatars/150-5.jpg")} />
               </div>
               <div className="symbol symbol-circle symbol-50px mb-10">
-                <img src={toAbsoluteUrl("/media/avatars/150-6.jpg")} alt="" />
+                <img alt="" src={toAbsoluteUrl("/media/avatars/150-6.jpg")} />
               </div>
             </div>
           </div>
         </div>
-        <CodeBlock language="markup" code={code8} />
+        <CodeBlock code={code8} language="markup" />
       </div>
     </>
   );

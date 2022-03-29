@@ -19,15 +19,15 @@ export const LIMIT_SHORT = `_limit=5`;
 export const NO_LIMIT = `_limit=0`;
 export const SORTING = `_sort=desc`;
 
-// Get information from API 
+// Get information from API
 
 // source
 export function getAllSources() {
   // Authorization head should be fulfilled in interceptor.
   // Check common redux folder => setupAxios
   return fetch(`${GET_ALL_SOURCES}${DEFAULT_PAGINATION}`)
-    .then(response => response.json())
-    .then(data => data);
+    .then((response) => response.json())
+    .then((data) => data);
 }
 
 // departments
@@ -35,16 +35,16 @@ export function getAllDepartments() {
   // Authorization head should be fulfilled in interceptor.
   // Check common redux folder => setupAxios
   return fetch(`${GET_ALL_DEPARTMENTS}${DEFAULT_PAGINATION}`)
-    .then(response => response.json())
-    .then(data => data);
+    .then((response) => response.json())
+    .then((data) => data);
 }
 
 export function getDepartment(id: string) {
   // Authorization head should be fulfilled in interceptor.
   // Check common redux folder => setupAxios
   return fetch(`${GET_ALL_DEPARTMENTS}/${id}`)
-    .then(response => response.json())
-    .then(data => data);
+    .then((response) => response.json())
+    .then((data) => data);
 }
 
 // get all files
@@ -52,23 +52,23 @@ export function getArchive() {
   // Authorization head should be fulfilled in interceptor.
   // Check common redux folder => setupAxios
   return fetch(`${GET_ALL_FILES}?${NO_LIMIT}&${START}&${SORTING}`)
-    .then(response => response.json())
-    .then(data => data);
+    .then((response) => response.json())
+    .then((data) => data);
 }
 
 // get all files
 export function getPDF() {
   const CATEGORIES_QUERY = gql`
-  query Categories {
-    categories {
-      slug
-      name
+    query Categories {
+      categories {
+        slug
+        name
+      }
     }
-  }
   `;
 
   const { data, loading, error } = useQuery(CATEGORIES_QUERY, {
-    variables: { slug: '' }
+    variables: { slug: "" },
   });
 
   // if (loading) return 'Loading...';
@@ -81,9 +81,11 @@ export function getPDF() {
 export function getImports() {
   // Authorization head should be fulfilled in interceptor.
   // Check common redux folder => setupAxios
-  return fetch(`${GET_ALL_IMPORTS}?${START}&${LIMIT_SHORT}&${'_sort=aletheias'}`)
-    .then(response => response.json())
-    .then(data => data);
+  return fetch(
+    `${GET_ALL_IMPORTS}?${START}&${LIMIT_SHORT}&${"_sort=aletheias"}`,
+  )
+    .then((response) => response.json())
+    .then((data) => data);
 }
 
 // get all imports count
@@ -91,6 +93,6 @@ export function getImportsCount() {
   // Authorization head should be fulfilled in interceptor.
   // Check common redux folder => setupAxios
   return fetch(`${GET_ALL_IMPORTS_COUNT}`)
-    .then(response => response.json())
-    .then(data => data);
+    .then((response) => response.json())
+    .then((data) => data);
 }

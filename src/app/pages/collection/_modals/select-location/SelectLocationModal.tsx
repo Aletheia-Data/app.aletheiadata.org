@@ -1,17 +1,17 @@
-import React, { Dispatch, SetStateAction, useState, useEffect } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { Modal } from "react-bootstrap-v5";
-import { KTSVG } from "../../../../../_start/helpers";
+import { Ktsvg } from "../../../../../_start/helpers";
 
-type Props = {
+interface Props {
   data: { location: string; setLocation: Dispatch<SetStateAction<string>> };
   show: boolean;
   handleClose: () => void;
-};
+}
 
 const SelectLocationModal: React.FC<Props> = ({ show, handleClose, data }) => {
-  useEffect(() => {
-    initMap();
-  }, []);
+  // useEffect(() => {
+  //   initMap();
+  // }, []);
 
   const [location, setLocation] = useState(data.location);
   const dissmissLocation = () => {
@@ -22,18 +22,18 @@ const SelectLocationModal: React.FC<Props> = ({ show, handleClose, data }) => {
     data.setLocation(location);
     handleClose();
   };
-  const initMap = () => {};
+  // const initMap = () => {};
 
   return (
     <Modal
+      aria-hidden="true"
       className="modal fade"
-      id="kt_modal_select_location"
       data-backdrop="static"
-      tabIndex={-1}
+      dialogClassName="modal-xl"
+      id="kt_modal_select_location"
       role="dialog"
       show={show}
-      dialogClassName="modal-xl"
-      aria-hidden="true"
+      tabIndex={-1}
       onHide={dissmissLocation}
     >
       <div className="modal-content">
@@ -44,9 +44,9 @@ const SelectLocationModal: React.FC<Props> = ({ show, handleClose, data }) => {
             className="btn btn-icon btn-sm btn-active-light-primary ms-2"
             onClick={dissmissLocation}
           >
-            <KTSVG
-              path="/media/icons/duotone/Navigation/Close.svg"
+            <Ktsvg
               className="svg-icon-2x"
+              path="/media/icons/duotone/Navigation/Close.svg"
             />
           </div>
         </div>
@@ -56,20 +56,20 @@ const SelectLocationModal: React.FC<Props> = ({ show, handleClose, data }) => {
             value={location}
             onChange={(e) => setLocation(e.target.value)}
           />
-          <div id="kt_modal_select_location_map" className="map h-450px"></div>
+          <div className="map h-450px" id="kt_modal_select_location_map" />
         </div>
         <div className="modal-footer">
           <button
-            type="button"
             className="btn btn-light-primary"
+            type="button"
             onClick={dissmissLocation}
           >
             Cancel
           </button>
           <button
+            className="btn btn-primary"
             id="submit"
             type="button"
-            className="btn btn-primary"
             onClick={applyLocation}
           >
             Apply

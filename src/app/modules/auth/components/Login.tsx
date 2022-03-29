@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
-import clsx from "clsx";
-import Web3 from 'web3';
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as auth from "../redux/AuthRedux";
 import { login } from "../redux/AuthCRUD";
 import { toAbsoluteUrl } from "../../../../_start/helpers";
-import { useMoralis } from "react-moralis";
 
 const loginSchema = Yup.object().shape({
   account: Yup.string()
@@ -34,119 +31,121 @@ declare let window: any;
   https://medium.com/@maurice.de.beijer/yup-validation-and-typescript-and-formik-6c342578a20e
 */
 
-export function Login() {
-
-  const web3 = new Web3(window.ethereum);
-
-  let [connected, setConnected] = useState(false);
-  let [account, setAccount] = useState('');
-  let [netId, setNetId] = useState('');
-  let [provider, setProvider] = useState('');
-  const { authenticate, isAuthenticated, user } = useMoralis();
+export function Login(): JSX.Element {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [connected, setConnected] = useState(false);
+  const [account, setAccount] = useState("");
+  const [netId, setNetId] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [provider, setProvider] = useState("");
 
   const signAuth = async () => {
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve) => {
       // await authenticate({ signingMessage: "Aletheia Data te dà la bienvenida" });
       // let userWallet: any = await user?.get("ethAddress");
       // console.log(isAuthenticated, user?.get("ethAddress"));
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
       // console.log(accounts);
       resolve(accounts[0]);
-    })
-  }
+    });
+  };
 
   // init web3 if available
   const initWeb3 = async () => {
     return new Promise(async (resolve, reject) => {
       if (window.ethereum) {
         // const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        let user:any = await signAuth();
+        const user: any = await signAuth();
+
         //load balance
         if (user) {
-
           setConnected(true);
           setAccount(user);
           setNetId(netId);
-          setProvider('metamask');
+          setProvider("metamask");
 
           resolve(user);
-
         }
+
         // user rejection
         setLoading(false);
         reject(false);
-
       } else {
-        window.alert('Please install MetaMask');
-        window.open('https://metamask.io/', '_blank');
+        window.alert("Please install MetaMask");
+        window.open("https://metamask.io/", "_blank");
         reject(false);
       }
     });
-  }
+  };
 
   useEffect(() => {
     // initWeb3();
-  }, [])
+  }, []);
 
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues,
     validationSchema: loginSchema,
-    onSubmit: (values, { setStatus, setSubmitting }) => {
-
+    onSubmit: (values, { setSubmitting }) => {
       setLoading(true);
 
       const connect = (user: any) => {
-        let accessToken = login(user, 'metamask');
+        const accessToken = login(user, "metamask");
         setLoading(false);
         dispatch(auth.actions.login(accessToken));
-      }
+      };
 
       if (!account) {
         try {
-          initWeb3().then(user => {
-            console.log(user);
-            if (!user) { return 'error login with metamask'; }
-            connect(user);
-            setLoading(false);
-            setSubmitting(false);
-          })
-            .catch(error => {
+          initWeb3()
+            .then((user) => {
+              console.log(user);
+              if (!user) {
+                return "error login with metamask";
+              }
+
+              connect(user);
+              setLoading(false);
+              setSubmitting(false);
+            })
+            .catch((error) => {
               setLoading(false);
               setSubmitting(false);
               throw error;
-            })
+            });
         } catch (error) {
           setLoading(false);
           setSubmitting(false);
           throw error;
         }
       }
-
     },
   });
 
   return (
     <form
-      className="form w-100"
-      onSubmit={formik.handleSubmit}
       noValidate
+      className="form w-100"
       id="kt_login_signin_form"
+      onSubmit={formik.handleSubmit}
     >
-
       {/* begin::Aside Logo */}
-      <div style={{
-        borderRadius: '10px',
-        display: 'flex',
-        width: '60px',
-        overflow: 'hidden',
-        marginBottom: '20px'
-      }}>
+      <div
+        style={{
+          borderRadius: "10px",
+          display: "flex",
+          width: "60px",
+          overflow: "hidden",
+          marginBottom: "20px",
+        }}
+      >
         <img
           alt="Logo"
-          src={toAbsoluteUrl("/media/logos/logo-compact.png")}
           className="h-75px"
+          src={toAbsoluteUrl("/media/logos/logo-compact.png")}
         />
       </div>
       {/* end::Aside Logo */}
@@ -157,9 +156,9 @@ export function Login() {
         <div className="text-muted fw-bold fs-3">
           ¿Nuevo aquí?{" "}
           <Link
-            to="#" // "/auth/registration"
-            className="text-primary fw-bolder"
+            className="text-primary fw-bolder" // "/auth/registration"
             id="kt_login_signin_form_singup_button"
+            to="#"
           >
             Accede a nuestra Dashboard
           </Link>
@@ -167,19 +166,17 @@ export function Login() {
       </div>
       {/* begin::Title */}
 
-      {
-        formik.status ? (
-          <div className="mb-lg-15 alert alert-danger">
-            <div className="alert-text font-weight-bold">{formik.status}</div>
+      {formik.status ? (
+        <div className="mb-lg-15 alert alert-danger">
+          <div className="alert-text font-weight-bold">{formik.status}</div>
+        </div>
+      ) : (
+        <div className="mb-lg-15 alert alert-info">
+          <div className="alert-text ">
+            Accede con <strong>Metamask</strong>
           </div>
-        ) : (
-          <div className="mb-lg-15 alert alert-info">
-            <div className="alert-text ">
-              Accede con <strong>Metamask</strong>
-            </div>
-          </div>
-        )
-      }
+        </div>
+      )}
 
       {/* begin::Form group 
       <div className="v-row mb-10 fv-plugins-icon-container">
@@ -248,23 +245,25 @@ export function Login() {
       {/* begin::Action */}
       <div className="pb-lg-0 pb-5">
         <button
-          type="submit"
-          id="kt_login_signin_form_submit_button"
           className="btn btn-primary fw-bolder fs-6 px-8 py-4 my-3 me-3"
           disabled={formik.isSubmitting || !formik.isValid}
+          id="kt_login_signin_form_submit_button"
+          type="submit"
         >
-          {!loading && <span className="indicator-label">
-            <img
-              src={toAbsoluteUrl("/media/svg/brand-logos/metamask.svg")}
-              className="w-20px h-20px me-3"
-              alt=""
-            />
-            Sign in with Metamask
-          </span>}
+          {!loading && (
+            <span className="indicator-label">
+              <img
+                alt=""
+                className="w-20px h-20px me-3"
+                src={toAbsoluteUrl("/media/svg/brand-logos/metamask.svg")}
+              />
+              Sign in with Metamask
+            </span>
+          )}
           {loading && (
             <span className="indicator-progress" style={{ display: "block" }}>
               Please wait...{" "}
-              <span className="spinner-border spinner-border-sm align-middle ms-2"></span>
+              <span className="spinner-border spinner-border-sm align-middle ms-2" />
             </span>
           )}
         </button>

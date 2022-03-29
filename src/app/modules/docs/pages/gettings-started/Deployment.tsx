@@ -1,15 +1,15 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
 import React from "react";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function Deployment() {
+export function Deployment(): JSX.Element {
   const { REACT_APP_THEME_NAME } = process.env;
 
   return (
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="deployment">
-          <a href="#deployment"></a>Deployment
+          <a href="#deployment" />
+          Deployment
         </h1>
         <div className="py-5">
           <span>
@@ -22,18 +22,19 @@ export function Deployment() {
                 Setup <b>baseURL</b> via <code>homepage</code> entry in{" "}
                 <code>package.json</code>.
               </span>
-              <CodeBlock language="json" code={baseUrlCode} />
+              <CodeBlock code={baseUrlCode} language="json" />
             </li>
             <li>
               <span>Run build..</span>
-              <CodeBlock language="bash" code="yarn build" />
+              <CodeBlock code="yarn build" language="bash" />
             </li>
           </ol>
         </div>
       </div>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="serve-production-mode">
-          <a href="#serve-production-mode"></a>Serve production mode
+          <a href="#serve-production-mode" />
+          Serve production mode
         </h1>
         <div className="py-5">
           <span>
@@ -46,11 +47,11 @@ export function Deployment() {
                 Setup <b>baseURL</b> via <code>homepage</code> entry in{" "}
                 <code>package.json</code>.
               </span>
-              <CodeBlock language="json" code={baseUrlCode} />
+              <CodeBlock code={baseUrlCode} language="json" />
             </li>
             <li>
               <span>Run build..</span>
-              <CodeBlock language="bash" code="yarn build" />
+              <CodeBlock code="yarn build" language="bash" />
             </li>
             <li>
               <span>
@@ -74,8 +75,8 @@ export function Deployment() {
           Host react application on Apache server setup:{" "}
           <a
             href="https://gist.github.com/ywwwtseng/63c36ccb58a25a09f7096bbb602ac1de"
-            target="_blank"
             rel="noopener noreferrer"
+            target="_blank"
           >
             CRA Apache setup
           </a>
@@ -86,9 +87,9 @@ export function Deployment() {
             <b>Create React App</b>. For more detailed information of the CRA,
             visit the official Create React App{" "}
             <a
-              target="_blank"
-              rel="noopener noreferrer"
               href="https://create-react-app.dev/docs/deployment"
+              rel="noopener noreferrer"
+              target="_blank"
             >
               documentation website
             </a>

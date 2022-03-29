@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { Redirect, Switch } from "react-router-dom";
 import * as auth from "./redux/AuthRedux";
 
-export function Logout() {
+export function Logout(): JSX.Element {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(auth.actions.logout());

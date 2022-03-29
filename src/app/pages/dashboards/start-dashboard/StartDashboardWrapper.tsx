@@ -16,18 +16,21 @@ const dashboardPageConfig: Partial<IThemeConfig> = {
   },
 };
 
-export function StartDashboardWrapper() {
+export function StartDashboardWrapper(): JSX.Element {
   const { setTheme } = useTheme();
   // Refresh UI after config updates
   useEffect(() => {
     setTheme(dashboardPageConfig);
+
     return () => {
       setTheme(defaultPageConfig);
     };
   }, []);
 
-  return <>
-    <StartDashboardPage />;
-    <Sidebar props={null} />
-  </>
+  return (
+    <>
+      <StartDashboardPage />;
+      <Sidebar props={null} />
+    </>
+  );
 }

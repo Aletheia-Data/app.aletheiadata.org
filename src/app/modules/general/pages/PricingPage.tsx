@@ -1,8 +1,7 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { KTSVG } from "../../../../_start/helpers";
+import { Ktsvg } from "../../../../_start/helpers";
 
-export function PricingPage() {
+export function PricingPage(): JSX.Element {
   return (
     <div className="card">
       <div className="card-body p-12">
@@ -15,24 +14,24 @@ export function PricingPage() {
               role="tablist"
             >
               <a
-                className="nav-link rounded active btn btn-active btn-active-dark fw-bolder btn-color-gray-600 py-3 px-5 me-2"
-                id="kt_nav_monthly"
-                data-bs-toggle="tab"
-                href="#kt_nav_monthly_content"
-                role="tab"
                 aria-controls="kt_nav_monthly"
                 aria-selected="true"
+                className="nav-link rounded active btn btn-active btn-active-dark fw-bolder btn-color-gray-600 py-3 px-5 me-2"
+                data-bs-toggle="tab"
+                href="#kt_nav_monthly_content"
+                id="kt_nav_monthly"
+                role="tab"
               >
                 Monthly
               </a>
               <a
-                className="nav-link rounded btn btn-active btn-active-dark fw-bolder btn-color-gray-600 py-3 px-5"
-                id="kt_nav_annually"
-                data-bs-toggle="tab"
-                href="#kt_nav_annually_content"
-                role="tab"
                 aria-controls="kt_nav_annually"
                 aria-selected="false"
+                className="nav-link rounded btn btn-active btn-active-dark fw-bolder btn-color-gray-600 py-3 px-5"
+                data-bs-toggle="tab"
+                href="#kt_nav_annually_content"
+                id="kt_nav_annually"
+                role="tab"
               >
                 Annually
               </a>
@@ -44,10 +43,10 @@ export function PricingPage() {
             <div className="tab-content" id="nav-tabContent">
               {/*begin::Monthly Prices*/}
               <div
-                id="kt_nav_monthly_content"
-                className="tab-pane fade show active"
-                role="tabpanel"
                 aria-labelledby="kt_nav_monthly"
+                className="tab-pane fade show active"
+                id="kt_nav_monthly_content"
+                role="tabpanel"
               >
                 <div className="row">
                   <div className="col-md-4 col-lg-12 col-xl-4">
@@ -60,8 +59,8 @@ export function PricingPage() {
                       </div>
                       <div className="text-muted fw-bolder mb-7">Monthly</div>
                       <a
-                        href="#"
                         className="btn btn-light-primary fw-bolder fs-6 py-3 px-8 mx-auto"
+                        href="#"
                       >
                         Start
                       </a>
@@ -76,8 +75,8 @@ export function PricingPage() {
                       </div>
                       <div className="text-white fw-bolder mb-7">Monthly</div>
                       <a
-                        href="#"
                         className="btn bg-white bg-opacity-20 bg-hover-white text-hover-primary text-white fw-bolder fs-6 py-3 px-8 mx-auto"
+                        href="#"
                       >
                         Start
                       </a>
@@ -94,8 +93,8 @@ export function PricingPage() {
                       </div>
                       <div className="text-muted fw-bolder mb-7">Monthly</div>
                       <a
-                        href="#"
                         className="btn btn-light-primary fw-bolder fs-6 py-3 px-8 mx-auto"
+                        href="#"
                       >
                         Start
                       </a>
@@ -107,10 +106,10 @@ export function PricingPage() {
 
               {/*begin::Annually Prices*/}
               <div
-                id="kt_nav_annually_content"
-                className="tab-pane fade"
-                role="tabpanel"
                 aria-labelledby="kt_nav_annually"
+                className="tab-pane fade"
+                id="kt_nav_annually_content"
+                role="tabpanel"
               >
                 <div className="row">
                   <div className="col-md-4 col-lg-12 col-xl-4">
@@ -123,8 +122,8 @@ export function PricingPage() {
                       </div>
                       <div className="text-muted fw-bolder mb-7">Annually</div>
                       <a
-                        href="#"
                         className="btn btn-light-primary fw-bolder fs-6 py-3 px-8 mx-auto"
+                        href="#"
                       >
                         Start
                       </a>
@@ -139,8 +138,8 @@ export function PricingPage() {
                       </div>
                       <div className="text-white fw-bolder mb-7">Annually</div>
                       <a
-                        href="#"
                         className="btn bg-white bg-opacity-20 bg-hover-white text-hover-primary text-white fw-bolder fs-6 py-3 px-8 mx-auto"
+                        href="#"
                       >
                         Start
                       </a>
@@ -157,8 +156,8 @@ export function PricingPage() {
                       </div>
                       <div className="text-muted fw-bolder mb-7">Annually</div>
                       <a
-                        href="#"
                         className="btn btn-light-primary fw-bolder fs-6 py-3 px-8 mx-auto"
+                        href="#"
                       >
                         Start
                       </a>
@@ -184,25 +183,25 @@ export function PricingPage() {
                     </div>
                     <div className="py-8 px-9 flex-root d-flex justify-content-center">
                       <span className="bg-white rounded h-40px w-40px d-flex flex-center">
-                        <KTSVG
-                          path="/media/icons/duotone/Navigation/Check.svg"
+                        <Ktsvg
                           className="svg-icon-1 svg-icon-primary"
+                          path="/media/icons/duotone/Navigation/Check.svg"
                         />
                       </span>
                     </div>
                     <div className="py-8 px-9 flex-root d-flex justify-content-center">
                       <span className="bg-white rounded h-40px w-40px d-flex flex-center">
-                        <KTSVG
-                          path="/media/icons/duotone/Navigation/Check.svg"
+                        <Ktsvg
                           className="svg-icon-1 svg-icon-primary"
+                          path="/media/icons/duotone/Navigation/Check.svg"
                         />
                       </span>
                     </div>
                     <div className="py-8 px-9 flex-root d-flex justify-content-center">
                       <span className="bg-white rounded h-40px w-40px d-flex flex-center">
-                        <KTSVG
-                          path="/media/icons/duotone/Navigation/Check.svg"
+                        <Ktsvg
                           className="svg-icon-1 svg-icon-primary"
+                          path="/media/icons/duotone/Navigation/Check.svg"
                         />
                       </span>
                     </div>
@@ -218,25 +217,25 @@ export function PricingPage() {
                     </div>
                     <div className="py-8 px-9 flex-root d-flex justify-content-center">
                       <span className="bg-light rounded h-40px w-40px d-flex flex-center">
-                        <KTSVG
-                          path="/media/icons/duotone/Navigation/Check.svg"
+                        <Ktsvg
                           className="svg-icon-1 svg-icon-primary"
+                          path="/media/icons/duotone/Navigation/Check.svg"
                         />
                       </span>
                     </div>
                     <div className="py-8 px-9 flex-root d-flex justify-content-center">
                       <span className="bg-light rounded h-40px w-40px d-flex flex-center">
-                        <KTSVG
-                          path="/media/icons/duotone/Navigation/Check.svg"
+                        <Ktsvg
                           className="svg-icon-1 svg-icon-primary"
+                          path="/media/icons/duotone/Navigation/Check.svg"
                         />
                       </span>
                     </div>
                     <div className="py-8 px-9 flex-root d-flex justify-content-center">
                       <span className="bg-light rounded h-40px w-40px d-flex flex-center">
-                        <KTSVG
-                          path="/media/icons/duotone/Navigation/Check.svg"
+                        <Ktsvg
                           className="svg-icon-1 svg-icon-primary"
+                          path="/media/icons/duotone/Navigation/Check.svg"
                         />
                       </span>
                     </div>
@@ -250,20 +249,20 @@ export function PricingPage() {
                     <div className="fw-bolder fs-3 py-8 px-9 flex-root d-flex align-items-center min-w-150px">
                       Theme Support
                     </div>
-                    <div className="py-8 px-9 flex-root"></div>
+                    <div className="py-8 px-9 flex-root" />
                     <div className="py-8 px-9 flex-root d-flex justify-content-center">
                       <span className="bg-white rounded h-40px w-40px d-flex flex-center">
-                        <KTSVG
-                          path="/media/icons/duotone/Navigation/Check.svg"
+                        <Ktsvg
                           className="svg-icon-1 svg-icon-primary"
+                          path="/media/icons/duotone/Navigation/Check.svg"
                         />
                       </span>
                     </div>
                     <div className="py-8 px-9 flex-root d-flex justify-content-center">
                       <span className="bg-white rounded h-40px w-40px d-flex flex-center">
-                        <KTSVG
-                          path="/media/icons/duotone/Navigation/Check.svg"
+                        <Ktsvg
                           className="svg-icon-1 svg-icon-primary"
+                          path="/media/icons/duotone/Navigation/Check.svg"
                         />
                       </span>
                     </div>
@@ -277,13 +276,13 @@ export function PricingPage() {
                     <div className="fw-bolder fs-3 py-8 px-9 flex-root d-flex align-items-center min-w-150px">
                       Unlimited Websites
                     </div>
-                    <div className="py-8 px-9 flex-root"></div>
-                    <div className="py-8 px-9 flex-root"></div>
+                    <div className="py-8 px-9 flex-root" />
+                    <div className="py-8 px-9 flex-root" />
                     <div className="fw-bolder fs-3 py-8 px-9 flex-root d-flex justify-content-center">
                       <span className="bg-light rounded h-40px w-40px d-flex flex-center">
-                        <KTSVG
-                          path="/media/icons/duotone/Navigation/Check.svg"
+                        <Ktsvg
                           className="svg-icon-1 svg-icon-primary"
+                          path="/media/icons/duotone/Navigation/Check.svg"
                         />
                       </span>
                     </div>

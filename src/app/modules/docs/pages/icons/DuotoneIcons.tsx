@@ -1,16 +1,13 @@
 /* eslint-disable no-script-url */
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React, { useState } from "react";
 import { Modal } from "react-bootstrap-v5";
-import { KTSVG, toAbsoluteUrl } from "../../../../../_start/helpers";
+import { Ktsvg, toAbsoluteUrl } from "../../../../../_start/helpers";
 import { CodeBlock } from "../../../../../_start/partials";
 import { DuotoneIconList } from "./DuotoneModels";
 import { DItem } from "./IconModels";
 
-export function DuotoneIcons() {
+export function DuotoneIcons(): JSX.Element {
   const [isVisible, setIsVisible] = useState<boolean>(false);
   const [icon, setIcon] = useState<DItem | undefined>();
   const [isSvg, setIsSvg] = useState<boolean>(false);
@@ -30,7 +27,8 @@ export function DuotoneIcons() {
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="overview">
-          <a href="#overview"></a>Overview
+          <a href="#overview" />
+          Overview
         </h1>
         <div className="py-5">
           Use over 1000 high quality vector duotone SVG icons as image or inline
@@ -40,7 +38,8 @@ export function DuotoneIcons() {
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-3" id="image-usage">
-          <a href="#image-usage"></a>Image Usage
+          <a href="#image-usage" />
+          Image Usage
         </h1>
         <div className="py-5">
           Use svg icons as image with <code>&lt;img&gt;</code>tag as shown
@@ -49,44 +48,44 @@ export function DuotoneIcons() {
         <div className="py-5">
           <div className="rounded border d-flex flex-wrap p-10">
             <img
-              src={toAbsoluteUrl("/media/icons/duotone/Business/Archive.svg")}
               className="h-40px me-10"
+              src={toAbsoluteUrl("/media/icons/duotone/Business/Archive.svg")}
             />
             <img
+              className="h-40px me-10"
               src={toAbsoluteUrl(
                 "/media/icons/duotone/Charts/Column-02-Down.svg"
               )}
-              className="h-40px me-10"
             />
             <img
+              className="h-40px me-10"
               src={toAbsoluteUrl("/media/icons/duotone/Business/Bank.svg")}
-              className="h-40px me-10"
             />
             <img
+              className="h-40px me-10"
               src={toAbsoluteUrl("/media/icons/duotone/Design/Eraser.svg")}
-              className="h-40px me-10"
             />
             <img
+              className="h-40px me-10"
               src={toAbsoluteUrl(
                 "/media/icons/duotone/Interface/Settings-01.svg"
               )}
-              className="h-40px me-10"
             />
             <img
+              className="h-40px me-10"
               src={toAbsoluteUrl("/media/icons/duotone/Design/Image.svg")}
-              className="h-40px me-10"
             />
             <img
+              className="h-40px me-10"
               src={toAbsoluteUrl("/media/icons/duotone/Charts/Bubble-Race.svg")}
-              className="h-40px me-10"
             />
             <img
+              className="h-40px me-10"
               src={toAbsoluteUrl("/media/icons/duotone/Brands/Messenger.svg")}
-              className="h-40px me-10"
             />
             <img
-              src={toAbsoluteUrl("/media/icons/duotone/Charts/Pie-03.svg")}
               className="h-40px"
+              src={toAbsoluteUrl("/media/icons/duotone/Charts/Pie-03.svg")}
             />
           </div>
         </div>
@@ -94,7 +93,8 @@ export function DuotoneIcons() {
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-3" id="inline-usage">
-          <a href="#inline-usage"></a>Inline Usage
+          <a href="#inline-usage" />
+          Inline Usage
         </h1>
         <div className="py-5">
           Use svg icons as inline svg element in order to customize the icon
@@ -102,49 +102,50 @@ export function DuotoneIcons() {
         </div>
         <div className="py-5">
           <div className="rounded border d-flex flex-wrap p-10">
-            <KTSVG
+            <Ktsvg
+              className="svg-icon svg-icon-3x me-10"
               path="/media/icons/duotone/Business/Archive.svg"
-              className="svg-icon svg-icon-3x me-10"
             />
-            <KTSVG
+            <Ktsvg
+              className="svg-icon svg-icon-3x me-10"
               path="/media/icons/duotone/Charts/Column-02-Down.svg"
-              className="svg-icon svg-icon-3x me-10"
             />
-            <KTSVG
+            <Ktsvg
+              className="svg-icon svg-icon-3x me-10"
               path="/media/icons/duotone/Business/Bank.svg"
-              className="svg-icon svg-icon-3x me-10"
             />
-            <KTSVG
+            <Ktsvg
+              className="svg-icon svg-icon-3x me-10"
               path="/media/icons/duotone/Design/Eraser.svg"
-              className="svg-icon svg-icon-3x me-10"
             />
-            <KTSVG
+            <Ktsvg
+              className="svg-icon svg-icon-3x me-10"
               path="/media/icons/duotone/Interface/Settings-01.svg"
-              className="svg-icon svg-icon-3x me-10"
             />
-            <KTSVG
+            <Ktsvg
+              className="svg-icon svg-icon-3x me-10"
               path="/media/icons/duotone/Design/Image.svg"
-              className="svg-icon svg-icon-3x me-10"
             />
-            <KTSVG
+            <Ktsvg
+              className="svg-icon svg-icon-3x me-10"
               path="/media/icons/duotone/Charts/Bubble-race.svg"
-              className="svg-icon svg-icon-3x me-10"
             />
-            <KTSVG
+            <Ktsvg
+              className="svg-icon svg-icon-3x me-10"
               path="/media/icons/duotone/Brands/Messenger.svg"
-              className="svg-icon svg-icon-3x me-10"
             />
-            <KTSVG
-              path="/media/icons/duotone/Charts/Pie-03.svg"
+            <Ktsvg
               className="svg-icon svg-icon-3x me-10"
+              path="/media/icons/duotone/Charts/Pie-03.svg"
             />
           </div>
         </div>
-        <CodeBlock language="tsx" code={code2} />
+        <CodeBlock code={code2} language="tsx" />
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-3" id="icon-colors">
-          <a href="#icon-colors"></a>Icon Colors
+          <a href="#icon-colors" />
+          Icon Colors
         </h1>
         <div className="py-5">
           The inline icons can be colored using
@@ -156,136 +157,136 @@ export function DuotoneIcons() {
         <div className="py-5">
           <div className="rounded border d-flex flex-wrap p-10">
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <KTSVG
-                path="/media/icons/duotone/Design/Image.svg"
+              <Ktsvg
                 className="svg-icon bg-dark svg-icon-3x svg-icon-white me-10"
+                path="/media/icons/duotone/Design/Image.svg"
               />
               <div className="fw-bold py-2">white</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <KTSVG
-                path="/media/icons/duotone/Design/Image.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-3x svg-icon-primary me-10"
+                path="/media/icons/duotone/Design/Image.svg"
               />
               <div className="fw-bold py-2">primary</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <KTSVG
-                path="/media/icons/duotone/Design/Image.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-3x svg-icon-secondary me-10"
+                path="/media/icons/duotone/Design/Image.svg"
               />
               <div className="fw-bold py-2">secondary</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <KTSVG
-                path="/media/icons/duotone/Design/Image.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-3x svg-icon-light me-10"
+                path="/media/icons/duotone/Design/Image.svg"
               />
               <div className="fw-bold py-2">light</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <KTSVG
-                path="/media/icons/duotone/Design/Image.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-3x svg-icon-success me-10"
+                path="/media/icons/duotone/Design/Image.svg"
               />
               <div className="fw-bold py-2">success</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <KTSVG
-                path="/media/icons/duotone/Design/Image.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-3x svg-icon-info me-10"
+                path="/media/icons/duotone/Design/Image.svg"
               />
               <div className="fw-bold py-2">info</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <KTSVG
-                path="/media/icons/duotone/Design/Image.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-3x svg-icon-warning me-10"
+                path="/media/icons/duotone/Design/Image.svg"
               />
               <div className="fw-bold py-2">warning</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <KTSVG
-                path="/media/icons/duotone/Design/Image.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-3x svg-icon-danger me-10"
+                path="/media/icons/duotone/Design/Image.svg"
               />
               <div className="fw-bold py-2">danger</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <KTSVG
-                path="/media/icons/duotone/Design/Image.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-3x svg-icon-dark me-10"
+                path="/media/icons/duotone/Design/Image.svg"
               />
               <div className="fw-bold py-2">dark</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <KTSVG
-                path="/media/icons/duotone/Design/Image.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-3x svg-icon-muted me-10"
+                path="/media/icons/duotone/Design/Image.svg"
               />
               <div className="fw-bold py-2">muted</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <KTSVG
-                path="/media/icons/duotone/Design/Image.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-3x svg-icon-gray-100 me-10"
+                path="/media/icons/duotone/Design/Image.svg"
               />
               <div className="fw-bold py-2">gray-100</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <KTSVG
-                path="/media/icons/duotone/Design/Image.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-3x svg-icon-gray-200 me-10"
+                path="/media/icons/duotone/Design/Image.svg"
               />
               <div className="fw-bold py-2">gray-200</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <KTSVG
-                path="/media/icons/duotone/Design/Image.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-3x svg-icon-gray-300 me-10"
+                path="/media/icons/duotone/Design/Image.svg"
               />
               <div className="fw-bold py-2">gray-300</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <KTSVG
-                path="/media/icons/duotone/Design/Image.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-3x svg-icon-gray-400 me-10"
+                path="/media/icons/duotone/Design/Image.svg"
               />
               <div className="fw-bold py-2">gray-400</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <KTSVG
-                path="/media/icons/duotone/Design/Image.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-3x svg-icon-gray-500 me-10"
+                path="/media/icons/duotone/Design/Image.svg"
               />
               <div className="fw-bold py-2">gray-500</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <KTSVG
-                path="/media/icons/duotone/Design/Image.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-3x svg-icon-gray-600 me-10"
+                path="/media/icons/duotone/Design/Image.svg"
               />
               <div className="fw-bold py-2">gray-600</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <KTSVG
-                path="/media/icons/duotone/Design/Image.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-3x svg-icon-gray-700 me-10"
+                path="/media/icons/duotone/Design/Image.svg"
               />
               <div className="fw-bold py-2">gray-700</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <KTSVG
-                path="/media/icons/duotone/Design/Image.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-3x svg-icon-gray-800 me-10"
+                path="/media/icons/duotone/Design/Image.svg"
               />
 
               <div className="fw-bold py-2">gray-800</div>
             </div>
             <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-              <KTSVG
-                path="/media/icons/duotone/Design/Image.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-3x svg-icon-gray-900 me-10"
+                path="/media/icons/duotone/Design/Image.svg"
               />
               <div className="fw-bold py-2">gray-900</div>
             </div>
@@ -295,7 +296,8 @@ export function DuotoneIcons() {
       </div>
       <div className="pt-10">
         <h1 className="anchor fw-bolder mb-5" id="listing">
-          <a href="#listing"></a>Icons Listing
+          <a href="#listing" />
+          Icons Listing
         </h1>
         <div className="py-10">
           {DuotoneIconList.map((list, index) => (
@@ -307,15 +309,15 @@ export function DuotoneIcons() {
                     <div key={`r${index}-${i}`} className="row">
                       {tripit.map((icon, j) => (
                         <div
-                          className="col-md-6 col-lg-4 d-flex align-items-stretch"
                           key={`ri${index}-${i}-${j}`}
+                          className="col-md-6 col-lg-4 d-flex align-items-stretch"
                         >
                           <div className="d-flex flex-grow-1 bg-hover-light py-6 px-6 rounded overlay">
                             <div className="d-flex flex-grow-1 align-items-center overlay-wrapper">
                               <div className="mr-4 flex-shrink-0 text-lef w-40px">
-                                <KTSVG
-                                  path={icon.path}
+                                <Ktsvg
                                   className="svg-icon svg-icon-muted svg-icon-2hx"
+                                  path={icon.path}
                                 />
                               </div>
                               <div className="text-muted">{icon.name}</div>
@@ -346,9 +348,9 @@ export function DuotoneIcons() {
         </div>
       </div>
       <IconModal
-        isVisible={isVisible}
         icon={icon}
         isSvg={isSvg}
+        isVisible={isVisible}
         onHide={() => closeItem()}
       />
     </>
@@ -363,11 +365,13 @@ const splittedBy3 = (list: Array<DItem>): Array<Array<DItem>> => {
       if (index !== 0) {
         result.push(buffer);
       }
+
       buffer = [];
     }
 
     buffer.push(el);
   });
+
   return result;
 };
 
@@ -408,164 +412,164 @@ const code = `<img
   className="h-40px"
 />`;
 
-const code2 = `<KTSVG
+const code2 = `<Ktsvg
   path="/media/icons/duotone/Business/Archive.svg"
   className="svg-icon svg-icon-3x"
 />
-<KTSVG
+<Ktsvg
   path="/media/icons/duotone/Charts/Column-02-Down.svg"
   className="svg-icon svg-icon-3x"
 />
-<KTSVG
+<Ktsvg
   path="/media/icons/duotone/Business/Bank.svg"
   className="svg-icon svg-icon-3x"
 />
-<KTSVG
+<Ktsvg
   path="/media/icons/duotone/Design/Eraser.svg"
   className="svg-icon svg-icon-3x"
 />
-<KTSVG
+<Ktsvg
   path="/media/icons/duotone/Interface/Settings-01.svg"
   className="svg-icon svg-icon-3x"
 />
-<KTSVG
+<Ktsvg
   path="/media/icons/duotone/Design/Image.svg"
   className="svg-icon svg-icon-3x me-10"
 />
-<KTSVG
+<Ktsvg
   path="/media/icons/duotone/Charts/Bubble-race.svg"
   className="svg-icon svg-icon-3x me-10"
 />
-<KTSVG
+<Ktsvg
   path="/media/icons/duotone/Brands/Messenger.svg"
   className="svg-icon svg-icon-3x"
 />
-<KTSVG
+<Ktsvg
   path="/media/icons/duotone/Charts/Pie-03.svg"
   className="svg-icon svg-icon-3x me-10"
 />`;
 
 const code3 = `<div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Design/Image.svg"
     className="svg-icon bg-dark svg-icon-3x svg-icon-white"
   />
   <div className="fw-bold py-2">white</div>
 </div>
 <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Design/Image.svg"
     className="svg-icon svg-icon-3x svg-icon-primary"
   />
   <div className="fw-bold py-2">primary</div>
 </div>
 <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Design/Image.svg"
     className="svg-icon svg-icon-3x svg-icon-secondary"
   />
   <div className="fw-bold py-2">secondary</div>
 </div>
 <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Design/Image.svg"
     className="svg-icon svg-icon-3x svg-icon-light"
   />
   <div className="fw-bold py-2">light</div>
 </div>
   <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Design/Image.svg"
     className="svg-icon svg-icon-3x svg-icon-success"
   />
   <div className="fw-bold py-2">success</div>
 </div>
 <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Design/Image.svg"
     className="svg-icon svg-icon-3x svg-icon-info"
   />
   <div className="fw-bold py-2">info</div>
 </div>
 <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Design/Image.svg"
     className="svg-icon svg-icon-3x svg-icon-warning"
   />
   <div className="fw-bold py-2">warning</div>
 </div>
 <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Design/Image.svg"
     className="svg-icon svg-icon-3x svg-icon-danger"
   />
   <div className="fw-bold py-2">danger</div>
 </div>
 <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Design/Image.svg"
     className="svg-icon svg-icon-3x svg-icon-dark"
   />
   <div className="fw-bold py-2">dark</div>
 </div>
 <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Design/Image.svg"
     className="svg-icon svg-icon-3x svg-icon-muted"
   />
   <div className="fw-bold py-2">muted</div>
 </div>
 <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Design/Image.svg"
     className="svg-icon svg-icon-3x svg-icon-gray-100"
   />
   <div className="fw-bold py-2">gray-100</div>
 </div>
 <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Design/Image.svg"
     className="svg-icon svg-icon-3x svg-icon-gray-200"
   />
   <div className="fw-bold py-2">gray-200</div>
 </div>
 <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Design/Image.svg"
     className="svg-icon svg-icon-3x svg-icon-gray-300"
   />
   <div className="fw-bold py-2">gray-300</div>
 </div>
 <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Design/Image.svg"
     className="svg-icon svg-icon-3x svg-icon-gray-400"
   />
   <div className="fw-bold py-2">gray-400</div>
 </div>
 <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Design/Image.svg"
     className="svg-icon svg-icon-3x svg-icon-gray-500"
   />
   <div className="fw-bold py-2">gray-500</div>
 </div>
 <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Design/Image.svg"
     className="svg-icon svg-icon-3x svg-icon-gray-600"
   />
   <div className="fw-bold py-2">gray-600</div>
 </div>
 <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Design/Image.svg"
     className="svg-icon svg-icon-3x svg-icon-gray-700"
   />
   <div className="fw-bold py-2">gray-700</div>
 </div>
 <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Design/Image.svg"
     className="svg-icon svg-icon-3x svg-icon-gray-800"
   />
@@ -573,19 +577,19 @@ const code3 = `<div className="d-flex flex-column flex-center w-150px me-10 mb-5
   <div className="fw-bold py-2">gray-800</div>
 </div>
 <div className="d-flex flex-column flex-center w-150px me-10 mb-5">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Design/Image.svg"
     className="svg-icon svg-icon-3x svg-icon-gray-900"
   />
   <div className="fw-bold py-2">gray-900</div>
 </div>`;
 
-type Props = {
+interface Props {
   isVisible: boolean;
   icon?: DItem;
   onHide: () => void;
   isSvg: boolean;
-};
+}
 
 const IconModal: React.FC<Props> = ({
   isVisible,
@@ -595,22 +599,22 @@ const IconModal: React.FC<Props> = ({
 }) => {
   return (
     <Modal
+      dialogClassName="modal-dialog-centered"
       show={isVisible}
       onHide={onHide}
-      dialogClassName="modal-dialog-centered"
     >
       <div className="modal-content">
         <div className="modal-header py-5">
           <h5 className="modal-title m-0">{icon?.name}</h5>
           <div
+            aria-label="Close"
             className="btn btn-active-color-primary ms-2 px-0"
             data-bs-dismiss="modal"
-            aria-label="Close"
             onClick={onHide}
           >
-            <KTSVG
-              path="/media/icons/duotone/Navigation/Close.svg"
+            <Ktsvg
               className="svg-icon svg-icon-1"
+              path="/media/icons/duotone/Navigation/Close.svg"
             />
           </div>
         </div>
@@ -618,12 +622,12 @@ const IconModal: React.FC<Props> = ({
           <pre className="bg-light bg-opacity-75 rounded p-5">
             {isSvg &&
               icon &&
-              `<KTSVG path="${icon.path}" className="svg-icon-muted svg-icon-2hx" />`}
+              `<Ktsvg path="${icon.path}" className="svg-icon-muted svg-icon-2hx" />`}
             {!isSvg && icon && `<img src={toAbsoluteUrl("${icon.path}")} />`}
           </pre>
         </div>
         <div className="modal-footer py-5">
-          <button type="button" className="btn btn-light" onClick={onHide}>
+          <button className="btn btn-light" type="button" onClick={onHide}>
             Close
           </button>
         </div>

@@ -11,7 +11,7 @@ const ProfilePage: React.FC = () => {
         <Overview />
       </Route>
       =
-      <Redirect from="/profile" exact={true} to="/profile/overview" />
+      <Redirect exact from="/profile" to="/profile/overview" />
       <Redirect to="/profile/overview" />
     </Switch>
   );

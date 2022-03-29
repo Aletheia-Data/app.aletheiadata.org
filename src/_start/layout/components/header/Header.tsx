@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { KTSVG, toAbsoluteUrl } from "../../../helpers";
+import { Ktsvg, toAbsoluteUrl } from "../../../helpers";
 import { MenuModal } from "../../../partials";
 import { usePageData, useTheme } from "../../core";
 import { MenuInner } from "./MenuInner";
@@ -31,7 +31,7 @@ export function Header() {
                 id="kt_mega_menu_toggle"
                 onClick={() => setShowMegaMenuModal(true)}
               >
-                <KTSVG
+                <Ktsvg
                   className="svg-icon-1"
                   path="/media/icons/duotone/Text/Article.svg"
                 />
@@ -57,7 +57,7 @@ export function Header() {
                 id="kt_mega_menu_toggle"
                 onClick={() => setShowMegaMenuModal(true)}
               >
-                <KTSVG
+                <Ktsvg
                   path="/media/icons/duotone/Text/Article.svg"
                   className="svg-icon-1"
                 />

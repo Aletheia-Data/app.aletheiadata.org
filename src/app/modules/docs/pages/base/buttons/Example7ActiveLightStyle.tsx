@@ -1,43 +1,43 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { CodeBlock } from "../../../../../../_start/partials";
 
-export function Example7ActiveLightStyle() {
+export function Example7ActiveLightStyle(): JSX.Element {
   return (
     <div className="pb-10">
       <h1 className="anchor fw-bolder mb-5" id="Example7ActiveLightStyle">
-        <a href="#Example7ActiveLightStyle"></a>Active Light Style
+        <a href="#Example7ActiveLightStyle" />
+        Active Light Style
       </h1>
       <div className="py-5">
         Use
-        <code>.btn-active-light-{"{color}"}</code>class to set a button's light
-        color for active &amp; hover states only:
+        <code>.btn-active-light-{"{color}"}</code>
+        class to set a button&apos;s light color for active &amp; hover states
+        only:
       </div>
       <div className="py-5">
         <div className="rounded border p-10">
-          <a href="#" className="btn btn-active-light-primary me-2 mb-2">
+          <a className="btn btn-active-light-primary me-2 mb-2" href="#">
             Primary
           </a>
-          <a href="#" className="btn btn-active-light-success me-2 mb-2">
+          <a className="btn btn-active-light-success me-2 mb-2" href="#">
             Success
           </a>
-          <a href="#" className="btn btn-active-light-info me-2 mb-2">
+          <a className="btn btn-active-light-info me-2 mb-2" href="#">
             Info
           </a>
-          <a href="#" className="btn btn-active-light-warning me-2 mb-2">
+          <a className="btn btn-active-light-warning me-2 mb-2" href="#">
             Warning
           </a>
-          <a href="#" className="btn btn-active-light-danger me-2 mb-2">
+          <a className="btn btn-active-light-danger me-2 mb-2" href="#">
             Danger
           </a>
-          <a href="#" className="btn btn-active-light-dark me-2 mb-2">
+          <a className="btn btn-active-light-dark me-2 mb-2" href="#">
             Dark
           </a>
         </div>
       </div>
-      <CodeBlock language="markup" code={code} />
+      <CodeBlock code={code} language="markup" />
     </div>
   );
 }

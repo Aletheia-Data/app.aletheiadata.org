@@ -1,11 +1,9 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { Link } from "react-router-dom";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function Forms() {
+export function Forms(): JSX.Element {
   const {
     REACT_APP_THEME_NAME,
     REACT_APP_BOOTSTRAP_DOCS_LINK,
@@ -17,29 +15,30 @@ export function Forms() {
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="overview">
-          <a href="#overview"></a>Overview
+          <a href="#overview" />
+          Overview
         </h1>
         <div className="py-5">
           <strong>{REACT_APP_THEME_NAME}</strong>&nbsp; customizes the{" "}
           <a
-            href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/forms/overview/`}
             className="fw-bold"
+            href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/forms/overview/`}
           >
             Bootstrap Forms
           </a>
           &nbsp; through the SASS variables in
-          <code>{REACT_APP_SASS_VARIABLES_PATH}</code>and adds additonal options for the
-          form elements in
+          <code>{REACT_APP_SASS_VARIABLES_PATH}</code>and adds additonal options
+          for the form elements in
           <code>{REACT_APP_SASS_PATH}/forms/</code>.
         </div>
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="custom-form-control">
-          <a href="#custom-form-control"></a>Custom Form Control
+          <a href="#custom-form-control" />
+          Custom Form Control
         </h1>
         <div className="py-5">
-          Use{' '}
-          <code>.form-control-solid</code>class with
+          Use <code>.form-control-solid</code>class with
           <code>.form-control</code>to set solid background style for a form
           control:
         </div>
@@ -48,34 +47,35 @@ export function Forms() {
             <div className="mb-10">
               <label className="form-label">Default input</label>
               <input
-                type="text"
                 className="form-control"
                 placeholder="name@example.com"
+                type="text"
               />
             </div>
             <div className="mb-10">
               <label className="form-label">Solid background style</label>
               <input
-                type="text"
                 className="form-control form-control-solid"
                 placeholder="name@example.com"
+                type="text"
               />
             </div>
             <div className="mb-10">
               <label className="form-label">White background style</label>
               <input
-                type="text"
                 className="form-control form-control-white"
                 placeholder="name@example.com"
+                type="text"
               />
             </div>
           </div>
         </div>
-        <CodeBlock language="markup" code={code} />
+        <CodeBlock code={code} language="markup" />
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="custom-form-control">
-          <a href="#custom-form-control"></a>Flush Form Control
+          <a href="#custom-form-control" />
+          Flush Form Control
         </h1>
         <div className="py-5">
           Use
@@ -86,23 +86,24 @@ export function Forms() {
         <div className="py-5">
           <div className="rounded border p-10">
             <div className="mb-10">
-              <label htmlFor="exampleFormControlInput1" className="form-label">
+              <label className="form-label" htmlFor="exampleFormControlInput1">
                 Example
               </label>
               <input
-                type="email"
                 className="form-control form-control-flush"
                 placeholder="Example input"
+                type="email"
               />
             </div>
           </div>
-          <CodeBlock language="markup" code={code2} />
+          <CodeBlock code={code2} language="markup" />
         </div>
       </div>
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="custom-form-select">
-          <a href="#custom-form-select"></a>Custom Form Select
+          <a href="#custom-form-select" />
+          Custom Form Select
         </h1>
         <div className="py-5">
           Use
@@ -113,10 +114,10 @@ export function Forms() {
         <div className="py-5">
           <div className="rounded border p-10">
             <div className="mb-10">
-              <label htmlFor="exampleFormControlInput1" className="form-label">
+              <label className="form-label" htmlFor="exampleFormControlInput1">
                 Default select
               </label>
-              <select className="form-select" aria-label="Select example">
+              <select aria-label="Select example" className="form-select">
                 <option>Open this select menu</option>
                 <option value="1">One</option>
                 <option value="2">Two</option>
@@ -124,12 +125,12 @@ export function Forms() {
               </select>
             </div>
             <div className="mb-10">
-              <label htmlFor="exampleFormControlInput1" className="form-label">
+              <label className="form-label" htmlFor="exampleFormControlInput1">
                 Solid background style
               </label>
               <select
-                className="form-select form-select-solid"
                 aria-label="Select example"
+                className="form-select form-select-solid"
               >
                 <option>Open this select menu</option>
                 <option value="1">One</option>
@@ -139,14 +140,14 @@ export function Forms() {
             </div>
             <div className="mb-10">
               <label
-                htmlFor="exampleFormControlTextarea1"
                 className="form-label"
+                htmlFor="exampleFormControlTextarea1"
               >
                 White background style
               </label>
               <select
-                className="form-select form-select-white"
                 aria-label="Select example"
+                className="form-select form-select-white"
               >
                 <option>Open this select menu</option>
                 <option value="1">One</option>
@@ -156,12 +157,13 @@ export function Forms() {
             </div>
           </div>
         </div>
-        <CodeBlock language="markup" code={code3} />
+        <CodeBlock code={code3} language="markup" />
       </div>
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="custom-checkbox-and-radio">
-          <a href="#custom-checkbox-and-radio"></a>Custom Checkbox &amp; Radio
+          <a href="#custom-checkbox-and-radio" />
+          Custom Checkbox &amp; Radio
         </h1>
         <div className="py-5">
           Use
@@ -176,9 +178,9 @@ export function Forms() {
               <div className="form-check form-check-custom form-check-solid">
                 <input
                   className="form-check-input"
+                  id="flexCheckDefault"
                   type="checkbox"
                   value=""
-                  id="flexCheckDefault"
                 />
                 <label className="form-check-label" htmlFor="flexCheckDefault">
                   Default checkbox
@@ -188,12 +190,11 @@ export function Forms() {
             <div className="mb-10">
               <div className="form-check form-check-custom form-check-solid">
                 <input
+                  checked
                   className="form-check-input"
+                  id="flexCheckChecked"
                   type="checkbox"
                   value=""
-                  id="flexCheckChecked"
-                  checked={true}
-                  onChange={() => {}}
                 />
                 <label className="form-check-label" htmlFor="flexCheckChecked">
                   Checked checkbox
@@ -203,11 +204,11 @@ export function Forms() {
             <div className="mb-10">
               <div className="form-check form-check-custom form-check-solid">
                 <input
+                  disabled
                   className="form-check-input"
+                  id="flexCheckDisabled"
                   type="checkbox"
                   value=""
-                  disabled={true}
-                  id="flexCheckDisabled"
                 />
                 <label className="form-check-label" htmlFor="flexCheckDisabled">
                   Disabled checkbox
@@ -218,9 +219,9 @@ export function Forms() {
               <div className="form-check form-check-custom form-check-solid">
                 <input
                   className="form-check-input"
+                  id="flexRadioDefault"
                   type="radio"
                   value=""
-                  id="flexRadioDefault"
                 />
                 <label className="form-check-label" htmlFor="flexRadioDefault">
                   Default radio
@@ -230,12 +231,11 @@ export function Forms() {
             <div className="mb-10">
               <div className="form-check form-check-custom form-check-solid">
                 <input
+                  checked
                   className="form-check-input"
+                  id="flexRadioChecked"
                   type="radio"
                   value=""
-                  id="flexRadioChecked"
-                  checked={true}
-                  onChange={() => {}}
                 />
                 <label className="form-check-label" htmlFor="flexRadioChecked">
                   Checked radio
@@ -245,18 +245,18 @@ export function Forms() {
             <div className="mb-10">
               <div className="form-check form-check-custom form-check-solid">
                 <input
+                  disabled
                   className="form-check-input"
+                  id="flexRadioDisabled"
                   type="radio"
                   value=""
-                  disabled={true}
-                  id="flexRadioDisabled"
                 />
                 <label className="form-check-label" htmlFor="flexRadioDisabled">
                   Disabled radio
                 </label>
               </div>
             </div>
-            <CodeBlock language="markup" code={code4} />
+            <CodeBlock code={code4} language="markup" />
           </div>
         </div>
 
@@ -271,9 +271,9 @@ export function Forms() {
               <div className="form-check form-check-custom form-check-solid form-check-lg">
                 <input
                   className="form-check-input"
+                  id="flexCheckboxLg"
                   type="checkbox"
                   value=""
-                  id="flexCheckboxLg"
                 />
                 <label className="form-check-label" htmlFor="flexCheckboxLg">
                   Large checkbox
@@ -284,9 +284,9 @@ export function Forms() {
               <div className="form-check form-check-custom form-check-solid form-check-lg">
                 <input
                   className="form-check-input"
+                  id="flexCheckboxSm"
                   type="radio"
                   value=""
-                  id="flexCheckboxSm"
                 />
                 <label className="form-check-label" htmlFor="flexCheckboxSm">
                   Large radio
@@ -297,9 +297,9 @@ export function Forms() {
               <div className="form-check form-check-custom form-check-solid form-check-sm">
                 <input
                   className="form-check-input"
+                  id="flexRadioLg"
                   type="checkbox"
                   value=""
-                  id="flexRadioLg"
                 />
                 <label className="form-check-label" htmlFor="flexRadioLg">
                   Small checkbox
@@ -310,25 +310,25 @@ export function Forms() {
               <div className="form-check form-check-custom form-check-solid form-check-sm">
                 <input
                   className="form-check-input"
+                  id="flexRadioSm"
                   type="radio"
                   value=""
-                  id="flexRadioSm"
                 />
                 <label className="form-check-label" htmlFor="flexRadioSm">
                   Small radio
                 </label>
               </div>
             </div>
-            <CodeBlock language="markup" code={code5} />
+            <CodeBlock code={code5} language="markup" />
           </div>
         </div>
 
         <div className="pt-15 pb-5">
-          Use{' '}
+          Use{" "}
           <Link
             className="fw-bold"
-            to="/docs/utilities#width-and-height"
             target="_blank"
+            to="/docs/utilities#width-and-height"
           >
             Custom Size Classes
           </Link>
@@ -340,9 +340,9 @@ export function Forms() {
               <div className="form-check form-check-custom form-check-solid me-10">
                 <input
                   className="form-check-input h-30px w-30px"
+                  id="flexCheckbox30"
                   type="checkbox"
                   value=""
-                  id="flexCheckbox30"
                 />
                 <label className="form-check-label" htmlFor="flexCheckbox30">
                   40px
@@ -351,9 +351,9 @@ export function Forms() {
               <div className="form-check form-check-custom form-check-solid me-10">
                 <input
                   className="form-check-input h-40px w-40px"
+                  id="flexCheckbox40"
                   type="checkbox"
                   value=""
-                  id="flexCheckbox40"
                 />
                 <label className="form-check-label" htmlFor="flexCheckbox40">
                   40px
@@ -362,9 +362,9 @@ export function Forms() {
               <div className="form-check form-check-custom form-check-solid me-10">
                 <input
                   className="form-check-input h-50px w-50px"
+                  id="flexCheckbox50"
                   type="checkbox"
                   value=""
-                  id="flexCheckbox50"
                 />
                 <label className="form-check-label" htmlFor="flexCheckbox50">
                   50px
@@ -375,9 +375,9 @@ export function Forms() {
               <div className="form-check form-check-custom form-check-solid me-10">
                 <input
                   className="form-check-input h-30px w-30px"
+                  id="flexRadio30"
                   type="radio"
                   value=""
-                  id="flexRadio30"
                 />
                 <label className="form-check-label" htmlFor="flexRadio30">
                   40px
@@ -386,9 +386,9 @@ export function Forms() {
               <div className="form-check form-check-custom form-check-solid me-10">
                 <input
                   className="form-check-input h-40px w-40px"
+                  id="flexRadio40"
                   type="radio"
                   value=""
-                  id="flexRadio40"
                 />
                 <label className="form-check-label" htmlFor="flexRadio40">
                   40px
@@ -397,22 +397,23 @@ export function Forms() {
               <div className="form-check form-check-custom form-check-solid me-10">
                 <input
                   className="form-check-input h-50px w-50px"
+                  id="flexRadio50"
                   type="radio"
                   value=""
-                  id="flexRadio50"
                 />
                 <label className="form-check-label" htmlFor="flexRadio50">
                   50px
                 </label>
               </div>
             </div>
-            <CodeBlock language="markup" code={code6} />
+            <CodeBlock code={code6} language="markup" />
           </div>
         </div>
       </div>
       <div className="pt-10">
         <h1 className="anchor fw-bolder mb-5" id="custom-switch">
-          <a href="#custom-switch"></a>Custom Switch
+          <a href="#custom-switch" />
+          Custom Switch
         </h1>
         <div className="py-5">
           Use
@@ -427,9 +428,9 @@ export function Forms() {
               <div className="form-check form-switch form-check-custom form-check-solid">
                 <input
                   className="form-check-input"
+                  id="flexSwitchDefault"
                   type="checkbox"
                   value=""
-                  id="flexSwitchDefault"
                 />
                 <label className="form-check-label" htmlFor="flexSwitchDefault">
                   Default switch
@@ -439,12 +440,11 @@ export function Forms() {
             <div className="mb-10">
               <div className="form-check form-switch form-check-custom form-check-solid">
                 <input
+                  checked
                   className="form-check-input"
+                  id="flexSwitchChecked"
                   type="checkbox"
                   value=""
-                  id="flexSwitchChecked"
-                  checked={true}
-                  onChange={() => {}}
                 />
                 <label className="form-check-label" htmlFor="flexSwitchChecked">
                   Checked switch
@@ -454,13 +454,12 @@ export function Forms() {
             <div className="mb-10">
               <div className="form-check form-switch form-check-custom form-check-solid">
                 <input
+                  checked
+                  disabled
                   className="form-check-input"
+                  id="flexSwitchDisabled"
                   type="checkbox"
                   value=""
-                  id="flexSwitchDisabled"
-                  disabled={true}
-                  checked={true}
-                  onChange={() => {}}
                 />
                 <label
                   className="form-check-label"
@@ -470,17 +469,16 @@ export function Forms() {
                 </label>
               </div>
             </div>
-            <CodeBlock language="markup" code={code7} />
-
+            <CodeBlock code={code7} language="markup" />
           </div>
         </div>
 
         <div className="pt-15 pb-5">
-          Use{' '}
+          Use{" "}
           <Link
             className="fw-bold"
-            to="/docs/utilities#width-and-height"
             target="_blank"
+            to="/docs/utilities#width-and-height"
           >
             Custom Size Classes
           </Link>
@@ -493,9 +491,9 @@ export function Forms() {
               <div className="form-check form-switch form-check-custom form-check-solid me-10">
                 <input
                   className="form-check-input h-20px w-30px"
+                  id="flexSwitch20x30"
                   type="checkbox"
                   value=""
-                  id="flexSwitch20x30"
                 />
                 <label className="form-check-label" htmlFor="flexSwitch20x30">
                   20px x 30px
@@ -504,9 +502,9 @@ export function Forms() {
               <div className="form-check form-switch form-check-custom form-check-solid me-10">
                 <input
                   className="form-check-input h-30px w-50px"
+                  id="flexSwitch30x50"
                   type="checkbox"
                   value=""
-                  id="flexSwitch30x50"
                 />
                 <label className="form-check-label" htmlFor="flexSwitch30x50">
                   30px X 50px
@@ -515,16 +513,16 @@ export function Forms() {
               <div className="form-check form-switch form-check-custom form-check-solid me-10">
                 <input
                   className="form-check-input h-40px w-60px"
+                  id="flexSwitch40x60"
                   type="checkbox"
                   value=""
-                  id="flexSwitch40x60"
                 />
                 <label className="form-check-label" htmlFor="flexSwitch40x60">
                   40px X 60px
                 </label>
               </div>
             </div>
-            <CodeBlock language="markup" code={code8} />
+            <CodeBlock code={code8} language="markup" />
           </div>
         </div>
       </div>

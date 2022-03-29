@@ -8,9 +8,9 @@ import { Logout } from "./modules/auth/Logout";
 import { PrivateRoutes } from "./routing/PrivateRoutes";
 import { PublicRoutes } from "./routing/PublicRoutes";
 
-type Props = {
+interface Props {
   basename: string;
-};
+}
 
 const App: React.FC<Props> = ({ basename }) => {
   const isAuthorized = useSelector<RootState>(
@@ -22,7 +22,7 @@ const App: React.FC<Props> = ({ basename }) => {
     <BrowserRouter basename={basename}>
       <ThemeProvider>
         <Switch>
-          <Route path="/logout" component={Logout} />
+          <Route component={Logout} path="/logout" />
           {!isAuthorized ? (
             <Route>
               <PublicRoutes />

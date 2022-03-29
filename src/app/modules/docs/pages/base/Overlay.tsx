@@ -1,16 +1,15 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
-import { KTSVG, toAbsoluteUrl } from "../../../../../_start/helpers";
+import { Ktsvg, toAbsoluteUrl } from "../../../../../_start/helpers";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function Overlay() {
+export function Overlay(): JSX.Element {
   return (
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="overview">
-          <a href="#overview"></a>Overview
+          <a href="#overview" />
+          Overview
         </h1>
         <div className="py-5">
           Overlay is a custom component to create an overlay effect on elements.
@@ -19,11 +18,12 @@ export function Overlay() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="basic">
-          <a href="#basic"></a>Basic Example
+          <a href="#basic" />
+          Basic Example
         </h1>
         <div className="py-5">
           Use
-          <code>.overlay</code>on an element and wrap the element's primary
+          <code>.overlay</code>on an element and wrap the element&apos;s primary
           content with
           <code>.overlay-wrapper</code>and the overlay content with
           <code>.overlay-layer</code>and set the overlay backgroud color with
@@ -38,18 +38,18 @@ export function Overlay() {
                   <div className="card-body p-0">
                     <div className="overlay-wrapper">
                       <img
-                        src={toAbsoluteUrl("/media/stock/600x400/img-1.jpg")}
                         alt=""
                         className="w-100 rounded"
+                        src={toAbsoluteUrl("/media/stock/600x400/img-1.jpg")}
                       />
                     </div>
                     <div className="overlay-layer bg-dark bg-opacity-10">
-                      <a href="#" className="btn btn-primary btn-shadow">
+                      <a className="btn btn-primary btn-shadow" href="#">
                         Explore
                       </a>
                       <a
-                        href="#"
                         className="btn btn-light-primary btn-shadow ms-2"
+                        href="#"
                       >
                         Purchase
                       </a>
@@ -62,19 +62,19 @@ export function Overlay() {
                   <div className="card-body p-0">
                     <div className="overlay-wrapper">
                       <img
-                        src={toAbsoluteUrl("/media/stock/600x400/img-2.jpg")}
                         alt=""
                         className="w-100 rounded"
+                        src={toAbsoluteUrl("/media/stock/600x400/img-2.jpg")}
                       />
                     </div>
                     <div className="overlay-layer bg-dark bg-opacity-10 align-items-end justify-content-center">
                       <div className="d-flex flex-grow-1 flex-center py-5">
-                        <a href="#" className="btn btn-primary btn-shadow">
+                        <a className="btn btn-primary btn-shadow" href="#">
                           Explore
                         </a>
                         <a
-                          href="#"
                           className="btn btn-light-primary btn-shadow ms-2"
+                          href="#"
                         >
                           Purchase
                         </a>
@@ -88,19 +88,19 @@ export function Overlay() {
                   <div className="card-body p-0">
                     <div className="overlay-wrapper">
                       <img
-                        src={toAbsoluteUrl("/media/stock/600x400/img-3.jpg")}
                         alt=""
                         className="w-100 rounded"
+                        src={toAbsoluteUrl("/media/stock/600x400/img-3.jpg")}
                       />
                     </div>
                     <div className="overlay-layer bg-dark bg-opacity-10 align-items-start justify-content-center">
                       <div className="d-flex flex-grow-1 flex-center py-5">
-                        <a href="#" className="btn btn-primary btn-shadow">
+                        <a className="btn btn-primary btn-shadow" href="#">
                           Explore
                         </a>
                         <a
-                          href="#"
                           className="btn btn-light-primary btn-shadow ms-2"
+                          href="#"
                         >
                           Purchase
                         </a>
@@ -117,7 +117,8 @@ export function Overlay() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="content-blocking">
-          <a href="#content-blocking"></a>Content Blocking
+          <a href="#content-blocking" />
+          Content Blocking
         </h1>
 
         <div className="py-5">
@@ -138,8 +139,8 @@ export function Overlay() {
                       <div className="overlay-wrapper p-5">
                         Lorem Ipsum is simply dummy text of the printing and
                         typesetting industry. Lorem Ipsum has been the
-                        industry's standard dummy text ever since the 1500s,
-                        when an unknown printer took a galley of type and
+                        industry&apos;s standard dummy text ever since the
+                        1500s, when an unknown printer took a galley of type and
                         scrambled it to.
                       </div>
                       <div className="overlay-layer rounded bg-dark bg-opacity-5">
@@ -162,7 +163,8 @@ export function Overlay() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="card-blocking">
-          <a href="#card-blocking"></a>Card Blocking
+          <a href="#card-blocking" />
+          Card Blocking
         </h1>
         <div className="py-5">
           Use
@@ -180,9 +182,10 @@ export function Overlay() {
                   <div className="card-body">
                     <div className="overlay-wrapper p-5">
                       Lorem Ipsum is simply dummy text of the printing and
-                      typesetting industry. Lorem Ipsum has been the industry's
-                      standard dummy text ever since the 1500s, when an unknown
-                      printer took a galley of type and scrambled it to.
+                      typesetting industry. Lorem Ipsum has been the
+                      industry&apos;s standard dummy text ever since the 1500s,
+                      when an unknown printer took a galley of type and
+                      scrambled it to.
                     </div>
                     <div className="overlay-layer rounded bg-dark bg-opacity-5">
                       <div
@@ -203,31 +206,32 @@ export function Overlay() {
 
       <div className="pt-10">
         <h1 className="anchor fw-bolder mb-5" id="modal-blocking">
-          <a href="#modal-blocking"></a>Modal Blocking
+          <a href="#modal-blocking" />
+          Modal Blocking
         </h1>
         <div className="py-5">
           Use
-          <code>.overlay-block</code>class block a modal's content.
+          <code>.overlay-block</code>class block a modal&apos;s content.
         </div>
         <div className="py-5">
           <div className="rounded border p-10">
             <div className="row">
               <div className="col-lg-6">
                 <button
-                  type="button"
                   className="btn btn-primary me-2"
-                  data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
+                  data-bs-toggle="modal"
+                  type="button"
                 >
                   Launch modal
                 </button>
                 <div
+                  aria-hidden="true"
+                  aria-labelledby="exampleModalLabel"
                   className="modal fade"
                   id="exampleModal"
-                  tabIndex={-1}
-                  aria-labelledby="exampleModalLabel"
                   style={{ display: "none" }}
-                  aria-hidden="true"
+                  tabIndex={-1}
                 >
                   <div
                     className="modal-dialog modal-dialog-centered"
@@ -239,11 +243,11 @@ export function Overlay() {
                           Modal Title
                         </h5>
                         <div
+                          aria-label="Close"
                           className="btn btn-icon btn-sm btn-active-light-primary ms-2"
                           data-bs-dismiss="modal"
-                          aria-label="Close"
                         >
-                          <KTSVG
+                          <Ktsvg
                             className="svg-icon svg-icon-2x"
                             path="/media/icons/duotone/Navigation/Close.svg"
                           />
@@ -252,14 +256,15 @@ export function Overlay() {
                       <div className="modal-body overlay overlay-block">
                         Lorem Ipsum is simply dummy text of the printing and
                         typesetting industry. Lorem Ipsum has been the
-                        industry's standard dummy text ever since the 1500s,
-                        when an unknown printer took a galley of type and
+                        industry&apos;s standard dummy text ever since the
+                        1500s, when an unknown printer took a galley of type and
                         scrambled it to make a type specimen book. It has
                         survived not only five centuries, but also the leap into
                         electronic typesetting, remaining essentially unchanged.
                         Lorem Ipsum is simply dummy text of the printing and
                         typesetting industry. Lorem Ipsum has been the
-                        industry's standard dummy text ever since the 1500s,
+                        industry&apos;s standard dummy text ever since the
+                        1500s,
                         <div className="overlay-layer bg-dark bg-opacity-5">
                           <div
                             className="spinner-border text-primary"
@@ -271,15 +276,15 @@ export function Overlay() {
                       </div>
                       <div className="modal-footer">
                         <button
-                          type="button"
                           className="btn btn-light-primary fw-bold"
                           data-bs-dismiss="modal"
+                          type="button"
                         >
                           Close
                         </button>
                         <button
-                          type="button"
                           className="btn btn-primary fw-bold"
+                          type="button"
                         >
                           Ok
                         </button>
@@ -456,7 +461,7 @@ const code4 = `<button
           data-bs-dismiss="modal"
           aria-label="Close"
         >
-          <KTSVG
+          <Ktsvg
             className="svg-icon svg-icon-2x"
             path="/media/icons/duotone/Navigation/Close.svg"
           />

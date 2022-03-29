@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { KTSVG, toAbsoluteUrl } from "../../../helpers";
+import { Ktsvg, toAbsoluteUrl } from "../../../helpers";
 // import { toAbsoluteUrl } from "../../../helpers";
-// import { KTSVG } from "../../../helpers";
+// import { Ktsvg } from "../../../helpers";
 
 type Props = {
   className: string;
@@ -42,7 +42,7 @@ const EngageWidget1: React.FC<Props> = ({
           </h1>
           <div className="fs-3 mb-8">Get Amazing Gadgets</div>
           <form className="d-flex flex-center py-2 px-6 bg-white rounded">
-            <KTSVG
+            <Ktsvg
               path="/media/icons/duotone/General/Search.svg"
               className="svg-icon-1 svg-icon-primary"
             />

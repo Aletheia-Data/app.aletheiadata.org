@@ -1,5 +1,5 @@
 import React from "react";
-import { KTSVG } from "../../../helpers";
+import { Ktsvg } from "../../../helpers";
 
 const Free = () => (
   <>
@@ -38,13 +38,13 @@ const Free = () => (
           <tr>
             <td>Complete Documentation</td>
             <td className="text-center">
-              <KTSVG
+              <Ktsvg
                 path="/media/icons/duotone/Code/Done-circle.svg"
                 className="svg-icon-2 explore-icon-success"
               />
             </td>
             <td className="text-center">
-              <KTSVG
+              <Ktsvg
                 path="/media/icons/duotone/Code/Done-circle.svg"
                 className="svg-icon-2 explore-icon-success"
               />
@@ -53,13 +53,13 @@ const Free = () => (
           <tr>
             <td>Product Support</td>
             <td className="text-center">
-              <KTSVG
+              <Ktsvg
                 path="/media/icons/duotone/Code/Error-circle.svg"
                 className="svg-icon-2 explore-icon-danger"
               />
             </td>
             <td className="text-center">
-              <KTSVG
+              <Ktsvg
                 path="/media/icons/duotone/Code/Done-circle.svg"
                 className="svg-icon-2 explore-icon-success"
               />
@@ -68,13 +68,13 @@ const Free = () => (
           <tr>
             <td>Chat App</td>
             <td className="text-center">
-              <KTSVG
+              <Ktsvg
                 path="/media/icons/duotone/Code/Error-circle.svg"
                 className="svg-icon-2 explore-icon-danger"
               />
             </td>
             <td className="text-center">
-              <KTSVG
+              <Ktsvg
                 path="/media/icons/duotone/Code/Done-circle.svg"
                 className="svg-icon-2 explore-icon-success"
               />

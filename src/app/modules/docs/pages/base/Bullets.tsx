@@ -1,16 +1,15 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { Link } from "react-router-dom";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function Bullets() {
+export function Bullets(): JSX.Element {
   return (
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="overview">
-          <a href="#overview"></a>Overview
+          <a href="#overview" />
+          Overview
         </h1>
         <div className="py-5">
           Bullet is a custom component used with combination with other
@@ -19,7 +18,8 @@ export function Bullets() {
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="basic">
-          <a href="#basic"></a>Basic
+          <a href="#basic" />
+          Basic
         </h1>
         <div className="py-5">
           Use
@@ -29,29 +29,35 @@ export function Bullets() {
           <div className="rounded border p-10">
             <div className="d-flex flex-column">
               <li className="d-flex align-items-center py-2">
-                <span className="bullet me-5"></span>Item 1
+                <span className="bullet me-5" />
+                Item 1
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet me-5"></span>Item 2
+                <span className="bullet me-5" />
+                Item 2
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet me-5"></span>Item 3
+                <span className="bullet me-5" />
+                Item 3
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet me-5"></span>Item 4
+                <span className="bullet me-5" />
+                Item 4
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet me-5"></span>Item 5
+                <span className="bullet me-5" />
+                Item 5
               </li>
             </div>
           </div>
         </div>
-        <CodeBlock language="markup" code={code} />
+        <CodeBlock code={code} language="markup" />
       </div>
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="Colors">
-          <a href="#colors"></a>Colors
+          <a href="#colors" />
+          Colors
         </h1>
         <div className="py-5">
           Use
@@ -61,31 +67,40 @@ export function Bullets() {
           <div className="rounded border p-10">
             <div className="d-flex flex-column">
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bg-white me-5"></span>white
+                <span className="bullet bg-white me-5" />
+                white
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bg-primary me-5"></span>primary
+                <span className="bullet bg-primary me-5" />
+                primary
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bg-light me-5"></span>light
+                <span className="bullet bg-light me-5" />
+                light
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bg-secondary me-5"></span>secondary
+                <span className="bullet bg-secondary me-5" />
+                secondary
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bg-success me-5"></span>success
+                <span className="bullet bg-success me-5" />
+                success
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bg-info me-5"></span>info
+                <span className="bullet bg-info me-5" />
+                info
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bg-warning me-5"></span>warning
+                <span className="bullet bg-warning me-5" />
+                warning
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bg-danger me-5"></span>danger
+                <span className="bullet bg-danger me-5" />
+                danger
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bg-dark me-5"></span>dark
+                <span className="bullet bg-dark me-5" />
+                dark
               </li>
             </div>
           </div>
@@ -95,7 +110,8 @@ export function Bullets() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="dot-style">
-          <a href="#dot-style"></a>Dot Style
+          <a href="#dot-style" />
+          Dot Style
         </h1>
         <div className="py-5">
           Use
@@ -105,21 +121,24 @@ export function Bullets() {
           <div className="rounded border p-10">
             <div className="d-flex flex-column">
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bullet-dot me-5"></span>Item 1
+                <span className="bullet bullet-dot me-5" />
+                Item 1
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bullet-dot bg-danger me-5"></span>Item 2
+                <span className="bullet bullet-dot bg-danger me-5" />
+                Item 2
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bullet-dot bg-success me-5"></span>Item
-                3
+                <span className="bullet bullet-dot bg-success me-5" />
+                Item 3
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bullet-dot bg-info me-5"></span>Item 4
+                <span className="bullet bullet-dot bg-info me-5" />
+                Item 4
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bullet-dot bg-primary me-5"></span>Item
-                5
+                <span className="bullet bullet-dot bg-primary me-5" />
+                Item 5
               </li>
             </div>
           </div>
@@ -129,7 +148,8 @@ export function Bullets() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="dot-style">
-          <a href="#dot-style"></a>Vertical Style
+          <a href="#dot-style" />
+          Vertical Style
         </h1>
         <div className="py-5">
           Use
@@ -139,22 +159,23 @@ export function Bullets() {
           <div className="rounded border p-10">
             <div className="d-flex flex-column">
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bullet-vertical me-5"></span>Item 1
+                <span className="bullet bullet-vertical me-5" />
+                Item 1
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bullet-vertical bg-danger me-5"></span>
+                <span className="bullet bullet-vertical bg-danger me-5" />
                 Item 2
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bullet-vertical bg-success me-5"></span>
+                <span className="bullet bullet-vertical bg-success me-5" />
                 Item 3
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bullet-vertical bg-info me-5"></span>
+                <span className="bullet bullet-vertical bg-info me-5" />
                 Item 4
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bullet-vertical bg-primary me-5"></span>
+                <span className="bullet bullet-vertical bg-primary me-5" />
                 Item 5
               </li>
             </div>
@@ -165,7 +186,8 @@ export function Bullets() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="line-style">
-          <a href="#line-style"></a>Line Style
+          <a href="#line-style" />
+          Line Style
         </h1>
         <div className="py-5">
           Use
@@ -176,22 +198,24 @@ export function Bullets() {
           <div className="rounded border p-10">
             <div className="d-flex flex-column">
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bullet-line me-5"></span>Item 1
+                <span className="bullet bullet-line me-5" />
+                Item 1
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bullet-line bg-danger me-5"></span>Item
-                2
+                <span className="bullet bullet-line bg-danger me-5" />
+                Item 2
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bullet-line bg-success me-5"></span>Item
-                3
+                <span className="bullet bullet-line bg-success me-5" />
+                Item 3
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bullet-line bg-info me-5"></span>Item 4
+                <span className="bullet bullet-line bg-info me-5" />
+                Item 4
               </li>
               <li className="d-flex align-items-center py-2">
-                <span className="bullet bullet-line bg-primary me-5"></span>Item
-                5
+                <span className="bullet bullet-line bg-primary me-5" />
+                Item 5
               </li>
             </div>
           </div>
@@ -201,7 +225,8 @@ export function Bullets() {
 
       <div className="pt-10">
         <h1 className="anchor fw-bolder mb-5" id="sizes">
-          <a href="#sizes"></a>Sizes
+          <a href="#sizes" />
+          Sizes
         </h1>
         <div className="py-5">
           Use
@@ -218,45 +243,45 @@ export function Bullets() {
           <div className="rounded border p-10 d-flex flex-column flex-wrap">
             <div className="d-flex">
               <div className="d-flex align-items-center me-15">
-                <span className="bullet bg-primary h-15px w-25px me-5"></span>
+                <span className="bullet bg-primary h-15px w-25px me-5" />
                 .h-15px .w-25px
               </div>
               <div className="d-flex align-items-center me-15">
-                <span className="bullet bg-primary h-20px w-30px me-5"></span>
+                <span className="bullet bg-primary h-20px w-30px me-5" />
                 .h-20px .w-30px
               </div>
               <div className="d-flex align-items-center">
-                <span className="bullet bg-primary h-30px w-50px me-5"></span>
+                <span className="bullet bg-primary h-30px w-50px me-5" />
                 .h-30px .w-50px
               </div>
             </div>
-            <div className="separator my-10"></div>
+            <div className="separator my-10" />
             <div className="d-flex">
               <div className="d-flex align-items-center me-15">
-                <span className="bullet bullet-dot bg-primary h-15px w-15px me-5"></span>
+                <span className="bullet bullet-dot bg-primary h-15px w-15px me-5" />
                 .h-15px .w-15px
               </div>
               <div className="d-flex align-items-center me-15">
-                <span className="bullet bullet-dot bg-primary h-20px w-20px me-5"></span>
+                <span className="bullet bullet-dot bg-primary h-20px w-20px me-5" />
                 .h-20px .w-20px
               </div>
               <div className="d-flex align-items-center">
-                <span className="bullet bullet-dot bg-primary h-30px w-30px me-5"></span>
+                <span className="bullet bullet-dot bg-primary h-30px w-30px me-5" />
                 .h-30px .w-30px
               </div>
             </div>
-            <div className="separator my-10"></div>
+            <div className="separator my-10" />
             <div className="d-flex">
               <div className="d-flex align-items-center me-15">
-                <span className="bullet bullet-vertical bg-primary h-25px w-15px me-5"></span>
+                <span className="bullet bullet-vertical bg-primary h-25px w-15px me-5" />
                 .h-25px .w-15px
               </div>
               <div className="d-flex align-items-center me-15">
-                <span className="bullet bullet-vertical bg-primary h-30px w-20px me-5"></span>
+                <span className="bullet bullet-vertical bg-primary h-30px w-20px me-5" />
                 .h-30px .w-20px
               </div>
               <div className="d-flex align-items-center">
-                <span className="bullet bullet-vertical bg-primary h-50px w-30px me-5"></span>
+                <span className="bullet bullet-vertical bg-primary h-50px w-30px me-5" />
                 .h-50px .w-30px
               </div>
             </div>

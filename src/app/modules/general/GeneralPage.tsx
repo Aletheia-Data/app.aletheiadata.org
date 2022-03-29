@@ -5,7 +5,7 @@ import { PricingPage } from "./pages/PricingPage";
 import { InvoicePage } from "./pages/InvoicePage";
 import { PageTitle } from "../../../_start/layout/core";
 
-export function GeneralPage() {
+export function GeneralPage(): JSX.Element {
   return (
     <Switch>
       <Route path="/general/faq">
@@ -26,7 +26,7 @@ export function GeneralPage() {
           <InvoicePage />
         </>
       </Route>
-      <Redirect from="/general" exact={true} to="/general/faq" />
+      <Redirect exact from="/general" to="/general/faq" />
       <Redirect to="/general/faq" />
     </Switch>
   );
