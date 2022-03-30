@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import { Modal } from "react-bootstrap-v5";
-import { KTSVG, toAbsoluteUrl } from "../../helpers";
+import { Ktsvg, toAbsoluteUrl } from "../../helpers";
 import { ListsWidget4, ListsWidget5, TablesWidget2 } from "../widgets";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
@@ -12,29 +12,29 @@ type Props = {
 };
 
 const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
-
   const CAT_QUERY = gql`
-  query Categories {
-    categories(
-      limit: 5, 
-      sort: "alexandrias:desc"
-    ) {
-      id,
-      title,
-      description,
-      icon{
-        url
-      },
-      alexandrias{
-        cid,
-        type
+    query Categories {
+      categories(limit: 5, sort: "alexandrias:desc") {
+        id
+        title
+        description
+        icon {
+          url
+        }
+        alexandrias {
+          cid
+          type
+        }
       }
     }
-  }
   `;
 
-  var { data: catData, loading: catLoading, error } = useQuery(CAT_QUERY, {
-    variables: {}
+  var {
+    data: catData,
+    loading: catLoading,
+    error,
+  } = useQuery(CAT_QUERY, {
+    variables: {},
   });
 
   return (
@@ -53,7 +53,7 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
               className="btn btn-icon btn-sm btn-light-primary ms-2"
               onClick={handleClose}
             >
-              <KTSVG
+              <Ktsvg
                 className="svg-icon-2"
                 path="/media/icons/duotone/Navigation/Close.svg"
               />
@@ -82,17 +82,16 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
                 <div className="col-sm-6">
                   <div className="row g-5">
                     <div className="col-sm-6">
-                      {
-                        catLoading &&
-                        <p>Loading ...</p>
-                      }
-                      {
-                        catData && catData.categories.map((cat: any, i: number) => {
-
+                      {catLoading && <p>Loading ...</p>}
+                      {catData &&
+                        catData.categories.map((cat: any, i: number) => {
                           if (i > 1) return;
 
                           return (
-                            <div key={`cat_search_${i}`} className="card card-custom overlay min-h-125px mb-5 shadow-none">
+                            <div
+                              key={`cat_search_${i}`}
+                              className="card card-custom overlay min-h-125px mb-5 shadow-none"
+                            >
                               <div className="card-body d-flex flex-column p-0">
                                 <div
                                   className="overlay-wrapper flex-grow-1 bgi-no-repeat bgi-size-cover bgi-position-center card-rounded"
@@ -112,18 +111,19 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
                                 </div>
                               </div>
                             </div>
-                          )
-                        })
-                      }
+                          );
+                        })}
                     </div>
                     <div className="col-sm-6">
-                      {
-                        catData && catData.categories.map((cat: any, i: number) => {
-
+                      {catData &&
+                        catData.categories.map((cat: any, i: number) => {
                           if (i !== 3) return;
 
                           return (
-                            <div key={`cat_search_${i}`} className="card card-custom card-stretch overlay mb-5 shadow-none min-h-250px">
+                            <div
+                              key={`cat_search_${i}`}
+                              className="card card-custom card-stretch overlay mb-5 shadow-none min-h-250px"
+                            >
                               <div className="card-body d-flex flex-column p-0">
                                 <div
                                   className="overlay-wrapper flex-grow-1 bgi-no-repeat bgi-size-cover bgi-position-center card-rounded"
@@ -143,21 +143,22 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
                                 </div>
                               </div>
                             </div>
-                          )
-                        })
-                      }
+                          );
+                        })}
                     </div>
                   </div>
                 </div>
                 <div className="col-sm-6">
                   <div className="card card-custom card-stretch overlay mb-5 shadow-none min-h-250px">
-                    {
-                      catData && catData.categories.map((cat: any, i: number) => {
-
+                    {catData &&
+                      catData.categories.map((cat: any, i: number) => {
                         if (i !== 4) return;
 
                         return (
-                          <div key={`cat_search_${i}`} className="card-body d-flex flex-column p-0">
+                          <div
+                            key={`cat_search_${i}`}
+                            className="card-body d-flex flex-column p-0"
+                          >
                             <div
                               className="overlay-wrapper flex-grow-1 bgi-no-repeat bgi-size-cover bgi-position-center card-rounded"
                               style={{
@@ -167,14 +168,16 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
                               }}
                             ></div>
                             <div className="overlay-layer bg-white bg-opacity-50">
-                              <a href="#" className="btn btn-sm fw-bold btn-primary">
+                              <a
+                                href="#"
+                                className="btn btn-sm fw-bold btn-primary"
+                              >
                                 {cat.title}
                               </a>
                             </div>
                           </div>
-                        )
-                      })
-                    }
+                        );
+                      })}
                   </div>
                 </div>
               </div>
@@ -189,7 +192,7 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
             {/* end::Framework Users */}
 
             {/* begin::Tutorials */}
-            <div className="pb-10" style={{ minHeight: '350px' }}>
+            <div className="pb-10" style={{ minHeight: "350px" }}>
               <h3 className="text-dark fw-bolder fs-1 mb-6">Tutorials</h3>
               {/**
                * <ListsWidget5 className="mb-5 shadow-none" innerPadding="px-0" />

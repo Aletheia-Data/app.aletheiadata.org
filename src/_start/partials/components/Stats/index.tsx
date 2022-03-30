@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from "react";
 import ApexCharts, { ApexOptions } from "apexcharts";
-import { KTSVG, toAbsoluteUrl } from "../../../helpers";
+import { Ktsvg, toAbsoluteUrl } from "../../../helpers";
 import { getCSSVariableValue } from "../../../assets/ts/_utils";
 import { Link } from "react-router-dom";
 
@@ -252,7 +252,7 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
               to={`/group/${id}`}
             >
               <span className="menu-icon">
-                <KTSVG
+                <Ktsvg
                   className="svg-icon-1"
                   path="/media/icons/duotone/General/Binocular.svg"
                 />
@@ -355,7 +355,7 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
             to={`/group/${id}`}
           >
             <span className="menu-icon">
-              <KTSVG
+              <Ktsvg
                 className="svg-icon-1"
                 path="/media/icons/duotone/General/Binocular.svg"
               />

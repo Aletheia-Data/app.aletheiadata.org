@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { KTSVG } from "../../../helpers";
-import moment from 'moment';
+import { Ktsvg } from "../../../helpers";
+import moment from "moment";
 import { Link } from "react-router-dom";
 
 type Props = {
@@ -33,16 +33,16 @@ const TablesWidget5: React.FC<Props> = ({
   let connection: any = data.alexandriasConnection.groupBy.id;
   let totalConn = connection.length;
   switch (entity) {
-    case 'src':
+    case "src":
       title = data.source.name;
       records = data.source.alexandrias;
       console.log(totalConn);
       break;
-    case 'dep':
+    case "dep":
       title = data.department.name;
       records = data.department.alexandrias;
       break;
-    case 'cat':
+    case "cat":
       title = data.category.name;
       records = data.category.alexandrias;
       break;
@@ -59,14 +59,16 @@ const TablesWidget5: React.FC<Props> = ({
             {`${entityCount} elementos registrados`}
           </span>
         </h3>
-        {
-          type === 'single' &&
+        {type === "single" && (
           <div className="card-toolbar">
-            <a href="#" className="disabled btn btn-primary fw-bolder fs-7 disabled">
+            <a
+              href="#"
+              className="disabled btn btn-primary fw-bolder fs-7 disabled"
+            >
               Subir Archivo
             </a>
           </div>
-        }
+        )}
       </div>
       {/* end::Header*/}
 
@@ -80,64 +82,71 @@ const TablesWidget5: React.FC<Props> = ({
           >
             <thead>
               <tr className="text-start text-muted fw-bolder text-gray-400 text-uppercase fs-7 border-gray-100 border-bottom-1">
-                <td className="ps-0 min-w-250px py-5" width="30%">Nombre</td>
-                <td className="min-w-100px py-5" width="10%">{'Formato'}</td>
+                <td className="ps-0 min-w-250px py-5" width="30%">
+                  Nombre
+                </td>
+                <td className="min-w-100px py-5" width="10%">
+                  {"Formato"}
+                </td>
                 <td className="min-w-100px py-5" width="25%">
                   <span className={`text-${color}`}>Ultimo Cambio</span>
-                  <KTSVG
+                  <Ktsvg
                     className={`svg-icon-sm svg-icon-${color}`}
                     path="/media/icons/duotone/Navigation/Down-2.svg"
                   />
                 </td>
-                <td className="min-w-100px py-5" width="25%">{'Status'}</td>
-                <td className="min-w-100px pe-0 text-end py-5" width="10%">Action</td>
+                <td className="min-w-100px py-5" width="25%">
+                  {"Status"}
+                </td>
+                <td className="min-w-100px pe-0 text-end py-5" width="10%">
+                  Action
+                </td>
               </tr>
             </thead>
             <tbody>
-              {
-                records && records.map((rec: any) => {
-
-                  let count = '0';
+              {records &&
+                records.map((rec: any) => {
+                  let count = "0";
                   let badge;
 
                   let background_status;
                   let text_status;
                   switch (rec.status) {
-                    case 'under_review':
-                      background_status = 'background-csv';
-                      text_status = 'under review';
+                    case "under_review":
+                      background_status = "background-csv";
+                      text_status = "under review";
                       break;
-                    case 'on_line':
-                      background_status = 'background-xls';
-                      text_status = 'online';
+                    case "on_line":
+                      background_status = "background-xls";
+                      text_status = "online";
                       break;
-                    case 'blocked':
-                      background_status = 'background-ods';
-                      text_status = 'blocked';
+                    case "blocked":
+                      background_status = "background-ods";
+                      text_status = "blocked";
                       break;
-                    case 'broken':
-                      background_status = 'background-pdf';
-                      text_status = 'broken';
+                    case "broken":
+                      background_status = "background-pdf";
+                      text_status = "broken";
                       break;
                   }
 
                   let background_format;
                   switch (rec.type) {
-                    case 'pdf':
-                      background_format = 'background-pdf';
+                    case "pdf":
+                      background_format = "background-pdf";
                       break;
-                    case 'csv':
-                      background_format = 'background-csv';
+                    case "csv":
+                      background_format = "background-csv";
                       break;
-                    case 'xls':
+                    case "xls":
                     case "xlsx":
-                      background_format = 'background-xls';
+                      background_format = "background-xls";
                       break;
-                    case 'ods':
-                      background_format = 'background-ods';
+                    case "ods":
+                      background_format = "background-ods";
                       break;
-                    case 'other':
-                      background_format = 'background-other';
+                    case "other":
+                      background_format = "background-other";
                       break;
                   }
 
@@ -147,8 +156,10 @@ const TablesWidget5: React.FC<Props> = ({
                     <tr key={`item_${rec.id}`}>
                       <td className="ps-0">
                         <Link
-                          to={rec.cid ? link : '#'}
-                          className={`text-gray-800 fw-bolder text-hover-primary fs-6 ${rec.cid ? '' : 'disabled'}`}
+                          to={rec.cid ? link : "#"}
+                          className={`text-gray-800 fw-bolder text-hover-primary fs-6 ${
+                            rec.cid ? "" : "disabled"
+                          }`}
                         >
                           {rec.name || rec.title}
                         </Link>
@@ -159,8 +170,10 @@ const TablesWidget5: React.FC<Props> = ({
                         </span>
                       </td>
                       <td>
-                        <span className={`text-${color} fw-bolder d-block fs-6`}>
-                          {moment(rec.updatedAt).format('DD/MM/YYYY')}
+                        <span
+                          className={`text-${color} fw-bolder d-block fs-6`}
+                        >
+                          {moment(rec.updatedAt).format("DD/MM/YYYY")}
                         </span>
                       </td>
                       <td>
@@ -173,17 +186,15 @@ const TablesWidget5: React.FC<Props> = ({
                           href="#"
                           className="btn btn-icon btn-bg-light  btn-color-muted btn-active-color-primary btn-sm"
                         >
-                          <KTSVG
+                          <Ktsvg
                             className="svg-icon-4"
                             path="/media/icons/duotone/General/Sad.svg"
                           />
                         </a>
                       </td>
                     </tr>
-                  )
-                })
-              }
-
+                  );
+                })}
             </tbody>
           </table>
         </div>

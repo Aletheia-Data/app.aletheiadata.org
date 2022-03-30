@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { KTSVG, toAbsoluteUrl } from "../../../helpers";
+import { Ktsvg, toAbsoluteUrl } from "../../../helpers";
 import { Dropdown2 } from "../../content/dropdown/Dropdown2";
 
 type Props = {
@@ -45,13 +45,13 @@ const FeedsWidget3: React.FC<Props> = ({ className }) => {
               className="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
               data-bs-toggle="dropdown"
             >
-              <KTSVG
+              <Ktsvg
                 path="/media/icons/duotone/Text/Dots.svg"
                 className="svg-icon-4"
               />
             </button>
             <div className="dropdown-menu dropdown-menu-end w-md-325px p-0 m-0">
-              <Dropdown2 id={'1'} />
+              <Dropdown2 id={"1"} />
             </div>
           </div>
           {/* end::Dropdown Menu*/}
@@ -85,7 +85,7 @@ const FeedsWidget3: React.FC<Props> = ({ className }) => {
               href="#"
               className="btn btn-sm btn-color-muted btn-active-light-primary fw-bolder"
             >
-              <KTSVG
+              <Ktsvg
                 className="svg-icon-4"
                 path="/media/icons/duotone/Communication/Group-chat.svg"
               />
@@ -96,7 +96,7 @@ const FeedsWidget3: React.FC<Props> = ({ className }) => {
               href="#"
               className="btn btn-sm btn-color-muted btn-active-light-danger fw-bolder"
             >
-              <KTSVG
+              <Ktsvg
                 className="svg-icon-3 pe-1"
                 path="/media/icons/duotone/General/Heart.svg"
               />

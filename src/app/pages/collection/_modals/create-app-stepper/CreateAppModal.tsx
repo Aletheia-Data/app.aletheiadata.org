@@ -1,15 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useRef } from "react";
 import { Modal } from "react-bootstrap-v5";
 import { StepperComponent } from "../../../../../_start/assets/ts/components";
-import { KTSVG } from "../../../../../_start/helpers";
+import { Ktsvg } from "../../../../../_start/helpers";
 import { defaultCreateAppData, ICreateAppData } from "./IAppModels";
 
-type Props = {
+interface Props {
   show: boolean;
   handleClose: () => void;
-};
+}
 
 const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   const stepperRef = useRef<HTMLDivElement | null>(null);
@@ -32,6 +31,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
     if (!data.appBasic.appName || !data.appBasic.appType) {
       return false;
     }
+
     return true;
   };
 
@@ -60,6 +60,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
     if (stepper.current.getCurrentStepIndex() === 1) {
       if (!checkAppBasic()) {
         setHasError(true);
+
         return;
       }
     }
@@ -67,6 +68,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
     if (stepper.current.getCurrentStepIndex() === 3) {
       if (!checkAppDataBase()) {
         setHasError(true);
+
         return;
       }
     }
@@ -80,13 +82,13 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
   return (
     <Modal
-      id="kt_modal_create_app"
-      tabIndex={-1}
       aria-hidden="true"
       dialogClassName="modal-dialog-centered mw-1000px h-auto"
+      id="kt_modal_create_app"
       show={show}
-      onHide={handleClose}
+      tabIndex={-1}
       onEntered={loadStepper}
+      onHide={handleClose}
     >
       <div className="container px-10 py-10">
         <div className="modal-header py-2 d-flex justify-content-end border-0">
@@ -95,7 +97,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
             className="btn btn-icon btn-sm btn-light-primary"
             onClick={handleClose}
           >
-            <KTSVG
+            <Ktsvg
               className="svg-icon-2"
               path="/media/icons/duotone/Navigation/Close.svg"
             />
@@ -121,7 +123,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                 >
                   <div className="stepper-wrapper">
                     <div className="stepper-icon">
-                      <i className="stepper-check fas fa-check"></i>
+                      <i className="stepper-check fas fa-check" />
                       <span className="stepper-number">1</span>
                     </div>
                     <div className="stepper-label">
@@ -136,7 +138,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                 <div className="stepper-item" data-kt-stepper-element="nav">
                   <div className="stepper-wrapper">
                     <div className="stepper-icon">
-                      <i className="stepper-check fas fa-check"></i>
+                      <i className="stepper-check fas fa-check" />
                       <span className="stepper-number">2</span>
                     </div>
                     <div className="stepper-label">
@@ -153,7 +155,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                 <div className="stepper-item" data-kt-stepper-element="nav">
                   <div className="stepper-wrapper">
                     <div className="stepper-icon">
-                      <i className="stepper-check fas fa-check"></i>
+                      <i className="stepper-check fas fa-check" />
                       <span className="stepper-number">3</span>
                     </div>
                     <div className="stepper-label">
@@ -170,7 +172,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                 <div className="stepper-item" data-kt-stepper-element="nav">
                   <div className="stepper-wrapper">
                     <div className="stepper-icon">
-                      <i className="stepper-check fas fa-check"></i>
+                      <i className="stepper-check fas fa-check" />
                       <span className="stepper-number">4</span>
                     </div>
                     <div className="stepper-label">
@@ -187,7 +189,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                 <div className="stepper-item" data-kt-stepper-element="nav">
                   <div className="stepper-wrapper">
                     <div className="stepper-icon">
-                      <i className="stepper-check fas fa-check"></i>
+                      <i className="stepper-check fas fa-check" />
                       <span className="stepper-number">5</span>
                     </div>
                     <div className="stepper-label">
@@ -206,8 +208,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
             <div className="d-flex flex-row-fluid justify-content-center">
               {/*begin::Form */}
               <form
-                className="pb-5 w-100 w-md-400px w-xl-500px"
                 noValidate
+                className="pb-5 w-100 w-md-400px w-xl-500px"
                 id="kt_modal_create_app_form"
               >
                 {/*begin::Step 1 */}
@@ -227,10 +229,10 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         Your App Name
                       </label>
                       <input
-                        type="text"
                         className="form-control form-control-lg form-control-solid"
                         name="appname"
                         placeholder=""
+                        type="text"
                         value={data.appBasic.appName}
                         onChange={(e) =>
                           updateData({
@@ -244,9 +246,9 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                       {!data.appBasic.appName && hasError && (
                         <div className="fv-plugins-message-container">
                           <div
+                            className="fv-help-block"
                             data-field="appname"
                             data-validator="notEmpty"
-                            className="fv-help-block"
                           >
                             App name is required
                           </div>
@@ -262,9 +264,9 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         <span className="d-flex align-items-center me-2">
                           <span className="symbol symbol-50px me-6">
                             <span className="symbol-label bg-light-primary">
-                              <KTSVG
-                                path="/media/icons/duotone/Home/Globe.svg"
+                              <Ktsvg
                                 className="svg-icon-1 svg-icon-primary"
+                                path="/media/icons/duotone/Home/Globe.svg"
                               />
                             </span>
                           </span>
@@ -281,13 +283,13 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                         <span className="form-check form-check-custom form-check-solid">
                           <input
-                            className="form-check-input"
-                            type="radio"
-                            name="appType"
-                            value="Quick Online Courses"
                             checked={
                               data.appBasic.appType === "Quick Online Courses"
                             }
+                            className="form-check-input"
+                            name="appType"
+                            type="radio"
+                            value="Quick Online Courses"
                             onChange={() =>
                               updateData({
                                 appBasic: {
@@ -306,9 +308,9 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         <span className="d-flex align-items-center me-2">
                           <span className="symbol symbol-50px me-6">
                             <span className="symbol-label bg-light-danger">
-                              <KTSVG
-                                path="/media/icons/duotone/Layout/Layout-4-blocks-2.svg"
+                              <Ktsvg
                                 className="svg-icon-1 svg-icon-danger"
+                                path="/media/icons/duotone/Layout/Layout-4-blocks-2.svg"
                               />
                             </span>
                           </span>
@@ -325,14 +327,14 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                         <span className="form-check form-check-custom form-check-solid">
                           <input
-                            className="form-check-input"
-                            type="radio"
-                            name="appType"
-                            value="Face to Face Discussions"
                             checked={
                               data.appBasic.appType ===
                               "Face to Face Discussions"
                             }
+                            className="form-check-input"
+                            name="appType"
+                            type="radio"
+                            value="Face to Face Discussions"
                             onChange={() =>
                               updateData({
                                 appBasic: {
@@ -351,9 +353,9 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         <span className="d-flex align-items-center me-2">
                           <span className="symbol symbol-50px me-6">
                             <span className="symbol-label bg-light-success">
-                              <KTSVG
-                                path="/media/icons/duotone/Devices/Watch1.svg"
+                              <Ktsvg
                                 className="svg-icon-1 svg-icon-success"
+                                path="/media/icons/duotone/Devices/Watch1.svg"
                               />
                             </span>
                           </span>
@@ -370,13 +372,13 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                         <span className="form-check form-check-custom form-check-solid">
                           <input
-                            className="form-check-input"
-                            type="radio"
-                            name="appType"
-                            value="Full Intro Training"
                             checked={
                               data.appBasic.appType === "Full Intro Training"
                             }
+                            className="form-check-input"
+                            name="appType"
+                            type="radio"
+                            value="Full Intro Training"
                             onChange={() =>
                               updateData({
                                 appBasic: {
@@ -417,7 +419,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         <span className="d-flex align-items-center me-2">
                           <span className="symbol symbol-50px me-6">
                             <span className="symbol-label bg-light-warning">
-                              <i className="fab fa-html5 text-warning fs-2x"></i>
+                              <i className="fab fa-html5 text-warning fs-2x" />
                             </span>
                           </span>
 
@@ -431,11 +433,11 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                         <span className="form-check form-check-custom form-check-solid">
                           <input
-                            className="form-check-input"
-                            type="radio"
-                            name="appFramework"
-                            value="HTML5"
                             checked={data.appFramework === "HTML5"}
+                            className="form-check-input"
+                            name="appFramework"
+                            type="radio"
+                            value="HTML5"
                             onChange={() =>
                               updateData({ appFramework: "HTML5" })
                             }
@@ -449,7 +451,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         <span className="d-flex align-items-center me-2">
                           <span className="symbol symbol-50px me-6">
                             <span className="symbol-label bg-light-success">
-                              <i className="fab fa-react text-success fs-2x"></i>
+                              <i className="fab fa-react text-success fs-2x" />
                             </span>
                           </span>
 
@@ -463,11 +465,11 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                         <span className="form-check form-check-custom form-check-solid">
                           <input
-                            className="form-check-input"
-                            type="radio"
-                            name="appFramework"
-                            value="ReactJS"
                             checked={data.appFramework === "ReactJS"}
+                            className="form-check-input"
+                            name="appFramework"
+                            type="radio"
+                            value="ReactJS"
                             onChange={() =>
                               updateData({ appFramework: "ReactJS" })
                             }
@@ -481,7 +483,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         <span className="d-flex align-items-center me-2">
                           <span className="symbol symbol-50px me-6">
                             <span className="symbol-label bg-light-danger">
-                              <i className="fab fa-angular text-danger fs-2x"></i>
+                              <i className="fab fa-angular text-danger fs-2x" />
                             </span>
                           </span>
 
@@ -495,11 +497,11 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                         <span className="form-check form-check-custom form-check-solid">
                           <input
-                            className="form-check-input"
-                            type="radio"
-                            name="appFramework"
-                            value="Angular"
                             checked={data.appFramework === "Angular"}
+                            className="form-check-input"
+                            name="appFramework"
+                            type="radio"
+                            value="Angular"
                             onChange={() =>
                               updateData({ appFramework: "Angular" })
                             }
@@ -513,7 +515,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         <span className="d-flex align-items-center me-2">
                           <span className="symbol symbol-50px me-6">
                             <span className="symbol-label bg-light-primary">
-                              <i className="fab fa-vuejs text-primary fs-2x"></i>
+                              <i className="fab fa-vuejs text-primary fs-2x" />
                             </span>
                           </span>
 
@@ -527,11 +529,11 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                         <span className="form-check form-check-custom form-check-solid">
                           <input
-                            className="form-check-input"
-                            type="radio"
-                            name="appFramework"
-                            value="Vue"
                             checked={data.appFramework === "Vue"}
+                            className="form-check-input"
+                            name="appFramework"
+                            type="radio"
+                            value="Vue"
                             onChange={() => updateData({ appFramework: "Vue" })}
                           />
                         </span>
@@ -560,9 +562,9 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         App Databse Name Name
                       </label>
                       <input
-                        type="text"
                         className="form-control form-control-lg form-control-solid"
                         name="dbname"
+                        type="text"
                         value={data.appDatabase.databaseName}
                         onChange={(e) =>
                           updateData({
@@ -577,9 +579,9 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                       {!data.appDatabase.databaseName && hasError && (
                         <div className="fv-plugins-message-container">
                           <div
+                            className="fv-help-block"
                             data-field="appname"
                             data-validator="notEmpty"
-                            className="fv-help-block"
                           >
                             Database name is required
                           </div>
@@ -599,7 +601,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         <span className="d-flex align-items-center me-2">
                           <span className="symbol symbol-50px me-6">
                             <span className="symbol-label bg-light-success">
-                              <i className="fas fa-database text-success fs-2x"></i>
+                              <i className="fas fa-database text-success fs-2x" />
                             </span>
                           </span>
 
@@ -613,13 +615,13 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                         <span className="form-check form-check-custom form-check-solid">
                           <input
-                            className="form-check-input"
-                            type="radio"
-                            name="databaseSolution"
-                            value="MySQL"
                             checked={
                               data.appDatabase.databaseSolution === "MySQL"
                             }
+                            className="form-check-input"
+                            name="databaseSolution"
+                            type="radio"
+                            value="MySQL"
                             onChange={() =>
                               updateData({
                                 appDatabase: {
@@ -638,7 +640,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         <span className="d-flex align-items-center me-2">
                           <span className="symbol symbol-50px me-6">
                             <span className="symbol-label bg-light-danger">
-                              <i className="fab fa-google text-danger fs-2x"></i>
+                              <i className="fab fa-google text-danger fs-2x" />
                             </span>
                           </span>
 
@@ -652,13 +654,13 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                         <span className="form-check form-check-custom form-check-solid">
                           <input
-                            className="form-check-input"
-                            type="radio"
-                            name="databaseSolution"
-                            value="Firebase"
                             checked={
                               data.appDatabase.databaseSolution === "Firebase"
                             }
+                            className="form-check-input"
+                            name="databaseSolution"
+                            type="radio"
+                            value="Firebase"
                             onChange={() =>
                               updateData({
                                 appDatabase: {
@@ -677,7 +679,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         <span className="d-flex align-items-center me-2">
                           <span className="symbol symbol-50px me-6">
                             <span className="symbol-label bg-light-warning">
-                              <i className="fab fa-amazon text-warning fs-2x"></i>
+                              <i className="fab fa-amazon text-warning fs-2x" />
                             </span>
                           </span>
 
@@ -691,13 +693,13 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                         <span className="form-check form-check-custom form-check-solid">
                           <input
-                            className="form-check-input"
-                            type="radio"
-                            name="databaseSolution"
-                            value="DynamoDB"
                             checked={
                               data.appDatabase.databaseSolution === "DynamoDB"
                             }
+                            className="form-check-input"
+                            name="databaseSolution"
+                            type="radio"
+                            value="DynamoDB"
                             onChange={() =>
                               updateData({
                                 appDatabase: {
@@ -738,7 +740,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         <span className="d-flex align-items-center me-2">
                           <span className="symbol symbol-50px me-6">
                             <span className="symbol-label bg-light-primary">
-                              <i className="fab fa-linux text-primary fs-2x"></i>
+                              <i className="fab fa-linux text-primary fs-2x" />
                             </span>
                           </span>
 
@@ -752,11 +754,11 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                         <span className="form-check form-check-custom form-check-solid">
                           <input
-                            className="form-check-input"
-                            type="radio"
-                            name="appStorage"
-                            value="Basic Server"
                             checked={data.appStorage === "Basic Server"}
+                            className="form-check-input"
+                            name="appStorage"
+                            type="radio"
+                            value="Basic Server"
                             onChange={() =>
                               updateData({ appStorage: "Basic Server" })
                             }
@@ -770,7 +772,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         <span className="d-flex align-items-center me-2">
                           <span className="symbol symbol-50px me-6">
                             <span className="symbol-label bg-light-warning">
-                              <i className="fab fa-aws text-warning fs-2x"></i>
+                              <i className="fab fa-aws text-warning fs-2x" />
                             </span>
                           </span>
 
@@ -784,11 +786,11 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                         <span className="form-check form-check-custom form-check-solid">
                           <input
-                            className="form-check-input"
-                            type="radio"
-                            name="appStorage"
-                            value="AWS"
                             checked={data.appStorage === "AWS"}
+                            className="form-check-input"
+                            name="appStorage"
+                            type="radio"
+                            value="AWS"
                             onChange={() => updateData({ appStorage: "AWS" })}
                           />
                         </span>
@@ -800,7 +802,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         <span className="d-flex align-items-center me-2">
                           <span className="symbol symbol-50px me-6">
                             <span className="symbol-label bg-light-success  ">
-                              <i className="fab fa-google text-success fs-2x"></i>
+                              <i className="fab fa-google text-success fs-2x" />
                             </span>
                           </span>
 
@@ -814,11 +816,11 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                         <span className="form-check form-check-custom form-check-solid">
                           <input
-                            className="form-check-input"
-                            type="radio"
-                            name="appStorage"
-                            value="Google"
                             checked={data.appStorage === "Google"}
+                            className="form-check-input"
+                            name="appStorage"
+                            type="radio"
+                            value="Google"
                             onChange={() =>
                               updateData({ appStorage: "Google" })
                             }
@@ -883,42 +885,42 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                 <div className="d-flex justify-content-between pt-10">
                   <div className="mr-2">
                     <button
-                      type="button"
                       className="btn btn-lg btn-light-primary fw-bolder py-4 pe-8 me-3"
                       data-kt-stepper-action="previous"
+                      type="button"
                       onClick={prevStep}
                     >
-                      <KTSVG
-                        path="/media/icons/duotone/Navigation/Left-2.svg"
+                      <Ktsvg
                         className="svg-icon-3 me-1"
+                        path="/media/icons/duotone/Navigation/Left-2.svg"
                       />{" "}
                       Previous
                     </button>
                   </div>
                   <div>
                     <button
-                      type="button"
                       className="btn btn-lg btn-primary fw-bolder py-4 ps-8 me-3"
                       data-kt-stepper-action="submit"
+                      type="button"
                       onClick={submit}
                     >
                       Submit{" "}
-                      <KTSVG
-                        path="/media/icons/duotone/Navigation/Right-2.svg"
+                      <Ktsvg
                         className="svg-icon-3 ms-2"
+                        path="/media/icons/duotone/Navigation/Right-2.svg"
                       />
                     </button>
 
                     <button
-                      type="button"
                       className="btn btn-lg btn-primary fw-bolder py-4 ps-8 me-3"
                       data-kt-stepper-action="next"
+                      type="button"
                       onClick={nextStep}
                     >
                       Next Step{" "}
-                      <KTSVG
-                        path="/media/icons/duotone/Navigation/Right-2.svg"
+                      <Ktsvg
                         className="svg-icon-3 ms-1"
+                        path="/media/icons/duotone/Navigation/Right-2.svg"
                       />
                     </button>
                   </div>

@@ -1,40 +1,42 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { toAbsoluteUrl } from "../../../../../_start/helpers";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function Cards() {
+export function Cards(): JSX.Element {
   const {
     REACT_APP_THEME_NAME,
     REACT_APP_BOOTSTRAP_DOCS_LINK,
     REACT_APP_SASS_PATH,
     REACT_APP_SASS_VARIABLES_PATH,
   } = process.env;
+
   return (
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="overview">
-          <a href="#overview"></a>Overview
+          <a href="#overview" />
+          Overview
         </h1>
         <div className="py-5">
-          <strong>{REACT_APP_THEME_NAME}</strong>&nbsp; extends{' '}
+          <strong>{REACT_APP_THEME_NAME}</strong>&nbsp; extends{" "}
           <a
-            href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/components/card/`}
             className="fw-bold"
+            href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/components/card/`}
           >
             Bootstrap Card
           </a>
           &nbsp; through the SASS variables in
-          <code>{REACT_APP_SASS_VARIABLES_PATH}</code>and adds additonal options in
+          <code>{REACT_APP_SASS_VARIABLES_PATH}</code>and adds additonal options
+          in
           <code>{REACT_APP_SASS_PATH}/_card.scss</code>.
         </div>
       </div>
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="custom">
-          <a href="#custom"></a>Custom Card
+          <a href="#custom" />
+          Custom Card
         </h1>
         <div className="py-5">
           Use the custom card by adding
@@ -45,16 +47,16 @@ export function Cards() {
             <div className="card-header">
               <h3 className="card-title">Title</h3>
               <div className="card-toolbar">
-                <button type="button" className="btn btn-sm btn-light">
+                <button className="btn btn-sm btn-light" type="button">
                   Action
                 </button>
               </div>
             </div>
             <div className="card-body">
               Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
+              industry. Lorem Ipsum has been the industry&apos;s standard dummy
+              text ever since the 1500s, when an unknown printer took a galley
+              of type and scrambled it to make a type specimen book. It has
               survived not only five centuries, but also the leap into
               electronic typesetting, remaining essentially unchanged. It was
               popularised in the 1960s with the release of Letraset sheets
@@ -70,15 +72,16 @@ export function Cards() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="scroll">
-          <a href="#scroll"></a>Card Scroll
+          <a href="#scroll" />
+          Card Scroll
         </h1>
         <div className="py-5">
           Use
           <code>.card-scroll</code>and
-          <a href="" className="fw-bolder" target="_blank">
+          <a className="fw-bolder" href="" target="_blank">
             height classes
           </a>
-          <code>.h-{"{size}"}</code>on a card's body to have a card with
+          <code>.h-{"{size}"}</code>on a card&apos;s body to have a card with
           scrollable content:
         </div>
         <div className="py-5">
@@ -86,7 +89,7 @@ export function Cards() {
             <div className="card-header">
               <h3 className="card-title">Title</h3>
               <div className="card-toolbar">
-                <button type="button" className="btn btn-sm btn-light">
+                <button className="btn btn-sm btn-light" type="button">
                   Action
                 </button>
               </div>
@@ -94,10 +97,10 @@ export function Cards() {
             <div className="card-body card-scroll h-200px">
               <p>
                 Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
+                industry. Lorem Ipsum has been the industry&apos;s standard
+                dummy text ever since the 1500s, when an unknown printer took a
+                galley of type and scrambled it to make a type specimen book. It
+                has survived not only five centuries, but also the leap into
                 electronic typesetting, remaining essentially unchanged. It was
                 popularised in the 1960s with the release of Letraset sheets
                 containing Lorem Ipsum passages, and more recently with desktop
@@ -106,10 +109,10 @@ export function Cards() {
               </p>
               <p>
                 Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
+                industry. Lorem Ipsum has been the industry&apos;s standard
+                dummy text ever since the 1500s, when an unknown printer took a
+                galley of type and scrambled it to make a type specimen book. It
+                has survived not only five centuries, but also the leap into
                 electronic typesetting, remaining essentially unchanged. It was
                 popularised in the 1960s with the release of Letraset sheets
                 containing Lorem Ipsum passages, and more recently with desktop
@@ -118,10 +121,10 @@ export function Cards() {
               </p>
               <p>
                 Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
+                industry. Lorem Ipsum has been the industry&apos;s standard
+                dummy text ever since the 1500s, when an unknown printer took a
+                galley of type and scrambled it to make a type specimen book. It
+                has survived not only five centuries, but also the leap into
                 electronic typesetting, remaining essentially unchanged. It was
                 popularised in the 1960s with the release of Letraset sheets
                 containing Lorem Ipsum passages, and more recently with desktop
@@ -137,7 +140,8 @@ export function Cards() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="flush">
-          <a href="#flush"></a>Flush Borders
+          <a href="#flush" />
+          Flush Borders
         </h1>
         <div className="py-5">
           Use
@@ -149,16 +153,16 @@ export function Cards() {
             <div className="card-header">
               <h3 className="card-title">Title</h3>
               <div className="card-toolbar">
-                <button type="button" className="btn btn-sm btn-light">
+                <button className="btn btn-sm btn-light" type="button">
                   Action
                 </button>
               </div>
             </div>
             <div className="card-body py-5">
               Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
+              industry. Lorem Ipsum has been the industry&apos;s standard dummy
+              text ever since the 1500s, when an unknown printer took a galley
+              of type and scrambled it to make a type specimen book. It has
               survived not only five centuries, but also the leap into
               electronic typesetting, remaining essentially unchanged. It was
               popularised in the 1960s with the release of Letraset sheets
@@ -169,16 +173,17 @@ export function Cards() {
             <div className="card-footer">Footer</div>
           </div>
         </div>
-        <CodeBlock language="markup" code={code3} />
+        <CodeBlock code={code3} language="markup" />
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="reset-side-paddings">
-          <a href="#reset-side-paddings"></a>Reset Side Paddings
+          <a href="#reset-side-paddings" />
+          Reset Side Paddings
         </h1>
         <div className="py-5">
           Add
-          <code>.card-px-0</code>to reset a card header, body and footer's side
-          paddings:
+          <code>.card-px-0</code>to reset a card header, body and footer&apos;s
+          side paddings:
         </div>
 
         <div className="py-5">
@@ -186,16 +191,16 @@ export function Cards() {
             <div className="card-header">
               <h3 className="card-title">Title</h3>
               <div className="card-toolbar">
-                <button type="button" className="btn btn-sm btn-light">
+                <button className="btn btn-sm btn-light" type="button">
                   Action
                 </button>
               </div>
             </div>
             <div className="card-body">
               Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
+              industry. Lorem Ipsum has been the industry&apos;s standard dummy
+              text ever since the 1500s, when an unknown printer took a galley
+              of type and scrambled it to make a type specimen book. It has
               survived not only five centuries, but also the leap into
               electronic typesetting, remaining essentially unchanged. It was
               popularised in the 1960s with the release of Letraset sheets
@@ -206,16 +211,17 @@ export function Cards() {
             <div className="card-footer">Footer</div>
           </div>
         </div>
-        <CodeBlock language="markup" code={code4} />
+        <CodeBlock code={code4} language="markup" />
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="border">
-          <a href="#border"></a>Card Border
+          <a href="#border" />
+          Card Border
         </h1>
         <div className="py-5">
           Add
-          <code>.card-border</code>to a card to remove it's shadow and enable
-          border.
+          <code>.card-border</code>to a card to remove it&apos;s shadow and
+          enable border.
         </div>
 
         <div className="py-5">
@@ -223,16 +229,16 @@ export function Cards() {
             <div className="card-header">
               <h3 className="card-title">Title</h3>
               <div className="card-toolbar">
-                <button type="button" className="btn btn-sm btn-light">
+                <button className="btn btn-sm btn-light" type="button">
                   Action
                 </button>
               </div>
             </div>
             <div className="card-body">
               Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
+              industry. Lorem Ipsum has been the industry&apos;s standard dummy
+              text ever since the 1500s, when an unknown printer took a galley
+              of type and scrambled it to make a type specimen book. It has
               survived not only five centuries, but also the leap into
               electronic typesetting, remaining essentially unchanged. It was
               popularised in the 1960s with the release of Letraset sheets
@@ -243,16 +249,17 @@ export function Cards() {
             <div className="card-footer">Footer</div>
           </div>
         </div>
-        <CodeBlock language="markup" code={code5} />
+        <CodeBlock code={code5} language="markup" />
       </div>
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="stretch">
-          <a href="#stretch"></a>Card Stretch
+          <a href="#stretch" />
+          Card Stretch
         </h1>
         <div className="py-5">
           To have same height cards within
-          <a href="" className="">
+          <a className="" href="">
             Bootstrap
           </a>
           Grid use
@@ -351,7 +358,8 @@ export function Cards() {
 
       <div className="pt-10">
         <h1 className="anchor fw-bolder mb-5" id="utilities">
-          <a href="#utilities"></a>Utility Classes
+          <a href="#utilities" />
+          Utility Classes
         </h1>
         <div className="py-5">
           Use
@@ -393,7 +401,7 @@ export function Cards() {
                 <div className="card-header">
                   <h3 className="card-title">Fluid Image</h3>
                   <div className="card-toolbar">
-                    <button type="button" className="btn btn-sm btn-light">
+                    <button className="btn btn-sm btn-light" type="button">
                       Action
                     </button>
                   </div>
@@ -404,14 +412,14 @@ export function Cards() {
                     typesetting industry.
                   </div>
                   <img
-                    className="w-100 card-rounded-bottom"
                     alt=""
+                    className="w-100 card-rounded-bottom"
                     src={toAbsoluteUrl("/media/svg/illustrations/bg-4.svg")}
                   />
                 </div>
               </div>
             </div>
-            <div className="col-lg-6"></div>
+            <div className="col-lg-6" />
           </div>
         </div>
         <CodeBlock code={code7} language="markup" />

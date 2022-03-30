@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { KTSVG } from "../../../helpers";
-import moment from 'moment';
+import { Ktsvg } from "../../../helpers";
+import moment from "moment";
 import { Link } from "react-router-dom";
 
 type Props = {
@@ -19,7 +19,6 @@ const TablesWidget6: React.FC<Props> = ({
   innerPadding = "",
   color = "primary",
 }) => {
-
   data = data.data;
   const entity = data.entity;
 
@@ -37,13 +36,13 @@ const TablesWidget6: React.FC<Props> = ({
 
   // console.log(data.alexandrias);
 
-  if (type === 'alexandrias') {
+  if (type === "alexandrias") {
     entityCount = data.alexandrias.length > 0 ? data.alexandrias.length : 0;
-    title = 'Archivos cargados';
+    title = "Archivos cargados";
     records = data.alexandrias;
   } else {
     entityCount = dataFile.aletheias.length > 0 ? dataFile.aletheias.length : 0;
-    title = 'Pruebas cargados';
+    title = "Pruebas cargados";
     records = dataFile.aletheias;
   }
 
@@ -75,40 +74,45 @@ const TablesWidget6: React.FC<Props> = ({
           >
             <thead>
               <tr className="text-start text-muted fw-bolder text-gray-400 text-uppercase fs-7 border-gray-100 border-bottom-1">
-                <td className="ps-0 min-w-250px py-5" width="30%">Usuario</td>
+                <td className="ps-0 min-w-250px py-5" width="30%">
+                  Usuario
+                </td>
                 <td className="min-w-100px py-5" width="25%">
                   <span className={`text-${color}`}>Ultimo Cambio</span>
-                  <KTSVG
+                  <Ktsvg
                     className={`svg-icon-sm svg-icon-${color}`}
                     path="/media/icons/duotone/Navigation/Down-2.svg"
                   />
                 </td>
-                <td className="min-w-100px py-5" width="10%">{'Estatus'}</td>
-                <td className="min-w-100px pe-0 text-end py-5" width="10%">Action</td>
+                <td className="min-w-100px py-5" width="10%">
+                  {"Estatus"}
+                </td>
+                <td className="min-w-100px pe-0 text-end py-5" width="10%">
+                  Action
+                </td>
               </tr>
             </thead>
             <tbody>
-              {
-                records && records.map((rec: any) => {
-
+              {records &&
+                records.map((rec: any) => {
                   let background_status;
                   let text_status;
                   switch (rec.status) {
-                    case 'under_review':
-                      background_status = 'background-csv';
-                      text_status = 'under review';
+                    case "under_review":
+                      background_status = "background-csv";
+                      text_status = "under review";
                       break;
-                    case 'on_line':
-                      background_status = 'background-xls';
-                      text_status = 'online';
+                    case "on_line":
+                      background_status = "background-xls";
+                      text_status = "online";
                       break;
-                    case 'blocked':
-                      background_status = 'background-ods';
-                      text_status = 'blocked';
+                    case "blocked":
+                      background_status = "background-ods";
+                      text_status = "blocked";
                       break;
-                    case 'broken':
-                      background_status = 'background-pdf';
-                      text_status = 'broken';
+                    case "broken":
+                      background_status = "background-pdf";
+                      text_status = "broken";
                       break;
                   }
 
@@ -118,15 +122,19 @@ const TablesWidget6: React.FC<Props> = ({
                     <tr key={`item_${rec.id}`}>
                       <td className="ps-0">
                         <Link
-                          to={'#'}
+                          to={"#"}
                           className="text-gray-800 fw-bolder text-hover-primary fs-6"
                         >
-                          {rec.wallet_address ? rec.wallet_address : process.env.REACT_APP_WALLET_OWNER}
+                          {rec.wallet_address
+                            ? rec.wallet_address
+                            : process.env.REACT_APP_WALLET_OWNER}
                         </Link>
                       </td>
                       <td>
-                        <span className={`text-${color} fw-bolder d-block fs-6`}>
-                          {moment(rec.updatedAt).format('DD/MM/YYYY')}
+                        <span
+                          className={`text-${color} fw-bolder d-block fs-6`}
+                        >
+                          {moment(rec.updatedAt).format("DD/MM/YYYY")}
                         </span>
                       </td>
                       <td>
@@ -139,17 +147,15 @@ const TablesWidget6: React.FC<Props> = ({
                           href="#"
                           className="btn btn-icon btn-bg-light  btn-color-muted btn-active-color-primary btn-sm"
                         >
-                          <KTSVG
+                          <Ktsvg
                             className="svg-icon-4"
                             path="/media/icons/duotone/General/Sad.svg"
                           />
                         </a>
                       </td>
                     </tr>
-                  )
-                })
-              }
-
+                  );
+                })}
             </tbody>
           </table>
         </div>

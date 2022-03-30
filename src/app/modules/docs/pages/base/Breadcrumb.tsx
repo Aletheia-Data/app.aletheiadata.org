@@ -1,29 +1,29 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function Breadcrumb() {
+export function Breadcrumb(): JSX.Element {
   const {
     REACT_APP_THEME_NAME,
     REACT_APP_BOOTSTRAP_DOCS_LINK,
     REACT_APP_SASS_PATH,
     REACT_APP_SASS_VARIABLES_PATH,
   } = process.env;
+
   return (
     <>
       <div className="card-body p-10 p-lg-15">
         <div className="pb-10">
           <h1 className="anchor fw-bolder mb-5" id="overview">
-            <a href="#overview"></a>Overview
+            <a href="#overview" />
+            Overview
           </h1>
 
           <div className="py-5">
-            <strong>{REACT_APP_THEME_NAME}</strong>&nbsp; customizes the{' '}
+            <strong>{REACT_APP_THEME_NAME}</strong>&nbsp; customizes the{" "}
             <a
-              href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/components/breadcrumb/`}
               className="fw-bold"
+              href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/components/breadcrumb/`}
             >
               Bootstrap Breadcrumb
             </a>
@@ -35,7 +35,8 @@ export function Breadcrumb() {
         </div>
         <div className="py-10">
           <h1 className="anchor fw-bolder mb-5" id="basic">
-            <a href="#basic"></a>Basic Example
+            <a href="#basic" />
+            Basic Example
           </h1>
 
           <div className="py-5">
@@ -48,12 +49,12 @@ export function Breadcrumb() {
             <div className="rounded border p-10">
               <ol className="breadcrumb text-muted fs-6 fw-bold">
                 <li className="breadcrumb-item pe-3">
-                  <a href="#" className="pe-3">
+                  <a className="pe-3" href="#">
                     Home
                   </a>
                 </li>
                 <li className="breadcrumb-item pe-3">
-                  <a href="#" className="pe-3">
+                  <a className="pe-3" href="#">
                     Library
                   </a>
                 </li>
@@ -65,7 +66,8 @@ export function Breadcrumb() {
         </div>
         <div className="py-10">
           <h1 className="anchor fw-bolder mb-5" id="line-separator">
-            <a href="#line-separator"></a>Line Separator
+            <a href="#line-separator" />
+            Line Separator
           </h1>
 
           <div className="py-5">
@@ -78,12 +80,12 @@ export function Breadcrumb() {
             <div className="rounded border p-10">
               <ol className="breadcrumb breadcrumb-line text-muted fs-6 fw-bold">
                 <li className="breadcrumb-item pe-3">
-                  <a href="#" className="pe-3">
+                  <a className="pe-3" href="#">
                     Home
                   </a>
                 </li>
                 <li className="breadcrumb-item pe-3">
-                  <a href="#" className="pe-3">
+                  <a className="pe-3" href="#">
                     Library
                   </a>
                 </li>
@@ -96,7 +98,8 @@ export function Breadcrumb() {
 
         <div className="py-10">
           <h1 className="anchor fw-bolder mb-5" id="dot-separator">
-            <a href="#dot-separator"></a>Dot Separator
+            <a href="#dot-separator" />
+            Dot Separator
           </h1>
 
           <div className="py-5">
@@ -109,12 +112,12 @@ export function Breadcrumb() {
             <div className="rounded border p-10">
               <ol className="breadcrumb breadcrumb-dot text-muted fs-6 fw-bold">
                 <li className="breadcrumb-item pe-3">
-                  <a href="#" className="pe-3">
+                  <a className="pe-3" href="#">
                     Home
                   </a>
                 </li>
                 <li className="breadcrumb-item pe-3">
-                  <a href="#" className="pe-3">
+                  <a className="pe-3" href="#">
                     Library
                   </a>
                 </li>
@@ -126,7 +129,8 @@ export function Breadcrumb() {
         </div>
         <div className="pt-10">
           <h1 className="anchor fw-bolder mb-5" id="separatorless">
-            <a href="#separatorless"></a>Without Separator
+            <a href="#separatorless" />
+            Without Separator
           </h1>
           <div className="py-5">
             Add
@@ -137,12 +141,12 @@ export function Breadcrumb() {
             <div className="rounded border p-10">
               <ol className="breadcrumb breadcrumb-separatorless text-muted fs-6 fw-bold">
                 <li className="breadcrumb-item pe-3">
-                  <a href="#" className="pe-3">
+                  <a className="pe-3" href="#">
                     Home
                   </a>
                 </li>
                 <li className="breadcrumb-item pe-3">
-                  <a href="#" className="pe-3">
+                  <a className="pe-3" href="#">
                     Library
                   </a>
                 </li>

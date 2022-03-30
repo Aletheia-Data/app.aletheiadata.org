@@ -1,8 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
-import {
-  useParams
-} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   IThemeConfig,
   useTheme,
@@ -17,7 +15,6 @@ import { useQuery } from "@apollo/react-hooks";
 import { Sidebar } from "../../../../_start/layout/components/Sidebar";
 
 const getBreadcrumbs = () => {
-
   return [
     {
       title: "Home",
@@ -25,15 +22,15 @@ const getBreadcrumbs = () => {
       isActive: false,
     },
     {
-      title: 'Back',
-      path: '/',
+      title: "Back",
+      path: "/",
       isBack: true,
       isActive: false,
-    }
-  ]
-}
+    },
+  ];
+};
 
-let profileBreadCrumbs: Array<PageLink> = getBreadcrumbs();
+const profileBreadCrumbs: Array<PageLink> = getBreadcrumbs();
 
 const defaultPageConfig = getConfig();
 const listingPageConfig: Partial<IThemeConfig> = {
@@ -50,7 +47,7 @@ const listingPageConfig: Partial<IThemeConfig> = {
 const getQuery = (type: string, cid: string, entity: string) => {
   console.log(`getting query for ${entity} - ${type} - ${cid}`);
 
-  let CID_QUERY = gql`
+  const CID_QUERY = gql`
   query Alexandria{
     alexandrias(
       where: {
@@ -102,67 +99,67 @@ const getQuery = (type: string, cid: string, entity: string) => {
   `;
 
   return CID_QUERY;
-}
+};
 
 function Single(type: string, query: any, entity: string) {
-
-  var { data, loading, error } = useQuery(query, {
-    variables: {}
+  const { data, loading } = useQuery(query, {
+    variables: {},
   });
 
   if (loading) return <p>Loading ...</p>;
 
   data.type = type;
   data.entity = entity;
+
   return result(data);
 }
 
 const result = (data: any) => {
-  return <SinglePage data={data} />
-}
+  return <SinglePage data={data} />;
+};
 
-export function SinglePageWrapper() {
-  let params: any = useParams();
+export function SinglePageWrapper(): JSX.Element {
+  const params: any = useParams();
   const [minisearchActive, setMinisearchActive] = useState(false);
   const { entity, cid } = params;
   // if Id = 0 means that its a Single not a single item
   // console.log(id);
-  let title;
-  let component;
-  let type = 'single';
-  title = 'Loading';
-  let query = getQuery(type, cid, entity);
-  component = Single(type, query, entity);
+  const type = "single";
+  const query = getQuery(type, cid, entity);
+  const component = Single(type, query, entity);
 
   const { setTheme } = useTheme();
   // Refresh UI after config updates
   useEffect(() => {
     setTheme(listingPageConfig);
+
     return () => {
       setTheme(defaultPageConfig);
     };
   }, []);
 
   const toogleMinisearch = () => {
-    
     setMinisearchActive(!minisearchActive);
-  }
+  };
 
   if (component?.props?.data) {
-    title = component.props.data.alexandrias[0].title;
+    const [data] = component.props.data.alexandrias;
+    const { title } = data;
     component.props.data.title = title;
-    component.props.data.sidebar = 'single';
+    component.props.data.sidebar = "single";
     component.props.data.minisearchActive = minisearchActive;
     component.props.data.toogleMinisearch = toogleMinisearch;
   }
 
-  return <>
-    <PageTitle>{title}</PageTitle>
-    <PageDataContainer
-      breadcrumbs={profileBreadCrumbs}
-    />
-    {component}
-    <Sidebar props={component.props.data} toogleMinisearch={toogleMinisearch} />
-  </>
+  return (
+    <>
+      <PageTitle>{component.props.data.title}</PageTitle>
+      <PageDataContainer breadcrumbs={profileBreadCrumbs} />
+      {component}
+      <Sidebar
+        props={component.props.data}
+        toogleMinisearch={toogleMinisearch}
+      />
+    </>
+  );
 }
-

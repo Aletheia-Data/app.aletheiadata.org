@@ -1,41 +1,46 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function HelpersBorders() {
-  const { REACT_APP_THEME_NAME, REACT_APP_SASS_PATH, REACT_APP_BOOTSTRAP_DOCS_LINK } = process.env;
+export function HelpersBorders(): JSX.Element {
+  const {
+    REACT_APP_THEME_NAME,
+    REACT_APP_SASS_PATH,
+    REACT_APP_BOOTSTRAP_DOCS_LINK,
+  } = process.env;
 
   return (
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="overview">
-          <a href="#overview"></a>Overview
+          <a href="#overview" />
+          Overview
         </h1>
 
         <div className="py-5">
           <strong>{REACT_APP_THEME_NAME}</strong>&nbsp; extends{" "}
           <a
-            href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/utilities/borders`}
             className="fw-bold"
+            href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/utilities/borders`}
           >
             Bootstrap Borders
           </a>
           &nbsp; in
-          <code>{REACT_APP_SASS_PATH}/helpers/_borders.scss</code>to provide additional
-          border utility classes to cover its own design system.
+          <code>{REACT_APP_SASS_PATH}/helpers/_borders.scss</code>to provide
+          additional border utility classes to cover its own design system.
         </div>
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-3" id="border-styles">
-          <a href="#border-styles"></a>Border Styles
+          <a href="#border-styles" />
+          Border Styles
         </h1>
 
         <div className="py-5">
           Use
           <code>.border-dashed</code>or
-          <code>.border-dotted</code>classes to set an element's border style.
+          <code>.border-dotted</code>classes to set an element&apos;s border
+          style.
         </div>
 
         <div className="py-5">
@@ -53,16 +58,18 @@ export function HelpersBorders() {
             </div>
           </div>
         </div>
-        <CodeBlock language="markup" code={code} />
+        <CodeBlock code={code} language="markup" />
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-3" id="border-states">
-          <a href="#border-states"></a>Border States
+          <a href="#border-states" />
+          Border States
         </h1>
 
         <div className="py-5">
           Use
-          <code>.border-hover</code>to display an element's border on hover and
+          <code>.border-hover</code>to display an element&apos;s border on hover
+          and
           <code>.border-active</code>to enable the border when
           <code>.active</code>class is applied.
         </div>
@@ -81,12 +88,13 @@ export function HelpersBorders() {
             </div>
           </div>
         </div>
-        <CodeBlock language="markup" code={code2} />
+        <CodeBlock code={code2} language="markup" />
       </div>
 
       <div className="pt-10">
         <h1 className="anchor fw-bolder mb-3" id="border-gray-colors">
-          <a href="#border-gray-colors"></a>Border Gray Colors
+          <a href="#border-gray-colors" />
+          Border Gray Colors
         </h1>
 
         <div className="py-5">
@@ -94,7 +102,7 @@ export function HelpersBorders() {
           <code>
             .border-gray-{`{100, 200, 300, 400, 500, 600, 700, 800, 900}`}
           </code>
-          to set an element's border color.
+          to set an element&apos;s border color.
         </div>
 
         <div className="py-5">
@@ -130,7 +138,7 @@ export function HelpersBorders() {
             </div>
           </div>
         </div>
-        <CodeBlock language="markup" code={code3} />
+        <CodeBlock code={code3} language="markup" />
       </div>
     </>
   );

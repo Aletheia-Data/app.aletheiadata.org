@@ -1,28 +1,26 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
-import { KTSVG } from "../../../../../_start/helpers";
+import { Ktsvg } from "../../../../../_start/helpers";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function Rotate() {
+export function Rotate(): JSX.Element {
   return (
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="overview">
-          <a href="#overview"></a>
+          <a href="#overview" />
           Overview
         </h1>
         <div className="py-5">
           Rotate is a custom component used to rotate an element with a spesific
-          angle when it's parent assigned with <code>.active</code> class. This
-          component can be useful to change a buttons icon direction when it's{" "}
-          <code>.active</code> class is toggled.
+          angle when it&apos;s parent assigned with <code>.active</code> class.
+          This component can be useful to change a buttons icon direction when
+          it&apos;s <code>.active</code> class is toggled.
         </div>
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="basic">
-          <a href="#basic"></a>
+          <a href="#basic" />
           Basic
         </h1>
         <div className="py-5">
@@ -55,85 +53,86 @@ export function Rotate() {
         </ul>
         <div className="py-5">
           <div className="rounded border p-10 pb-5">
-            <button type="button" className="btn btn-primary me-5 mb-5">
-              <KTSVG
-                path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
+            <button className="btn btn-primary me-5 mb-5" type="button">
+              <Ktsvg
                 className="svg-icon-2 ms-3 ms-3"
+                path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
               />
             </button>
 
             <button
-              type="button"
               className="btn btn-primary active me-5 mb-5 rotate"
+              type="button"
             >
               90 deg{" "}
-              <KTSVG
-                path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
+              <Ktsvg
                 className="svg-icon-2 rotate-90 ms-3"
+                path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
               />
             </button>
 
             <button
-              type="button"
               className="btn btn-primary rotate active me-5 mb-5"
+              type="button"
             >
               180 deg{" "}
-              <KTSVG
-                path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
+              <Ktsvg
                 className="svg-icon-2 rotate-180 ms-3"
+                path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
               />
             </button>
 
             <button
-              type="button"
               className="btn btn-primary rotate active me-5 mb-5"
+              type="button"
             >
               270 deg{" "}
-              <KTSVG
-                path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
+              <Ktsvg
                 className="svg-icon-2 rotate-270 ms-3"
+                path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
               />
             </button>
 
             <button
-              type="button"
               className="btn btn-primary rotate active me-5 mb-5"
+              type="button"
             >
               -90 deg{" "}
-              <KTSVG
-                path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
+              <Ktsvg
                 className="svg-icon-2 rotate-n90 ms-3"
+                path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
               />
             </button>
 
             <button
-              type="button"
               className="btn btn-primary rotate active me-5 mb-5"
+              type="button"
             >
               -180 deg{" "}
-              <KTSVG
-                path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
+              <Ktsvg
                 className="svg-icon-2 rotate-n180 ms-3"
+                path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
               />
             </button>
 
             <button
-              type="button"
               className="btn btn-primary rotate active me-5 mb-5"
+              type="button"
             >
               -270 deg{" "}
-              <KTSVG
-                path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
+              <Ktsvg
                 className="svg-icon-2 rotate-n270 ms-3"
+                path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
               />
             </button>
           </div>
         </div>
-        <CodeBlock language="markup" code={code} />
+        <CodeBlock code={code} language="markup" />
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="toggle">
-          <a href="#toggle"></a>Toggle
+          <a href="#toggle" />
+          Toggle
         </h1>
         <div className="py-5">
           Click on the below buttons to toggle the button active state and
@@ -142,49 +141,49 @@ export function Rotate() {
         <div className="py-5">
           <div className="rounded border p-10">
             <button
-              type="button"
               className="btn btn-primary me-5 rotate"
+              type="button"
               onClick={(e) => e.currentTarget.classList.toggle("active")}
             >
               90 deg{" "}
-              <KTSVG
-                path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
+              <Ktsvg
                 className="svg-icon-2 rotate-90 ms-3"
+                path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
               />
             </button>
 
             <button
-              type="button"
               className="btn btn-danger me-5 rotate"
+              type="button"
               onClick={(e) => e.currentTarget.classList.toggle("active")}
             >
               180 deg{" "}
-              <KTSVG
-                path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
+              <Ktsvg
                 className="svg-icon-2 rotate-90 ms-3"
+                path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
               />
             </button>
             <button
-              type="button"
               className="btn btn-success me-5 rotate"
+              type="button"
               onClick={(e) => e.currentTarget.classList.toggle("active")}
             >
               180 deg{" "}
-              <KTSVG
-                path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
+              <Ktsvg
                 className="svg-icon-2 rotate-90 ms-3"
+                path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
               />
             </button>
           </div>
         </div>
-        <CodeBlock language="markup" code={code2} />
+        <CodeBlock code={code2} language="markup" />
       </div>
     </>
   );
 }
 
 const code = `<button type="button" className="btn btn-primary me-5 mb-5">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
     className="svg-icon-2 ms-3 ms-3"
   />
@@ -192,7 +191,7 @@ const code = `<button type="button" className="btn btn-primary me-5 mb-5">
 
 <button type="button" className="btn btn-primary active me-5 mb-5 rotate">
   90 deg{" "}
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
     className="svg-icon-2 rotate-90 ms-3"
   />
@@ -200,7 +199,7 @@ const code = `<button type="button" className="btn btn-primary me-5 mb-5">
 
 <button type="button" className="btn btn-primary rotate active me-5 mb-5">
   180 deg{" "}
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
     className="svg-icon-2 rotate-180 ms-3"
   />
@@ -208,7 +207,7 @@ const code = `<button type="button" className="btn btn-primary me-5 mb-5">
 
 <button type="button" className="btn btn-primary rotate active me-5 mb-5">
   270 deg{" "}
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
     className="svg-icon-2 rotate-270 ms-3"
   />
@@ -216,7 +215,7 @@ const code = `<button type="button" className="btn btn-primary me-5 mb-5">
 
 <button type="button" className="btn btn-primary rotate active me-5 mb-5">
   -90 deg{" "}
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
     className="svg-icon-2 rotate-n90 ms-3"
   />
@@ -224,7 +223,7 @@ const code = `<button type="button" className="btn btn-primary me-5 mb-5">
 
 <button type="button" className="btn btn-primary rotate active me-5 mb-5">
   -180 deg{" "}
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
     className="svg-icon-2 rotate-n180 ms-3"
   />
@@ -232,7 +231,7 @@ const code = `<button type="button" className="btn btn-primary me-5 mb-5">
 
 <button type="button" className="btn btn-primary rotate active me-5 mb-5">
   -270 deg{" "}
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
     className="svg-icon-2 rotate-n270 ms-3"
   />
@@ -240,7 +239,7 @@ const code = `<button type="button" className="btn btn-primary me-5 mb-5">
 
 const code2 = `<button type="button" className="btn btn-primary me-5 rotate" onClick={(e) => e.currentTarget.classList.toggle('active')}>
   90 deg{" "}
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
     className="svg-icon-2 rotate-90 ms-3"
   />
@@ -248,14 +247,14 @@ const code2 = `<button type="button" className="btn btn-primary me-5 rotate" onC
 
 <button type="button" className="btn btn-danger me-5 rotate" onClick={(e) => e.currentTarget.classList.toggle('active')}>
   180 deg{" "}
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
     className="svg-icon-2 rotate-90 ms-3"
   />
 </button>
 <button type="button" className="btn btn-success me-5 rotate" onClick={(e) => e.currentTarget.classList.toggle('active')}>
   180 deg{" "}
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Navigation/Arrow-to-right.svg"
     className="svg-icon-2 rotate-90 ms-3"
   />

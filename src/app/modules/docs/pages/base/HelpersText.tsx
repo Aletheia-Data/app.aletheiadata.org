@@ -1,22 +1,21 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function HelpersText() {
+export function HelpersText(): JSX.Element {
   const { REACT_APP_SASS_PATH } = process.env;
 
   return (
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="text-colors">
-          <a href="#text-colors"></a>Text Colors
+          <a href="#text-colors" />
+          Text Colors
         </h1>
         <div className="py-5">
           Use extended text helper classes defined in
-          <code>{REACT_APP_SASS_PATH}/helpers/_text.scss</code>for more advance use cases.
-          Colorize text with color utilities as shown
+          <code>{REACT_APP_SASS_PATH}/helpers/_text.scss</code>for more advance
+          use cases. Colorize text with color utilities as shown
         </div>
 
         <div className="py-5">
@@ -45,17 +44,18 @@ export function HelpersText() {
           </div>
         </div>
 
-        <CodeBlock language="markup" code={code} />
+        <CodeBlock code={code} language="markup" />
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-3" id="light-colors">
-          <a href="#light-colors"></a>Light Colors
+          <a href="#light-colors" />
+          Light Colors
         </h1>
 
         <div className="py-5">
           Use
-          <code>.text-light-{`{color}`}</code>class to set an element's light
-          color defined with
+          <code>.text-light-{`{color}`}</code>class to set an element&apos;s
+          light color defined with
           <code>$theme-light-colors</code>in
           <code>sass/_variables.scss</code>:
         </div>
@@ -82,17 +82,18 @@ export function HelpersText() {
             </p>
           </div>
         </div>
-        <CodeBlock language="markup" code={code2} />
+        <CodeBlock code={code2} language="markup" />
       </div>
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-3" id="inverse-colors">
-          <a href="#inverse-colors"></a>Inverse Colors
+          <a href="#inverse-colors" />
+          Inverse Colors
         </h1>
 
         <div className="py-5">
           Use
-          <code>.text-inverse-{`{color}`}</code>class to set an element's
+          <code>.text-inverse-{`{color}`}</code>class to set an element&apos;s
           inverse color defined with
           <code>$theme-inverse-colors</code>in
           <code>sass/_variables.scss</code>:
@@ -129,18 +130,19 @@ export function HelpersText() {
             </p>
           </div>
         </div>
-        <CodeBlock language="markup" code={code3} />
+        <CodeBlock code={code3} language="markup" />
       </div>
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-3" id="inverse-hover-colors">
-          <a href="#inverse-hover-colors"></a>Inverse Hover Colors
+          <a href="#inverse-hover-colors" />
+          Inverse Hover Colors
         </h1>
 
         <div className="py-5">
           Use
-          <code>.text-hover-inverse-{`{color}`}</code>class to set an element's
-          hover inverse color defined with
+          <code>.text-hover-inverse-{`{color}`}</code>class to set an
+          element&apos;s hover inverse color defined with
           <code>$theme-inverse-colors</code>in
           <code>sass/_variables.scss</code>:
         </div>
@@ -176,18 +178,19 @@ export function HelpersText() {
             </p>
           </div>
         </div>
-        <CodeBlock language="markup" code={code4} />
+        <CodeBlock code={code4} language="markup" />
       </div>
 
       <div className="pt-10">
         <h1 className="anchor fw-bolder mb-3" id="inverse-active-colors">
-          <a href="#inverse-active-colors"></a>Inverse Active Colors
+          <a href="#inverse-active-colors" />
+          Inverse Active Colors
         </h1>
 
         <div className="py-5">
           Use
-          <code>.text-active-inverse-{`{color}`}</code>class to set an element's
-          active inverse color when it has
+          <code>.text-active-inverse-{`{color}`}</code>class to set an
+          element&apos;s active inverse color when it has
           <code>.active</code>class:
         </div>
 
@@ -223,7 +226,7 @@ export function HelpersText() {
           </div>
         </div>
 
-        <CodeBlock language="markup" code={code5} />
+        <CodeBlock code={code5} language="markup" />
       </div>
     </>
   );

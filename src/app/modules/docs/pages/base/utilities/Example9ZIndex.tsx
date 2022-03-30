@@ -1,19 +1,18 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { CodeBlock } from "../../../../../../_start/partials";
 
-export function Example9ZIndex() {
+export function Example9ZIndex(): JSX.Element {
   return (
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="z-index">
-          <a href="#icons"></a>Z-Index
+          <a href="#icons" />
+          Z-Index
         </h1>
         <div className="py-5">
           Use
-          <code>.z-index-{`{value}`}</code>class to set an element's
+          <code>.z-index-{`{value}`}</code>class to set an element&apos;s
           z-index:
         </div>
 
@@ -47,7 +46,7 @@ export function Example9ZIndex() {
             </li>
           </ul>
         </div>
-        <CodeBlock language="markup" code={code} />
+        <CodeBlock code={code} language="markup" />
       </div>
     </>
   );

@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { KTSVG } from "../../../helpers";
+import { Ktsvg } from "../../../helpers";
 
 type Props = {
   className: string;
@@ -16,7 +16,7 @@ const ListsWidget5: React.FC<Props> = ({ className, innerPadding = "" }) => {
         <div className="d-flex mb-6">
           {/* begin::Icon */}
           <div className="me-1">
-            <KTSVG
+            <Ktsvg
               className="svg-icon-sm svg-icon-primary"
               path="/media/icons/duotone/Navigation/Angle-right.svg"
             />
@@ -43,7 +43,7 @@ const ListsWidget5: React.FC<Props> = ({ className, innerPadding = "" }) => {
         <div className="d-flex mb-6">
           {/* begin::Icon */}
           <div className="me-1">
-            <KTSVG
+            <Ktsvg
               className="svg-icon-sm svg-icon-primary"
               path="/media/icons/duotone/Navigation/Angle-right.svg"
             />
@@ -70,7 +70,7 @@ const ListsWidget5: React.FC<Props> = ({ className, innerPadding = "" }) => {
         <div className="d-flex mb-6">
           {/* begin::Icon */}
           <div className="me-1">
-            <KTSVG
+            <Ktsvg
               className="svg-icon-sm svg-icon-primary"
               path="/media/icons/duotone/Navigation/Angle-right.svg"
             />{" "}
@@ -97,7 +97,7 @@ const ListsWidget5: React.FC<Props> = ({ className, innerPadding = "" }) => {
         <div className="d-flex mb-6">
           {/* begin::Icon */}
           <div className="me-1">
-            <KTSVG
+            <Ktsvg
               className="svg-icon-sm svg-icon-primary"
               path="/media/icons/duotone/Navigation/Angle-right.svg"
             />{" "}
@@ -124,7 +124,7 @@ const ListsWidget5: React.FC<Props> = ({ className, innerPadding = "" }) => {
         <div className="d-flex mb-6">
           {/* begin::Icon */}
           <div className="me-1">
-            <KTSVG
+            <Ktsvg
               className="svg-icon-sm svg-icon-primary"
               path="/media/icons/duotone/Navigation/Angle-right.svg"
             />{" "}

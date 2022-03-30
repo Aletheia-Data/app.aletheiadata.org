@@ -1,14 +1,14 @@
 /* eslint-disable react/jsx-no-target-blank */
-/* eslint-disable jsx-a11y/anchor-has-content */
 import React from "react";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function MockBackend() {
+export function MockBackend(): JSX.Element {
   return (
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-2" id="mock-backend">
-          <a href="#mock-backend"></a>Mock Back-end
+          <a href="#mock-backend" />
+          Mock Back-end
         </h1>
         <div className="py-5">
           <span>
@@ -32,7 +32,8 @@ export function MockBackend() {
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-2" id="how-to-switch">
-          <a href="#how-to-switch"></a>How switching to the Real REST API
+          <a href="#how-to-switch" />
+          How switching to the Real REST API
         </h1>
         <div className="py-5">
           <span>

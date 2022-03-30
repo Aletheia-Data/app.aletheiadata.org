@@ -1,14 +1,13 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { CodeBlock } from "../../../../../../_start/partials";
 
-export function Example8WidthAndHeight() {
+export function Example8WidthAndHeight(): JSX.Element {
   return (
     <div className="pb-10">
       <h1 className="anchor fw-bolder mb-5" id="width-and-height">
-        <a href="#width-and-height"></a>Width & Height
+        <a href="#width-and-height" />
+        Width & Height
       </h1>
 
       <div className="py-5">
@@ -233,7 +232,7 @@ export function Example8WidthAndHeight() {
               h-250px
             </div>
           </div>
-          <div className="separator border-solid mt-10 mb-12"></div>
+          <div className="separator border-solid mt-10 mb-12" />
           <div className="d-flex flex-wrap align-items-center">
             <div className="min-w-100px min-h-100px mw-100px mh-100px d-flex flex-column flex-center me-5 mb-5 bg-light fw-bold">
               min-w-100px
@@ -274,7 +273,7 @@ export function Example8WidthAndHeight() {
           </div>
         </div>
       </div>
-      <CodeBlock language="markup" code={code} />
+      <CodeBlock code={code} language="markup" />
     </div>
   );
 }

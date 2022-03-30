@@ -1,16 +1,16 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function Tables() {
+export function Tables(): JSX.Element {
   const { REACT_APP_THEME_NAME, REACT_APP_BOOTSTRAP_DOCS_LINK } = process.env;
+
   return (
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="overview">
-          <a href="#overview"></a>Overview
+          <a href="#overview" />
+          Overview
         </h1>
         <div className="py-5">
           {REACT_APP_THEME_NAME} extends{" "}
@@ -25,7 +25,8 @@ export function Tables() {
       </div>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="basic-table">
-          <a href="#basic-table"></a>Basic Table
+          <a href="#basic-table" />
+          Basic Table
         </h1>
         <div className="my-5">
           <table className="table">
@@ -99,19 +100,20 @@ export function Tables() {
             </tbody>
           </table>
         </div>
-        <CodeBlock language="markup" code={code} />
+        <CodeBlock code={code} language="markup" />
       </div>
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="cell-spacing">
-          <a href="#cell-spacing"></a>Cell Spacing
+          <a href="#cell-spacing" />
+          Cell Spacing
         </h1>
 
         <div className="py-5">
-          To control cell paddings easily,{' '}
+          To control cell paddings easily,{" "}
           <a
-            href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/layout/gutters/`}
             className="fw-bolder me-1"
+            href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/layout/gutters/`}
           >
             Bootstrap Gutters
           </a>
@@ -200,7 +202,8 @@ export function Tables() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="cell-spacing">
-          <a href="#cell-spacing"></a>Row Border Styling
+          <a href="#cell-spacing" />
+          Row Border Styling
         </h1>
         <div className="py-5">
           Use
@@ -358,7 +361,8 @@ export function Tables() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="striped-rows">
-          <a href="#cell-spacing"></a>Striped Rows
+          <a href="#cell-spacing" />
+          Striped Rows
         </h1>
         <div className="py-5">
           Use
@@ -444,7 +448,8 @@ export function Tables() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="striped-rounded-bordered">
-          <a href="#cell-spacing"></a>Striped, Rounded &amp; Bordered
+          <a href="#cell-spacing" />
+          Striped, Rounded &amp; Bordered
         </h1>
         <div className="py-5">
           Use
@@ -530,7 +535,8 @@ export function Tables() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="flush-table">
-          <a href="#cell-spacing"></a>Flush Table
+          <a href="#cell-spacing" />
+          Flush Table
         </h1>
         <div className="py-5">
           Use
@@ -581,7 +587,8 @@ export function Tables() {
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="hoverable-rows">
-          <a href="#hoverable-rows"></a>Hoverable Rows
+          <a href="#hoverable-rows" />
+          Hoverable Rows
         </h1>
 
         <div className="py-5">
@@ -666,7 +673,8 @@ export function Tables() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="active-rows">
-          <a href="#active-rows"></a>Active Rows
+          <a href="#active-rows" />
+          Active Rows
         </h1>
         <div className="py-5">
           Highlight a table row or cell by adding
@@ -749,7 +757,8 @@ export function Tables() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="nesting">
-          <a href="#nesting"></a>Nesting
+          <a href="#nesting" />
+          Nesting
         </h1>
         <div className="py-5">
           Border styles, active styles, and table variants are not inherited by
@@ -816,14 +825,15 @@ export function Tables() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="responsive-table">
-          <a href="#responsive-table"></a>Responsive Table
+          <a href="#responsive-table" />
+          Responsive Table
         </h1>
         <div className="py-5">
           Enable a table with fixed cell widths and responsive modes by
-          referring to the official{' '}
+          referring to the official{" "}
           <a
-            href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/content/tables/`}
             className="fw-bolder me-1"
+            href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/content/tables/`}
           >
             Bootstrap Tables
           </a>

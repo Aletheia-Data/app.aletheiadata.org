@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
 import { useTheme } from "../../core";
-import { KTSVG, toAbsoluteUrl } from "../../../helpers";
+import { Ktsvg, toAbsoluteUrl } from "../../../helpers";
 import { AsideMenu } from "./AsideMenu";
 import { Dropdown1 } from "../../../partials";
 
@@ -64,7 +64,7 @@ export function AsideDefault() {
                         className="nav-link h-40px w-40px h-lg-50px w-lg-50px btn btn-custom btn-icon btn-color-white active"
                         role="tab"
                       >
-                        <KTSVG
+                        <Ktsvg
                           className="svg-icon-2 svg-icon-lg-1"
                           path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
                         />
@@ -79,7 +79,7 @@ export function AsideDefault() {
                         data-bs-target="#kt_aside_tab_2"
                         role="tab"
                       >
-                        <KTSVG
+                        <Ktsvg
                           className="svg-icon-2 svg-icon-lg-1"
                           path="/media/icons/duotone/Communication/Group.svg"
                         />
@@ -94,7 +94,7 @@ export function AsideDefault() {
                         data-bs-target="#kt_aside_tab_3"
                         role="tab"
                       >
-                        <KTSVG
+                        <Ktsvg
                           className="svg-icon-2 svg-icon-lg-1"
                           path="/media/icons/duotone/Media/Equalizer.svg"
                         />
@@ -109,7 +109,7 @@ export function AsideDefault() {
                         data-bs-target="#kt_aside_tab_2"
                         role="tab"
                       >
-                        <KTSVG
+                        <Ktsvg
                           className="svg-icon-2 svg-icon-lg-1"
                           path="/media/icons/duotone/General/Shield-check.svg"
                         />
@@ -124,7 +124,7 @@ export function AsideDefault() {
                         data-bs-target="#kt_aside_tab_3"
                         role="tab"
                       >
-                        <KTSVG
+                        <Ktsvg
                           className="svg-icon-2 svg-icon-lg-1"
                           path="/media/icons/duotone/Home/Library.svg"
                         />
@@ -139,7 +139,7 @@ export function AsideDefault() {
                         data-bs-target="#kt_aside_tab_6"
                         role="tab"
                       >
-                        <KTSVG
+                        <Ktsvg
                           className="svg-icon-2 svg-icon-lg-1"
                           path="/media/icons/duotone/Files/File-plus.svg"
                         />
@@ -165,7 +165,7 @@ export function AsideDefault() {
                     data-kt-toggle-name="aside-minimize"
                     title="Toggle Aside"
                   >
-                    <KTSVG
+                    <Ktsvg
                       path="/media/icons/duotone/Navigation/Left-2.svg"
                       className="svg-icon-2 rotate-180"
                     />
@@ -187,7 +187,7 @@ export function AsideDefault() {
                     data-kt-menu-placement="top-start"
                     data-kt-menu-flip="top-end"
                   >
-                    <KTSVG
+                    <Ktsvg
                       className="svg-icon-2 svg-icon-lg-1"
                       path="/media/icons/duotone/Communication/Dial-numbers.svg"
                     />

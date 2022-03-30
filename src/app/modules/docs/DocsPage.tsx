@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { PageDescription, PageTitle } from "../../../_start/layout/core";
 import { Overview } from "./pages/gettings-started/Overview";
@@ -37,14 +37,14 @@ import { Deployment } from "./pages/gettings-started/Deployment";
 import { Internationalization } from "./pages/gettings-started/Internationalization";
 import { MockBackend } from "./pages/gettings-started/MockBackend";
 import { References } from "./pages/gettings-started/References";
-import { RTL } from "./pages/gettings-started/RTL";
+import { Rtl } from "./pages/gettings-started/RTL";
 import { SASSCustomization } from "./pages/gettings-started/SASSCustomization";
 import { Skeleton } from "./pages/gettings-started/Skeleton";
 import { Updates } from "./pages/gettings-started/Updates";
 import { QuickStart } from "./pages/gettings-started/QuickStart";
 import { LineAwesomeIcons } from "./pages/icons/LineAwesomeIcons";
 
-const DocsPage = () => {
+const DocsPage: FC = () => {
   return (
     <div className="card card-custom">
       <div className="card-body p-10 p-lg-15">
@@ -88,7 +88,7 @@ const DocsPage = () => {
           </Route>
           <Route path="/docs/rtl">
             <PageTitle>RTL</PageTitle>
-            <RTL />
+            <Rtl />
           </Route>
           <Route path="/docs/sass-customization">
             <PageTitle>SASS Customization</PageTitle>
@@ -249,7 +249,7 @@ const DocsPage = () => {
             <LineAwesomeIcons />
             <PageDescription>line font icons</PageDescription>
           </Route>
-          <Redirect from="/docs" exact={true} to="/docs/quick-start" />
+          <Redirect exact from="/docs" to="/docs/quick-start" />
           <Redirect to="/docs/quick-start" />
         </Switch>
       </div>

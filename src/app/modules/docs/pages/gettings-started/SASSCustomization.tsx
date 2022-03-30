@@ -1,5 +1,5 @@
 import React from "react";
 
-export function SASSCustomization() {
+export function SASSCustomization(): JSX.Element {
   return <>SASSCustomization</>;
 }

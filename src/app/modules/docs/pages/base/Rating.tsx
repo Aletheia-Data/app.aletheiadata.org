@@ -1,17 +1,16 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { Link } from "react-router-dom";
-import { KTSVG } from "../../../../../_start/helpers";
+import { Ktsvg } from "../../../../../_start/helpers";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function Rating() {
+export function Rating(): JSX.Element {
   return (
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="overview">
-          <a href="#overview"></a>Overview
+          <a href="#overview" />
+          Overview
         </h1>
         <div className="py-5">
           Rating is a custom component that can be used to display and edit star
@@ -20,7 +19,8 @@ export function Rating() {
       </div>
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="basic">
-          <a href="#basic"></a>Basic Example
+          <a href="#basic" />
+          Basic Example
         </h1>
 
         <div className="py-5">
@@ -28,7 +28,7 @@ export function Rating() {
           <code>.rating</code>and
           <code>.rating-label</code>classes for displaying star based ratings.
           This examples uses a star icon from
-          <Link to="/docs/icons/duotone" className="fw-bold">
+          <Link className="fw-bold" to="/docs/icons/duotone">
             Duotone Svg Icons
           </Link>
           .
@@ -38,33 +38,33 @@ export function Rating() {
           <div className="rounded border p-10">
             <div className="rating">
               <div className="rating-label checked">
-                <KTSVG
-                  path="/media/icons/duotone/General/Star.svg"
+                <Ktsvg
                   className="svg-icon svg-icon-1"
+                  path="/media/icons/duotone/General/Star.svg"
                 />
               </div>
               <div className="rating-label checked">
-                <KTSVG
-                  path="/media/icons/duotone/General/Star.svg"
+                <Ktsvg
                   className="svg-icon svg-icon-1"
+                  path="/media/icons/duotone/General/Star.svg"
                 />
               </div>
               <div className="rating-label checked">
-                <KTSVG
-                  path="/media/icons/duotone/General/Star.svg"
+                <Ktsvg
                   className="svg-icon svg-icon-1"
+                  path="/media/icons/duotone/General/Star.svg"
                 />
               </div>
               <div className="rating-label checked">
-                <KTSVG
-                  path="/media/icons/duotone/General/Star.svg"
+                <Ktsvg
                   className="svg-icon svg-icon-1"
+                  path="/media/icons/duotone/General/Star.svg"
                 />
               </div>
               <div className="rating-label checked">
-                <KTSVG
-                  path="/media/icons/duotone/General/Star.svg"
+                <Ktsvg
                   className="svg-icon svg-icon-1"
+                  path="/media/icons/duotone/General/Star.svg"
                 />
               </div>
             </div>
@@ -75,13 +75,14 @@ export function Rating() {
       </div>
       <div className="pt-10">
         <h1 className="anchor fw-bolder mb-5" id="font-icons">
-          <a href="#font-icons"></a>Font Icons Example
+          <a href="#font-icons" />
+          Font Icons Example
         </h1>
 
         <div className="py-5">
           As a star icon any font icons can be used as well. This examples uses
           a star icon from
-          <Link to="/docs/icons/duotone" className="fw-bold">
+          <Link className="fw-bold" to="/docs/icons/duotone">
             Bootstrap Icons
           </Link>
           :
@@ -91,19 +92,19 @@ export function Rating() {
           <div className="rounded border p-10">
             <div className="rating">
               <div className="rating-label me-2 checked">
-                <i className="bi bi-star fs-1"></i>
+                <i className="bi bi-star fs-1" />
               </div>
               <div className="rating-label me-2 checked">
-                <i className="bi bi-star fs-1"></i>
+                <i className="bi bi-star fs-1" />
               </div>
               <div className="rating-label me-2 checked">
-                <i className="bi bi-star fs-1"></i>
+                <i className="bi bi-star fs-1" />
               </div>
               <div className="rating-label me-2 checked">
-                <i className="bi bi-star fs-1"></i>
+                <i className="bi bi-star fs-1" />
               </div>
               <div className="rating-label me-2 checked">
-                <i className="bi bi-star fs-1"></i>
+                <i className="bi bi-star fs-1" />
               </div>
             </div>
           </div>
@@ -113,12 +114,13 @@ export function Rating() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="states">
-          <a href="#states"></a>Star States
+          <a href="#states" />
+          Star States
         </h1>
 
         <div className="py-5">
-          By default each star's state is unchecked and to mark them as checked
-          just use
+          By default each star&apos;s state is unchecked and to mark them as
+          checked just use
           <code>.checked</code>class for
           <code>.rating-label</code>element.
         </div>
@@ -127,52 +129,52 @@ export function Rating() {
           <div className="rounded border p-10">
             <div className="rating">
               <div className="rating-label checked">
-                <KTSVG
-                  path="/media/icons/duotone/General/Star.svg"
+                <Ktsvg
                   className="svg-icon svg-icon-1"
+                  path="/media/icons/duotone/General/Star.svg"
                 />
               </div>
               <div className="rating-label checked">
-                <KTSVG
-                  path="/media/icons/duotone/General/Star.svg"
+                <Ktsvg
                   className="svg-icon svg-icon-1"
+                  path="/media/icons/duotone/General/Star.svg"
                 />
               </div>
               <div className="rating-label checked">
-                <KTSVG
-                  path="/media/icons/duotone/General/Star.svg"
+                <Ktsvg
                   className="svg-icon svg-icon-1"
+                  path="/media/icons/duotone/General/Star.svg"
                 />
               </div>
               <div className="rating-label">
-                <KTSVG
-                  path="/media/icons/duotone/General/Star.svg"
+                <Ktsvg
                   className="svg-icon svg-icon-1"
+                  path="/media/icons/duotone/General/Star.svg"
                 />
               </div>
               <div className="rating-label">
-                <KTSVG
-                  path="/media/icons/duotone/General/Star.svg"
+                <Ktsvg
                   className="svg-icon svg-icon-1"
+                  path="/media/icons/duotone/General/Star.svg"
                 />
               </div>
             </div>
-            <div className="separator my-10"></div>
+            <div className="separator my-10" />
             <div className="rating">
               <div className="rating-label me-2 checked">
-                <i className="bi bi-star fs-2"></i>
+                <i className="bi bi-star fs-2" />
               </div>
               <div className="rating-label me-2 checked">
-                <i className="bi bi-star fs-2"></i>
+                <i className="bi bi-star fs-2" />
               </div>
               <div className="rating-label me-2 checked">
-                <i className="bi bi-star fs-2"></i>
+                <i className="bi bi-star fs-2" />
               </div>
               <div className="rating-label me-2">
-                <i className="bi bi-star fs-2"></i>
+                <i className="bi bi-star fs-2" />
               </div>
               <div className="rating-label me-2">
-                <i className="bi bi-star fs-2"></i>
+                <i className="bi bi-star fs-2" />
               </div>
             </div>
           </div>
@@ -182,7 +184,8 @@ export function Rating() {
 
       <div className="pt-10">
         <h1 className="anchor fw-bolder mb-5" id="edit">
-          <a href="#edit"></a>Edit Mode Examples
+          <a href="#edit" />
+          Edit Mode Examples
         </h1>
 
         <div className="py-5">
@@ -201,82 +204,81 @@ export function Rating() {
                 Reset
               </label>
               <input
+                checked
                 className="rating-input"
-                name="rating"
-                value="0"
-                checked={true}
-                onChange={() => {}}
-                type="radio"
                 id="kt_rating_input_0"
+                name="rating"
+                type="radio"
+                value="0"
               />
               <label className="rating-label" htmlFor="kt_rating_input_1">
-                <KTSVG
-                  path="/media/icons/duotone/General/Star.svg"
+                <Ktsvg
                   className="svg-icon svg-icon-1"
+                  path="/media/icons/duotone/General/Star.svg"
                 />
               </label>
               <input
                 className="rating-input"
-                name="rating"
-                value="1"
-                type="radio"
                 id="kt_rating_input_1"
+                name="rating"
+                type="radio"
+                value="1"
               />
 
               <label className="rating-label" htmlFor="kt_rating_input_2">
-                <KTSVG
-                  path="/media/icons/duotone/General/Star.svg"
+                <Ktsvg
                   className="svg-icon svg-icon-1"
+                  path="/media/icons/duotone/General/Star.svg"
                 />
               </label>
               <input
                 className="rating-input"
-                name="rating"
-                value="2"
-                type="radio"
                 id="kt_rating_input_2"
+                name="rating"
+                type="radio"
+                value="2"
               />
 
               <label className="rating-label" htmlFor="kt_rating_input_3">
-                <KTSVG
-                  path="/media/icons/duotone/General/Star.svg"
+                <Ktsvg
                   className="svg-icon svg-icon-1"
+                  path="/media/icons/duotone/General/Star.svg"
                 />
               </label>
               <input
                 className="rating-input"
-                name="rating"
-                value="3"
-                type="radio"
                 id="kt_rating_input_3"
+                name="rating"
+                type="radio"
+                value="3"
               />
 
               <label className="rating-label" htmlFor="kt_rating_input_4">
-                <KTSVG
-                  path="/media/icons/duotone/General/Star.svg"
+                <Ktsvg
                   className="svg-icon svg-icon-1"
+                  path="/media/icons/duotone/General/Star.svg"
                 />
               </label>
               <input
                 className="rating-input"
-                name="rating"
-                value="4"
-                type="radio"
                 id="kt_rating_input_4"
+                name="rating"
+                type="radio"
+                value="4"
               />
 
               <label className="rating-label" htmlFor="kt_rating_input_5">
-                <KTSVG
-                  path="/media/icons/duotone/General/Star.svg"
+                <Ktsvg
                   className="svg-icon svg-icon-1"
+                  path="/media/icons/duotone/General/Star.svg"
                 />
               </label>
               <input
                 className="rating-input"
-                name="rating"
-                value="5"
-                type="radio"
                 id="kt_rating_input_5"
+                name="rating"
+                type="radio"
+                value="5"
               />
             </div>
           </div>
@@ -284,9 +286,9 @@ export function Rating() {
         <CodeBlock code={code4} language="markup" />
 
         <div className="pt-15 pb-5">
-          Rating with default value can be setup through a radio input's
-          <code>checked="checked"</code>state. This examples shows a rating with
-          3 stars default value:
+          Rating with default value can be setup through a radio input&apos;s
+          <code>checked=&quot;checked&quot;</code>state. This examples shows a
+          rating with 3 stars default value:
         </div>
 
         <div className="py-5">
@@ -299,85 +301,83 @@ export function Rating() {
                 Reset
               </label>
               <input
+                checked
                 className="rating-input"
-                name="rating2"
-                value="0"
-                checked={true}
-                onChange={() => {}}
-                type="radio"
                 id="kt_rating_2_input_0"
+                name="rating2"
+                type="radio"
+                value="0"
               />
 
               <label className="rating-label" htmlFor="kt_rating_2_input_1">
-                <KTSVG
-                  path="/media/icons/duotone/General/Star.svg"
+                <Ktsvg
                   className="svg-icon svg-icon-1"
+                  path="/media/icons/duotone/General/Star.svg"
                 />
               </label>
               <input
                 className="rating-input"
-                name="rating2"
-                value="1"
-                type="radio"
                 id="kt_rating_2_input_1"
+                name="rating2"
+                type="radio"
+                value="1"
               />
 
               <label className="rating-label" htmlFor="kt_rating_2_input_2">
-                <KTSVG
-                  path="/media/icons/duotone/General/Star.svg"
+                <Ktsvg
                   className="svg-icon svg-icon-1"
+                  path="/media/icons/duotone/General/Star.svg"
                 />
               </label>
               <input
                 className="rating-input"
-                name="rating2"
-                value="2"
-                type="radio"
                 id="kt_rating_2_input_2"
+                name="rating2"
+                type="radio"
+                value="2"
               />
 
               <label className="rating-label" htmlFor="kt_rating_2_input_3">
-                <KTSVG
-                  path="/media/icons/duotone/General/Star.svg"
+                <Ktsvg
                   className="svg-icon svg-icon-1"
+                  path="/media/icons/duotone/General/Star.svg"
                 />
               </label>
               <input
+                checked
                 className="rating-input"
-                name="rating2"
-                value="3"
-                type="radio"
-                checked={true}
-                onChange={() => {}}
                 id="kt_rating_2_input_3"
+                name="rating2"
+                type="radio"
+                value="3"
               />
 
               <label className="rating-label" htmlFor="kt_rating_2_input_4">
-                <KTSVG
-                  path="/media/icons/duotone/General/Star.svg"
+                <Ktsvg
                   className="svg-icon svg-icon-1"
+                  path="/media/icons/duotone/General/Star.svg"
                 />
               </label>
               <input
                 className="rating-input"
-                name="rating2"
-                value="4"
-                type="radio"
                 id="kt_rating_2_input_4"
+                name="rating2"
+                type="radio"
+                value="4"
               />
 
               <label className="rating-label" htmlFor="kt_rating_2_input_5">
-                <KTSVG
-                  path="/media/icons/duotone/General/Star.svg"
+                <Ktsvg
                   className="svg-icon svg-icon-1"
+                  path="/media/icons/duotone/General/Star.svg"
                 />
               </label>
               <input
                 className="rating-input"
-                name="rating2"
-                value="5"
-                type="radio"
                 id="kt_rating_2_input_5"
+                name="rating2"
+                type="radio"
+                value="5"
               />
             </div>
           </div>
@@ -392,31 +392,31 @@ export function Rating() {
 const code = `<div className="rounded border p-10">
   <div className="rating">
     <div className="rating-label checked">
-      <KTSVG
+      <Ktsvg
         path="/media/icons/duotone/General/Star.svg"
         className="svg-icon svg-icon-1"
       />
     </div>
     <div className="rating-label checked">
-      <KTSVG
+      <Ktsvg
         path="/media/icons/duotone/General/Star.svg"
         className="svg-icon svg-icon-1"
       />
     </div>
     <div className="rating-label checked">
-      <KTSVG
+      <Ktsvg
         path="/media/icons/duotone/General/Star.svg"
         className="svg-icon svg-icon-1"
       />
     </div>
     <div className="rating-label checked">
-      <KTSVG
+      <Ktsvg
         path="/media/icons/duotone/General/Star.svg"
         className="svg-icon svg-icon-1"
       />
     </div>
     <div className="rating-label checked">
-      <KTSVG
+      <Ktsvg
         path="/media/icons/duotone/General/Star.svg"
         className="svg-icon svg-icon-1"
       />
@@ -446,31 +446,31 @@ const code2 = `<div className="rating">
 const code3 = `<div className="rounded border p-10">
   <div className="rating">
     <div className="rating-label checked">
-      <KTSVG
+      <Ktsvg
         path="/media/icons/duotone/General/Star.svg"
         className="svg-icon svg-icon-1"
       />
     </div>
     <div className="rating-label checked">
-      <KTSVG
+      <Ktsvg
         path="/media/icons/duotone/General/Star.svg"
         className="svg-icon svg-icon-1"
       />
     </div>
     <div className="rating-label checked">
-      <KTSVG
+      <Ktsvg
         path="/media/icons/duotone/General/Star.svg"
         className="svg-icon svg-icon-1"
       />
     </div>
     <div className="rating-label">
-      <KTSVG
+      <Ktsvg
         path="/media/icons/duotone/General/Star.svg"
         className="svg-icon svg-icon-1"
       />
     </div>
     <div className="rating-label">
-      <KTSVG
+      <Ktsvg
         path="/media/icons/duotone/General/Star.svg"
         className="svg-icon svg-icon-1"
       />
@@ -514,7 +514,7 @@ const code4 = `<div className="rating">
     id="kt_rating_input_0"
   />
   <label className="rating-label" htmlFor="kt_rating_input_1">
-    <KTSVG
+    <Ktsvg
       path="/media/icons/duotone/General/Star.svg"
       className="svg-icon svg-icon-1"
     />
@@ -528,7 +528,7 @@ const code4 = `<div className="rating">
   />
 
   <label className="rating-label" htmlFor="kt_rating_input_2">
-    <KTSVG
+    <Ktsvg
       path="/media/icons/duotone/General/Star.svg"
       className="svg-icon svg-icon-1"
     />
@@ -542,7 +542,7 @@ const code4 = `<div className="rating">
   />
 
   <label className="rating-label" htmlFor="kt_rating_input_3">
-    <KTSVG
+    <Ktsvg
       path="/media/icons/duotone/General/Star.svg"
       className="svg-icon svg-icon-1"
     />
@@ -556,7 +556,7 @@ const code4 = `<div className="rating">
   />
 
   <label className="rating-label" htmlFor="kt_rating_input_4">
-    <KTSVG
+    <Ktsvg
       path="/media/icons/duotone/General/Star.svg"
       className="svg-icon svg-icon-1"
     />
@@ -570,7 +570,7 @@ const code4 = `<div className="rating">
   />
 
   <label className="rating-label" htmlFor="kt_rating_input_5">
-    <KTSVG
+    <Ktsvg
       path="/media/icons/duotone/General/Star.svg"
       className="svg-icon svg-icon-1"
     />
@@ -603,7 +603,7 @@ const code5 = `<div className="rating">
   />
 
   <label className="rating-label" htmlFor="kt_rating_2_input_1">
-    <KTSVG
+    <Ktsvg
       path="/media/icons/duotone/General/Star.svg"
       className="svg-icon svg-icon-1"
     />
@@ -617,7 +617,7 @@ const code5 = `<div className="rating">
   />
 
   <label className="rating-label" htmlFor="kt_rating_2_input_2">
-    <KTSVG
+    <Ktsvg
       path="/media/icons/duotone/General/Star.svg"
       className="svg-icon svg-icon-1"
     />
@@ -631,7 +631,7 @@ const code5 = `<div className="rating">
   />
 
   <label className="rating-label" htmlFor="kt_rating_2_input_3">
-    <KTSVG
+    <Ktsvg
       path="/media/icons/duotone/General/Star.svg"
       className="svg-icon svg-icon-1"
     />
@@ -647,7 +647,7 @@ const code5 = `<div className="rating">
   />
 
   <label className="rating-label" htmlFor="kt_rating_2_input_4">
-    <KTSVG
+    <Ktsvg
       path="/media/icons/duotone/General/Star.svg"
       className="svg-icon svg-icon-1"
     />
@@ -661,7 +661,7 @@ const code5 = `<div className="rating">
   />
 
   <label className="rating-label" htmlFor="kt_rating_2_input_5">
-    <KTSVG
+    <Ktsvg
       path="/media/icons/duotone/General/Star.svg"
       className="svg-icon svg-icon-1"
     />

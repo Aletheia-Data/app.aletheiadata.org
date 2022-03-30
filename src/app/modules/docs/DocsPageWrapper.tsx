@@ -34,6 +34,7 @@ const DocsPageWrapper: React.FC = () => {
   // Refresh UI after config updates
   useEffect(() => {
     setTheme(dashboardPageConfig);
+
     return () => {
       setTheme(defaultPageConfig);
     };

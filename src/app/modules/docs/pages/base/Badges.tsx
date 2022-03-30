@@ -1,45 +1,47 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function Badges() {
+export function Badges(): JSX.Element {
   const {
     REACT_APP_THEME_NAME,
     REACT_APP_BOOTSTRAP_DOCS_LINK,
     REACT_APP_SASS_PATH,
     REACT_APP_SASS_VARIABLES_PATH,
   } = process.env;
+
   return (
     <>
       <div className="card-body p-10 p-lg-15">
         <div className="pb-10">
           <h1 className="anchor fw-bolder mb-5" id="overview">
-            <a href="#overview"></a>Overview
+            <a href="#overview" />
+            Overview
           </h1>
           <div className="py-5">
             <strong>{REACT_APP_THEME_NAME}</strong>&nbsp; customizes the{" "}
             <a
-              href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/components/badges/`}
               className="fw-bold"
+              href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/components/badges/`}
             >
               Bootstrap Badges
             </a>
             &nbsp; through the SASS variables in
-            <code>{REACT_APP_SASS_VARIABLES_PATH}</code>and adds additonal options in
+            <code>{REACT_APP_SASS_VARIABLES_PATH}</code>and adds additonal
+            options in
             <code>{REACT_APP_SASS_PATH}/_badge.scss</code>.
           </div>
         </div>
         <div className="py-10">
           <h1 className="anchor fw-bolder mb-5" id="basic">
-            <a href="#basic"></a>Basic
+            <a href="#basic" />
+            Basic
           </h1>
           <div className="py-5">
             Use
             <code>.badge</code>with
-            <code>.badge-{"{color}"}</code>classes to set a badge's style
-            defined with
+            <code>.badge-{"{color}"}</code>
+            classes to set a badge&apos;s style defined with
             <code>$theme-colors</code>mapped in
             <code>{REACT_APP_SASS_VARIABLES_PATH}</code>:
           </div>
@@ -60,13 +62,14 @@ export function Badges() {
         </div>
         <div className="py-10">
           <h1 className="anchor fw-bolder mb-5" id="light-style">
-            <a href="#light-style"></a>Light Style
+            <a href="#light-style" />
+            Light Style
           </h1>
           <div className="py-5">
             Use
             <code>.badge</code>with
-            <code>.badge-light-{"{color}"}</code>classes to set a badge's light
-            style defined with
+            <code>.badge-light-{"{color}"}</code>
+            classes to set a badge&apos;s light style defined with
             <code>$theme-light-colors</code>mapped in
             <code>{REACT_APP_SASS_VARIABLES_PATH}</code>:
           </div>
@@ -84,7 +87,8 @@ export function Badges() {
         </div>
         <div className="py-10">
           <h1 className="anchor fw-bolder mb-5" id="square">
-            <a href="#square"></a>Square Badge
+            <a href="#square" />
+            Square Badge
           </h1>
           <div className="py-5">
             Use
@@ -127,7 +131,8 @@ export function Badges() {
         </div>
         <div className="py-10">
           <h1 className="anchor fw-bolder mb-5" id="circle">
-            <a href="#circle"></a>Circle Badge
+            <a href="#circle" />
+            Circle Badge
           </h1>
           <div className="py-5">
             Use

@@ -1,16 +1,15 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
-import { KTSVG } from "../../../../../_start/helpers";
+import { Ktsvg } from "../../../../../_start/helpers";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function Pulse() {
+export function Pulse(): JSX.Element {
   return (
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="overview">
-          <a href="#overview"></a>Overview
+          <a href="#overview" />
+          Overview
         </h1>
         <div className="py-5">
           Pulse is a custom component for highlighting elements.
@@ -19,177 +18,180 @@ export function Pulse() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="basic">
-          <a href="#basic"></a>Basic
+          <a href="#basic" />
+          Basic
         </h1>
         <div className="py-5">
           Use
-          <code>.pulse</code>with for any element to provide a user's
+          <code>.pulse</code>with for any element to provide a user&apos;s
           attentation.
         </div>
         <div className="py-5">
           <div className="rounded border p-10 pb-0 d-flex align-items-center flex-wrap">
-            <a href="#" className="btn btn-icon btn-light pulse me-10 mb-10">
-              <KTSVG
+            <a className="btn btn-icon btn-light pulse me-10 mb-10" href="#">
+              <Ktsvg
+                className="svg-icon svg-icon-1"
                 path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
-                className="svg-icon svg-icon-1"
               />
-              <span className="pulse-ring"></span>
+              <span className="pulse-ring" />
             </a>
-            <a href="#" className="btn btn-icon btn-light pulse me-10 mb-10">
-              <KTSVG
+            <a className="btn btn-icon btn-light pulse me-10 mb-10" href="#">
+              <Ktsvg
+                className="svg-icon svg-icon-1"
                 path="/media/icons/duotone/Code/Done-circle.svg"
-                className="svg-icon svg-icon-1"
               />
-              <span className="pulse-ring"></span>
+              <span className="pulse-ring" />
             </a>
-            <a href="#" className="btn btn-icon btn-light pulse me-10 mb-10">
-              <KTSVG
+            <a className="btn btn-icon btn-light pulse me-10 mb-10" href="#">
+              <Ktsvg
+                className="svg-icon svg-icon-1"
                 path="/media/icons/duotone/Communication/Mail-error.svg"
-                className="svg-icon svg-icon-1"
               />
-              <span className="pulse-ring"></span>
+              <span className="pulse-ring" />
             </a>
-            <a href="#" className="btn btn-icon btn-light pulse me-10 mb-10">
-              <KTSVG
-                path="/media/icons/duotone/Design/Color-profile.svg"
+            <a className="btn btn-icon btn-light pulse me-10 mb-10" href="#">
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Design/Color-profile.svg"
               />
 
-              <span className="pulse-ring"></span>
+              <span className="pulse-ring" />
             </a>
-            <a href="#" className="btn btn-icon btn-light pulse me-10 mb-10">
-              <KTSVG
+            <a className="btn btn-icon btn-light pulse me-10 mb-10" href="#">
+              <Ktsvg
+                className="svg-icon svg-icon-1"
                 path="/media/icons/duotone/Design/PenAndRuller.svg"
-                className="svg-icon svg-icon-1"
               />
-              <span className="pulse-ring"></span>
+              <span className="pulse-ring" />
             </a>
-            <a href="#" className="btn btn-icon btn-light pulse me-10 mb-10">
-              <KTSVG
-                path="/media/icons/duotone/Files/File.svg"
+            <a className="btn btn-icon btn-light pulse me-10 mb-10" href="#">
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Files/File.svg"
               />
-              <span className="pulse-ring"></span>
+              <span className="pulse-ring" />
             </a>
           </div>
         </div>
-        <CodeBlock language="tsx" code={code} />
+        <CodeBlock code={code} language="tsx" />
       </div>
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="Colors">
-          <a href="#colors"></a>Colors
+          <a href="#colors" />
+          Colors
         </h1>
 
         <div className="py-5">
           Use
-          <code>.pulse-{"{color}"}</code>class to set a pulse's color:
+          <code>.pulse-{"{color}"}</code>class to set a pulse&apos;s color:
         </div>
         <div className="py-5">
           <div className="rounded border p-10 pb-0 d-flex flex-wrap align-items-center">
             <a
-              href="#"
               className="btn btn-icon btn-light pulse pulse-white me-10 mb-10"
+              href="#"
             >
-              <KTSVG
-                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
               />
-              <span className="pulse-ring"></span>
+              <span className="pulse-ring" />
             </a>
             <a
-              href="#"
               className="btn btn-icon btn-light pulse pulse-primary me-10 mb-10"
+              href="#"
             >
-              <KTSVG
-                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
               />
-              <span className="pulse-ring"></span>
+              <span className="pulse-ring" />
             </a>
             <a
-              href="#"
               className="btn btn-icon btn-light pulse pulse-light me-10 mb-10"
+              href="#"
             >
-              <KTSVG
-                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
               />
-              <span className="pulse-ring"></span>
+              <span className="pulse-ring" />
             </a>
             <a
-              href="#"
               className="btn btn-icon btn-light pulse pulse-secondary me-10 mb-10"
+              href="#"
             >
-              <KTSVG
-                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
               />
-              <span className="pulse-ring"></span>
+              <span className="pulse-ring" />
             </a>
             <a
-              href="#"
               className="btn btn-icon btn-light pulse pulse-success me-10 mb-10"
+              href="#"
             >
-              <KTSVG
-                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
               />
-              <span className="pulse-ring"></span>
+              <span className="pulse-ring" />
             </a>
             <a
-              href="#"
               className="btn btn-icon btn-light pulse pulse-info me-10 mb-10"
+              href="#"
             >
-              <KTSVG
-                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
               />
-              <span className="pulse-ring"></span>
+              <span className="pulse-ring" />
             </a>
             <a
-              href="#"
               className="btn btn-icon btn-light pulse pulse-warning me-10 mb-10"
+              href="#"
             >
-              <KTSVG
-                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
               />
-              <span className="pulse-ring"></span>
+              <span className="pulse-ring" />
             </a>
             <a
-              href="#"
               className="btn btn-icon btn-light pulse pulse-danger me-10 mb-10"
+              href="#"
             >
-              <KTSVG
-                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
               />
-              <span className="pulse-ring"></span>
+              <span className="pulse-ring" />
             </a>
             <a
-              href="#"
               className="btn btn-icon btn-light pulse pulse-dark me-10 mb-10"
+              href="#"
             >
-              <KTSVG
-                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
               />
-              <span className="pulse-ring"></span>
+              <span className="pulse-ring" />
             </a>
           </div>
         </div>
-        <CodeBlock language="tsx" code={code2} />
+        <CodeBlock code={code2} language="tsx" />
       </div>
 
       <div className="pt-10">
         <h1 className="anchor fw-bolder mb-5" id="border-width">
-          <a href="#border-width"></a>Border Width
+          <a href="#border-width" />
+          Border Width
         </h1>
         <div className="py-5">
           Use the standard
           <code>.border-{"{width}"}</code>class with
-          <code>.pulse-ring</code>to set a pulse ring's border width.
+          <code>.pulse-ring</code>to set a pulse ring&apos;s border width.
         </div>
         <div className="py-5">
           Where
@@ -218,75 +220,75 @@ export function Pulse() {
         <div className="py-5">
           <div className="rounded border p-10 pb-0 d-flex flex-wrap align-items-center">
             <a
-              href="#"
               className="btn btn-icon btn-light pulse pulse-primary me-10 mb-10"
+              href="#"
             >
-              <KTSVG
-                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
               />
-              <span className="pulse-ring border-0"></span>
+              <span className="pulse-ring border-0" />
             </a>
             <a
-              href="#"
               className="btn btn-icon btn-light pulse pulse-primary me-10 mb-10"
+              href="#"
             >
-              <KTSVG
-                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
               />
-              <span className="pulse-ring border-1"></span>
+              <span className="pulse-ring border-1" />
             </a>
             <a
-              href="#"
               className="btn btn-icon btn-light pulse pulse-primary me-10 mb-10"
+              href="#"
             >
-              <KTSVG
-                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
               />
-              <span className="pulse-ring border-2"></span>
+              <span className="pulse-ring border-2" />
             </a>
             <a
-              href="#"
               className="btn btn-icon btn-light pulse pulse-primary me-10 mb-10"
+              href="#"
             >
-              <KTSVG
-                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
               />
-              <span className="pulse-ring border-3"></span>
+              <span className="pulse-ring border-3" />
             </a>
             <a
-              href="#"
               className="btn btn-icon btn-light pulse pulse-primary me-10 mb-10"
+              href="#"
             >
-              <KTSVG
-                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
               />
-              <span className="pulse-ring border-4"></span>
+              <span className="pulse-ring border-4" />
             </a>
             <a
-              href="#"
               className="btn btn-icon btn-light pulse pulse-primary me-10 mb-10"
+              href="#"
             >
-              <KTSVG
-                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
+              <Ktsvg
                 className="svg-icon svg-icon-1"
+                path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
               />
-              <span className="pulse-ring border-5"></span>
+              <span className="pulse-ring border-5" />
             </a>
           </div>
         </div>
-        <CodeBlock language="tsx" code={code3} />
+        <CodeBlock code={code3} language="tsx" />
       </div>
     </>
   );
 }
 
 const code = `<a href="#" className="btn btn-icon btn-light pulse me-10 mb-10">
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
     className="svg-icon svg-icon-1"
   />
@@ -296,7 +298,7 @@ const code = `<a href="#" className="btn btn-icon btn-light pulse me-10 mb-10">
 const code2 = ` <a href="#"
   className="btn btn-icon btn-light pulse pulse-white me-10 mb-10"
 >
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
     className="svg-icon svg-icon-1"
   />
@@ -305,7 +307,7 @@ const code2 = ` <a href="#"
 <a href="#"
   className="btn btn-icon btn-light pulse pulse-primary me-10 mb-10"
 >
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
     className="svg-icon svg-icon-1"
   />
@@ -314,7 +316,7 @@ const code2 = ` <a href="#"
 <a href="#"
   className="btn btn-icon btn-light pulse pulse-light me-10 mb-10"
 >
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
     className="svg-icon svg-icon-1"
   />
@@ -323,7 +325,7 @@ const code2 = ` <a href="#"
 <a href="#"
   className="btn btn-icon btn-light pulse pulse-secondary me-10 mb-10"
 >
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
     className="svg-icon svg-icon-1"
   />
@@ -332,7 +334,7 @@ const code2 = ` <a href="#"
 <a href="#"
   className="btn btn-icon btn-light pulse pulse-success me-10 mb-10"
 >
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
     className="svg-icon svg-icon-1"
   />
@@ -341,7 +343,7 @@ const code2 = ` <a href="#"
 <a href="#"
   className="btn btn-icon btn-light pulse pulse-info me-10 mb-10"
 >
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
     className="svg-icon svg-icon-1"
   />
@@ -350,7 +352,7 @@ const code2 = ` <a href="#"
 <a href="#"
   className="btn btn-icon btn-light pulse pulse-warning me-10 mb-10"
 >
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
     className="svg-icon svg-icon-1"
   />
@@ -359,7 +361,7 @@ const code2 = ` <a href="#"
 <a href="#"
   className="btn btn-icon btn-light pulse pulse-danger me-10 mb-10"
 >
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
     className="svg-icon svg-icon-1"
   />
@@ -368,7 +370,7 @@ const code2 = ` <a href="#"
 <a href="#"
   className="btn btn-icon btn-light pulse pulse-dark me-10 mb-10"
 >
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
     className="svg-icon svg-icon-1"
   />
@@ -378,7 +380,7 @@ const code2 = ` <a href="#"
 const code3 = `<a href="#"
   className="btn btn-icon btn-light pulse pulse-primary me-10 mb-10"
 >
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
     className="svg-icon svg-icon-1"
   />
@@ -387,7 +389,7 @@ const code3 = `<a href="#"
 <a href="#"
   className="btn btn-icon btn-light pulse pulse-primary me-10 mb-10"
 >
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
     className="svg-icon svg-icon-1"
   />
@@ -396,7 +398,7 @@ const code3 = `<a href="#"
 <a href="#"
   className="btn btn-icon btn-light pulse pulse-primary me-10 mb-10"
 >
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
     className="svg-icon svg-icon-1"
   />
@@ -405,7 +407,7 @@ const code3 = `<a href="#"
 <a href="#"
   className="btn btn-icon btn-light pulse pulse-primary me-10 mb-10"
 >
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
     className="svg-icon svg-icon-1"
   />
@@ -414,7 +416,7 @@ const code3 = `<a href="#"
 <a href="#"
   className="btn btn-icon btn-light pulse pulse-primary me-10 mb-10"
 >
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
     className="svg-icon svg-icon-1"
   />
@@ -423,7 +425,7 @@ const code3 = `<a href="#"
 <a href="#"
   className="btn btn-icon btn-light pulse pulse-primary me-10 mb-10"
 >
-  <KTSVG
+  <Ktsvg
     path="/media/icons/duotone/Layout/Layout-4-blocks.svg"
     className="svg-icon svg-icon-1"
   />

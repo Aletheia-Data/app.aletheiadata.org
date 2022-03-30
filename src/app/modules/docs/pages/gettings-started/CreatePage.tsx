@@ -1,16 +1,16 @@
 /* eslint-disable react/jsx-no-target-blank */
-/* eslint-disable jsx-a11y/anchor-has-content */
 import React from "react";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function CreatePage() {
+export function CreatePage(): JSX.Element {
   const { REACT_APP_VERSION, REACT_APP_THEME_NAME } = process.env;
 
   return (
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-2" id="how-to">
-          <a href="#how-to"></a>How to create a custom page
+          <a href="#how-to" />
+          How to create a custom page
         </h1>
         <div className="py-5">
           <span>

@@ -2,6 +2,10 @@
   "name": "App-Aletheia-data",
   "version": "1.1.5", 
   "homepage": "/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Aletheia-Data/app.aletheiadata.org"
+  },
   "dependencies": {
     "@apollo/client": "~3.4.0",
     "@apollo/react-hooks": "^4.0.0",
@@ -32,7 +36,6 @@
     "numeral": "^2.0.6",
     "object-path": "^0.11.5",
     "papaparse": "^5.3.1",
-    "prettier": "^2.2.1",
     "prism-react-renderer": "^1.1.1",
     "prism-themes": "^1.5.0",
     "prismjs": "^1.22.0",
@@ -64,13 +67,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "eject": "react-scripts eject",
+    "lint": "eslint . -c .eslintrc --ext ts,tsx",
+    "lint:fix": "npm run lint --fix"
   },
   "browserslist": {
     "production": [
@@ -85,6 +84,8 @@
     ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^16.2.3",
+    "@commitlint/config-conventional": "^16.2.1",
     "@types/bootstrap": "^5.0.4",
     "@types/chart.js": "^2.9.29",
     "@types/jest": "^26.0.15",
@@ -98,6 +99,14 @@
     "@types/react-copy-to-clipboard": "^5.0.0",
     "@types/react-dom": "^16.9.8",
     "@types/react-redux": "^7.1.13",
-    "@types/react-router-dom": "^5.1.6"
+    "@types/react-router-dom": "^5.1.6",
+    "@typescript-eslint/eslint-plugin": "^5.16.0",
+    "@typescript-eslint/parser": "^5.16.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "husky": "^7.0.4",
+    "prettier": "^2.5.0"
   }
 }

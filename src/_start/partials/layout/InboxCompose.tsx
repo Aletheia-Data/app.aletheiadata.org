@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useRef } from "react";
 import { Modal } from "react-bootstrap-v5";
-import { KTSVG } from "../../helpers";
+import { Ktsvg } from "../../helpers";
 
 export type Props = {
   show: boolean;
@@ -43,7 +43,7 @@ const InboxCompose: React.FC<Props> = ({ show, handleClose }) => {
                 data-bs-dismiss="modal"
                 onClick={handleClose}
               >
-                <KTSVG
+                <Ktsvg
                   className="svg-icon-1"
                   path="/media/icons/duotone/Navigation/Close.svg"
                 />
@@ -182,7 +182,7 @@ const InboxCompose: React.FC<Props> = ({ show, handleClose }) => {
                         className="btn btn-icon btn-sm btn-active-light-primary ms-2"
                         data-bs-dismiss="modal"
                       >
-                        <KTSVG
+                        <Ktsvg
                           className="svg-icon-1"
                           path="/media/icons/duotone/Navigation/Close.svg"
                         />
@@ -211,13 +211,13 @@ const InboxCompose: React.FC<Props> = ({ show, handleClose }) => {
                 className="btn btn-icon btn-active-light-primary me-2"
                 id="kt_inbox_compose_attachments_select"
               >
-                <KTSVG
+                <Ktsvg
                   className="svg-icon-1"
                   path="/media/icons/duotone/Files/Cloud-upload.svg"
                 />
               </a>
               <a href="#" className="btn btn-icon btn-active-light-primary">
-                <KTSVG
+                <Ktsvg
                   className="svg-icon-1"
                   path="/media/icons/duotone/Map/Marker1.svg"
                 />
@@ -233,7 +233,7 @@ const InboxCompose: React.FC<Props> = ({ show, handleClose }) => {
                 data-bs-toggle="tooltip"
                 title="More actions"
               >
-                <KTSVG
+                <Ktsvg
                   className="svg-icon-1"
                   path="/media/icons/duotone/General/Settings-2.svg"
                 />

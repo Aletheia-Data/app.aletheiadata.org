@@ -37,6 +37,7 @@ const ProfilePageWrapper: React.FC = () => {
   // Refresh UI after config updates
   useEffect(() => {
     setTheme(profilePageConfig);
+
     return () => {
       setTheme(defaultPageConfig);
     };

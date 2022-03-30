@@ -8,7 +8,7 @@ import {
   TablesWidget3,
 } from "../../../../_start/partials/widgets";
 
-export function Overview() {
+export function Overview(): JSX.Element {
   return (
     <div className="row g-5 g-xxl-8">
       <div className="col-xl-6">

@@ -1,5 +1,5 @@
 import React from "react";
 
-export function RTL() {
+export function Rtl(): JSX.Element {
   return <>RTL</>;
 }

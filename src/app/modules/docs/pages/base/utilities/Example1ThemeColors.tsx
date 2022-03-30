@@ -1,26 +1,26 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
-import { KTSVG } from "../../../../../../_start/helpers";
+import { Ktsvg } from "../../../../../../_start/helpers";
 import { CodeBlock } from "../../../../../../_start/partials";
 
-export function Example1ThemeColors() {
+export function Example1ThemeColors(): JSX.Element {
   const {
     REACT_APP_THEME_NAME,
     REACT_APP_SASS_VARIABLES_PATH,
     REACT_APP_BOOTSTRAP_DOCS_LINK,
   } = process.env;
+
   return (
     <div className="pb-10">
       <h1 className="anchor fw-bolder mb-5" id="theme-color">
-        <a href="#theme-color"></a>Theme Colors
+        <a href="#theme-color" />
+        Theme Colors
       </h1>
       <div className="py-5">
         <strong>{REACT_APP_THEME_NAME}</strong>&nbsp;extends{" "}
         <a
-          href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/customize/color/`}
           className="fw-bold"
+          href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/customize/color/`}
         >
           Bootstrap Colors
         </a>
@@ -29,12 +29,12 @@ export function Example1ThemeColors() {
         variables are defined in
         <code>{REACT_APP_SASS_VARIABLES_PATH}</code>:
       </div>
-      <CodeBlock language="scss" code={code} />
+      <CodeBlock code={code} language="scss" />
       <div className="py-5">
         <div className="d-flex align-items-center rounded py-5 px-5 bg-light-warning">
-          <KTSVG
-            path="/media/icons/duotone/Code/Info-circle.svg"
+          <Ktsvg
             className="svg-icon svg-icon-3x svg-icon-warning me-5"
+            path="/media/icons/duotone/Code/Info-circle.svg"
           />
           <div className="text-gray-600 fw-bold fs-6">
             Custom variables that used to customize Bootstrap components are

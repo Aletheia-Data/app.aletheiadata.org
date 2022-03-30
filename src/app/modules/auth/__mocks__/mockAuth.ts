@@ -8,7 +8,7 @@ import {
 } from "../redux/AuthCRUD";
 import { UsersTableMock } from "./usersTableMock";
 
-export function mockAuth(mock: MockAdapter) {
+export function mockAuth(mock: MockAdapter): void {
   mock.onPost(LOGIN_URL).reply(({ data }) => {
     const { account, provider } = JSON.parse(data);
 
@@ -20,7 +20,8 @@ export function mockAuth(mock: MockAdapter) {
       );
 
       if (user) {
-        const auth = user.auth;
+        const { auth } = user;
+
         return [200, { ...auth, provider: undefined }];
       }
     }
@@ -41,12 +42,12 @@ export function mockAuth(mock: MockAdapter) {
           refreshToken: "access-token-" + Math.random(),
         },
         avatar: {
-          type: 1
+          type: 1,
         },
       };
 
       UsersTableMock.table.push(user);
-      const auth = user.auth;
+      const { auth } = user;
 
       return [200, { ...auth, provider: undefined }];
     }
@@ -65,6 +66,7 @@ export function mockAuth(mock: MockAdapter) {
       if (user) {
         user.provider = undefined;
         result = true;
+
         return [200, { result, provider: undefined }];
       }
     }
@@ -75,8 +77,6 @@ export function mockAuth(mock: MockAdapter) {
   mock
     .onGet(GET_USER_BY_ACCESSTOKEN_URL)
     .reply(({ headers: { Authorization } }) => {
-
-
       const accessToken =
         Authorization &&
         Authorization.startsWith("Bearer ") &&
@@ -98,6 +98,7 @@ export function mockAuth(mock: MockAdapter) {
   function generateUserId(): number {
     const ids = UsersTableMock.table.map((el) => el.id);
     const maxId = Math.max(...ids);
+
     return maxId + 1;
   }
 }

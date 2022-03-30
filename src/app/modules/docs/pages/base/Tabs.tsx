@@ -1,10 +1,8 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { CodeBlock } from "../../../../../_start/partials";
 
-export function Tabs() {
+export function Tabs(): JSX.Element {
   const {
     REACT_APP_THEME_NAME,
     REACT_APP_BOOTSTRAP_DOCS_LINK,
@@ -16,26 +14,29 @@ export function Tabs() {
     <>
       <div className="pb-10">
         <h1 className="anchor fw-bolder mb-5" id="overview">
-          <a href="#overview"></a>Overview
+          <a href="#overview" />
+          Overview
         </h1>
 
         <div className="py-5">
           <strong>{REACT_APP_THEME_NAME}</strong>&nbsp; customizes the{" "}
           <a
-            href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/components/navs-tabs/#tabs`}
             className="fw-bold"
+            href={`${REACT_APP_BOOTSTRAP_DOCS_LINK}/components/navs-tabs/#tabs`}
           >
             Bootstrap Tabs
           </a>
           &nbsp; through the SASS variables in
-          <code>{REACT_APP_SASS_VARIABLES_PATH}</code>and adds additonal options in
+          <code>{REACT_APP_SASS_VARIABLES_PATH}</code>and adds additonal options
+          in
           <code>{REACT_APP_SASS_PATH}/_nav.scss</code>.
         </div>
       </div>
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="line-tabs">
-          <a href="#line-tabs"></a>Line Tabs
+          <a href="#line-tabs" />
+          Line Tabs
         </h1>
         <div className="py-5">
           To use a custom Line Tabs style just add
@@ -117,7 +118,8 @@ export function Tabs() {
 
       <div className="py-10">
         <h1 className="anchor fw-bolder mb-5" id="line-tabs-2x">
-          <a href="#line-tabs-2x"></a>Line Tabs 2x
+          <a href="#line-tabs-2x" />
+          Line Tabs 2x
         </h1>
 
         <div className="py-5">
@@ -202,7 +204,8 @@ export function Tabs() {
 
       <div className="pt-10">
         <h1 className="anchor fw-bolder mb-5" id="card-tabs">
-          <a href="#card-tabs"></a>Card Tabs
+          <a href="#card-tabs" />
+          Card Tabs
         </h1>
         <div className="py-5">
           Add

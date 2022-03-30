@@ -1,27 +1,26 @@
 /* eslint-disable react/jsx-no-target-blank */
-/* eslint-disable jsx-a11y/anchor-is-valid */
-/* eslint-disable jsx-a11y/anchor-has-content */
 /* eslint-disable no-unreachable */
 import React from "react";
 import { CodeBlock } from "../../../../../../_start/partials";
 
-export function Example10SocialButtons() {
+export function Example10SocialButtons(): JSX.Element {
   return (
     <div className="pb-10">
       <h1 className="anchor fw-bolder mb-5" id="social-buttons">
-        <a href="#buttons"></a>Social Buttons
+        <a href="#buttons" />
+        Social Buttons
       </h1>
       <div className="py-5">
         Use
         <code>.btn-{"{social}"}</code>and
         <code>.btn-light-{"{social}"}</code>classes with
-        <a href="https://fontawesome.com" className="fw-bold" target="_blank">
+        <a className="fw-bold" href="https://fontawesome.com" target="_blank">
           Font Awesome
         </a>
         &nbsp; or
         <a
-          href="https://icons.getbootstrap.com"
           className="fw-bold"
+          href="https://icons.getbootstrap.com"
           target="_blank"
         >
           Bootstrap Icons
@@ -56,53 +55,53 @@ export function Example10SocialButtons() {
           </li>
         </ul>
         Other social colors can be added by referring to
-        <a href="https://brandcolors.net/" className="fw-bold">
+        <a className="fw-bold" href="https://brandcolors.net/">
           brandcolors.net
         </a>
         .
       </div>
       <div className="py-5">
         <div className="rounded border p-10">
-          <a href="#" className="btn btn-icon btn-facebook me-5">
-            <i className="fab fa-facebook-f fs-4"></i>
+          <a className="btn btn-icon btn-facebook me-5" href="#">
+            <i className="fab fa-facebook-f fs-4" />
           </a>
-          <a href="#" className="btn btn-icon btn-google me-5">
-            <i className="fab fa-google fs-4"></i>
+          <a className="btn btn-icon btn-google me-5" href="#">
+            <i className="fab fa-google fs-4" />
           </a>
-          <a href="#" className="btn btn-icon btn-twitter me-5">
-            <i className="fab fa-twitter fs-4"></i>
+          <a className="btn btn-icon btn-twitter me-5" href="#">
+            <i className="fab fa-twitter fs-4" />
           </a>
-          <a href="#" className="btn btn-icon btn-instagram me-5">
-            <i className="fab fa-instagram fs-4"></i>
+          <a className="btn btn-icon btn-instagram me-5" href="#">
+            <i className="fab fa-instagram fs-4" />
           </a>
-          <a href="#" className="btn btn-icon btn-youtube me-5">
-            <i className="fab fa-youtube fs-4"></i>
+          <a className="btn btn-icon btn-youtube me-5" href="#">
+            <i className="fab fa-youtube fs-4" />
           </a>
-          <a href="#" className="btn btn-icon btn-linkedin me-5">
-            <i className="fab fa-linkedin fs-4"></i>
+          <a className="btn btn-icon btn-linkedin me-5" href="#">
+            <i className="fab fa-linkedin fs-4" />
           </a>
-          <div className="separator my-10"></div>
-          <a href="#" className="btn btn-icon btn-light-facebook me-5">
-            <i className="fab fa-facebook-f fs-4"></i>
+          <div className="separator my-10" />
+          <a className="btn btn-icon btn-light-facebook me-5" href="#">
+            <i className="fab fa-facebook-f fs-4" />
           </a>
-          <a href="#" className="btn btn-icon btn-light-google me-5">
-            <i className="fab fa-google fs-4"></i>
+          <a className="btn btn-icon btn-light-google me-5" href="#">
+            <i className="fab fa-google fs-4" />
           </a>
-          <a href="#" className="btn btn-icon btn-light-twitter me-5">
-            <i className="fab fa-twitter fs-4"></i>
+          <a className="btn btn-icon btn-light-twitter me-5" href="#">
+            <i className="fab fa-twitter fs-4" />
           </a>
-          <a href="#" className="btn btn-icon btn-light-instagram me-5">
-            <i className="fab fa-instagram fs-4"></i>
+          <a className="btn btn-icon btn-light-instagram me-5" href="#">
+            <i className="fab fa-instagram fs-4" />
           </a>
-          <a href="#" className="btn btn-icon btn-light-youtube me-5">
-            <i className="fab fa-youtube fs-4"></i>
+          <a className="btn btn-icon btn-light-youtube me-5" href="#">
+            <i className="fab fa-youtube fs-4" />
           </a>
-          <a href="#" className="btn btn-icon btn-light-linkedin me-5">
-            <i className="fab fa-linkedin fs-4"></i>
+          <a className="btn btn-icon btn-light-linkedin me-5" href="#">
+            <i className="fab fa-linkedin fs-4" />
           </a>
         </div>
       </div>
-      <CodeBlock language="markup" code={code} />
+      <CodeBlock code={code} language="markup" />
     </div>
   );
 }
