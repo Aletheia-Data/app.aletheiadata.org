@@ -149,6 +149,8 @@ export function SinglePageWrapper(): JSX.Element {
     component.props.data.sidebar = "single";
     component.props.data.minisearchActive = minisearchActive;
     component.props.data.toogleMinisearch = toogleMinisearch;
+  } else {
+    return component;
   }
 
   return (
