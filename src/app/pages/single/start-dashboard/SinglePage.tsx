@@ -2,9 +2,9 @@ import React, { FC, useState } from "react";
 import {
   EngageWidget6,
   Pagination1,
-  TablesWidget8,
   TablesWidget6,
 } from "../../../../_start/partials/widgets";
+import { MiniSearchService } from "_start/partials/components";
 import { CreateAppModal } from "../_modals/create-app-stepper/CreateAppModal";
 
 export const SinglePage: FC<any> = (data: any) => {
@@ -13,21 +13,16 @@ export const SinglePage: FC<any> = (data: any) => {
   const [paginationPage, setPaginationPage] = useState(1);
 
   const handlePagination = (page: any) => {
-    // console.log(page);
     setPaginationPage(page.newPage);
   };
 
   const getPagination = (totalPages: any) => {
-    // console.log(totalPages);
     setPaginationCount(totalPages * 20);
   };
 
   const handleExit = () => {
     data.data.toogleMinisearch();
-    // console.log(data.data);
   };
-
-  console.log(data.data.alexandrias[0].type);
 
   return (
     <>
@@ -95,7 +90,7 @@ export const SinglePage: FC<any> = (data: any) => {
           }`}
         >
           <div className="col-xl-12">
-            <TablesWidget8
+            <MiniSearchService
               className="card-stretch mb-5 mb-xxl-8"
               data={data}
               getPagination={getPagination}

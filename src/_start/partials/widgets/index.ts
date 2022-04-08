@@ -12,7 +12,6 @@ export * from "./tables/TablesWidget4";
 export * from "./tables/TablesWidget5";
 export * from "./tables/TablesWidget6";
 export * from "./tables/TablesWidget7";
-export * from "./tables/TablesWidget8";
 
 // engage
 export * from "./engage/EngageWidget1";
