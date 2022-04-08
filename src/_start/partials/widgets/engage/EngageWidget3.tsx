@@ -20,7 +20,7 @@ const EngageWidget3: React.FC<Props> = ({
   color = "primary",
 }) => {
 
-  console.log(data);
+  // console.log(data);
 
   /* TODO: remove after fixing issues with data */
   if (data.data) {
@@ -87,7 +87,7 @@ const EngageWidget3: React.FC<Props> = ({
       desc = type === 'single' ? data.category.description : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
       connection = data?.alexandriasConnection?.groupBy?.id || data?.alexandriasConnection?.groupBy?.department;
       let catConn = data.categoriesConnection.groupBy.id;
-      console.log(data);
+      // console.log(data);
       if (connection.length > 0) {
         countTotal = connection.length;
         countSrc = type === 'single' ? catConn[0].connection.aggregate.count : catConn[0].connection.aggregate.totalCount;

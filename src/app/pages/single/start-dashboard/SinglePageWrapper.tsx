@@ -44,7 +44,7 @@ const listingPageConfig: Partial<IThemeConfig> = {
   },
 };
 
-const getQuery = (type: string, cid: string, entity: string) => {
+const getQuery = (type: string, cid: string, entity?: string) => {
   console.log(`getting query for ${entity} - ${type} - ${cid}`);
 
   const CID_QUERY = gql`

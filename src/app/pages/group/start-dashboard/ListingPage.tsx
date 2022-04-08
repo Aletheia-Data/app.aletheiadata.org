@@ -15,7 +15,7 @@ export const ListingPage: FC<any> = (data: any) => {
 
   const params: any = useParams();
   const { entity, id } = params;
-  console.log(entity, id);
+  // console.log(entity, id);
   let entityName: any;
   switch (entity) {
     case "src":
@@ -30,7 +30,7 @@ export const ListingPage: FC<any> = (data: any) => {
   }
 
   const getQuery = (id: string, entity: string, page: number) => {
-    console.log(`getting query for ${entity} - ${id}`);
+    // console.log(`getting query for ${entity} - ${id}`);
 
     const query = `
     query DepartmentsTTT {
@@ -68,15 +68,15 @@ export const ListingPage: FC<any> = (data: any) => {
     setLoading(true);
     // console.log(page);
     getNewRecords(entity, id, page.newPage).then((res: any) => {
-      console.log(res);
+      // console.log(res);
       const items = res.data.departments;
       const oldData: any = dataTable;
-      console.log(res);
+      // console.log(res);
 
       if (items.length > 0) {
         // console.log(data);
         oldData[entityName] = res.data[entityName];
-        console.log(oldData);
+        // console.log(oldData);
         setDataTable("");
         setDataTable(oldData);
         setLoading(false);
@@ -121,7 +121,6 @@ export const ListingPage: FC<any> = (data: any) => {
 
   const init = (info: any) => {
     const showData: any = info;
-    console.log(showData);
 
     setDataTable(showData);
 

@@ -143,7 +143,7 @@ export const SidebarGeneral: React.FC<Props> = ({
           break;
       }
       const endpoint = `${process.env.REACT_APP_API_ENDPOINT}/graphql`;
-      console.log("fetching data: ", endpoint);
+      // console.log("fetching data: ", endpoint);
       fetch(endpoint, {
         method: "post",
         headers: {
@@ -351,7 +351,7 @@ export const SidebarGeneral: React.FC<Props> = ({
   };
 
   const onCopy = () => {
-    console.log("copied!");
+    // console.log("copied!");
     setCopy(true);
     setTimeout(() => {
       setCopy(false);

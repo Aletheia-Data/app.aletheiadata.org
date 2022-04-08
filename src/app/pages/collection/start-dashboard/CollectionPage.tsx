@@ -10,7 +10,7 @@ import { CreateAppModal } from "../_modals/create-app-stepper/CreateAppModal";
 export const CollectionPage: FC<any> = (pageData: any) => {
   const params: any = useParams();
   const { entity, id } = params;
-  console.log(entity, id);
+  // console.log(entity, id);
   let entityName: any;
   switch (entity) {
     case "src":
@@ -30,7 +30,7 @@ export const CollectionPage: FC<any> = (pageData: any) => {
   const [dataTable, setDataTable] = useState("");
 
   const getQuery = (id: string, entity: string, page: number) => {
-    console.log(`getting query for ${entity} - ${id}`);
+    // console.log(`getting query for ${entity} - ${id}`);
 
     const query = `
     query SourceFromAlexandria {
@@ -72,7 +72,7 @@ export const CollectionPage: FC<any> = (pageData: any) => {
       if (items.length > 0) {
         // console.log(data);
         oldData[entityName]["alexandrias"] = res.data.alexandrias;
-        console.log(oldData);
+        // console.log(oldData);
         setDataTable("");
         setDataTable(oldData);
         setLoading(false);
@@ -90,9 +90,7 @@ export const CollectionPage: FC<any> = (pageData: any) => {
   const getNewRecords = (entity: string, id: string, page: number) => {
     return new Promise((resolve, reject) => {
       const query = getQuery(id, entity, page);
-
       // console.log(query);
-
       const endpoint = `${process.env.REACT_APP_API_ENDPOINT}/graphql`;
 
       fetch(endpoint, {
@@ -117,35 +115,8 @@ export const CollectionPage: FC<any> = (pageData: any) => {
 
   const init = (info: any) => {
     const showData: any = info;
-    console.log(showData);
-
     setDataTable(showData);
-
-    const { entity } = showData;
-
-    let totalConn: any;
-
     const connection = showData.alexandriasConnection.groupBy.id;
-    switch (entity) {
-      case "src":
-        totalConn = connection.filter(
-          (item: any) => item.key === showData.source.id
-        );
-        console.log(totalConn);
-        break;
-      case "dep":
-        totalConn = connection.filter(
-          (item: any) => item.key === showData.department.id
-        );
-        break;
-      case "cat":
-        const [total] = connection;
-        totalConn = total;
-        break;
-    }
-
-    console.log(connection.length);
-
     setEntityCount(connection.length);
   };
 

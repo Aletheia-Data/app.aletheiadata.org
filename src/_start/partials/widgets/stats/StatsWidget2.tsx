@@ -159,7 +159,7 @@ const StatsWidget2: React.FC<Props> = ({
 
     if (!element) return;
 
-    console.log("getting: ", id, items[tab_n - 1]);
+    // console.log("getting: ", id, items[tab_n - 1]);
 
     setActiveTabTotal("Loading");
 

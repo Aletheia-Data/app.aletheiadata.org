@@ -102,7 +102,7 @@ export function Login(): JSX.Element {
         try {
           initWeb3()
             .then((user) => {
-              console.log(user);
+              // console.log(user);
               if (!user) {
                 return "error login with metamask";
               }

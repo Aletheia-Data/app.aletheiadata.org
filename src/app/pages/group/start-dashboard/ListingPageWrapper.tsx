@@ -22,7 +22,7 @@ const listingPageConfig: Partial<IThemeConfig> = {
 };
 
 const getQuery = (type: string, id: string, entity: string) => {
-  console.log(`getting query for ${entity} - ${type} - ${id}`);
+  // console.log(`getting query for ${entity} - ${type} - ${id}`);
 
   const SRC_QUERY = gql`
     query Sources {
