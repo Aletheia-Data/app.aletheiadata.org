@@ -435,7 +435,8 @@ export const SidebarGeneral: React.FC<Props> = ({
                         {current_item.title}
                       </h3>
                       <div className="card-toolbar">
-                        <button
+                        {/**
+                         * <button
                           type="button"
                           className="btn btn-md btn-icon btn-icon-white btn-info"
                           data-kt-menu-trigger="click"
@@ -448,6 +449,7 @@ export const SidebarGeneral: React.FC<Props> = ({
                             className="svg-icon-1"
                           />
                         </button>
+                         */}
                         <Dropdown1 />
                       </div>
                     </div>

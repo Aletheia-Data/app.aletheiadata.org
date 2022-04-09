@@ -17,6 +17,15 @@ $item-image-width-active: 35px;
 	background-repeat: no-repeat;
 	background-size: contain;
 
+	::-webkit-scrollbar {
+		-webkit-appearance: none;
+		width: 7px;
+	}
+	::-webkit-scrollbar-thumb {
+		border-radius: 4px;
+		background-color: $gray-400;
+	}
+
 	// Sidebar tabs
 	.sidebar-nav {
 		justify-content: center;
@@ -65,7 +74,7 @@ $item-image-width-active: 35px;
 			}
 
 			&.active {
-				background-color: $primary;
+				// background-color: $gray-500;
 				height: $item-height-active;
 				width: $item-width-active;
 				transition: $transition-link;
