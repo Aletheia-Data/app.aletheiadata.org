@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Ktsvg } from "../../../helpers";
+import React, { useState, useEffect } from "react";
+import { Ktsvg, truncate } from "../../../helpers";
 import {
   HeaderNotificationsMenu,
   SearchModal,
@@ -7,11 +7,29 @@ import {
   InboxCompose,
 } from "../../../partials";
 import { useTheme } from "../../core";
+import { getUserByToken } from "../../../../app/modules/auth/redux/AuthCRUD";
 
 export function Topbar() {
   const { config } = useTheme();
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [showInboxComposeModal, setShowInboxComposeModal] = useState(false);
+
+  const [user, setUser] = useState({
+    account: "0xXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+    id: "0",
+    provider: "none",
+  });
+
+  useEffect(() => {
+    getUserByToken()
+      .then((res) => {
+        // console.log(res.user);
+        setUser(res.user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <>
@@ -33,7 +51,7 @@ export function Topbar() {
 
       {/* begin::Message */}
       <button
-        className="btn btn-icon btn-sm btn-active-bg-accent ms-1 ms-lg-6"
+        className="disabled btn btn-icon btn-sm btn-active-bg-accent ms-1 ms-lg-6"
         onClick={() => setShowInboxComposeModal(true)}
       >
         <Ktsvg
@@ -47,9 +65,10 @@ export function Topbar() {
       />
       {/* end::Message */}
 
-      {/* begin::User */}
+      {/* begin::User
+      TODO: restore after DEMO
       <div className="ms-1 ms-lg-6">
-        {/* begin::Toggle */}
+        // begin::Toggle 
         <div
           className="btn btn-icon btn-sm btn-active-bg-accent"
           data-kt-menu-trigger="click" // TODO: open modal with selection user
@@ -60,13 +79,20 @@ export function Topbar() {
             className="svg-icon-1 svg-icon-dark"
           />
         </div>
-        <HeaderUserMenu />
-        {/* end::Toggle */}
+        <HeaderUserMenu /> 
+        // end::Toggle
       </div>
+      */}
       {/* end::User */}
 
       {/* begin::Notifications */}
       <div className="ms-1 ms-lg-6">
+        <a
+          href="#"
+          className="background-xls-backdrop text-dark btn btn-primary fw-bolder fs-7 disabled"
+        >
+          { truncate(user.account, 12) }
+        </a>
         {/* begin::Dropdown */}
         {/**
          * <button
