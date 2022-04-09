@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { EngageWidget5 } from "../../../../_start/partials/widgets";
 import {
   Achievements,
+  BigUploader,
   LibraryStats,
   Timeline,
 } from "_start/partials/components";
@@ -19,7 +19,7 @@ export const StartDashboardPage: React.FC = () => {
       {/* begin::Row */}
       <div className="row g-0 g-xl-5 g-xxl-8">
         <div className="col-xl-4">
-          <EngageWidget5 className="card-stretch mb-5 mb-xxl-8">
+          <BigUploader className="card-stretch mb-5 mb-xxl-8">
             {/* begin::Action */}
             <div className="text-center pt-7">
               <a
@@ -30,7 +30,7 @@ export const StartDashboardPage: React.FC = () => {
               </a>
             </div>
             {/* end::Action */}
-          </EngageWidget5>
+          </BigUploader>
         </div>
 
         <div className="col-xl-8">
