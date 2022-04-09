@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import { EngageWidget5 } from "../../../../_start/partials/widgets";
 import {
-  EngageWidget5,
-  StatsWidget1,
-} from "../../../../_start/partials/widgets";
-import { Achievements, Timeline } from "_start/partials/components";
+  Achievements,
+  LibraryStats,
+  Timeline,
+} from "_start/partials/components";
 import { CreateAppModal } from "../_modals/create-app-stepper/CreateAppModal";
 import { Stats, TypeStats } from "../../../../_start/partials/components";
 
@@ -53,7 +54,7 @@ export const StartDashboardPage: React.FC = () => {
       {/* begin::Row */}
       <div className="row g-0 g-xl-5 g-xxl-8">
         <div className="col-xl-4">
-          <StatsWidget1
+          <LibraryStats
             className="card-stretch mb-5 mb-xxl-8"
             files={archiveCount}
             loadingArchive={loadingArchive}
