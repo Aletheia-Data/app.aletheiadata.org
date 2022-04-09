@@ -18,7 +18,7 @@ const colorXLS = "#E4FFF4";
 const colorODS = "#F7F0FF";
 const colorOTHER = "#E7F6FF";
 
-const TablesWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
+const TypeStats: React.FC<Props> = ({ className, innerPadding = "" }) => {
   const TYPE_QUERY = gql`
     query AlexandriasGroupByType {
       alexandriasConnection(sort: "desc", where: { status: "under_review" }) {
@@ -264,6 +264,8 @@ const TablesWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
         </h3> 
         <div className="card-toolbar">
           <ul className="nav nav-pills nav-pills-sm nav-light">
+            {/**
+             * TODO: restore when having at least 7 types
             <li className="nav-item">
               <a
                 className="nav-link btn btn-active-light btn-color-muted py-2 px-4 fw-bolder me-2 active"
@@ -273,7 +275,6 @@ const TablesWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
                 All
               </a>
             </li>
-            {/**
              <li className="nav-item">
               <a
                 className="nav-link btn btn-active-light btn-color-muted py-2 px-4 fw-bolder me-2"
@@ -438,7 +439,7 @@ const TablesWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
                         <td className="text-end pe-0">
                           <Link
                             to={`#`}
-                            className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
+                            className="disabled btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
                           >
                             <Ktsvg
                               path="/media/icons/duotone/Navigation/Arrow-right.svg"
@@ -461,4 +462,4 @@ const TablesWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
   );
 };
 
-export { TablesWidget1 };
+export { TypeStats };

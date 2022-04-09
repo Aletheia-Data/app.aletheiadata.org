@@ -2,9 +2,9 @@
 import React from "react";
 import { Modal } from "react-bootstrap-v5";
 import { Ktsvg, toAbsoluteUrl } from "../../helpers";
-import { ListsWidget4, ListsWidget5, TablesWidget2 } from "../widgets";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
+import { Achievements } from "../components";
 
 type Props = {
   show: boolean;
@@ -187,7 +187,7 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
 
             {/* begin::Framework Users */}
             <div className="pb-10">
-              <TablesWidget2 className="mb-5 mb-xxl-8" />
+              <Achievements className="mb-5 mb-xxl-8" />
             </div>
             {/* end::Framework Users */}
 

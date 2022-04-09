@@ -3,11 +3,10 @@ import {
   EngageWidget5,
   ListsWidget1,
   StatsWidget1,
-  TablesWidget1,
-  TablesWidget2,
 } from "../../../../_start/partials/widgets";
+import { Achievements } from "_start/partials/components";
 import { CreateAppModal } from "../_modals/create-app-stepper/CreateAppModal";
-import { Stats } from "../../../../_start/partials/components";
+import { Stats, TypeStats } from "../../../../_start/partials/components";
 
 export const StartDashboardPage: React.FC = () => {
   const [show, setShow] = useState(false);
@@ -35,7 +34,7 @@ export const StartDashboardPage: React.FC = () => {
         </div>
 
         <div className="col-xl-8">
-          <TablesWidget1 className="card-stretch mb-5 mb-xxl-8" />
+          <TypeStats className="card-stretch mb-5 mb-xxl-8" />
         </div>
       </div>
       {/* end::Row */}
@@ -47,7 +46,7 @@ export const StartDashboardPage: React.FC = () => {
         </div>
 
         <div className="col-xl-8">
-          <TablesWidget2 className="card-stretch mb-5 mb-xxl-8" />
+          <Achievements className="card-stretch mb-5 mb-xxl-8" />
         </div>
       </div>
       {/* end::Row */}
