@@ -201,11 +201,12 @@ const getQuery = (type: string, id: string, entity: string) => {
 };
 
 function Collection(type: string, query: any, entity: string) {
-  const { data, loading } = useQuery(query, {
+  const { data, loading, error } = useQuery(query, {
     variables: {},
   });
 
   if (loading) return <p>Loading ...</p>;
+  if (error) return <p>{`There's an Error, please refresh this page ...`}</p>;
 
   data.type = type;
   data.entity = entity;
