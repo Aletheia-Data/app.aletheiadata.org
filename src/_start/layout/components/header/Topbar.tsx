@@ -8,11 +8,14 @@ import {
 } from "../../../partials";
 import { useTheme } from "../../core";
 import { getUserByToken } from "../../../../app/modules/auth/redux/AuthCRUD";
+import { useDispatch } from "react-redux";
+import * as auth from "../../../../app/modules/auth/redux/AuthRedux";
 
 export function Topbar() {
   const { config } = useTheme();
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [showInboxComposeModal, setShowInboxComposeModal] = useState(false);
+  const dispatch = useDispatch(); 
 
   const [user, setUser] = useState({
     account: "0xXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
@@ -23,11 +26,10 @@ export function Topbar() {
   useEffect(() => {
     getUserByToken()
       .then((res) => {
-        // console.log(res.user);
         setUser(res.user);
       })
       .catch((err) => {
-        console.log(err);
+        dispatch(auth.actions.logout());
       });
   }, []);
 
