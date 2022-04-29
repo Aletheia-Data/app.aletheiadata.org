@@ -8,7 +8,6 @@ import {
   useTheme,
 } from "../../../_start/layout/core";
 import { GeneralPage } from "./GeneralPage";
-import { generalSubmenu } from "./GeneralPageData";
 
 const generalBreadCrumbs: Array<PageLink> = [
   {
@@ -27,7 +26,7 @@ const defaultPageConfig = getConfig();
 const generalPageConfig: Partial<IThemeConfig> = {
   sidebar: {
     ...defaultPageConfig.sidebar,
-    display: true,
+    display: false,
     content: "user",
     bgColor: "bg-info",
   },
@@ -46,10 +45,7 @@ const GeneralPageWrapper: React.FC = () => {
 
   return (
     <>
-      <PageDataContainer
-        breadcrumbs={generalBreadCrumbs}
-        submenu={generalSubmenu}
-      />
+      <PageDataContainer breadcrumbs={generalBreadCrumbs} />
       <GeneralPage />
     </>
   );

@@ -59,7 +59,7 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
         return
     }
     
-    fetch(`${process.env.REACT_APP_ALETHEIA_API}/${entity}/getAll?limit=5`, {
+    fetch(`${process.env.REACT_APP_ALETHEIA_API}/v1/api/${entity}/getAll?limit=5`, {
       method: 'get',
       headers: {
         'Access-Control-Request-Headers': '*'

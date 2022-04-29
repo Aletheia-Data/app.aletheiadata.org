@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import React, { useState } from "react";
 import { Modal } from "react-bootstrap-v5";
 import { Ktsvg, toAbsoluteUrl } from "../../helpers";
-import { ListsWidget4, ListsWidget5, TablesWidget2 } from "../widgets";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
+import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 type Props = {
   show: boolean;
@@ -12,6 +13,12 @@ type Props = {
 };
 
 const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
+  let history = useHistory();
+
+  const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
+  const [results, setResults] = useState([]);
+  
   const CAT_QUERY = gql`
     query Categories {
       categories(limit: 5, sort: "alexandrias:desc") {
@@ -36,6 +43,50 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
   } = useQuery(CAT_QUERY, {
     variables: {},
   });
+
+  const _handleKeyDown = (e: any) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      searchAPI(search)
+    }
+  };
+
+  const searchChange = (e: any) => {
+    let value = e.target.value;
+    setSearch(value);
+  };
+
+  const searchAPI = (search:string) =>{
+    setLoading(true)
+    console.log('search on API: ', search);
+    console.log(`${process.env.REACT_APP_ALETHEIA_API}/v2/open-data/alexandrias/getAll`);
+    const query = `?title=${search}&limit=5`
+    const endpoint = `${process.env.REACT_APP_ALETHEIA_API}/v2/open-data/alexandrias/getAll${query}`;
+    return fetch(endpoint)
+      .then((response) => response.json())
+      .then((data) => {
+        setResults(JSON.parse(data.body))
+        console.log(results)
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false)
+      });
+  }
+
+  const goToAsset = (cid:string) =>{
+    history.push(`/single/src/${cid}`);
+    handleClose()
+    setTimeout(() => {
+      clearSearch()
+    }, 1000);
+  }
+
+  const clearSearch = () => {
+    setResults([]);
+    setSearch('')
+  }
 
   return (
     <Modal
@@ -63,15 +114,62 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
           <div className="modal-body">
             {/* begin::Search */}
             <form className="pb-10">
-              <input
+              <input 
                 autoFocus
                 type="text"
+                onChange={searchChange}
+                onKeyDown={_handleKeyDown}
                 className="form-control bg-transparent border-0 fs-4x text-center fw-normal"
                 name="query"
+                value={search}
                 placeholder="Search..."
               />
             </form>
             {/* end::Search */}
+
+            {/* begin::Shop Goods */}
+            <div className="py-10">
+              <h3 className="fw-bolder mb-8">Buscador</h3>
+
+              {/* begin::Row */}
+              <div className="row g-5">
+              <div className="col-sm-12">
+                {loading && <p>Loading ...</p>}
+                {!loading && results.length === 0 && <p>Results not found</p>}
+                {!loading && results &&
+                  results.map((item: any, i: number) => {
+                    console.log(item);
+                    return (
+                    <div className="d-flex mb-6">
+                      {/* begin::Icon */}
+                      <div className="me-1">
+                        <Ktsvg
+                          className="svg-icon-sm svg-icon-primary"
+                          path="/media/icons/duotone/Navigation/Angle-right.svg"
+                        />
+                      </div>
+                      {/* end::Icon */}
+
+                      {/* begin::Content */}
+                      <div className="d-flex flex-column">
+                        <a
+                          onClick={()=>goToAsset(item.cid)}
+                          className="fs-6 fw-bolder text-hover-primary text-gray-800 mb-2"
+                        >
+                          { item.title }
+                        </a>
+                        <div className="fw-bold text-muted">
+                        { item.description }
+                        </div>
+                      </div>
+                      {/* end::Content */}
+                    </div>
+                    )
+                  })
+                }
+              </div>
+              </div>
+            </div>
 
             {/* begin::Shop Goods */}
             <div className="py-10">
@@ -153,7 +251,7 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
                     {catData &&
                       catData.categories.map((cat: any, i: number) => {
                         if (i !== 4) return;
-
+                        
                         return (
                           <div
                             key={`cat_search_${i}`}
@@ -184,12 +282,6 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
               {/* end::Row */}
             </div>
             {/* end::Shop Goods */}
-
-            {/* begin::Framework Users */}
-            <div className="pb-10">
-              <TablesWidget2 className="mb-5 mb-xxl-8" />
-            </div>
-            {/* end::Framework Users */}
 
             {/* begin::Tutorials */}
             <div className="pb-10" style={{ minHeight: "350px" }}>

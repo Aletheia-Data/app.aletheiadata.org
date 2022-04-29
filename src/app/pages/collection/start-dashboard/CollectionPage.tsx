@@ -2,10 +2,16 @@ import React, { FC, useEffect, useState } from "react";
 import {
   EngageWidget3,
   Pagination1,
-  TablesWidget5,
 } from "../../../../_start/partials/widgets";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { CreateAppModal } from "../_modals/create-app-stepper/CreateAppModal";
+import FormatBadge from "_start/partials/components/FormatBadge";
+import StatusBadge from "_start/partials/components/StatusBadge";
+import moment from "moment";
+import Table from "_start/partials/components/Table";
+import { Ktsvg } from "_start/helpers";
+
+import { Record } from "_start/types";
 
 export const CollectionPage: FC<any> = (pageData: any) => {
   const params: any = useParams();
@@ -124,6 +130,74 @@ export const CollectionPage: FC<any> = (pageData: any) => {
     init(pageData.data);
   }, [pageData.data]);
 
+  const records = dataTable[entityName]?.["alexandrias"];
+  const columns = [
+    {
+      title: "Nombre",
+      cells: records?.map((recordItem: Record) => (
+        <Link
+          key={`record-alexandria-${recordItem.cid}`}
+          className={`text-gray-800 fw-bolder text-hover-primary fs-6 ${
+            recordItem.cid ? "" : "disabled"
+          }`}
+          to={
+            recordItem.cid
+              ? `/${dataTable["type"]}/${entity}/${recordItem.cid}`
+              : "#"
+          }
+        >
+          {recordItem.name || recordItem.title}
+        </Link>
+      )),
+    },
+    {
+      title: "Formato",
+      cells: records?.map((recordItem: Record) => {
+        return (
+          <FormatBadge
+            key={`record-alexandria-${recordItem.cid}`}
+            type={recordItem.type}
+          />
+        );
+      }),
+    },
+    {
+      title: "Ultimo Cambio",
+      cells: records?.map((recordItem: Record) => (
+        <span
+          key={`record-alexandria-${recordItem.cid}`}
+          className="text-primary fw-bolder d-block fs-6"
+        >
+          {moment(recordItem?.updatedAt).format("DD/MM/YYYY")}
+        </span>
+      )),
+    },
+    {
+      title: "Estatus",
+      cells: records?.map((recordItem: Record) => (
+        <StatusBadge
+          key={`record-alexandria-${recordItem.cid}`}
+          status={recordItem.status}
+        />
+      )),
+    },
+    {
+      title: "Action",
+      cells: records?.map((recordItem: Record) => (
+        <Link
+          key={`record-alexandria-${recordItem.cid}`}
+          className="btn btn-icon btn-bg-light  btn-color-muted btn-active-color-primary btn-sm"
+          to={`/${dataTable["type"]}/${entity}/${recordItem.cid}`}
+        >
+          <Ktsvg
+            className="svg-icon-4"
+            path="/media/icons/duotone/General/Sad.svg"
+          />
+        </Link>
+      )),
+    },
+  ];
+
   return (
     <>
       {/* begin::Row */}
@@ -144,11 +218,14 @@ export const CollectionPage: FC<any> = (pageData: any) => {
       <div className="row g-0 g-xl-5 g-xxl-12">
         <div className="col-xl-12">
           {dataTable && (
-            <TablesWidget5
-              className={`table-custom card-stretch mb-5 mb-xxl-8 ${
+            <Table
+              cardClassName={`table-custom card-stretch mb-5 mb-xxl-8 ${
                 isLoading ? "table-loading" : ""
               }`}
-              data={dataTable}
+              columns={columns}
+              connectionLength={entityCount}
+              emptyMessage="No hay registros disponibles para esta categoria"
+              id="collection-data-list"
             />
           )}
         </div>
