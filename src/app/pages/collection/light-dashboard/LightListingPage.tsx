@@ -9,7 +9,7 @@ import {
   StatsWidget8,
   StatsWidget9,
 } from "../../../../_start/partials/widgets";
-import { Achievements } from "_start/partials/components";
+import { Achievements } from "_start/partials/components/Achievements";
 import { CreateAppModal } from "../_modals/create-app-stepper/CreateAppModal";
 
 export const LightListingPage: React.FC = () => {
