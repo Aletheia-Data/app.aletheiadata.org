@@ -44,7 +44,7 @@ const listingPageConfig: Partial<IThemeConfig> = {
   },
 };
 
-const getQuery = (type: string, cid: string, entity: string) => {
+const getQuery = (type: string, cid: string, entity?: string) => {
   console.log(`getting query for ${entity} - ${type} - ${cid}`);
 
   const CID_QUERY = gql`
@@ -102,11 +102,10 @@ const getQuery = (type: string, cid: string, entity: string) => {
 };
 
 function Single(type: string, query: any, entity: string) {
-  const { data, loading } = useQuery(query, {
-    variables: {},
-  });
+  const { data, loading, error } = useQuery(query);
 
   if (loading) return <p>Loading ...</p>;
+  if (error) return <p>{`There's an Error, please refresh this page ...`}</p>;
 
   data.type = type;
   data.entity = entity;

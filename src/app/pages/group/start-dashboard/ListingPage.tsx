@@ -2,10 +2,11 @@ import React, { FC, useEffect, useState } from "react";
 import {
   EngageWidget3,
   Pagination1,
-  TablesWidget7,
 } from "../../../../_start/partials/widgets";
 import { useParams } from "react-router-dom";
 import { CreateAppModal } from "../_modals/create-app-stepper/CreateAppModal";
+import Table from "../../../../_start/partials/components/Table";
+import { getListingPageColumns } from "../../../../_start/helpers";
 
 export const ListingPage: FC<any> = (data: any) => {
   const [show, setShow] = useState(false);
@@ -15,7 +16,7 @@ export const ListingPage: FC<any> = (data: any) => {
 
   const params: any = useParams();
   const { entity, id } = params;
-  console.log(entity, id);
+  // console.log(entity, id);
   let entityName: any;
   switch (entity) {
     case "src":
@@ -25,12 +26,12 @@ export const ListingPage: FC<any> = (data: any) => {
       entityName = "departments";
       break;
     case "cat":
-      entityName = "categorys";
+      entityName = "categories";
       break;
   }
 
   const getQuery = (id: string, entity: string, page: number) => {
-    console.log(`getting query for ${entity} - ${id}`);
+    // console.log(`getting query for ${entity} - ${id}`);
 
     const query = `
     query DepartmentsTTT {
@@ -68,15 +69,15 @@ export const ListingPage: FC<any> = (data: any) => {
     setLoading(true);
     // console.log(page);
     getNewRecords(entity, id, page.newPage).then((res: any) => {
-      console.log(res);
+      // console.log(res);
       const items = res.data.departments;
       const oldData: any = dataTable;
-      console.log(res);
+      // console.log(res);
 
       if (items.length > 0) {
         // console.log(data);
         oldData[entityName] = res.data[entityName];
-        console.log(oldData);
+        // console.log(oldData);
         setDataTable("");
         setDataTable(oldData);
         setLoading(false);
@@ -121,7 +122,6 @@ export const ListingPage: FC<any> = (data: any) => {
 
   const init = (info: any) => {
     const showData: any = info;
-    console.log(showData);
 
     setDataTable(showData);
 
@@ -149,6 +149,10 @@ export const ListingPage: FC<any> = (data: any) => {
   useEffect(() => {
     init(data.data ? data.data : data);
   }, [data]);
+  const records = data.data[entityName];
+  const { type } = data.data;
+
+  const columns = getListingPageColumns(records, entity, type);
 
   return (
     <>
@@ -167,11 +171,13 @@ export const ListingPage: FC<any> = (data: any) => {
       {/* begin::Row */}
       <div className="row g-0 g-xl-5 g-xxl-12">
         <div className="col-xl-12">
-          <TablesWidget7
-            className={`table-custom card-stretch mb-5 mb-xxl-8 ${
+          <Table
+            cardClassName={`table-custom card-stretch mb-5 mb-xxl-8 ${
               isLoading ? "table-loading" : ""
             }`}
-            data={data}
+            columns={columns}
+            emptyMessage="No hay registros para esta categoria"
+            id="listing-list"
           />
         </div>
       </div>

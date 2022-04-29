@@ -261,7 +261,7 @@ const TablesWidget1: React.FC<Props> = ({ className, innerPadding = "" }) => {
           <span className="text-muted mt-2 fw-bold fs-6">
             {formats[0].connection.aggregate.totalCount} Archivos
           </span>
-        </h3>
+        </h3> 
         <div className="card-toolbar">
           <ul className="nav nav-pills nav-pills-sm nav-light">
             <li className="nav-item">

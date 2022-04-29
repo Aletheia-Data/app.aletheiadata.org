@@ -37,6 +37,10 @@ console.log(`
 `);
 
 if (window.location.hostname === "app.aletheiadata.org") {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  console.log = function () {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  console.debug = function () {};
 }
 
 /**

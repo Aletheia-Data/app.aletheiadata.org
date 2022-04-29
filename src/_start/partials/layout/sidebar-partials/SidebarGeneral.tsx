@@ -143,7 +143,7 @@ export const SidebarGeneral: React.FC<Props> = ({
           break;
       }
       const endpoint = `${process.env.REACT_APP_API_ENDPOINT}/graphql`;
-      console.log("fetching data: ", endpoint);
+      // console.log("fetching data: ", endpoint);
       fetch(endpoint, {
         method: "post",
         headers: {
@@ -351,7 +351,7 @@ export const SidebarGeneral: React.FC<Props> = ({
   };
 
   const onCopy = () => {
-    console.log("copied!");
+    // console.log("copied!");
     setCopy(true);
     setTimeout(() => {
       setCopy(false);
@@ -435,7 +435,8 @@ export const SidebarGeneral: React.FC<Props> = ({
                         {current_item.title}
                       </h3>
                       <div className="card-toolbar">
-                        <button
+                        {/**
+                         * <button
                           type="button"
                           className="btn btn-md btn-icon btn-icon-white btn-info"
                           data-kt-menu-trigger="click"
@@ -448,6 +449,7 @@ export const SidebarGeneral: React.FC<Props> = ({
                             className="svg-icon-1"
                           />
                         </button>
+                         */}
                         <Dropdown1 />
                       </div>
                     </div>

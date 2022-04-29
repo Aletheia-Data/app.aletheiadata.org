@@ -22,7 +22,7 @@ const listingPageConfig: Partial<IThemeConfig> = {
 };
 
 const getQuery = (type: string, id: string, entity: string) => {
-  console.log(`getting query for ${entity} - ${type} - ${id}`);
+  // console.log(`getting query for ${entity} - ${type} - ${id}`);
 
   const SRC_QUERY = gql`
     query Sources {
@@ -157,11 +157,12 @@ const getQuery = (type: string, id: string, entity: string) => {
 };
 
 function Collection(type: string, query: any, entity: string) {
-  const { data, loading } = useQuery(query, {
+  const { data, loading, error } = useQuery(query, {
     variables: {},
   });
 
   if (loading) return <p>Loading ...</p>;
+  if (error) return <p>{`There's an Error, please refresh this page ...`}</p>;
 
   if (data) {
     data.type = type;
@@ -182,23 +183,25 @@ export function ListingPageWrapper(): JSX.Element {
   // console.log(id);
   let title;
   const type = "collection";
-  title = "Loading";
   const query = getQuery(type, id, entity);
   const component = Collection(type, query, entity);
 
+  switch (entity) {
+    case "src":
+      title = "Fuentes";
+      break;
+    case "dep":
+      title = "Ministerios o instituciónes";
+      break;
+    case "cat":
+      title = "Categorias";
+      break;
+  }
+
   if (component?.props?.data) {
+    console.log(component?.props?.data);
+
     component.props.data.sidebar = "default";
-    switch (entity) {
-      case "src":
-        title = "Fuentes";
-        break;
-      case "dep":
-        title = "Ministerios o instituciónes";
-        break;
-      case "cat":
-        title = "Categorias";
-        break;
-    }
   }
 
   const { setTheme } = useTheme();

@@ -8,8 +8,8 @@ import {
   StatsWidget7,
   StatsWidget8,
   StatsWidget9,
-  TablesWidget2,
 } from "../../../../_start/partials/widgets";
+import { Achievements } from "_start/partials/components/Achievements";
 import { CreateAppModal } from "../_modals/create-app-stepper/CreateAppModal";
 
 export const LightListingPage: React.FC = () => {
@@ -75,7 +75,7 @@ export const LightListingPage: React.FC = () => {
         </div>
 
         <div className="col-xl-8">
-          <TablesWidget2 className="card-stretch" />
+          <Achievements className="card-stretch" />
         </div>
       </div>
       {/* end::Row */}

@@ -74,7 +74,7 @@ export function getPDF() {
   // if (loading) return 'Loading...';
   // if (error) return JSON.stringify(error);
 
-  console.log(data);
+  // console.log(data);
 
   return data;
 

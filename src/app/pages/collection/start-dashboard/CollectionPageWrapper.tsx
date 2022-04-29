@@ -23,7 +23,7 @@ const listingPageConfig: Partial<IThemeConfig> = {
 };
 
 const getQuery = (type: string, id: string, entity: string) => {
-  console.log(`getting query for ${entity} - ${type} - ${id}`);
+  // console.log(`getting query for ${entity} - ${type} - ${id}`);
 
   const SRC_QUERY = gql`
     query Source {
@@ -201,11 +201,12 @@ const getQuery = (type: string, id: string, entity: string) => {
 };
 
 function Collection(type: string, query: any, entity: string) {
-  const { data, loading } = useQuery(query, {
+  const { data, loading, error } = useQuery(query, {
     variables: {},
   });
 
   if (loading) return <p>Loading ...</p>;
+  if (error) return <p>{`There's an Error, please refresh this page ...`}</p>;
 
   data.type = type;
   data.entity = entity;
@@ -228,11 +229,11 @@ export function CollectionPageWrapper(): JSX.Element {
   title = "Loading";
   const query = getQuery(type, id, entity);
   let prevRoute = "Loading";
-  console.log(`calling query: `, query);
+  // console.log(`calling query: `, query);
   const component = Collection(type, query, entity);
 
   if (component?.props?.data) {
-    console.log(`got data: `, component.props.data);
+    // console.log(`got data: `, component.props.data);
     component.props.data.sidebar = "default";
     switch (params.entity) {
       case "src":
@@ -265,7 +266,7 @@ export function CollectionPageWrapper(): JSX.Element {
   }, []);
 
   const getBreadcrumbs = (prevRoute: any) => {
-    console.log(prevRoute);
+    // console.log(prevRoute);
 
     return [
       {

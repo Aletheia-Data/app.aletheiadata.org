@@ -17,7 +17,7 @@ const TablesWidget5: React.FC<Props> = ({
   innerPadding = "",
   color = "primary",
 }) => {
-  console.log(data);
+  // console.log(data);
 
   if (data.data) {
     data = data.data;
@@ -36,7 +36,7 @@ const TablesWidget5: React.FC<Props> = ({
     case "src":
       title = data.source.name;
       records = data.source.alexandrias;
-      console.log(totalConn);
+      // console.log(totalConn);
       break;
     case "dep":
       title = data.department.name;

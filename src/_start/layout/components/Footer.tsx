@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
+import { Link } from "react-router-dom";
 import { useTheme } from "../core";
 
 export function Footer() {
@@ -35,13 +36,16 @@ export function Footer() {
           </li>
           <li className="menu-item">
             <a href="https://docs.aletheiadata.org/" target="_blank" className="menu-link pe-0">
-              Documentation
+              Docs
             </a>
           </li>
           <li className="menu-item">
-            <a href="#" target="_blank" className="menu-link pe-0">
-              FAQ
-            </a>
+            <Link
+              className="menu-link pe-0"
+              to={'/general/faq'}
+            >
+            FAQ
+            </Link>
           </li>
         </ul>
         {/* end::Nav */}

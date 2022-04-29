@@ -1,124 +1,129 @@
 {
-    "env": {
-        "es6": true,
-        "browser": true,
-        "node": true
-    },
-    "extends": [
-        "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended",
-        "prettier",
-        "plugin:prettier/recommended",
-        "plugin:react-hooks/recommended"
-    ],
-    "settings": {
-        "react": {
-          "version": "detect"
-        }
-    },
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 12,
-        "sourceType": "module"
-    },
-    "plugins": [
-        "@typescript-eslint"
-    ],
-    "rules": {
-        // react
-        "react/prop-types": "off",
-        "react/sort-prop-types": "error",
-        "react/self-closing-comp": "error",
-        "react/jsx-boolean-value": "error",
-        "react/jsx-handler-names": "error",
-        "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "error",
-        "react/no-find-dom-node": "error",
-        "react/jsx-pascal-case": [
-          "error",
-          {
-            "allowAllCaps": false,
-            "allowNamespace": false
-          }
-        ],
-        "react/jsx-fragments": [
-          "error",
-          "syntax"
-        ],
-        "react/jsx-curly-brace-presence": [
-          "error",
-          {
-            "props": "never",
-            "children": "never"
-          }
-        ],
-        "react/jsx-sort-props": [
-          "error",
-          {
-            "callbacksLast": true,
-            "shorthandFirst": true,
-            "noSortAlphabetically": false,
-            "reservedFirst": true
-          }
-        ],
-        // typescript
-        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
-        "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/explicit-module-boundary-types": "error",
-        "@typescript-eslint/consistent-type-definitions": [
-          "error",
-          "interface"
-        ],
-        // eslint
-        "camelcase": "error",
-        "use-isnan": "error",
-        "no-unreachable": "error",
-        "newline-before-return": "error",
-        "no-useless-computed-key": "error",
-        "eqeqeq": [
-          "error",
-          "always",
-          {
-            "null": "ignore"
-          }
-        ],
-        "one-var": [
-          "error",
-          {
-            "initialized": "never"
-          }
-        ],
-        "prefer-destructuring": ["error", {
-          "array": true,
-          "object": true
-        }, {
-          "enforceForRenamedProperties": false
-        }],
-        "padding-line-between-statements": [
-          "error",
-          {
-            "blankLine": "always",
-            "prev": "*",
-            "next": "return"
-          },
-          {
-            "blankLine": "always",
-            "prev": "multiline-block-like",
-            "next": "if"
-          },
-          {
-            "blankLine": "always",
-            "prev": "multiline-block-like",
-            "next": "expression"
-          },
-          {
-            "blankLine": "always",
-            "prev": "const",
-            "next": "if"
-          }
-        ]
+  "env": {
+      "es6": true,
+      "browser": true,
+      "node": true
+  },
+  "extends": [
+      "plugin:react/recommended",
+      "plugin:@typescript-eslint/recommended",
+      "prettier",
+      "plugin:prettier/recommended",
+      "plugin:react-hooks/recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended",
+      "eslint:recommended"
+  ],
+  "overrides": [ { "files": ["*.ts"], "rules": { "no-undef": "off" } } ],
+  "settings": {
+      "react": {
+        "version": "detect"
       }
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+      "ecmaFeatures": {
+          "jsx": true
+      },
+      "ecmaVersion": 12,
+      "sourceType": "module"
+  },
+  "plugins": [
+      "@typescript-eslint"
+  ],
+  "rules": {
+    // react
+    "react/prop-types": "off",
+    "react/sort-prop-types": "error",
+    "react/self-closing-comp": "error",
+    "react/jsx-boolean-value": "error",
+    "react/jsx-handler-names": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "error",
+    "react/no-find-dom-node": "error",
+    "react/jsx-pascal-case": [
+      "error",
+      {
+        "allowAllCaps": false,
+        "allowNamespace": false
+      }
+    ],
+    "react/jsx-fragments": [
+      "error",
+      "syntax"
+    ],
+    "react/jsx-curly-brace-presence": [
+      "error",
+      {
+        "props": "never",
+        "children": "never"
+      }
+    ],
+    "react/jsx-sort-props": [
+      "error",
+      {
+        "callbacksLast": true,
+        "shorthandFirst": true,
+        "noSortAlphabetically": false,
+        "reservedFirst": true
+      }
+    ],
+    // typescript
+    "no-undef": "off",
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "error",
+    "@typescript-eslint/consistent-type-definitions": [
+      "error",
+      "interface"
+    ],
+    // eslint
+    "camelcase": "error",
+    "use-isnan": "error",
+    "no-unreachable": "error",
+    "newline-before-return": "error",
+    "no-useless-computed-key": "error",
+    "eqeqeq": [
+      "error",
+      "always",
+      {
+        "null": "ignore"
+      }
+    ],
+    "one-var": [
+      "error",
+      {
+        "initialized": "never"
+      }
+    ],
+    "prefer-destructuring": ["error", {
+      "array": true,
+      "object": true
+    }, {
+      "enforceForRenamedProperties": false
+    }],
+    "padding-line-between-statements": [
+      "error",
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": "return"
+      },
+      {
+        "blankLine": "always",
+        "prev": "multiline-block-like",
+        "next": "if"
+      },
+      {
+        "blankLine": "always",
+        "prev": "multiline-block-like",
+        "next": "expression"
+      },
+      {
+        "blankLine": "always",
+        "prev": "const",
+        "next": "if"
+      }
+    ]
+    }
 }
