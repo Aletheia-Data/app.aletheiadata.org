@@ -2,10 +2,11 @@ import React, { FC, useEffect, useState } from "react";
 import {
   EngageWidget3,
   Pagination1,
-  TablesWidget7,
 } from "../../../../_start/partials/widgets";
 import { useParams } from "react-router-dom";
 import { CreateAppModal } from "../_modals/create-app-stepper/CreateAppModal";
+import Table from "common/components/Table";
+import { getListingPageColumns } from "common/helpers/getListingPageColumns";
 
 export const ListingPage: FC<any> = (data: any) => {
   const [show, setShow] = useState(false);
@@ -25,7 +26,7 @@ export const ListingPage: FC<any> = (data: any) => {
       entityName = "departments";
       break;
     case "cat":
-      entityName = "categorys";
+      entityName = "categories";
       break;
   }
 
@@ -148,6 +149,10 @@ export const ListingPage: FC<any> = (data: any) => {
   useEffect(() => {
     init(data.data ? data.data : data);
   }, [data]);
+  const records = data.data[entityName];
+  const { type } = data.data;
+
+  const columns = getListingPageColumns(records, entity, type);
 
   return (
     <>
@@ -166,11 +171,13 @@ export const ListingPage: FC<any> = (data: any) => {
       {/* begin::Row */}
       <div className="row g-0 g-xl-5 g-xxl-12">
         <div className="col-xl-12">
-          <TablesWidget7
-            className={`table-custom card-stretch mb-5 mb-xxl-8 ${
+          <Table
+            cardClassName={`table-custom card-stretch mb-5 mb-xxl-8 ${
               isLoading ? "table-loading" : ""
             }`}
-            data={data}
+            columns={columns}
+            emptyMessage="No hay registros para esta categoria"
+            id="listing-list"
           />
         </div>
       </div>

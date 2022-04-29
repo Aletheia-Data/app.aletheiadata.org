@@ -2,10 +2,11 @@ import React, { FC, useState } from "react";
 import {
   EngageWidget6,
   Pagination1,
-  TablesWidget6,
 } from "../../../../_start/partials/widgets";
 import { MiniSearchService } from "_start/partials/components";
 import { CreateAppModal } from "../_modals/create-app-stepper/CreateAppModal";
+import Table from "common/components/Table";
+import { getSinglePageColumns } from "common/helpers/getSinglePageColumns";
 
 export const SinglePage: FC<any> = (data: any) => {
   const [show, setShow] = useState(false);
@@ -23,6 +24,13 @@ export const SinglePage: FC<any> = (data: any) => {
   const handleExit = () => {
     data.data.toogleMinisearch();
   };
+
+  console.log(data.data.alexandrias[0].type);
+
+  const alexandriasRecords = data.data.alexandrias;
+  const aletheiaRecords = data.data.aletheias;
+  const alexandriaColumns = getSinglePageColumns(alexandriasRecords);
+  const aletheiaColumns = getSinglePageColumns(aletheiaRecords);
 
   return (
     <>
@@ -49,10 +57,12 @@ export const SinglePage: FC<any> = (data: any) => {
         }`}
       >
         <div className="col-xl-12">
-          <TablesWidget6
-            className="card-stretch mb-5 mb-xxl-8"
-            data={data}
-            type="alexandrias"
+          <Table
+            cardClassName="card-stretch mb-5 mb-xxl-8"
+            columns={alexandriaColumns}
+            emptyMessage="No hay registros disponibles para esta categoria"
+            id="alexandria-data-list"
+            title="Archivos cargados"
           />
         </div>
       </div>
@@ -69,10 +79,12 @@ export const SinglePage: FC<any> = (data: any) => {
         }`}
       >
         <div className="col-xl-12">
-          <TablesWidget6
-            className="card-stretch mb-5 mb-xxl-8"
-            data={data}
-            type="aletheias"
+          <Table
+            cardClassName="card-stretch mb-5 mb-xxl-8"
+            columns={aletheiaColumns}
+            emptyMessage="No hay registros disponibles para esta categoria"
+            id="alexandria-data-list"
+            title="Pruebas cargados"
           />
         </div>
       </div>
