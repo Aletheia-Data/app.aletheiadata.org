@@ -1,7 +1,7 @@
 import React, { FC, HTMLAttributes, ReactElement, useMemo } from "react";
 
 // common
-import { generateArrayOfNumbers } from "common/helpers";
+import { generateArrayOfNumbers } from "../../../helpers";
 
 type TableRowProps = HTMLAttributes<HTMLTableRowElement>;
 type TableCellProps = HTMLAttributes<HTMLTableCellElement>;

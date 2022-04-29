@@ -2,16 +2,17 @@
 import React from "react";
 import moment from "moment";
 import { Ktsvg } from "_start/helpers";
-import { Record } from "common/types/types";
+import { Record } from "_start/types";
 import { Link } from "react-router-dom";
-import CountBadge from "common/components/CountBadge";
-import StatusBadge from "common/components/StatusBadge";
+import CountBadge from "../partials/components/CountBadge";
+import StatusBadge from "../partials/components/StatusBadge";
 
 export const getListingPageColumns = (
   data: any,
   entity: string,
   type: string
 ) => {
+  console.log(data, entity, type);
   if (entity === "cat") {
     return [
       {
@@ -20,7 +21,7 @@ export const getListingPageColumns = (
           <Link
             key={`record-alexandria-${recordItem.cid}`}
             className="text-gray-800 fw-bolder text-hover-primary fs-6"
-            to="#"
+            to={`/${type}/${entity}/${recordItem.id}`}
           >
             {recordItem.title || recordItem.name}
           </Link>
@@ -77,7 +78,7 @@ export const getListingPageColumns = (
           <Link
             key={`record-alexandria-${recordItem.cid}`}
             className="text-gray-800 fw-bolder text-hover-primary fs-6"
-            to="#"
+            to={`/${type}/${entity}/${recordItem.id}`}
           >
             {recordItem.title || recordItem.name}
           </Link>

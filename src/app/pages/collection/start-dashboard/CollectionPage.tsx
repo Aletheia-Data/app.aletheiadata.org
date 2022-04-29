@@ -5,13 +5,13 @@ import {
 } from "../../../../_start/partials/widgets";
 import { Link, useParams } from "react-router-dom";
 import { CreateAppModal } from "../_modals/create-app-stepper/CreateAppModal";
-import FormatBadge from "common/components/FormatBadge";
-import StatusBadge from "common/components/StatusBadge";
+import FormatBadge from "_start/partials/components/FormatBadge";
+import StatusBadge from "_start/partials/components/StatusBadge";
 import moment from "moment";
-import Table from "common/components/Table";
+import Table from "_start/partials/components/Table";
 import { Ktsvg } from "_start/helpers";
 
-import { Record } from "common/types/types";
+import { Record } from "_start/types";
 
 export const CollectionPage: FC<any> = (pageData: any) => {
   const params: any = useParams();

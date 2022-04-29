@@ -5,8 +5,8 @@ import {
 } from "../../../../_start/partials/widgets";
 import { MiniSearchService } from "_start/partials/components";
 import { CreateAppModal } from "../_modals/create-app-stepper/CreateAppModal";
-import Table from "common/components/Table";
-import { getSinglePageColumns } from "common/helpers/getSinglePageColumns";
+import Table from "_start/partials/components/Table";
+import { getSinglePageColumns } from "../../../../_start/helpers";
 
 export const SinglePage: FC<any> = (data: any) => {
   const [show, setShow] = useState(false);

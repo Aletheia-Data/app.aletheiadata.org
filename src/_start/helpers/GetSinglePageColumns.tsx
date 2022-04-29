@@ -1,8 +1,8 @@
 import React from "react";
-import StatusBadge from "common/components/StatusBadge";
+import StatusBadge from "../partials/components/StatusBadge";
 import moment from "moment";
 import { Ktsvg } from "_start/helpers";
-import { Record } from "common/types/types";
+import { Record } from "_start/types";
 import { Link } from "react-router-dom";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

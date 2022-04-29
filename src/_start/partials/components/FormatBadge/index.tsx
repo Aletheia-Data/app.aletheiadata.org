@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 
-import { FormatType } from "common/types/types";
+import { FormatType } from "_start/types";
 
 interface Props {
   type: FormatType;

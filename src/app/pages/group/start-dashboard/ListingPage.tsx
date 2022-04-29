@@ -5,8 +5,8 @@ import {
 } from "../../../../_start/partials/widgets";
 import { useParams } from "react-router-dom";
 import { CreateAppModal } from "../_modals/create-app-stepper/CreateAppModal";
-import Table from "common/components/Table";
-import { getListingPageColumns } from "common/helpers/getListingPageColumns";
+import Table from "../../../../_start/partials/components/Table";
+import { getListingPageColumns } from "../../../../_start/helpers";
 
 export const ListingPage: FC<any> = (data: any) => {
   const [show, setShow] = useState(false);

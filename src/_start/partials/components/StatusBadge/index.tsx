@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 
-import { StatusType } from "common/types/types";
+import { StatusType } from "_start/types";
 
 interface Props {
   status: StatusType;
