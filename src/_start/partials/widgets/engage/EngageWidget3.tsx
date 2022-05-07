@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { toAbsoluteUrl } from "../../../helpers";
+import { toAbsoluteUrl, truncate } from "../../../helpers";
 import moment from 'moment';
 
 
@@ -180,7 +180,7 @@ const EngageWidget3: React.FC<Props> = ({
                         <td className="text-gray-600 ps-0">URL</td>
                         <td className="text-dark pe-0">
                           <a href={url} target={'_blank'}>
-                            {url}
+                            {truncate(url, 20)}
                           </a>
                         </td>
                       </tr>
