@@ -4,7 +4,7 @@ import { Modal } from "react-bootstrap-v5";
 import { StepperComponent } from "../../../../../_start/assets/ts/components";
 import { Ktsvg } from "../../../../../_start/helpers";
 import { defaultCreateAppData, ICreateAppData } from "./IAppModels";
-
+import config from "../../../../../setup/config";
 interface Props {
   show: boolean;
   handleClose: () => void;
@@ -27,17 +27,25 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
     setData(updatedData);
   };
 
-  const checkAppBasic = (): boolean => {
-    if (!data.appBasic.appName || !data.appBasic.appType) {
-      return false;
-    }
+  const checkAppBasic = (step: number): boolean => {
+    console.log(data.appBasic);
 
-    return true;
-  };
-
-  const checkAppDataBase = (): boolean => {
-    if (!data.appDatabase.databaseName || !data.appDatabase.databaseSolution) {
-      return false;
+    switch (step) {
+      case 1:
+        if (!data.appBasic.title || !data.appBasic.docType) {
+          return false;
+        }
+        break;
+      case 2:
+        if (!data.appBasic.description) {
+          return false;
+        }
+        break;
+      case 3:
+        if (!data.appBasic.source) {
+          return false;
+        }
+        break;
     }
 
     return true;
@@ -57,20 +65,10 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
       return;
     }
 
-    if (stepper.current.getCurrentStepIndex() === 1) {
-      if (!checkAppBasic()) {
-        setHasError(true);
+    if (!checkAppBasic(stepper.current.getCurrentStepIndex())) {
+      setHasError(true);
 
-        return;
-      }
-    }
-
-    if (stepper.current.getCurrentStepIndex() === 3) {
-      if (!checkAppDataBase()) {
-        setHasError(true);
-
-        return;
-      }
+      return;
     }
 
     stepper.current.goNext();
@@ -127,8 +125,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                       <span className="stepper-number">1</span>
                     </div>
                     <div className="stepper-label">
-                      <h3 className="stepper-title">App Basics</h3>
-                      <div className="stepper-desc">Name your App</div>
+                      <h3 className="stepper-title">Documento</h3>
+                      <div className="stepper-desc">Información básica</div>
                     </div>
                   </div>
                 </div>
@@ -142,10 +140,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                       <span className="stepper-number">2</span>
                     </div>
                     <div className="stepper-label">
-                      <h3 className="stepper-title">App Framework</h3>
-                      <div className="stepper-desc">
-                        Define your app framework
-                      </div>
+                      <h3 className="stepper-title">Detalles</h3>
+                      <div className="stepper-desc">Detalles del documento</div>
                     </div>
                   </div>
                 </div>
@@ -159,9 +155,9 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                       <span className="stepper-number">3</span>
                     </div>
                     <div className="stepper-label">
-                      <h3 className="stepper-title">App Database</h3>
+                      <h3 className="stepper-title">Fuente</h3>
                       <div className="stepper-desc">
-                        Select the app database type
+                        Detalles sobre la fuente
                       </div>
                     </div>
                   </div>
@@ -176,9 +172,9 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                       <span className="stepper-number">4</span>
                     </div>
                     <div className="stepper-label">
-                      <h3 className="stepper-title">App Storage</h3>
+                      <h3 className="stepper-title">Archivos</h3>
                       <div className="stepper-desc">
-                        Select the app storage type
+                        Subir archivo al sistema
                       </div>
                     </div>
                   </div>
@@ -218,7 +214,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     {/*begin::Heading */}
                     <div className="pb-5 pb-lg-10">
                       <h3 className="fw-bolder text-dark display-6">
-                        App Basics
+                        Documento
                       </h3>
                     </div>
                     {/*begin::Heading */}
@@ -226,31 +222,31 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     {/*begin::Form Group */}
                     <div className="fv-row mb-12">
                       <label className="fs-6 fw-bolder text-dark form-label">
-                        Your App Name
+                        Titulo Documento
                       </label>
                       <input
                         className="form-control form-control-lg form-control-solid"
-                        name="appname"
+                        name="title"
                         placeholder=""
                         type="text"
-                        value={data.appBasic.appName}
+                        value={data.appBasic.title}
                         onChange={(e) =>
                           updateData({
                             appBasic: {
-                              appName: e.target.value,
-                              appType: data.appBasic.appType,
+                              ...data.appBasic,
+                              title: e.target.value,
                             },
                           })
                         }
                       />
-                      {!data.appBasic.appName && hasError && (
+                      {!data.appBasic.title && hasError && (
                         <div className="fv-plugins-message-container">
                           <div
                             className="fv-help-block"
-                            data-field="appname"
+                            data-field="title"
                             data-validator="notEmpty"
                           >
-                            App name is required
+                            Title is required
                           </div>
                         </div>
                       )}
@@ -260,139 +256,74 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     {/*begin::Form Group */}
                     <div className="fv-row">
                       {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between mb-6 cursor-pointer">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-primary">
-                              <Ktsvg
-                                className="svg-icon-1 svg-icon-primary"
-                                path="/media/icons/duotone/Home/Globe.svg"
+                      {config.availableDocTypes.map((docType, i) => {
+                        return (
+                          <label
+                            key={`doctype-${i}`}
+                            className="d-flex align-items-center justify-content-between mb-6 cursor-pointer"
+                          >
+                            <span className="d-flex align-items-center me-2">
+                              <span className="symbol symbol-50px me-6">
+                                <span
+                                  className="symbol-label"
+                                  style={{
+                                    backgroundColor: docType.background,
+                                  }}
+                                >
+                                  <img
+                                    alt="pdf"
+                                    className="svg-icon-1"
+                                    src={docType.icon}
+                                  />
+                                </span>
+                              </span>
+
+                              <span className="d-flex flex-column">
+                                <span className="fw-bolder fs-6">
+                                  {docType.name}
+                                </span>
+                                <span className="fs-7 text-muted">
+                                  {docType.archiveDesc}
+                                </span>
+                              </span>
+                            </span>
+
+                            <span className="form-check form-check-custom form-check-solid">
+                              <input
+                                checked={
+                                  data.appBasic.docType === docType.format
+                                }
+                                className="form-check-input"
+                                name="docType"
+                                type="radio"
+                                value={docType.format}
+                                onChange={() =>
+                                  updateData({
+                                    appBasic: {
+                                      ...data.appBasic,
+                                      docType: docType.format,
+                                    },
+                                  })
+                                }
                               />
                             </span>
-                          </span>
-
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">
-                              Quick Online Courses
-                            </span>
-                            <span className="fs-7 text-muted">
-                              Creating a clear text structure is just one SEO
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={
-                              data.appBasic.appType === "Quick Online Courses"
-                            }
-                            className="form-check-input"
-                            name="appType"
-                            type="radio"
-                            value="Quick Online Courses"
-                            onChange={() =>
-                              updateData({
-                                appBasic: {
-                                  appName: data.appBasic.appName,
-                                  appType: "Quick Online Courses",
-                                },
-                              })
-                            }
-                          />
-                        </span>
-                      </label>
-                      {/*end::Option */}
-
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between mb-6 cursor-pointer">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-danger">
-                              <Ktsvg
-                                className="svg-icon-1 svg-icon-danger"
-                                path="/media/icons/duotone/Layout/Layout-4-blocks-2.svg"
-                              />
-                            </span>
-                          </span>
-
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">
-                              Face to Face Discussions
-                            </span>
-                            <span className="fs-7 text-muted">
-                              Creating a clear text structure is just one aspect
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={
-                              data.appBasic.appType ===
-                              "Face to Face Discussions"
-                            }
-                            className="form-check-input"
-                            name="appType"
-                            type="radio"
-                            value="Face to Face Discussions"
-                            onChange={() =>
-                              updateData({
-                                appBasic: {
-                                  appName: data.appBasic.appName,
-                                  appType: "Face to Face Discussions",
-                                },
-                              })
-                            }
-                          />
-                        </span>
-                      </label>
-                      {/*end::Option */}
-
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between mb-6 cursor-pointer">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-success">
-                              <Ktsvg
-                                className="svg-icon-1 svg-icon-success"
-                                path="/media/icons/duotone/Devices/Watch1.svg"
-                              />
-                            </span>
-                          </span>
-
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">
-                              Full Intro Training
-                            </span>
-                            <span className="fs-7 text-muted">
-                              Creating a clear text structure copywriting
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={
-                              data.appBasic.appType === "Full Intro Training"
-                            }
-                            className="form-check-input"
-                            name="appType"
-                            type="radio"
-                            value="Full Intro Training"
-                            onChange={() =>
-                              updateData({
-                                appBasic: {
-                                  appName: data.appBasic.appName,
-                                  appType: "Full Intro Training",
-                                },
-                              })
-                            }
-                          />
-                        </span>
-                      </label>
+                          </label>
+                        );
+                      })}
                       {/*end::Option */}
                     </div>
                     {/*end::Form Group */}
+                    {!data.appBasic.docType && hasError && (
+                      <div className="fv-plugins-message-container">
+                        <div
+                          className="fv-help-block"
+                          data-field="title"
+                          data-validator="notEmpty"
+                        >
+                          Document Type is required
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
                 {/*end::Step 1 */}
@@ -403,7 +334,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     {/*begin::Heading */}
                     <div className="pb-10 pb-lg-15">
                       <h3 className="fw-bolder text-dark display-6">
-                        App Framework
+                        Detalles
                       </h3>
                     </div>
                     {/*end::Heading */}
@@ -411,136 +342,37 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     {/*begin::Form Group */}
                     <div className="fv-row">
                       <label className="fs-6 fw-bolder text-dark mb-7">
-                        Select your app framework
+                        Descripción del documento
                       </label>
 
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-warning">
-                              <i className="fab fa-html5 text-warning fs-2x" />
-                            </span>
-                          </span>
-
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">HTML5</span>
-                            <span className="fs-7 text-muted">
-                              Base Web Projec
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={data.appFramework === "HTML5"}
-                            className="form-check-input"
-                            name="appFramework"
-                            type="radio"
-                            value="HTML5"
-                            onChange={() =>
-                              updateData({ appFramework: "HTML5" })
-                            }
-                          />
-                        </span>
-                      </label>
-                      {/*end::Option */}
-
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-success">
-                              <i className="fab fa-react text-success fs-2x" />
-                            </span>
-                          </span>
-
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">ReactJS</span>
-                            <span className="fs-7 text-muted">
-                              Robust and flexible app framework
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={data.appFramework === "ReactJS"}
-                            className="form-check-input"
-                            name="appFramework"
-                            type="radio"
-                            value="ReactJS"
-                            onChange={() =>
-                              updateData({ appFramework: "ReactJS" })
-                            }
-                          />
-                        </span>
-                      </label>
-                      {/*end::Option */}
-
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-danger">
-                              <i className="fab fa-angular text-danger fs-2x" />
-                            </span>
-                          </span>
-
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">Angular</span>
-                            <span className="fs-7 text-muted">
-                              Powerful data mangement
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={data.appFramework === "Angular"}
-                            className="form-check-input"
-                            name="appFramework"
-                            type="radio"
-                            value="Angular"
-                            onChange={() =>
-                              updateData({ appFramework: "Angular" })
-                            }
-                          />
-                        </span>
-                      </label>
-                      {/*end::Option */}
-
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-primary">
-                              <i className="fab fa-vuejs text-primary fs-2x" />
-                            </span>
-                          </span>
-
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">Vue</span>
-                            <span className="fs-7 text-muted">
-                              Lightweight and responsive framework
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={data.appFramework === "Vue"}
-                            className="form-check-input"
-                            name="appFramework"
-                            type="radio"
-                            value="Vue"
-                            onChange={() => updateData({ appFramework: "Vue" })}
-                          />
-                        </span>
-                      </label>
-                      {/*end::Option */}
+                      {/*end::TextArea */}
+                      <textarea
+                        className="form-control form-control-solid form-control-lg"
+                        rows={3}
+                        value={data.appBasic.description}
+                        onChange={(e) =>
+                          updateData({
+                            appBasic: {
+                              ...data.appBasic,
+                              description: e.target.value,
+                            },
+                          })
+                        }
+                      />
+                      {/*end::TextArea */}
                     </div>
                     {/*end::Form Group */}
+                    {!data.appBasic.description && hasError && (
+                      <div className="fv-plugins-message-container">
+                        <div
+                          className="fv-help-block"
+                          data-field="title"
+                          data-validator="notEmpty"
+                        >
+                          Description is required
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
                 {/*end::Step 2 */}
@@ -550,40 +382,38 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                   <div className="w-100">
                     {/*begin::Heading */}
                     <div className="pb-10 pb-lg-15">
-                      <h3 className="fw-bolder text-dark display-6">
-                        App Database
-                      </h3>
+                      <h3 className="fw-bolder text-dark display-6">Fuente</h3>
                     </div>
                     {/*begin::Heading */}
 
                     {/*begin::Form Group */}
                     <div className="fv-row mb-12">
                       <label className="fs-6 fw-bolder text-dark form-label">
-                        App Databse Name Name
+                        Fuente del documento
                       </label>
                       <input
                         className="form-control form-control-lg form-control-solid"
-                        name="dbname"
+                        name="source"
+                        placeholder="example: https://www.aletheia.org/very-important.pdf"
                         type="text"
-                        value={data.appDatabase.databaseName}
+                        value={data.appBasic.source}
                         onChange={(e) =>
                           updateData({
-                            appDatabase: {
-                              databaseName: e.target.value,
-                              databaseSolution:
-                                data.appDatabase.databaseSolution,
+                            appBasic: {
+                              ...data.appBasic,
+                              source: e.target.value,
                             },
                           })
                         }
                       />
-                      {!data.appDatabase.databaseName && hasError && (
+                      {!data.appBasic.source && hasError && (
                         <div className="fv-plugins-message-container">
                           <div
                             className="fv-help-block"
-                            data-field="appname"
+                            data-field="title"
                             data-validator="notEmpty"
                           >
-                            Database name is required
+                            Source is required
                           </div>
                         </div>
                       )}
@@ -593,7 +423,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     {/*begin::Form Group */}
                     <div className="fv-row">
                       <label className="fs-6 fw-bolder text-dark mb-7">
-                        Select your app database solution
+                        ¿Quien emitió esta información?
                       </label>
 
                       {/*begin:Option */}
@@ -851,8 +681,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     {/* begin::Section */}
                     <h4 className="fw-bolder mb-3">App Basics</h4>
                     <div className="text-gray-600 fw-bold lh-lg mb-8">
-                      <div>{data.appBasic.appName}</div>
-                      <div>{data.appBasic.appType}</div>
+                      <div>{data.appBasic.title}</div>
+                      <div>{data.appBasic.docType}</div>
                     </div>
                     {/* end::Section */}
 

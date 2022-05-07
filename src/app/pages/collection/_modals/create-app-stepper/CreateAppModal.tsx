@@ -28,7 +28,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   };
 
   const checkAppBasic = (): boolean => {
-    if (!data.appBasic.appName || !data.appBasic.appType) {
+    if (!data.appBasic.title || !data.appBasic.docType) {
       return false;
     }
 
@@ -230,24 +230,24 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                       </label>
                       <input
                         className="form-control form-control-lg form-control-solid"
-                        name="appname"
+                        name="title"
                         placeholder=""
                         type="text"
-                        value={data.appBasic.appName}
+                        value={data.appBasic.title}
                         onChange={(e) =>
                           updateData({
                             appBasic: {
-                              appName: e.target.value,
-                              appType: data.appBasic.appType,
+                              title: e.target.value,
+                              docType: data.appBasic.docType,
                             },
                           })
                         }
                       />
-                      {!data.appBasic.appName && hasError && (
+                      {!data.appBasic.title && hasError && (
                         <div className="fv-plugins-message-container">
                           <div
                             className="fv-help-block"
-                            data-field="appname"
+                            data-field="title"
                             data-validator="notEmpty"
                           >
                             App name is required
@@ -284,17 +284,17 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         <span className="form-check form-check-custom form-check-solid">
                           <input
                             checked={
-                              data.appBasic.appType === "Quick Online Courses"
+                              data.appBasic.docType === "Quick Online Courses"
                             }
                             className="form-check-input"
-                            name="appType"
+                            name="docType"
                             type="radio"
                             value="Quick Online Courses"
                             onChange={() =>
                               updateData({
                                 appBasic: {
-                                  appName: data.appBasic.appName,
-                                  appType: "Quick Online Courses",
+                                  title: data.appBasic.title,
+                                  docType: "Quick Online Courses",
                                 },
                               })
                             }
@@ -328,18 +328,18 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         <span className="form-check form-check-custom form-check-solid">
                           <input
                             checked={
-                              data.appBasic.appType ===
+                              data.appBasic.docType ===
                               "Face to Face Discussions"
                             }
                             className="form-check-input"
-                            name="appType"
+                            name="docType"
                             type="radio"
                             value="Face to Face Discussions"
                             onChange={() =>
                               updateData({
                                 appBasic: {
-                                  appName: data.appBasic.appName,
-                                  appType: "Face to Face Discussions",
+                                  title: data.appBasic.title,
+                                  docType: "Face to Face Discussions",
                                 },
                               })
                             }
@@ -373,17 +373,17 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         <span className="form-check form-check-custom form-check-solid">
                           <input
                             checked={
-                              data.appBasic.appType === "Full Intro Training"
+                              data.appBasic.docType === "Full Intro Training"
                             }
                             className="form-check-input"
-                            name="appType"
+                            name="docType"
                             type="radio"
                             value="Full Intro Training"
                             onChange={() =>
                               updateData({
                                 appBasic: {
-                                  appName: data.appBasic.appName,
-                                  appType: "Full Intro Training",
+                                  title: data.appBasic.title,
+                                  docType: "Full Intro Training",
                                 },
                               })
                             }
@@ -580,7 +580,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         <div className="fv-plugins-message-container">
                           <div
                             className="fv-help-block"
-                            data-field="appname"
+                            data-field="title"
                             data-validator="notEmpty"
                           >
                             Database name is required
@@ -851,8 +851,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     {/* begin::Section */}
                     <h4 className="fw-bolder mb-3">App Basics</h4>
                     <div className="text-gray-600 fw-bold lh-lg mb-8">
-                      <div>{data.appBasic.appName}</div>
-                      <div>{data.appBasic.appType}</div>
+                      <div>{data.appBasic.title}</div>
+                      <div>{data.appBasic.docType}</div>
                     </div>
                     {/* end::Section */}
 

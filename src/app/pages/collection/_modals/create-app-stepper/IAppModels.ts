@@ -1,9 +1,6 @@
 export interface IAppBasic {
-  appName: string;
-  appType:
-    | "Quick Online Courses"
-    | "Face to Face Discussions"
-    | "Full Intro Training";
+  title: string;
+  docType: string;
 }
 
 export type TAppFramework = "HTML5" | "ReactJS" | "Angular" | "Vue";
@@ -23,7 +20,7 @@ export interface ICreateAppData {
 }
 
 export const defaultCreateAppData: ICreateAppData = {
-  appBasic: { appName: "", appType: "Quick Online Courses" },
+  appBasic: { title: "", docType: "" },
   appFramework: "HTML5",
   appDatabase: { databaseName: "db_name", databaseSolution: "MySQL" },
   appStorage: "Basic Server",
