@@ -4,6 +4,11 @@ export interface IAppBasic {
   description: string;
   source: string;
   issuer: string;
+  newIssuer?: {
+    name?: string;
+    description?: string;
+    url?: string;
+  };
   fileUploaded: any;
   proof: any;
   takenProof: boolean;
@@ -33,6 +38,11 @@ export const defaultCreateAppData: ICreateAppData = {
     description: "",
     source: "",
     issuer: "",
+    newIssuer: {
+      name: "",
+      description: "",
+      url: "",
+    },
     fileUploaded: "",
     proof: "",
     takenProof: false,

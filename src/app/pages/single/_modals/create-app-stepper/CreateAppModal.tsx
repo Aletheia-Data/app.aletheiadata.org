@@ -570,8 +570,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                           updateData({
                             appDatabase: {
                               databaseName: e.target.value,
-                              issuer:
-                                data.appDatabase.issuer,
+                              issuer: data.appDatabase.issuer,
                             },
                           })
                         }
@@ -615,9 +614,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                         <span className="form-check form-check-custom form-check-solid">
                           <input
-                            checked={
-                              data.appDatabase.issuer === "MySQL"
-                            }
+                            checked={data.appDatabase.issuer === "MySQL"}
                             className="form-check-input"
                             name="issuer"
                             type="radio"
@@ -654,9 +651,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                         <span className="form-check form-check-custom form-check-solid">
                           <input
-                            checked={
-                              data.appDatabase.issuer === "Firebase"
-                            }
+                            checked={data.appDatabase.issuer === "Firebase"}
                             className="form-check-input"
                             name="issuer"
                             type="radio"
@@ -693,9 +688,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                         <span className="form-check form-check-custom form-check-solid">
                           <input
-                            checked={
-                              data.appDatabase.issuer === "DynamoDB"
-                            }
+                            checked={data.appDatabase.issuer === "DynamoDB"}
                             className="form-check-input"
                             name="issuer"
                             type="radio"
