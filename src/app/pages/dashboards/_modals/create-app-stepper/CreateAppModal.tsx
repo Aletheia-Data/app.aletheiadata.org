@@ -20,6 +20,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   const stepper = useRef<StepperComponent | null>(null);
   const [data, setData] = useState<ICreateAppData>(defaultCreateAppData);
   const [hasError, setHasError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [sources, setSources] = useState([]);
   const [srcSearchTerm, setSrcSearchTerm] = useState("");
@@ -49,27 +50,44 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   }, [newDep]);
 
   const searchSource = async (term: string) => {
+    setIsLoading(true);
     // const deps = await rapidAPI.get("/v2/open-data/departments/getAll", params);
-    getAllSourcesByName(term).then((deps) => {
-      const body = JSON.parse(deps.body);
-      // console.log(JSON.parse(deps.body));
-      setSources(JSON.parse(deps.body));
-      if (body.length === 0) {
-        setResultNotFound(true);
-      }
-    });
+    getAllSourcesByName(term)
+      .then((deps) => {
+        const body = JSON.parse(deps.body);
+        // console.log(JSON.parse(deps.body));
+        setSources(JSON.parse(deps.body));
+        if (body.length === 0) {
+          setResultNotFound(true);
+        }
+
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+
+        setIsLoading(true);
+      });
   };
 
   const searchDep = async (term: string) => {
+    setIsLoading(true);
     // const deps = await rapidAPI.get("/v2/open-data/departments/getAll", params);
-    getAllDepartmentsByName(term).then((deps) => {
-      const body = JSON.parse(deps.body);
-      console.log(JSON.parse(deps.body));
-      setDeps(JSON.parse(deps.body));
-      if (body.length === 0) {
-        setResultNotFound(true);
-      }
-    });
+    getAllDepartmentsByName(term)
+      .then((deps) => {
+        const body = JSON.parse(deps.body);
+        console.log(JSON.parse(deps.body));
+        setDeps(JSON.parse(deps.body));
+        if (body.length === 0) {
+          setResultNotFound(true);
+        }
+
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(true);
+      });
   };
 
   const loadStepper = () => {
@@ -362,7 +380,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
               {/*begin::Form */}
               <form
                 noValidate
-                className="pb-5 w-100 w-md-400px w-xl-500px"
+                className="pb-5 w-100 w-md-400px w-xl-500px d-flex flex-column justify-content-between"
                 id="kt_modal_create_app_form"
               >
                 {/*begin::Step 1 */}
@@ -723,7 +741,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     <div className="fv-row">
                       {srcSearchTerm &&
                         sources.map((source: any, i) => {
-                          console.log(source);
+                          console.log(data.appBasic.sourceId, source._id);
 
                           // limit to 5 results
                           if (i > 3) return;
@@ -769,6 +787,16 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                             </label>
                           );
                         })}
+
+                      {isLoading && (
+                        <span
+                          className="indicator-progress"
+                          style={{ display: "block" }}
+                        >
+                          Please wait...{" "}
+                          <span className="spinner-border spinner-border-sm align-middle ms-2" />
+                        </span>
+                      )}
 
                       {srcSearchTerm && resultNotFound && (
                         <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
@@ -997,6 +1025,16 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                             </label>
                           );
                         })}
+
+                      {isLoading && (
+                        <span
+                          className="indicator-progress"
+                          style={{ display: "block" }}
+                        >
+                          Please wait...{" "}
+                          <span className="spinner-border spinner-border-sm align-middle ms-2" />
+                        </span>
+                      )}
 
                       {depSearchTerm && resultNotFound && (
                         <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
