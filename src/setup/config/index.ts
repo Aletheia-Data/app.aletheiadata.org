@@ -35,6 +35,17 @@ const availableDocTypes = [
   },
 ];
 
+const rapidAPI = {
+  key: process.env.REACT_APP_RAPID_API_KEY || "",
+  endpoint:
+    process.env.REACT_APP_RAPID_API_ENDPOINT ||
+    "https://aletheia2.p.rapidapi.com",
+};
+
+if (!rapidAPI.key) console.warn("Missing Rapid API key!");
+if (!rapidAPI.endpoint) console.warn("Missing Rapid API endpoint!");
+
 export default {
   availableDocTypes,
+  rapidAPI,
 };

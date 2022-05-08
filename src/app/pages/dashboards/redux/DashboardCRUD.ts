@@ -4,10 +4,10 @@ import { DepartmentModel } from "../models/DepartmentModel";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 
-const API_URL = process.env.REACT_APP_API_ENDPOINT || "api";
+const API_URL = process.env.REACT_APP_ALETHEIA_API || "api";
 
-export const GET_ALL_DEPARTMENTS = `${API_URL}/departments`;
-export const GET_ALL_SOURCES = `${API_URL}/sources`;
+export const GET_ALL_DEPARTMENTS = `${API_URL}/v2/open-data/departments/getAll`;
+export const GET_ALL_SOURCES = `${API_URL}/v2/open-data/sources/getAll`;
 export const GET_ALL_FILES = `${API_URL}/alexandrias`;
 export const GET_ALL_PDF = `${API_URL}/alexandrias?type=pdf`;
 export const GET_ALL_IMPORTS = `${API_URL}/imports`;
@@ -30,11 +30,31 @@ export function getAllSources() {
     .then(data => data);
 }
 
+// sources by name
+export function getAllSourcesByName(name?: string) {
+  // Authorization head should be fulfilled in interceptor.
+  // Check common redux folder => setupAxios
+  const url = `${GET_ALL_SOURCES}?name=${name}`
+  return fetch(url)
+    .then(response => response.json())
+    .then(data => data);
+}
+
 // departments
 export function getAllDepartments() {
   // Authorization head should be fulfilled in interceptor.
   // Check common redux folder => setupAxios
   return fetch(`${GET_ALL_DEPARTMENTS}${DEFAULT_PAGINATION}`)
+    .then(response => response.json())
+    .then(data => data);
+}
+
+// departments by name
+export function getAllDepartmentsByName(name?: string) {
+  // Authorization head should be fulfilled in interceptor.
+  // Check common redux folder => setupAxios
+  const url = `${GET_ALL_DEPARTMENTS}?name=${name}`
+  return fetch(url)
     .then(response => response.json())
     .then(data => data);
 }

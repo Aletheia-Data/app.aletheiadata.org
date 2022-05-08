@@ -2,9 +2,11 @@
 import React, { useState, useRef } from "react";
 import { Modal } from "react-bootstrap-v5";
 import { StepperComponent } from "../../../../../_start/assets/ts/components";
-import { Ktsvg } from "../../../../../_start/helpers";
+import { Ktsvg, truncate } from "../../../../../_start/helpers";
 import { defaultCreateAppData, ICreateAppData } from "./IAppModels";
 import config from "../../../../../setup/config";
+// import rapidAPI from "../../../../../setup/rapidAPI";
+import { getAllSourcesByName } from "../../redux/DashboardCRUD";
 interface Props {
   show: boolean;
   handleClose: () => void;
@@ -15,6 +17,22 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   const stepper = useRef<StepperComponent | null>(null);
   const [data, setData] = useState<ICreateAppData>(defaultCreateAppData);
   const [hasError, setHasError] = useState(false);
+  const [departments, setDepartments] = useState([]);
+  const [depSearchTerm, setDepSearchTerm] = useState("");
+  const [resultNotFound, setResultNotFound] = useState(false);
+  console.log(departments);
+
+  const searchDepartment = async (term: string) => {
+    // const deps = await rapidAPI.get("/v2/open-data/departments/getAll", params);
+    getAllSourcesByName(term).then((deps) => {
+      const body = JSON.parse(deps.body);
+      // console.log(JSON.parse(deps.body));
+      setDepartments(JSON.parse(deps.body));
+      if (body.length === 0) {
+        setResultNotFound(true);
+      }
+    });
+  };
 
   const loadStepper = () => {
     stepper.current = StepperComponent.createInsance(
@@ -28,8 +46,6 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   };
 
   const checkAppBasic = (step: number): boolean => {
-    console.log(data.appBasic);
-
     switch (step) {
       case 1:
         if (!data.appBasic.title || !data.appBasic.docType) {
@@ -76,6 +92,12 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
   const submit = () => {
     window.location.reload();
+  };
+
+  const _handleKeyDown = (e: any) => {
+    if (e.key === "Enter") {
+      searchDepartment(depSearchTerm);
+    }
   };
 
   return (
@@ -421,127 +443,96 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     {/*end::Form Group */}
 
                     {/*begin::Form Group */}
-                    <div className="fv-row">
-                      <label className="fs-6 fw-bolder text-dark mb-7">
+                    <div className="fv-row mb-12">
+                      <label className="fs-6 fw-bolder text-dark form-label">
                         ¿Quien emitió esta información?
                       </label>
 
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-success">
-                              <i className="fas fa-database text-success fs-2x" />
-                            </span>
-                          </span>
+                      <input
+                        className="form-control form-control-lg form-control-solid"
+                        name="departmentSearch"
+                        placeholder="ejemplo: Ministerio de Relaciones Exteriores"
+                        type="text"
+                        value={depSearchTerm}
+                        onChange={(e) => {
+                          setDepartments([]);
+                          setResultNotFound(false);
+                          setDepSearchTerm(e.target.value);
+                        }}
+                        onKeyDown={_handleKeyDown}
+                      />
 
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">MySQL</span>
-                            <span className="fs-7 text-muted">
-                              Basic MySQL database
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={
-                              data.appDatabase.databaseSolution === "MySQL"
-                            }
-                            className="form-check-input"
-                            name="databaseSolution"
-                            type="radio"
-                            value="MySQL"
-                            onChange={() =>
-                              updateData({
-                                appDatabase: {
-                                  databaseName: data.appDatabase.databaseName,
-                                  databaseSolution: "MySQL",
-                                },
-                              })
-                            }
-                          />
-                        </span>
+                      <label className="text-muted mt-2 fw-bold fs-6 mt-3">
+                        Precione &apos;Enter&apos; para buscar
                       </label>
-                      {/*end::Option */}
+                    </div>
 
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-danger">
-                              <i className="fab fa-google text-danger fs-2x" />
+                    {/*begin::Form Group */}
+                    <div className="fv-row">
+                      {depSearchTerm &&
+                        departments.map((department: any, i) => {
+                          console.log(department);
+
+                          // limit to 5 results
+                          if (i > 3) return;
+
+                          return (
+                            <label
+                              key={`dep_${i}`}
+                              className="d-flex align-items-center justify-content-between cursor-pointer mb-6"
+                            >
+                              <span className="d-flex align-items-center me-2">
+                                <span className="d-flex flex-column">
+                                  <span className="fw-bolder fs-6">
+                                    {truncate(department.name, 50)}
+                                  </span>
+                                  <span className="fs-7 text-muted">
+                                    {truncate(
+                                      department?.description ||
+                                        department?.url,
+                                      120
+                                    )}
+                                  </span>
+                                </span>
+                              </span>
+
+                              <span className="form-check form-check-custom form-check-solid">
+                                <input
+                                  checked={
+                                    data.appBasic.issuer === department.id
+                                  }
+                                  className="form-check-input"
+                                  name="issuer"
+                                  type="radio"
+                                  value={department.id}
+                                  onChange={() =>
+                                    updateData({
+                                      appBasic: {
+                                        ...data.appBasic,
+                                        issuer: department.id,
+                                      },
+                                    })
+                                  }
+                                />
+                              </span>
+                            </label>
+                          );
+                        })}
+
+                      {depSearchTerm && resultNotFound && (
+                        <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
+                          <span className="d-flex align-items-center me-2">
+                            <span className="d-flex flex-column">
+                              <span className="fw-bolder fs-6">
+                                No result matching
+                              </span>
+                              <span className="fs-7 text-muted">
+                                retry with something else
+                              </span>
                             </span>
                           </span>
-
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">Firebase</span>
-                            <span className="fs-7 text-muted">
-                              Google based app data management
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={
-                              data.appDatabase.databaseSolution === "Firebase"
-                            }
-                            className="form-check-input"
-                            name="databaseSolution"
-                            type="radio"
-                            value="Firebase"
-                            onChange={() =>
-                              updateData({
-                                appDatabase: {
-                                  databaseName: data.appDatabase.databaseName,
-                                  databaseSolution: "Firebase",
-                                },
-                              })
-                            }
-                          />
-                        </span>
-                      </label>
-                      {/*end::Option */}
-
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-warning">
-                              <i className="fab fa-amazon text-warning fs-2x" />
-                            </span>
-                          </span>
-
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">DynamoDB</span>
-                            <span className="fs-7 text-muted">
-                              Amazon Fast NoSQL Database
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={
-                              data.appDatabase.databaseSolution === "DynamoDB"
-                            }
-                            className="form-check-input"
-                            name="databaseSolution"
-                            type="radio"
-                            value="DynamoDB"
-                            onChange={() =>
-                              updateData({
-                                appDatabase: {
-                                  databaseName: data.appDatabase.databaseName,
-                                  databaseSolution: "DynamoDB",
-                                },
-                              })
-                            }
-                          />
-                        </span>
-                      </label>
-                      {/*end::Option */}
+                        </label>
+                      )}
                     </div>
                     {/*end::Form Group */}
                   </div>
@@ -697,7 +688,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     <h4 className="fw-bolder mb-3">App Database</h4>
                     <div className="text-gray-600 fw-bold lh-lg mb-8">
                       <div>{data.appDatabase.databaseName}</div>
-                      <div>{data.appDatabase.databaseSolution}</div>
+                      <div>{data.appDatabase.issuer}</div>
                     </div>
                     {/* end::Section */}
 

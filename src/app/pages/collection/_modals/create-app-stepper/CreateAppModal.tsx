@@ -36,7 +36,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   };
 
   const checkAppDataBase = (): boolean => {
-    if (!data.appDatabase.databaseName || !data.appDatabase.databaseSolution) {
+    if (!data.appDatabase.databaseName || !data.appDatabase.issuer) {
       return false;
     }
 
@@ -570,8 +570,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                           updateData({
                             appDatabase: {
                               databaseName: e.target.value,
-                              databaseSolution:
-                                data.appDatabase.databaseSolution,
+                              issuer: data.appDatabase.issuer,
                             },
                           })
                         }
@@ -615,18 +614,16 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                         <span className="form-check form-check-custom form-check-solid">
                           <input
-                            checked={
-                              data.appDatabase.databaseSolution === "MySQL"
-                            }
+                            checked={data.appDatabase.issuer === "MySQL"}
                             className="form-check-input"
-                            name="databaseSolution"
+                            name="issuer"
                             type="radio"
                             value="MySQL"
                             onChange={() =>
                               updateData({
                                 appDatabase: {
                                   databaseName: data.appDatabase.databaseName,
-                                  databaseSolution: "MySQL",
+                                  issuer: "MySQL",
                                 },
                               })
                             }
@@ -654,18 +651,16 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                         <span className="form-check form-check-custom form-check-solid">
                           <input
-                            checked={
-                              data.appDatabase.databaseSolution === "Firebase"
-                            }
+                            checked={data.appDatabase.issuer === "Firebase"}
                             className="form-check-input"
-                            name="databaseSolution"
+                            name="issuer"
                             type="radio"
                             value="Firebase"
                             onChange={() =>
                               updateData({
                                 appDatabase: {
                                   databaseName: data.appDatabase.databaseName,
-                                  databaseSolution: "Firebase",
+                                  issuer: "Firebase",
                                 },
                               })
                             }
@@ -693,18 +688,16 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                         <span className="form-check form-check-custom form-check-solid">
                           <input
-                            checked={
-                              data.appDatabase.databaseSolution === "DynamoDB"
-                            }
+                            checked={data.appDatabase.issuer === "DynamoDB"}
                             className="form-check-input"
-                            name="databaseSolution"
+                            name="issuer"
                             type="radio"
                             value="DynamoDB"
                             onChange={() =>
                               updateData({
                                 appDatabase: {
                                   databaseName: data.appDatabase.databaseName,
-                                  databaseSolution: "DynamoDB",
+                                  issuer: "DynamoDB",
                                 },
                               })
                             }
@@ -867,7 +860,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     <h4 className="fw-bolder mb-3">App Database</h4>
                     <div className="text-gray-600 fw-bold lh-lg mb-8">
                       <div>{data.appDatabase.databaseName}</div>
-                      <div>{data.appDatabase.databaseSolution}</div>
+                      <div>{data.appDatabase.issuer}</div>
                     </div>
                     {/* end::Section */}
 
