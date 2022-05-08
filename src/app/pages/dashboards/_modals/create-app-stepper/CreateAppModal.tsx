@@ -6,7 +6,10 @@ import { Ktsvg, truncate } from "../../../../../_start/helpers";
 import { defaultCreateAppData, ICreateAppData } from "./IAppModels";
 import config from "../../../../../setup/config";
 // import rapidAPI from "../../../../../setup/rapidAPI";
-import { getAllSourcesByName } from "../../redux/DashboardCRUD";
+import {
+  getAllSourcesByName,
+  getAllDepartmentsByName,
+} from "../../redux/DashboardCRUD";
 interface Props {
   show: boolean;
   handleClose: () => void;
@@ -17,18 +20,33 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   const stepper = useRef<StepperComponent | null>(null);
   const [data, setData] = useState<ICreateAppData>(defaultCreateAppData);
   const [hasError, setHasError] = useState(false);
+
   const [sources, setSources] = useState([]);
   const [srcSearchTerm, setSrcSearchTerm] = useState("");
+
   const [newSrc, setNewSrc] = useState(false);
   const [newSrcName, setNewSrcName] = useState("");
   const [newSrcDesc, setNewSrcDesc] = useState("");
   const [newSrcUrl, setNewSrcUrl] = useState("");
+
+  const [deps, setDeps] = useState([]);
+  const [depSearchTerm, setDepSearchTerm] = useState("");
+
+  const [newDep, setNewDep] = useState(false);
+  const [newDepName, setNewDepName] = useState("");
+  const [newDepDesc, setNewDepDesc] = useState("");
+  const [newDepUrl, setNewDepUrl] = useState("");
+
   const [resultNotFound, setResultNotFound] = useState(false);
   console.log(sources);
 
   useEffect(() => {
-    reset();
+    reset(3);
   }, [newSrc]);
+
+  useEffect(() => {
+    reset(4);
+  }, [newDep]);
 
   const searchSource = async (term: string) => {
     // const deps = await rapidAPI.get("/v2/open-data/departments/getAll", params);
@@ -36,6 +54,18 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
       const body = JSON.parse(deps.body);
       // console.log(JSON.parse(deps.body));
       setSources(JSON.parse(deps.body));
+      if (body.length === 0) {
+        setResultNotFound(true);
+      }
+    });
+  };
+
+  const searchDep = async (term: string) => {
+    // const deps = await rapidAPI.get("/v2/open-data/departments/getAll", params);
+    getAllDepartmentsByName(term).then((deps) => {
+      const body = JSON.parse(deps.body);
+      console.log(JSON.parse(deps.body));
+      setDeps(JSON.parse(deps.body));
       if (body.length === 0) {
         setResultNotFound(true);
       }
@@ -56,8 +86,21 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   const checkAppBasic = (step: number): boolean => {
     console.log(data.appBasic);
 
-    const checkIssuer = () => {
+    const checkSource = () => {
       if (newSrc) {
+        // checking
+        return !data.appBasic?.newSource?.name ||
+          !data.appBasic?.newSource?.description ||
+          !data.appBasic?.newSource?.url
+          ? false
+          : true;
+      } else {
+        return !data.appBasic.sourceId ? false : true;
+      }
+    };
+
+    const checkDep = () => {
+      if (newDep) {
         // checking
         return !data.appBasic?.newIssuer?.name ||
           !data.appBasic?.newIssuer?.description ||
@@ -65,11 +108,11 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
           ? false
           : true;
       } else {
-        return !data.appBasic.issuer ? false : true;
+        return !data.appBasic.issuerId ? false : true;
       }
     };
 
-    console.log(newSrc, checkIssuer());
+    console.log(newSrc, checkSource());
 
     switch (step) {
       case 1:
@@ -83,7 +126,12 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
         }
         break;
       case 3:
-        if (!data.appBasic.source || !checkIssuer()) {
+        if (!data.appBasic.docSource || !checkSource()) {
+          return false;
+        }
+        break;
+      case 4:
+        if (!checkDep()) {
           return false;
         }
         break;
@@ -119,26 +167,54 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
     window.location.reload();
   };
 
-  const _handleKeyDown = (e: any) => {
+  const _handleKeyDownSrc = (e: any) => {
     if (e.key === "Enter") {
       searchSource(srcSearchTerm);
     }
   };
 
-  const reset = () => {
-    setSrcSearchTerm("");
-    setSources([]);
+  const _handleKeyDownDep = (e: any) => {
+    if (e.key === "Enter") {
+      searchDep(depSearchTerm);
+    }
+  };
+
+  const reset = (step: number) => {
     setResultNotFound(false);
-    setNewSrcName("");
-    setNewSrcDesc("");
-    setNewSrcUrl("");
-    updateData({
-      appBasic: {
-        ...data.appBasic,
-        issuer: "",
-        newIssuer: {},
-      },
-    });
+
+    switch (step) {
+      case 3:
+        setSrcSearchTerm("");
+        setSources([]);
+        setNewSrcName("");
+        setNewSrcDesc("");
+        setNewSrcUrl("");
+        updateData({
+          appBasic: {
+            ...data.appBasic,
+            sourceId: "",
+            newSource: {},
+          },
+        });
+        break;
+      case 4:
+        setDepSearchTerm("");
+        setDeps([]);
+        setNewDepName("");
+        setNewDepDesc("");
+        setNewDepUrl("");
+        updateData({
+          appBasic: {
+            ...data.appBasic,
+            issuerId: "",
+            newIssuer: {},
+          },
+        });
+        break;
+      default:
+        break;
+    }
+
     setHasError(false);
   };
 
@@ -477,17 +553,17 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         name="source"
                         placeholder="example: https://www.aletheia.org/very-important.pdf"
                         type="text"
-                        value={data.appBasic.source}
+                        value={data.appBasic.docSource}
                         onChange={(e) =>
                           updateData({
                             appBasic: {
                               ...data.appBasic,
-                              source: e.target.value,
+                              docSource: e.target.value,
                             },
                           })
                         }
                       />
-                      {!data.appBasic.source && hasError && (
+                      {!data.appBasic.docSource && hasError && (
                         <div className="fv-plugins-message-container">
                           <div
                             className="fv-help-block"
@@ -534,26 +610,26 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                             type="text"
                             value={srcSearchTerm}
                             onChange={(e) => {
-                              reset();
+                              reset(3);
                               setSrcSearchTerm(e.target.value);
                             }}
-                            onKeyDown={_handleKeyDown}
+                            onKeyDown={_handleKeyDownSrc}
                           />
 
-                          {!data.appBasic.issuer && !hasError && (
+                          {!data.appBasic.sourceId && !hasError && (
                             <label className="text-muted mt-2 fw-bold fs-6 mt-3">
                               Precione &apos;Enter&apos; para buscar
                             </label>
                           )}
 
-                          {!data.appBasic.issuer && hasError && (
+                          {!data.appBasic.sourceId && hasError && (
                             <div className="fv-plugins-message-container">
                               <div
                                 className="fv-help-block"
                                 data-field="title"
                                 data-validator="notEmpty"
                               >
-                                Issuer is required
+                                sourceId is required
                               </div>
                             </div>
                           )}
@@ -573,8 +649,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                               updateData({
                                 appBasic: {
                                   ...data.appBasic,
-                                  newIssuer: {
-                                    ...data.appBasic.newIssuer,
+                                  newSource: {
+                                    ...data.appBasic.newSource,
                                     name: e.target.value,
                                   },
                                 },
@@ -594,8 +670,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                               updateData({
                                 appBasic: {
                                   ...data.appBasic,
-                                  newIssuer: {
-                                    ...data.appBasic.newIssuer,
+                                  newSource: {
+                                    ...data.appBasic.newSource,
                                     description: e.target.value,
                                   },
                                 },
@@ -616,8 +692,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                               updateData({
                                 appBasic: {
                                   ...data.appBasic,
-                                  newIssuer: {
-                                    ...data.appBasic.newIssuer,
+                                  newSource: {
+                                    ...data.appBasic.newSource,
                                     url: e.target.value,
                                   },
                                 },
@@ -625,9 +701,9 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                             }}
                           />
 
-                          {(!data.appBasic?.newIssuer?.name ||
-                            !data.appBasic?.newIssuer?.description ||
-                            !data.appBasic?.newIssuer?.url) &&
+                          {(!data.appBasic?.newSource?.name ||
+                            !data.appBasic?.newSource?.description ||
+                            !data.appBasic?.newSource?.url) &&
                             hasError && (
                               <div className="fv-plugins-message-container">
                                 <div
@@ -654,7 +730,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                           return (
                             <label
-                              key={`dep_${i}`}
+                              key={`src_${i}`}
                               className="d-flex align-items-center justify-content-between cursor-pointer mb-6"
                             >
                               <span className="d-flex align-items-center me-2">
@@ -673,16 +749,18 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                               <span className="form-check form-check-custom form-check-solid">
                                 <input
-                                  checked={data.appBasic.issuer === source._id}
+                                  checked={
+                                    data.appBasic.sourceId === source._id
+                                  }
                                   className="form-check-input"
-                                  name="issuer"
+                                  name="sourceId"
                                   type="radio"
                                   value={source._id}
                                   onChange={() =>
                                     updateData({
                                       appBasic: {
                                         ...data.appBasic,
-                                        issuer: source._id,
+                                        sourceId: source._id,
                                       },
                                     })
                                   }
@@ -738,11 +816,11 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                         <div>
                           <input
-                            checked={newSrc}
+                            checked={newDep}
                             className="form-check-input me-3"
-                            id="newSrc"
+                            id="newDep"
                             type="checkbox"
-                            onChange={() => setNewSrc(!newSrc)}
+                            onChange={() => setNewDep(!newDep)}
                           />
                           <label
                             className="form-check-label fw-bold text-gray-600"
@@ -753,51 +831,51 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         </div>
                       </div>
 
-                      {!newSrc && (
+                      {!newDep && (
                         <>
                           <input
                             className="form-control form-control-lg form-control-solid"
-                            name="sourceSearch"
+                            name="depSearch"
                             placeholder="ejemplo: Ministerio de Relaciones Exteriores"
                             type="text"
-                            value={srcSearchTerm}
+                            value={depSearchTerm}
                             onChange={(e) => {
-                              reset();
-                              setSrcSearchTerm(e.target.value);
+                              reset(4);
+                              setDepSearchTerm(e.target.value);
                             }}
-                            onKeyDown={_handleKeyDown}
+                            onKeyDown={_handleKeyDownDep}
                           />
 
-                          {!data.appBasic.issuer && !hasError && (
+                          {!data.appBasic.issuerId && !hasError && (
                             <label className="text-muted mt-2 fw-bold fs-6 mt-3">
                               Precione &apos;Enter&apos; para buscar
                             </label>
                           )}
 
-                          {!data.appBasic.issuer && hasError && (
+                          {!data.appBasic.issuerId && hasError && (
                             <div className="fv-plugins-message-container">
                               <div
                                 className="fv-help-block"
                                 data-field="title"
                                 data-validator="notEmpty"
                               >
-                                Issuer is required
+                                issuerId is required
                               </div>
                             </div>
                           )}
                         </>
                       )}
 
-                      {newSrc && (
+                      {newDep && (
                         <>
                           <input
                             className="form-control form-control-lg form-control-solid"
-                            name="srcName"
+                            name="depName"
                             placeholder="Nombre"
                             type="text"
-                            value={newSrcName}
+                            value={newDepName}
                             onChange={(e) => {
-                              setNewSrcName(e.target.value);
+                              setNewDepName(e.target.value);
                               updateData({
                                 appBasic: {
                                   ...data.appBasic,
@@ -816,9 +894,9 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                             className="form-control form-control-lg form-control-solid"
                             placeholder="Descripción"
                             rows={3}
-                            value={newSrcDesc}
+                            value={newDepDesc}
                             onChange={(e) => {
-                              setNewSrcDesc(e.target.value);
+                              setNewDepDesc(e.target.value);
                               updateData({
                                 appBasic: {
                                   ...data.appBasic,
@@ -835,12 +913,12 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                           <input
                             className="form-control form-control-lg form-control-solid"
-                            name="newSrcUrl"
+                            name="newDepUrl"
                             placeholder="Website"
                             type="text"
-                            value={newSrcUrl}
+                            value={newDepUrl}
                             onChange={(e) => {
-                              setNewSrcUrl(e.target.value);
+                              setNewDepUrl(e.target.value);
                               updateData({
                                 appBasic: {
                                   ...data.appBasic,
@@ -873,9 +951,9 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                     {/*begin::Form Group */}
                     <div className="fv-row">
-                      {srcSearchTerm &&
-                        sources.map((source: any, i) => {
-                          console.log(source);
+                      {depSearchTerm &&
+                        deps.map((dep: any, i) => {
+                          console.log(dep);
 
                           // limit to 5 results
                           if (i > 3) return;
@@ -888,11 +966,11 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                               <span className="d-flex align-items-center me-2">
                                 <span className="d-flex flex-column">
                                   <span className="fw-bolder fs-6">
-                                    {truncate(source.name, 50)}
+                                    {truncate(dep.name, 50)}
                                   </span>
                                   <span className="fs-7 text-muted">
                                     {truncate(
-                                      source?.description || source?.url,
+                                      dep?.desciption || dep?.website,
                                       120
                                     )}
                                   </span>
@@ -901,16 +979,16 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                               <span className="form-check form-check-custom form-check-solid">
                                 <input
-                                  checked={data.appBasic.issuer === source._id}
+                                  checked={data.appBasic.issuerId === dep._id}
                                   className="form-check-input"
-                                  name="issuer"
+                                  name="issuerId"
                                   type="radio"
-                                  value={source._id}
+                                  value={dep._id}
                                   onChange={() =>
                                     updateData({
                                       appBasic: {
                                         ...data.appBasic,
-                                        issuer: source._id,
+                                        issuerId: dep._id,
                                       },
                                     })
                                   }
@@ -920,7 +998,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                           );
                         })}
 
-                      {srcSearchTerm && resultNotFound && (
+                      {depSearchTerm && resultNotFound && (
                         <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
                           <span className="d-flex align-items-center me-2">
                             <span className="d-flex flex-column">
@@ -933,7 +1011,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                                 Intentalo nuevamente, o crea una{" "}
                                 <span
                                   className="text-primary"
-                                  onClick={() => setNewSrc(true)}
+                                  onClick={() => setNewDep(true)}
                                 >
                                   nueva entrada
                                 </span>
@@ -992,26 +1070,26 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                             type="text"
                             value={srcSearchTerm}
                             onChange={(e) => {
-                              reset();
+                              reset(3);
                               setSrcSearchTerm(e.target.value);
                             }}
-                            onKeyDown={_handleKeyDown}
+                            onKeyDown={_handleKeyDownSrc}
                           />
 
-                          {!data.appBasic.issuer && !hasError && (
+                          {!data.appBasic.sourceId && !hasError && (
                             <label className="text-muted mt-2 fw-bold fs-6 mt-3">
                               Precione &apos;Enter&apos; para buscar
                             </label>
                           )}
 
-                          {!data.appBasic.issuer && hasError && (
+                          {!data.appBasic.sourceId && hasError && (
                             <div className="fv-plugins-message-container">
                               <div
                                 className="fv-help-block"
                                 data-field="title"
                                 data-validator="notEmpty"
                               >
-                                Issuer is required
+                                sourceId is required
                               </div>
                             </div>
                           )}
@@ -1031,8 +1109,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                               updateData({
                                 appBasic: {
                                   ...data.appBasic,
-                                  newIssuer: {
-                                    ...data.appBasic.newIssuer,
+                                  newSource: {
+                                    ...data.appBasic.newSource,
                                     name: e.target.value,
                                   },
                                 },
@@ -1052,8 +1130,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                               updateData({
                                 appBasic: {
                                   ...data.appBasic,
-                                  newIssuer: {
-                                    ...data.appBasic.newIssuer,
+                                  newSource: {
+                                    ...data.appBasic.newSource,
                                     description: e.target.value,
                                   },
                                 },
@@ -1074,8 +1152,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                               updateData({
                                 appBasic: {
                                   ...data.appBasic,
-                                  newIssuer: {
-                                    ...data.appBasic.newIssuer,
+                                  newSource: {
+                                    ...data.appBasic.newSource,
                                     url: e.target.value,
                                   },
                                 },
@@ -1083,9 +1161,9 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                             }}
                           />
 
-                          {(!data.appBasic?.newIssuer?.name ||
-                            !data.appBasic?.newIssuer?.description ||
-                            !data.appBasic?.newIssuer?.url) &&
+                          {(!data.appBasic?.newSource?.name ||
+                            !data.appBasic?.newSource?.description ||
+                            !data.appBasic?.newSource?.url) &&
                             hasError && (
                               <div className="fv-plugins-message-container">
                                 <div
@@ -1131,16 +1209,18 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                               <span className="form-check form-check-custom form-check-solid">
                                 <input
-                                  checked={data.appBasic.issuer === source._id}
+                                  checked={
+                                    data.appBasic.sourceId === source._id
+                                  }
                                   className="form-check-input"
-                                  name="issuer"
+                                  name="sourceId"
                                   type="radio"
                                   value={source._id}
                                   onChange={() =>
                                     updateData({
                                       appBasic: {
                                         ...data.appBasic,
-                                        issuer: source._id,
+                                        sourceId: source._id,
                                       },
                                     })
                                   }
@@ -1211,7 +1291,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     <h4 className="fw-bolder mb-3">App Database</h4>
                     <div className="text-gray-600 fw-bold lh-lg mb-8">
                       <div>{data.appDatabase.databaseName}</div>
-                      <div>{data.appDatabase.issuer}</div>
+                      <div>{data.appDatabase.sourceId}</div>
                     </div>
                     {/* end::Section */}
 

@@ -2,8 +2,14 @@ export interface IAppBasic {
   title: string;
   docType: string;
   description: string;
-  source: string;
-  issuer: string;
+  docSource: string;
+  sourceId: string;
+  newSource?: {
+    name?: string;
+    description?: string;
+    url?: string;
+  };
+  issuerId: string;
   newIssuer?: {
     name?: string;
     description?: string;
@@ -19,7 +25,7 @@ export type TAppFramework = "HTML5" | "ReactJS" | "Angular" | "Vue";
 
 export interface IAppDatabase {
   databaseName: string;
-  issuer: "MySQL" | "Firebase" | "DynamoDB";
+  sourceId: "MySQL" | "Firebase" | "DynamoDB";
 }
 
 export type TAppStorage = "Basic Server" | "AWS" | "Google";
@@ -36,8 +42,14 @@ export const defaultCreateAppData: ICreateAppData = {
     title: "",
     docType: "",
     description: "",
-    source: "",
-    issuer: "",
+    docSource: "",
+    sourceId: "",
+    newSource: {
+      name: "",
+      description: "",
+      url: "",
+    },
+    issuerId: "",
     newIssuer: {
       name: "",
       description: "",
@@ -49,6 +61,6 @@ export const defaultCreateAppData: ICreateAppData = {
     owner: "",
   },
   appFramework: "HTML5",
-  appDatabase: { databaseName: "db_name", issuer: "MySQL" },
+  appDatabase: { databaseName: "db_name", sourceId: "MySQL" },
   appStorage: "Basic Server",
 };
