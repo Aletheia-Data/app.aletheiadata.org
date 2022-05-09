@@ -10,6 +10,7 @@ import {
   getAllSourcesByName,
   getAllDepartmentsByName,
 } from "../../redux/DashboardCRUD";
+import { validURL } from "_start/helpers/ValidateURL";
 interface Props {
   show: boolean;
   handleClose: () => void;
@@ -26,17 +27,11 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   const [srcSearchTerm, setSrcSearchTerm] = useState("");
 
   const [newSrc, setNewSrc] = useState(false);
-  const [newSrcName, setNewSrcName] = useState("");
-  const [newSrcDesc, setNewSrcDesc] = useState("");
-  const [newSrcUrl, setNewSrcUrl] = useState("");
 
   const [deps, setDeps] = useState([]);
   const [depSearchTerm, setDepSearchTerm] = useState("");
 
   const [newDep, setNewDep] = useState(false);
-  const [newDepName, setNewDepName] = useState("");
-  const [newDepDesc, setNewDepDesc] = useState("");
-  const [newDepUrl, setNewDepUrl] = useState("");
 
   const [resultNotFound, setResultNotFound] = useState(false);
   console.log(sources);
@@ -109,7 +104,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
         // checking
         return !data.appBasic?.newSource?.name ||
           !data.appBasic?.newSource?.description ||
-          !data.appBasic?.newSource?.url
+          !data.appBasic?.newSource?.url ||
+          !validURL(data.appBasic?.newSource?.url)
           ? false
           : true;
       } else {
@@ -122,7 +118,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
         // checking
         return !data.appBasic?.newIssuer?.name ||
           !data.appBasic?.newIssuer?.description ||
-          !data.appBasic?.newIssuer?.url
+          !data.appBasic?.newIssuer?.url ||
+          !validURL(data.appBasic?.newIssuer?.url)
           ? false
           : true;
       } else {
@@ -130,26 +127,40 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
       }
     };
 
-    console.log(newSrc, checkSource());
-
     switch (step) {
       case 1:
-        if (!data.appBasic.title || !data.appBasic.docType) {
+        if (
+          !data.appBasic.title ||
+          data.appBasic.title.length < 20 ||
+          !data.appBasic.docType
+        ) {
           return false;
         }
         break;
       case 2:
-        if (!data.appBasic.description) {
+        if (
+          !data.appBasic.description ||
+          data.appBasic.description.length < 100
+        ) {
           return false;
         }
         break;
       case 3:
-        if (!data.appBasic.docSource || !checkSource()) {
+        if (
+          !data.appBasic.docSource ||
+          !validURL(data.appBasic.docSource) ||
+          !checkSource()
+        ) {
           return false;
         }
         break;
       case 4:
         if (!checkDep()) {
+          return false;
+        }
+        break;
+      case 5:
+        if (!data.appBasic.fileUploaded || !data.appBasic.proof) {
           return false;
         }
         break;
@@ -182,7 +193,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   };
 
   const submit = () => {
-    window.location.reload();
+    console.log(data.appBasic);
   };
 
   const _handleKeyDownSrc = (e: any) => {
@@ -204,13 +215,11 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
       case 3:
         setSrcSearchTerm("");
         setSources([]);
-        setNewSrcName("");
-        setNewSrcDesc("");
-        setNewSrcUrl("");
         updateData({
           appBasic: {
             ...data.appBasic,
             sourceId: "",
+            sourceInfo: {},
             newSource: {},
           },
         });
@@ -218,13 +227,11 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
       case 4:
         setDepSearchTerm("");
         setDeps([]);
-        setNewDepName("");
-        setNewDepDesc("");
-        setNewDepUrl("");
         updateData({
           appBasic: {
             ...data.appBasic,
             issuerId: "",
+            issuerInfo: {},
             newIssuer: {},
           },
         });
@@ -425,6 +432,18 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                           </div>
                         </div>
                       )}
+
+                      {data.appBasic.title.length < 20 && hasError && (
+                        <div className="fv-plugins-message-container">
+                          <div
+                            className="fv-help-block"
+                            data-field="title"
+                            data-validator="notEmpty"
+                          >
+                            Title must be at least 20 characters
+                          </div>
+                        </div>
+                      )}
                     </div>
                     {/*end::Form Group */}
 
@@ -548,6 +567,18 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                         </div>
                       </div>
                     )}
+
+                    {data.appBasic.description.length < 100 && hasError && (
+                      <div className="fv-plugins-message-container">
+                        <div
+                          className="fv-help-block"
+                          data-field="title"
+                          data-validator="notEmpty"
+                        >
+                          Description must be at least 100 characters
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
                 {/*end::Step 2 */}
@@ -588,10 +619,24 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                             data-field="title"
                             data-validator="notEmpty"
                           >
-                            Source is required
+                            Source URL is required
                           </div>
                         </div>
                       )}
+
+                      {data.appBasic.docSource &&
+                        !validURL(data.appBasic.docSource) &&
+                        hasError && (
+                          <div className="fv-plugins-message-container">
+                            <div
+                              className="fv-help-block"
+                              data-field="title"
+                              data-validator="notEmpty"
+                            >
+                              Source is not a valid URL
+                            </div>
+                          </div>
+                        )}
                     </div>
                     {/*end::Form Group */}
 
@@ -634,11 +679,9 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                             onKeyDown={_handleKeyDownSrc}
                           />
 
-                          {!data.appBasic.sourceId && !hasError && (
-                            <label className="text-muted mt-2 fw-bold fs-6 mt-3">
-                              Precione &apos;Enter&apos; para buscar
-                            </label>
-                          )}
+                          <label className="text-muted mt-2 fw-bold fs-6 mt-3">
+                            Precione &apos;Enter&apos; para buscar
+                          </label>
 
                           {!data.appBasic.sourceId && hasError && (
                             <div className="fv-plugins-message-container">
@@ -647,7 +690,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                                 data-field="title"
                                 data-validator="notEmpty"
                               >
-                                sourceId is required
+                                Source is required
                               </div>
                             </div>
                           )}
@@ -661,9 +704,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                             name="srcName"
                             placeholder="Nombre"
                             type="text"
-                            value={newSrcName}
+                            value={data.appBasic.newSource?.name}
                             onChange={(e) => {
-                              setNewSrcName(e.target.value);
                               updateData({
                                 appBasic: {
                                   ...data.appBasic,
@@ -682,9 +724,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                             className="form-control form-control-lg form-control-solid"
                             placeholder="Descripción"
                             rows={3}
-                            value={newSrcDesc}
+                            value={data.appBasic.newSource?.description}
                             onChange={(e) => {
-                              setNewSrcDesc(e.target.value);
                               updateData({
                                 appBasic: {
                                   ...data.appBasic,
@@ -704,9 +745,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                             name="newSrcUrl"
                             placeholder="Website"
                             type="text"
-                            value={newSrcUrl}
+                            value={data.appBasic.newSource?.url}
                             onChange={(e) => {
-                              setNewSrcUrl(e.target.value);
                               updateData({
                                 appBasic: {
                                   ...data.appBasic,
@@ -730,6 +770,20 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                                   data-validator="notEmpty"
                                 >
                                   All information is required
+                                </div>
+                              </div>
+                            )}
+
+                          {data.appBasic?.newSource?.url &&
+                            !validURL(data.appBasic?.newSource?.url) &&
+                            hasError && (
+                              <div className="fv-plugins-message-container">
+                                <div
+                                  className="fv-help-block"
+                                  data-field="title"
+                                  data-validator="notEmpty"
+                                >
+                                  This URL is not valid
                                 </div>
                               </div>
                             )}
@@ -774,14 +828,20 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                                   name="sourceId"
                                   type="radio"
                                   value={source._id}
-                                  onChange={() =>
+                                  onChange={() => {
+                                    setSrcSearchTerm(source.name);
                                     updateData({
                                       appBasic: {
                                         ...data.appBasic,
                                         sourceId: source._id,
+                                        sourceInfo: {
+                                          name: source.name,
+                                          description: source.description,
+                                          url: source.url || source.website,
+                                        },
                                       },
-                                    })
-                                  }
+                                    });
+                                  }}
                                 />
                               </span>
                             </label>
@@ -874,11 +934,9 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                             onKeyDown={_handleKeyDownDep}
                           />
 
-                          {!data.appBasic.issuerId && !hasError && (
-                            <label className="text-muted mt-2 fw-bold fs-6 mt-3">
-                              Precione &apos;Enter&apos; para buscar
-                            </label>
-                          )}
+                          <label className="text-muted mt-2 fw-bold fs-6 mt-3">
+                            Precione &apos;Enter&apos; para buscar
+                          </label>
 
                           {!data.appBasic.issuerId && hasError && (
                             <div className="fv-plugins-message-container">
@@ -901,9 +959,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                             name="depName"
                             placeholder="Nombre"
                             type="text"
-                            value={newDepName}
+                            value={data.appBasic.newIssuer?.name}
                             onChange={(e) => {
-                              setNewDepName(e.target.value);
                               updateData({
                                 appBasic: {
                                   ...data.appBasic,
@@ -922,9 +979,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                             className="form-control form-control-lg form-control-solid"
                             placeholder="Descripción"
                             rows={3}
-                            value={newDepDesc}
+                            value={data.appBasic.newIssuer?.description}
                             onChange={(e) => {
-                              setNewDepDesc(e.target.value);
                               updateData({
                                 appBasic: {
                                   ...data.appBasic,
@@ -944,9 +1000,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                             name="newDepUrl"
                             placeholder="Website"
                             type="text"
-                            value={newDepUrl}
+                            value={data.appBasic.newIssuer?.url}
                             onChange={(e) => {
-                              setNewDepUrl(e.target.value);
                               updateData({
                                 appBasic: {
                                   ...data.appBasic,
@@ -973,6 +1028,20 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                                 </div>
                               </div>
                             )}
+
+                          {data.appBasic?.newIssuer?.url &&
+                            !validURL(data.appBasic?.newIssuer?.url) &&
+                            hasError && (
+                              <div className="fv-plugins-message-container">
+                                <div
+                                  className="fv-help-block"
+                                  data-field="title"
+                                  data-validator="notEmpty"
+                                >
+                                  This URL is not valid
+                                </div>
+                              </div>
+                            )}
                         </>
                       )}
                     </div>
@@ -981,8 +1050,6 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     <div className="fv-row">
                       {depSearchTerm &&
                         deps.map((dep: any, i) => {
-                          console.log(dep);
-
                           // limit to 5 results
                           if (i > 3) return;
 
@@ -1012,14 +1079,20 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                                   name="issuerId"
                                   type="radio"
                                   value={dep._id}
-                                  onChange={() =>
+                                  onChange={() => {
+                                    setDepSearchTerm(dep.name);
                                     updateData({
                                       appBasic: {
                                         ...data.appBasic,
                                         issuerId: dep._id,
+                                        issuerInfo: {
+                                          name: dep.name,
+                                          description: dep.desciption,
+                                          url: dep.url || dep.website,
+                                        },
                                       },
-                                    })
-                                  }
+                                    });
+                                  }}
                                 />
                               </span>
                             </label>
@@ -1079,219 +1152,78 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     <div className="fv-row mb-12">
                       <div className="fv-row mb-2 d-flex justify-content-between">
                         <label className="fs-6 fw-bolder text-dark form-label">
-                          ¿Quien emitió esta información?
+                          Ingrese el archivo que desea compartir
                         </label>
-
-                        <div>
-                          <input
-                            checked={newSrc}
-                            className="form-check-input me-3"
-                            id="newSrc"
-                            type="checkbox"
-                            onChange={() => setNewSrc(!newSrc)}
-                          />
-                          <label
-                            className="form-check-label fw-bold text-gray-600"
-                            htmlFor="kt_checkbox_1"
-                          >
-                            Crear nuevo
-                          </label>
-                        </div>
                       </div>
 
-                      {!newSrc && (
-                        <>
-                          <input
-                            className="form-control form-control-lg form-control-solid"
-                            name="sourceSearch"
-                            placeholder="ejemplo: Ministerio de Relaciones Exteriores"
-                            type="text"
-                            value={srcSearchTerm}
-                            onChange={(e) => {
-                              reset(3);
-                              setSrcSearchTerm(e.target.value);
-                            }}
-                            onKeyDown={_handleKeyDownSrc}
-                          />
+                      <input
+                        className="form-control form-control-lg form-control-solid"
+                        name="file"
+                        placeholder="File"
+                        type="file"
+                        onChange={(e) => {
+                          const file = (e.target as HTMLInputElement)
+                            .files?.[0];
+                          updateData({
+                            appBasic: {
+                              ...data.appBasic,
+                              fileUploaded: file,
+                            },
+                          });
+                        }}
+                      />
 
-                          {!data.appBasic.sourceId && !hasError && (
-                            <label className="text-muted mt-2 fw-bold fs-6 mt-3">
-                              Precione &apos;Enter&apos; para buscar
-                            </label>
-                          )}
-
-                          {!data.appBasic.sourceId && hasError && (
-                            <div className="fv-plugins-message-container">
-                              <div
-                                className="fv-help-block"
-                                data-field="title"
-                                data-validator="notEmpty"
-                              >
-                                sourceId is required
-                              </div>
-                            </div>
-                          )}
-                        </>
-                      )}
-
-                      {newSrc && (
-                        <>
-                          <input
-                            className="form-control form-control-lg form-control-solid"
-                            name="srcName"
-                            placeholder="Nombre"
-                            type="text"
-                            value={newSrcName}
-                            onChange={(e) => {
-                              setNewSrcName(e.target.value);
-                              updateData({
-                                appBasic: {
-                                  ...data.appBasic,
-                                  newSource: {
-                                    ...data.appBasic.newSource,
-                                    name: e.target.value,
-                                  },
-                                },
-                              });
-                            }}
-                          />
-
-                          <br />
-
-                          <textarea
-                            className="form-control form-control-lg form-control-solid"
-                            placeholder="Descripción"
-                            rows={3}
-                            value={newSrcDesc}
-                            onChange={(e) => {
-                              setNewSrcDesc(e.target.value);
-                              updateData({
-                                appBasic: {
-                                  ...data.appBasic,
-                                  newSource: {
-                                    ...data.appBasic.newSource,
-                                    description: e.target.value,
-                                  },
-                                },
-                              });
-                            }}
-                          />
-
-                          <br />
-
-                          <input
-                            className="form-control form-control-lg form-control-solid"
-                            name="newSrcUrl"
-                            placeholder="Website"
-                            type="text"
-                            value={newSrcUrl}
-                            onChange={(e) => {
-                              setNewSrcUrl(e.target.value);
-                              updateData({
-                                appBasic: {
-                                  ...data.appBasic,
-                                  newSource: {
-                                    ...data.appBasic.newSource,
-                                    url: e.target.value,
-                                  },
-                                },
-                              });
-                            }}
-                          />
-
-                          {(!data.appBasic?.newSource?.name ||
-                            !data.appBasic?.newSource?.description ||
-                            !data.appBasic?.newSource?.url) &&
-                            hasError && (
-                              <div className="fv-plugins-message-container">
-                                <div
-                                  className="fv-help-block"
-                                  data-field="title"
-                                  data-validator="notEmpty"
-                                >
-                                  All information is required
-                                </div>
-                              </div>
-                            )}
-                        </>
+                      {!data.appBasic?.fileUploaded && hasError && (
+                        <div className="fv-plugins-message-container">
+                          <div
+                            className="fv-help-block"
+                            data-field="title"
+                            data-validator="notEmpty"
+                          >
+                            File is required
+                          </div>
+                        </div>
                       )}
                     </div>
 
                     {/*begin::Form Group */}
-                    <div className="fv-row">
-                      {srcSearchTerm &&
-                        sources.map((source: any, i) => {
-                          console.log(source);
-
-                          // limit to 5 results
-                          if (i > 3) return;
-
-                          return (
-                            <label
-                              key={`dep_${i}`}
-                              className="d-flex align-items-center justify-content-between cursor-pointer mb-6"
-                            >
-                              <span className="d-flex align-items-center me-2">
-                                <span className="d-flex flex-column">
-                                  <span className="fw-bolder fs-6">
-                                    {truncate(source.name, 50)}
-                                  </span>
-                                  <span className="fs-7 text-muted">
-                                    {truncate(
-                                      source?.description || source?.url,
-                                      120
-                                    )}
-                                  </span>
-                                </span>
-                              </span>
-
-                              <span className="form-check form-check-custom form-check-solid">
-                                <input
-                                  checked={
-                                    data.appBasic.sourceId === source._id
-                                  }
-                                  className="form-check-input"
-                                  name="sourceId"
-                                  type="radio"
-                                  value={source._id}
-                                  onChange={() =>
-                                    updateData({
-                                      appBasic: {
-                                        ...data.appBasic,
-                                        sourceId: source._id,
-                                      },
-                                    })
-                                  }
-                                />
-                              </span>
-                            </label>
-                          );
-                        })}
-
-                      {srcSearchTerm && resultNotFound && (
-                        <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
-                          <span className="d-flex align-items-center me-2">
-                            <span className="d-flex flex-column">
-                              <span className="fw-bolder fs-6">
-                                No result matching
-                              </span>
-                              <span className="fs-7 text-muted">
-                                no encontramos lo que buscas en nuestro sistema.
-                                <br />
-                                Intentalo nuevamente, o crea una{" "}
-                                <span
-                                  className="text-primary"
-                                  onClick={() => setNewSrc(true)}
-                                >
-                                  nueva entrada
-                                </span>
-                              </span>
-                            </span>
-                          </span>
+                    <div className="fv-row mb-12">
+                      <div className="fv-row mb-2 d-flex justify-content-between">
+                        <label className="fs-6 fw-bolder text-dark form-label">
+                          Ingrese un screenshot de la fuente
                         </label>
+                      </div>
+
+                      <input
+                        accept="image/*"
+                        className="form-control form-control-lg form-control-solid"
+                        name="proof"
+                        placeholder="File"
+                        type="file"
+                        onChange={(e) => {
+                          const file = (e.target as HTMLInputElement)
+                            .files?.[0];
+                          updateData({
+                            appBasic: {
+                              ...data.appBasic,
+                              proof: file,
+                            },
+                          });
+                        }}
+                      />
+
+                      {!data.appBasic?.proof && hasError && (
+                        <div className="fv-plugins-message-container">
+                          <div
+                            className="fv-help-block"
+                            data-field="title"
+                            data-validator="notEmpty"
+                          >
+                            File is required
+                          </div>
+                        </div>
                       )}
                     </div>
-                    {/*end::Form Group */}
                   </div>
                 </div>
                 {/*end::Step 4 */}
@@ -1301,42 +1233,85 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                   <div className="w-100">
                     {/* begin::Heading */}
                     <div className="pb-10 pb-lg-15">
-                      <h3 className="fw-bolder text-dark display-6">
-                        Complete
-                      </h3>
+                      <h3 className="fw-bolder text-dark display-6">Review</h3>
                       <div className="text-muted fw-bold fs-3">
-                        Review your setup to kickstart your app!
+                        ¡Casi listos para compartir tu archivo!
                       </div>
                     </div>
                     {/* end::Heading */}
 
                     {/* begin::Section */}
-                    <h4 className="fw-bolder mb-3">App Basics</h4>
+                    <h4 className="fw-bolder mb-3">Documento</h4>
                     <div className="text-gray-600 fw-bold lh-lg mb-8">
-                      <div>{data.appBasic.title}</div>
+                      <h5 className="text-truncate">{data.appBasic.title}</h5>
                       <div>{data.appBasic.docType}</div>
                     </div>
                     {/* end::Section */}
 
                     {/* begin::Section */}
-                    <h4 className="fw-bolder mb-3">App Framework</h4>
+                    <h4 className="fw-bolder mb-3">Detalles</h4>
                     <div className="text-gray-600 fw-bold lh-lg mb-8">
-                      <div>{data.appFramework}</div>
+                      <h5 className="text-truncate">
+                        {data.appBasic.description}
+                      </h5>
+                    </div>
+                    {/* end::Section */}
+
+                    <h4 className="fw-bolder mb-3">Fuente</h4>
+                    <div className="text-gray-600 fw-bold lh-lg mb-8">
+                      <h5 className="fw-bolder mb-3">
+                        {data.appBasic.newSource?.name ||
+                          data.appBasic.sourceInfo?.name}
+                      </h5>
+                      <div className="text-truncate mb-3">
+                        {data.appBasic.newSource?.description ||
+                          data.appBasic.sourceInfo?.description}
+                      </div>
+                      <a
+                        href={data.appBasic.docSource}
+                        rel="noreferrer"
+                        target="_blank"
+                      >
+                        {data.appBasic.docSource}
+                      </a>
                     </div>
                     {/* end::Section */}
 
                     {/* begin::Section */}
-                    <h4 className="fw-bolder mb-3">App Database</h4>
+                    <h4 className="fw-bolder mb-3">Emisor</h4>
                     <div className="text-gray-600 fw-bold lh-lg mb-8">
-                      <div>{data.appDatabase.databaseName}</div>
-                      <div>{data.appDatabase.sourceId}</div>
+                      <h5 className="fw-bolder mb-3">
+                        {data.appBasic.newIssuer?.name ||
+                          data.appBasic.issuerInfo?.name}
+                      </h5>
+                      <div className="text-truncate mb-3">
+                        {data.appBasic.newIssuer?.description ||
+                          (data.appBasic.issuerInfo?.description &&
+                            truncate(
+                              data.appBasic.newIssuer?.description ||
+                                data.appBasic.issuerInfo?.description,
+                              150
+                            ))}
+                      </div>
+                      <a
+                        href={
+                          data.appBasic.newIssuer?.url ||
+                          data.appBasic.issuerInfo?.url
+                        }
+                        rel="noreferrer"
+                        target="_blank"
+                      >
+                        {data.appBasic.newIssuer?.url ||
+                          data.appBasic.issuerInfo?.url}
+                      </a>
                     </div>
                     {/* end::Section */}
 
                     {/* begin::Section */}
-                    <h4 className="fw-bolder mb-3">App Storage</h4>
+                    <h4 className="fw-bolder mb-3">Archivos</h4>
                     <div className="text-gray-600 fw-bold lh-lg mb-8">
-                      <div>{data.appStorage}</div>
+                      <h5>{data.appBasic.fileUploaded.name}</h5>
+                      <div>{data.appBasic.proof.name}</div>
                     </div>
                     {/* end::Section */}
                   </div>

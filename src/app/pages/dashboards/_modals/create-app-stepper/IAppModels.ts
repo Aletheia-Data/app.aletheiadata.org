@@ -4,12 +4,22 @@ export interface IAppBasic {
   description: string;
   docSource: string;
   sourceId: string;
+  sourceInfo?: {
+    name?: string;
+    description?: string;
+    url?: string;
+  };
   newSource?: {
     name?: string;
     description?: string;
     url?: string;
   };
   issuerId: string;
+  issuerInfo?: {
+    name?: string;
+    description?: string;
+    url?: string;
+  };
   newIssuer?: {
     name?: string;
     description?: string;
@@ -44,12 +54,22 @@ export const defaultCreateAppData: ICreateAppData = {
     description: "",
     docSource: "",
     sourceId: "",
+    sourceInfo: {
+      name: "",
+      description: "",
+      url: "",
+    },
     newSource: {
       name: "",
       description: "",
       url: "",
     },
     issuerId: "",
+    issuerInfo: {
+      name: "",
+      description: "",
+      url: "",
+    },
     newIssuer: {
       name: "",
       description: "",
