@@ -1,11 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Modal } from "react-bootstrap-v5";
 import { StepperComponent } from "../../../../../_start/assets/ts/components";
 import { Ktsvg, truncate } from "../../../../../_start/helpers";
 import { defaultCreateAppData, ICreateAppData } from "./IAppModels";
 import config from "../../../../../setup/config";
-// import rapidAPI from "../../../../../setup/rapidAPI";
+import Table from "_start/partials/components/Table";
 import {
   getAllSourcesByName,
   getAllDepartmentsByName,
@@ -19,6 +20,7 @@ interface Props {
 const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   const stepperRef = useRef<HTMLDivElement | null>(null);
   const stepper = useRef<StepperComponent | null>(null);
+  const [currentStep, setCurrentStep] = useState(0);
   const [data, setData] = useState<ICreateAppData>(defaultCreateAppData);
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,7 +36,6 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   const [newDep, setNewDep] = useState(false);
 
   const [resultNotFound, setResultNotFound] = useState(false);
-  console.log(sources);
 
   useEffect(() => {
     reset(3);
@@ -174,6 +175,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
       return;
     }
 
+    setCurrentStep(currentStep - 1);
     stepper.current.goPrev();
   };
 
@@ -189,10 +191,11 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
       return;
     }
 
+    setCurrentStep(currentStep + 1);
     stepper.current.goNext();
   };
 
-  const submit = () => {
+  const close = () => {
     console.log(data.appBasic);
   };
 
@@ -242,6 +245,46 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
     setHasError(false);
   };
+
+  const records = [
+    {
+      id: 0,
+      title: "Estadísticas de Estudiantes Matriculas...",
+      cid: "tets5536",
+    },
+  ];
+
+  const columns = [
+    {
+      title: "Últimos Archivos",
+      cells: records?.map((recordItem: any) => (
+        <Link
+          key={`record-alexandria-${recordItem.cid}`}
+          className={`text-gray-800 fw-bolder text-hover-primary fs-6 ${
+            recordItem.cid ? "" : "disabled"
+          }`}
+          to="#"
+        >
+          {recordItem.title}
+        </Link>
+      )),
+    },
+    {
+      title: "Action",
+      cells: records?.map((recordItem: any) => (
+        <Link
+          key={`record-alexandria-${recordItem.cid}`}
+          className="btn btn-icon btn-bg-light  btn-color-muted btn-active-color-primary btn-sm"
+          to="#"
+        >
+          <Ktsvg
+            className="svg-icon-4"
+            path="/media/icons/duotone/General/Sad.svg"
+          />
+        </Link>
+      )),
+    },
+  ];
 
   return (
     <Modal
@@ -329,7 +372,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                 </div>
                 {/*end::Step 3 */}
 
-                {/*begin::Step 3.2 */}
+                {/*begin::Step 4 */}
                 <div className="stepper-item" data-kt-stepper-element="nav">
                   <div className="stepper-wrapper">
                     <div className="stepper-icon">
@@ -344,7 +387,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     </div>
                   </div>
                 </div>
-                {/*end::Step 3.2 */}
+                {/*end::Step 4 */}
 
                 {/*begin::Step 5 */}
                 <div className="stepper-item" data-kt-stepper-element="nav">
@@ -371,12 +414,29 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                       <span className="stepper-number">6</span>
                     </div>
                     <div className="stepper-label">
-                      <h3 className="stepper-title">Completed!</h3>
-                      <div className="stepper-desc">Review and Submit</div>
+                      <h3 className="stepper-title">Review</h3>
+                      <div className="stepper-desc">Revisar y enviar</div>
                     </div>
                   </div>
                 </div>
                 {/*end::Step 6 */}
+
+                {/*begin::Step 7 */}
+                <div className="stepper-item" data-kt-stepper-element="nav">
+                  <div className="stepper-wrapper">
+                    <div className="stepper-icon">
+                      <i className="stepper-check fas fa-check" />
+                      <span className="stepper-number">7</span>
+                    </div>
+                    <div className="stepper-label">
+                      <h3 className="stepper-title">Completed!</h3>
+                      <div className="stepper-desc">
+                        Tu activo está en linea
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/*end::Step 7 */}
               </div>
               {/*end::Nav */}
             </div>
@@ -1318,6 +1378,51 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                 </div>
                 {/*end::Step 5 */}
 
+                {/*begin::Step 5 */}
+                <div className="pb-5" data-kt-stepper-element="content">
+                  <div className="w-100">
+                    {/* begin::Heading */}
+                    <div className="pb-10 pb-lg-15">
+                      <h3 className="fw-bolder text-dark display-6">
+                        ¡Gracias!
+                      </h3>
+                      <div className="text-muted fw-bold fs-3">
+                        Todos juntos podemos llegar a la verdad
+                      </div>
+                    </div>
+                    {/* end::Heading */}
+
+                    {/* begin::Section */}
+                    <h4 className="fw-bolder mb-3">Link al documento</h4>
+                    <div className="text-gray-600 fw-bold lh-lg mb-8">
+                      <input
+                        readOnly
+                        className="form-control form-control-lg form-control-solid"
+                        name="title"
+                        placeholder=""
+                        type="text"
+                        value="url asset"
+                      />
+                    </div>
+                    {/* end::Section */}
+
+                    {/* begin::Section */}
+                    <h4 className="fw-bolder mb-3">Detalles</h4>
+                    <Table
+                      hideButton
+                      cardClassName={`table-custom card-stretch mb-5 mb-xxl-8 ${
+                        isLoading ? "table-loading" : ""
+                      }`}
+                      columns={columns} // change this with the actual count from DB
+                      connectionLength={columns.length}
+                      emptyMessage="No hay registros disponibles para esta categoria"
+                      id="collection-data-list"
+                    />
+                    {/* end::Section */}
+                  </div>
+                </div>
+                {/*end::Step 5 */}
+
                 {/*begin::Actions */}
                 <div className="d-flex justify-content-between pt-10">
                   <div className="mr-2">
@@ -1339,9 +1444,9 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                       className="btn btn-lg btn-primary fw-bolder py-4 ps-8 me-3"
                       data-kt-stepper-action="submit"
                       type="button"
-                      onClick={submit}
+                      onClick={close}
                     >
-                      Submit{" "}
+                      Close{" "}
                       <Ktsvg
                         className="svg-icon-3 ms-2"
                         path="/media/icons/duotone/Navigation/Right-2.svg"
@@ -1354,7 +1459,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                       type="button"
                       onClick={nextStep}
                     >
-                      Next Step{" "}
+                      {currentStep === 5 ? "Submit" : "Next Step"}{" "}
                       <Ktsvg
                         className="svg-icon-3 ms-1"
                         path="/media/icons/duotone/Navigation/Right-2.svg"

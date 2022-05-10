@@ -21,6 +21,7 @@ interface Props {
   tableHeaderProps?: TableCellProps;
   cardClassName?: string;
   connectionLength?: number;
+  hideButton?: boolean;
 }
 
 // TODO: Add use of react tables to manage table by hooks
@@ -33,6 +34,7 @@ const Table: FC<Props> = ({
   tableHeaderProps,
   cardClassName = "",
   connectionLength = 0,
+  hideButton
 }) => {
   // constants
   const cellsCount = useMemo(() => columns?.[0]?.cells?.length ?? 0, [columns]);
@@ -51,6 +53,8 @@ const Table: FC<Props> = ({
   const hasRows = Boolean(rows.length);
   const entityCount = connectionLength || rows.length;
 
+  console.log(hideButton);
+
   return (
     <div className={`card ${cardClassName}`}>
       {/* begin::Header */}
@@ -63,11 +67,14 @@ const Table: FC<Props> = ({
             {`${entityCount} elementos registrados`}
           </span>
         </h3>
-        <div className="card-toolbar">
-          <a className="btn btn-primary fw-bolder fs-7 disabled" href="#">
-            Subir Archivo
-          </a>
-        </div>
+        {
+          !hideButton &&
+          <div className="card-toolbar">
+            <a className="btn btn-primary fw-bolder fs-7 disabled" href="#">
+              Subir Archivo
+            </a>
+          </div>  
+        }
       </div>
       {/* end::Header*/}
       <div className="card-body py-0">
