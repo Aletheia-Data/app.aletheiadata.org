@@ -14,6 +14,7 @@ type Props = {
   color?: string;
   fileCoinStatus: string;
   deals: Deal[];
+  loading?: boolean;
 };
 
 const EngageWidget6: React.FC<Props> = ({
@@ -24,6 +25,7 @@ const EngageWidget6: React.FC<Props> = ({
   color = "primary",
   fileCoinStatus,
   deals,
+  loading
 }) => {
   data = data.data;
   const entity = data.entity;
@@ -111,6 +113,8 @@ const EngageWidget6: React.FC<Props> = ({
       break;
   }
 
+  console.log(deals.length === 0);
+  
   return (
     <div
       className={`card card-custom ${className}`}
@@ -250,6 +254,13 @@ const EngageWidget6: React.FC<Props> = ({
                       <td className="text-gray-600 ps-0">Deals</td>
                       <td className="text-dark pe-0">
                         <div className="text-dark">
+                          {
+                            loading &&
+                            <span className="indicator-progress" style={{ display: "block" }}>
+                              Please wait...{" "}
+                              <span className="spinner-border spinner-border-sm align-middle ms-2" />
+                            </span>
+                          }
                           {deals.map((deal, index) => (
                             <div
                               key={`${deal.dealId}-${index}`}
@@ -265,6 +276,14 @@ const EngageWidget6: React.FC<Props> = ({
                               {index < deals.length - 1 ? <span>,</span> : null}
                             </div>
                           ))}
+                          {
+                          !loading && deals.length === 0 &&
+                          <div
+                            className="text-dark pe-2"
+                          >
+                            {"Esta información no está disponible" }
+                          </div>
+                          }
                         </div>
                       </td>
                     </tr>

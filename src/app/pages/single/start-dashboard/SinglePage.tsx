@@ -17,6 +17,7 @@ export const SinglePage: FC<any> = (data: any) => {
   const [deals, setDeals] = useState<Deal[]>([]);
   const [pins, setPins] = useState<Pin[]>([]);
   const [fileCoinStatus, setFileCoinStatus] = useState("Loading");
+  const [loading, setLoading] = useState(false);
 
   const handlePagination = (page: any) => {
     setPaginationPage(page.newPage);
@@ -34,14 +35,24 @@ export const SinglePage: FC<any> = (data: any) => {
     const url = `/services/filecoin/${data.data.alexandrias[0].cid}`;
 
     async function getFilecoinStatus() {
-      const response = await rapidFetcher().url(url).get().json();
+      setLoading(true);
 
-      if (response.body?.pins) {
-        setPins(response.body?.pins);
-      }
+      try {
+        const response = await rapidFetcher().url(url).get().json();
+        console.log(response);
 
-      if (response.body?.deals) {
-        setDeals(response.body?.deals);
+        if (response.body?.pins) {
+          setPins(response.body?.pins);
+        }
+
+        if (response.body?.deals) {
+          setDeals(response.body?.deals);
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
       }
     }
 
@@ -89,6 +100,7 @@ export const SinglePage: FC<any> = (data: any) => {
             data={data}
             deals={deals}
             fileCoinStatus={fileCoinStatus}
+            loading={loading}
           />
         </div>
       </div>
