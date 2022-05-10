@@ -68,7 +68,7 @@ export interface Record {
   aletheias: [Aletheia];
   alexandrias: [Alexandrias];
   file: [File];
-  departament: Department;
+  department: Department;
   category: Category;
   api_endpoint: string;
   source_url: string;

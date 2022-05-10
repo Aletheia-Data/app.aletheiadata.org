@@ -53,6 +53,10 @@ export const CollectionPage: FC<any> = (pageData: any) => {
         status,
         cid,
         type,
+        department {
+          id,
+          name
+        },
         aletheias{
           id,
           proof {
@@ -149,6 +153,19 @@ export const CollectionPage: FC<any> = (pageData: any) => {
           {recordItem.name || recordItem.title}
         </Link>
       )),
+    },
+    {
+      title: "Departamento",
+      cells: records?.map((recordItem: Record) => {
+        return (
+          <span
+            key={`record-alexandria-${recordItem.cid}`}
+            className="text-primary fw-bolder d-block fs-6"
+          >
+            {recordItem.department.name}
+          </span>
+        );
+      }),
     },
     {
       title: "Formato",
