@@ -77,3 +77,24 @@ export interface Record {
   website: string;
   url: string;
 }
+
+export interface Deal {
+  activation: string;
+  created: string;
+  dataCid: string;
+  dataModelSelector: string;
+  dealId: number;
+  expiration: string;
+  pieceCid: string;
+  status: string;
+  storageProvider: string;
+  updated: string;
+}
+
+export interface Pin {
+  peerId: string;
+  peerName: string;
+  region?: string;
+  status: string;
+  updated: string;
+}
