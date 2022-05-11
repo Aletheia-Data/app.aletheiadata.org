@@ -7,6 +7,8 @@ import { Ktsvg, truncate } from "../../../../../_start/helpers";
 import { defaultCreateAppData, ICreateAppData } from "./IAppModels";
 import config from "../../../../../setup/config";
 import Table from "_start/partials/components/Table";
+import Web3 from "web3";
+
 import {
   getAllSourcesByName,
   getAllDepartmentsByName,
@@ -16,7 +18,7 @@ interface Props {
   show: boolean;
   handleClose: () => void;
 }
-
+declare let window: any;
 const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   const stepperRef = useRef<HTMLDivElement | null>(null);
   const stepper = useRef<StepperComponent | null>(null);
@@ -24,6 +26,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   const [data, setData] = useState<ICreateAppData>(defaultCreateAppData);
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSigning, setIsSigning] = useState(false);
 
   const [sources, setSources] = useState([]);
   const [srcSearchTerm, setSrcSearchTerm] = useState("");
@@ -97,6 +100,32 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
     setData(updatedData);
   };
 
+  const signTx = async (stepper: any) => {
+    try {
+      setIsSigning(true);
+      if (window?.ethereum) {
+        const web3 = new Web3(window.ethereum);
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        const msg = "Confirm contribution to Aletheia!";
+        const msgHash = web3.eth.accounts.hashMessage(msg);
+        await web3.eth.sign(msgHash, accounts[0]);
+
+        setCurrentStep(currentStep + 1);
+        stepper.current.goNext();
+        setIsSigning(false);
+      } else {
+        setIsSigning(false);
+
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+      setIsSigning(false);
+    }
+  };
+
   const checkAppBasic = (step: number): boolean => {
     console.log(data.appBasic);
 
@@ -165,6 +194,12 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
           return false;
         }
         break;
+      case 6:
+        // eslint-disable-next-line no-case-declarations
+        signTx(stepper);
+
+        return false;
+      // break;
     }
 
     return true;
@@ -469,7 +504,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                       <input
                         className="form-control form-control-lg form-control-solid"
                         name="title"
-                        placeholder=""
+                        placeholder="Nombre del documento"
                         type="text"
                         value={data.appBasic.title}
                         onChange={(e) =>
@@ -1456,14 +1491,31 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     <button
                       className="btn btn-lg btn-primary fw-bolder py-4 ps-8 me-3"
                       data-kt-stepper-action="next"
+                      disabled={isSigning}
                       type="button"
                       onClick={nextStep}
                     >
-                      {currentStep === 5 ? "Submit" : "Next Step"}{" "}
-                      <Ktsvg
-                        className="svg-icon-3 ms-1"
-                        path="/media/icons/duotone/Navigation/Right-2.svg"
-                      />
+                      {currentStep === 5 ? (
+                        isSigning ? (
+                          <span
+                            className="indicator-progress"
+                            style={{ display: "block" }}
+                          >
+                            Please wait...{" "}
+                            <span className="spinner-border spinner-border-sm align-middle ms-2" />
+                          </span>
+                        ) : (
+                          "Submit"
+                        )
+                      ) : (
+                        "Next Step"
+                      )}{" "}
+                      {!isSigning && (
+                        <Ktsvg
+                          className="svg-icon-3 ms-1"
+                          path="/media/icons/duotone/Navigation/Right-2.svg"
+                        />
+                      )}
                     </button>
                   </div>
                 </div>
