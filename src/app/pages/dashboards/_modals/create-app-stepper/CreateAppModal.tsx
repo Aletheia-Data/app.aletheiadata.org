@@ -104,11 +104,15 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
     return new Promise((resolve, reject) => {
       const endpoint = `${process.env.REACT_APP_ALETHEIA_API}/v2/ops/assets/add`;
       // console.log('fetching data: ', endpoint)
+      const formData = new FormData(); // Currently empty
+      formData.append("proof", data.appBasic.proof);
+      formData.append("fileUploaded", data.appBasic.fileUploaded);
+      formData.append("asset", JSON.stringify(data.appBasic));
+      console.log(data.appBasic.proof);
+
       fetch(endpoint, {
         method: "post",
-        body: JSON.stringify({
-          query: data.appBasic,
-        }),
+        body: formData,
       })
         .then((response) => response.json())
         .then((data) => {
@@ -144,13 +148,12 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
           .then((res: any) => {
             console.log(res);
 
-            // setCurrentStep(currentStep + 1);
-            // stepper.current.goNext();
-            console.log(stepper);
+            if (res.code === 200) {
+              setCurrentStep(currentStep + 1);
+              stepper.current.goNext();
+            }
 
             setIsSigning(false);
-
-            return;
           })
           .catch((err) => {
             console.log(err);
