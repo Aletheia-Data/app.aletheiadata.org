@@ -100,6 +100,28 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
     setData(updatedData);
   };
 
+  const submitData = () => {
+    return new Promise((resolve, reject) => {
+      const endpoint = `${process.env.REACT_APP_ALETHEIA_API}/v2/ops/assets/add`;
+      // console.log('fetching data: ', endpoint)
+      fetch(endpoint, {
+        method: "post",
+        body: JSON.stringify({
+          query: data.appBasic,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          //console.log(data)
+          resolve(data);
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+    });
+  };
+
   const signTx = async (stepper: any) => {
     try {
       setIsSigning(true);
@@ -111,10 +133,29 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
         const msg = "Confirm contribution to Aletheia!";
         const msgHash = web3.eth.accounts.hashMessage(msg);
         await web3.eth.sign(msgHash, accounts[0]);
+        updateData({
+          appBasic: {
+            ...data.appBasic,
+            owner: accounts[0],
+          },
+        });
+        console.log(data.appBasic);
+        submitData()
+          .then((res: any) => {
+            console.log(res);
 
-        setCurrentStep(currentStep + 1);
-        stepper.current.goNext();
-        setIsSigning(false);
+            // setCurrentStep(currentStep + 1);
+            // stepper.current.goNext();
+            console.log(stepper);
+
+            setIsSigning(false);
+
+            return;
+          })
+          .catch((err) => {
+            console.log(err);
+            setIsSigning(false);
+          });
       } else {
         setIsSigning(false);
 
@@ -127,8 +168,6 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   };
 
   const checkAppBasic = (step: number): boolean => {
-    console.log(data.appBasic);
-
     const checkSource = () => {
       if (newSrc) {
         // checking
