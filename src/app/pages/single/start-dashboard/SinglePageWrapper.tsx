@@ -44,7 +44,14 @@ const listingPageConfig: Partial<IThemeConfig> = {
   },
 };
 
-const getQuery = (type: string, cid: string, entity?: string) => {
+const getQuery = (
+  type: string,
+  cid: string,
+  entity?: string,
+  searchById?: boolean
+) => {
+  console.log(searchById);
+
   console.log(`getting query for ${entity} - ${type} - ${cid}`);
 
   const CID_QUERY = gql`
@@ -98,7 +105,58 @@ const getQuery = (type: string, cid: string, entity?: string) => {
   }
   `;
 
-  return CID_QUERY;
+  const ID_QUERY = gql`
+  query Alexandria{
+    alexandrias(
+      where: {
+        id: "${cid}"
+      }
+    ) {
+      id,
+      title,
+      description,
+      file{
+        id,
+        url
+      },
+      api_endpoint,
+      proof{
+        id,
+        url
+      },
+      category{
+        id,
+        title
+      },
+      department{
+        id,
+        name, 
+        desciption,
+        website,
+      },
+      source_url,
+      source{
+        url,
+        id,
+        name
+      },
+      status,
+      wallet_address,
+      cid,
+      type,
+      aletheias{
+        id,
+        proof {
+          id,
+          url
+        }
+      }
+      updatedAt
+    }
+  }
+  `;
+
+  return searchById ? ID_QUERY : CID_QUERY;
 };
 
 function Single(type: string, query: any, entity: string) {
@@ -119,12 +177,23 @@ const result = (data: any) => {
 
 export function SinglePageWrapper(): JSX.Element {
   const params: any = useParams();
+  const queryParams = new URLSearchParams(window.location.search);
+  const assetId = queryParams.get("assetId");
+  console.log(assetId);
+
   const [minisearchActive, setMinisearchActive] = useState(false);
   const { entity, cid } = params;
   // if Id = 0 means that its a Single not a single item
   // console.log(id);
   const type = "single";
-  const query = getQuery(type, cid, entity);
+  console.log(params);
+
+  const query = getQuery(
+    type,
+    assetId ? assetId : cid,
+    entity,
+    assetId ? true : false
+  );
   const component = Single(type, query, entity);
 
   const { setTheme } = useTheme();
