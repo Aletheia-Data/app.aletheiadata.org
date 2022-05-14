@@ -162,14 +162,16 @@ export const SinglePage: FC<any> = (data: any) => {
           }`}
         >
           <div className="col-xl-12">
-            <MiniSearchService
-              className="card-stretch mb-5 mb-xxl-8"
-              data={data}
-              getPagination={getPagination}
-              handleExit={handleExit}
-              paginationPage={paginationPage}
-              type="aletheias"
-            />
+            {data.data.minisearchActive && (
+              <MiniSearchService
+                className="card-stretch mb-5 mb-xxl-8"
+                data={data}
+                getPagination={getPagination}
+                handleExit={handleExit}
+                paginationPage={paginationPage}
+                type="aletheias"
+              />
+            )}
           </div>
         </div>
       )}

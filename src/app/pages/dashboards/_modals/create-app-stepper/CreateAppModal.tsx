@@ -1,20 +1,152 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Modal } from "react-bootstrap-v5";
 import { StepperComponent } from "../../../../../_start/assets/ts/components";
-import { Ktsvg } from "../../../../../_start/helpers";
+import { Ktsvg, truncate } from "../../../../../_start/helpers";
 import { defaultCreateAppData, ICreateAppData } from "./IAppModels";
+import config from "../../../../../setup/config";
+import Table from "_start/partials/components/Table";
+import Web3 from "web3";
 
+import {
+  getAllSourcesByName,
+  getAllDepartmentsByName,
+  getAllCategories,
+  getAllAssetsOwner,
+} from "../../redux/DashboardCRUD";
+import { validURL } from "_start/helpers/ValidateURL";
+import moment from "moment";
 interface Props {
   show: boolean;
   handleClose: () => void;
 }
-
+declare let window: any;
 const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   const stepperRef = useRef<HTMLDivElement | null>(null);
   const stepper = useRef<StepperComponent | null>(null);
+  const [currentStep, setCurrentStep] = useState(0);
   const [data, setData] = useState<ICreateAppData>(defaultCreateAppData);
   const [hasError, setHasError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSigning, setIsSigning] = useState(false);
+
+  const [assetCID, setAssetCID] = useState("");
+  const [assetId, setAssetId] = useState("");
+
+  const [sources, setSources] = useState([]);
+  const [srcSearchTerm, setSrcSearchTerm] = useState("");
+
+  const [newSrc, setNewSrc] = useState(false);
+
+  const [deps, setDeps] = useState([]);
+  const [depSearchTerm, setDepSearchTerm] = useState("");
+
+  const [newDep, setNewDep] = useState(false);
+
+  const [resultNotFound, setResultNotFound] = useState(false);
+
+  const [cats, setCats] = useState([]);
+  const [assetsOwner, setAssetsOwner] = useState([]);
+
+  const [owner, setOwner] = useState(data.appBasic.owner);
+
+  useEffect(() => {
+    if (owner) {
+      getAssets(owner);
+    }
+  }, [owner]);
+
+  useEffect(() => {
+    reset(3);
+  }, [newSrc]);
+
+  useEffect(() => {
+    reset(4);
+  }, [newDep]);
+
+  useEffect(() => {
+    getCategories();
+  }, [currentStep]);
+
+  const searchSource = async (term: string) => {
+    setIsLoading(true);
+    // const deps = await rapidAPI.get("/v2/open-data/departments/getAll", params);
+    await getAllSourcesByName(term)
+      .then((deps) => {
+        const body = JSON.parse(deps.body);
+        // console.log(JSON.parse(deps.body));
+        setSources(JSON.parse(deps.body));
+        if (body.length === 0) {
+          setResultNotFound(true);
+        }
+
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+
+        setIsLoading(true);
+      });
+  };
+
+  const searchDep = async (term: string) => {
+    setIsLoading(true);
+    // const deps = await rapidAPI.get("/v2/open-data/departments/getAll", params);
+    await getAllDepartmentsByName(term)
+      .then((deps) => {
+        const body = JSON.parse(deps.body);
+        setDeps(JSON.parse(deps.body));
+        if (body.length === 0) {
+          setResultNotFound(true);
+        }
+
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(true);
+      });
+  };
+
+  const getCategories = async () => {
+    setIsLoading(true);
+    // const deps = await rapidAPI.get("/v2/open-data/departments/getAll", params);
+    await getAllCategories()
+      .then((cats) => {
+        const body = JSON.parse(cats.body);
+        setCats(JSON.parse(cats.body));
+        if (body.length === 0) {
+          setResultNotFound(true);
+        }
+
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(true);
+      });
+  };
+
+  const getAssets = async (owner: string) => {
+    setIsLoading(true);
+    // const deps = await rapidAPI.get("/v2/open-data/departments/getAll", params);
+    console.log("getting assets from: ", owner);
+
+    await getAllAssetsOwner(owner)
+      .then((assets) => {
+        setAssetsOwner(assets);
+        if (assets.length === 0) {
+          setResultNotFound(true);
+        }
+
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(true);
+      });
+  };
 
   const loadStepper = () => {
     stepper.current = StepperComponent.createInsance(
@@ -27,17 +159,149 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
     setData(updatedData);
   };
 
-  const checkAppBasic = (): boolean => {
-    if (!data.appBasic.appName || !data.appBasic.appType) {
-      return false;
-    }
+  const submitData = () => {
+    return new Promise((resolve, reject) => {
+      const endpoint = `${process.env.REACT_APP_ALETHEIA_API}/v2/ops/assets/add`;
+      // console.log('fetching data: ', endpoint)
+      const formData = new FormData(); // Currently empty
+      formData.append("proof", data.appBasic.proof);
+      formData.append("fileUploaded", data.appBasic.fileUploaded);
+      formData.append("asset", JSON.stringify(data.appBasic));
 
-    return true;
+      fetch(endpoint, {
+        cache: "no-store",
+        method: "post",
+        body: formData,
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          // console.log(data);
+          if (data.code === 500) throw new Error(JSON.stringify(data.body));
+
+          resolve(data);
+        })
+        .catch((err) => {
+          console.log(err);
+          reject(err);
+        });
+    });
   };
 
-  const checkAppDataBase = (): boolean => {
-    if (!data.appDatabase.databaseName || !data.appDatabase.databaseSolution) {
-      return false;
+  const signTx = async (stepper: any) => {
+    try {
+      setIsSigning(true);
+      if (window?.ethereum) {
+        const web3 = new Web3(window.ethereum);
+        const accounts = await window.ethereum.request({
+          method: "eth_requestAccounts",
+        });
+        const msg = "Confirm contribution to Aletheia!";
+        const msgHash = web3.eth.accounts.hashMessage(msg);
+        await web3.eth.sign(msgHash, accounts[0]);
+        // eslint-disable-next-line prefer-destructuring
+        data.appBasic.owner = accounts[0];
+        submitData()
+          .then((res: any) => {
+            // console.log(res);
+
+            if (res.code === 200) {
+              setAssetCID(res.body.assetCID);
+              setAssetId(res.body.assetId);
+              setOwner(accounts[0]);
+              setCurrentStep(currentStep + 1);
+              stepper.current.goNext();
+            }
+
+            setIsSigning(false);
+          })
+          .catch((err) => {
+            console.log(err);
+            setIsSigning(false);
+          });
+      } else {
+        setIsSigning(false);
+
+        return false;
+      }
+    } catch (error) {
+      console.log(error);
+      setIsSigning(false);
+    }
+  };
+
+  const checkAppBasic = (step: number): boolean => {
+    const checkSource = () => {
+      if (newSrc) {
+        // checking
+        return !data.appBasic?.newSource?.name ||
+          !data.appBasic?.newSource?.description ||
+          !data.appBasic?.newSource?.url ||
+          !validURL(data.appBasic?.newSource?.url)
+          ? false
+          : true;
+      } else {
+        return !data.appBasic.sourceId ? false : true;
+      }
+    };
+
+    const checkDep = () => {
+      if (newDep) {
+        // checking
+        return !data.appBasic?.newIssuer?.name ||
+          !data.appBasic?.newIssuer?.description ||
+          !data.appBasic?.newIssuer?.url ||
+          !validURL(data.appBasic?.newIssuer?.url)
+          ? false
+          : true;
+      } else {
+        return !data.appBasic.issuerId ? false : true;
+      }
+    };
+
+    switch (step) {
+      case 1:
+        if (
+          !data.appBasic.title ||
+          data.appBasic.title.length < 20 ||
+          !data.appBasic.docType
+        ) {
+          return false;
+        }
+        break;
+      case 2:
+        if (
+          !data.appBasic.description ||
+          data.appBasic.description.length < 100 ||
+          !data.appBasic?.categoryId
+        ) {
+          return false;
+        }
+        break;
+      case 3:
+        if (
+          !data.appBasic.docSource ||
+          !validURL(data.appBasic.docSource) ||
+          !checkSource()
+        ) {
+          return false;
+        }
+        break;
+      case 4:
+        if (!checkDep()) {
+          return false;
+        }
+        break;
+      case 5:
+        if (!data.appBasic.fileUploaded || !data.appBasic.proof) {
+          return false;
+        }
+        break;
+      case 6:
+        // eslint-disable-next-line no-case-declarations
+        signTx(stepper);
+
+        return false;
+      // break;
     }
 
     return true;
@@ -48,6 +312,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
       return;
     }
 
+    setCurrentStep(currentStep - 1);
     stepper.current.goPrev();
   };
 
@@ -57,27 +322,116 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
       return;
     }
 
-    if (stepper.current.getCurrentStepIndex() === 1) {
-      if (!checkAppBasic()) {
-        setHasError(true);
+    if (!checkAppBasic(stepper.current.getCurrentStepIndex())) {
+      setHasError(true);
 
-        return;
-      }
+      return;
     }
 
-    if (stepper.current.getCurrentStepIndex() === 3) {
-      if (!checkAppDataBase()) {
-        setHasError(true);
-
-        return;
-      }
-    }
-
+    setCurrentStep(currentStep + 1);
     stepper.current.goNext();
   };
 
-  const submit = () => {
-    window.location.reload();
+  const close = () => {
+    reset(6);
+    handleClose();
+  };
+
+  const _handleKeyDownSrc = (e: any) => {
+    if (e.key === "Enter") {
+      searchSource(srcSearchTerm);
+    }
+  };
+
+  const _handleKeyDownDep = (e: any) => {
+    if (e.key === "Enter") {
+      searchDep(depSearchTerm);
+    }
+  };
+
+  const _setCategory = (e: any) => {
+    updateData({
+      appBasic: {
+        ...data.appBasic,
+        categoryId: e.target.value,
+      },
+    });
+  };
+
+  const reset = (step: number) => {
+    setResultNotFound(false);
+
+    switch (step) {
+      case 3:
+        setSrcSearchTerm("");
+        setSources([]);
+        updateData({
+          appBasic: {
+            ...data.appBasic,
+            sourceId: "",
+            sourceInfo: {},
+            newSource: {},
+          },
+        });
+        break;
+      case 4:
+        setDepSearchTerm("");
+        setDeps([]);
+        updateData({
+          appBasic: {
+            ...data.appBasic,
+            issuerId: "",
+            issuerInfo: {},
+            newIssuer: {},
+          },
+        });
+        break;
+      case 6:
+        updateData(defaultCreateAppData);
+        break;
+      default:
+        break;
+    }
+
+    setHasError(false);
+  };
+
+  const columns = [
+    {
+      title: "Últimos Archivos",
+      cells: assetsOwner?.map((recordItem: any) => (
+        <Link
+          key={`record-alexandria-${recordItem.cid}`}
+          className={`text-gray-800 fw-bolder text-hover-primary fs-6 ${
+            recordItem.cid ? "" : "disabled"
+          }`}
+          to={`/single/src/${recordItem.cid}?assetId=${recordItem.id}`}
+        >
+          {recordItem.title}
+        </Link>
+      )),
+    },
+    {
+      title: "Fecha",
+      cells: assetsOwner?.map((recordItem: any) => (
+        <>{moment(recordItem.createdAt).format("DD/MM/YYYY")}</>
+      )),
+    },
+  ];
+
+  const getExtention = (doctype: string) => {
+    let ext;
+    if (doctype === "pdf") {
+      ext = ".pdf";
+    } else if (doctype === "xls") {
+      ext = ".xlsx, .xls";
+    } else if (doctype === "csv") {
+      ext = ".csv";
+    } else if (doctype === "other") {
+      ext = "*";
+    }
+
+    return ext;
   };
 
   return (
@@ -127,8 +481,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                       <span className="stepper-number">1</span>
                     </div>
                     <div className="stepper-label">
-                      <h3 className="stepper-title">App Basics</h3>
-                      <div className="stepper-desc">Name your App</div>
+                      <h3 className="stepper-title">Documento</h3>
+                      <div className="stepper-desc">Información básica</div>
                     </div>
                   </div>
                 </div>
@@ -142,10 +496,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                       <span className="stepper-number">2</span>
                     </div>
                     <div className="stepper-label">
-                      <h3 className="stepper-title">App Framework</h3>
-                      <div className="stepper-desc">
-                        Define your app framework
-                      </div>
+                      <h3 className="stepper-title">Detalles</h3>
+                      <div className="stepper-desc">Detalles del documento</div>
                     </div>
                   </div>
                 </div>
@@ -159,9 +511,9 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                       <span className="stepper-number">3</span>
                     </div>
                     <div className="stepper-label">
-                      <h3 className="stepper-title">App Database</h3>
+                      <h3 className="stepper-title">Fuente</h3>
                       <div className="stepper-desc">
-                        Select the app database type
+                        Detalles sobre la fuente
                       </div>
                     </div>
                   </div>
@@ -176,9 +528,9 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                       <span className="stepper-number">4</span>
                     </div>
                     <div className="stepper-label">
-                      <h3 className="stepper-title">App Storage</h3>
+                      <h3 className="stepper-title">Emisor</h3>
                       <div className="stepper-desc">
-                        Select the app storage type
+                        Detalles sobre el emisor
                       </div>
                     </div>
                   </div>
@@ -193,12 +545,46 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                       <span className="stepper-number">5</span>
                     </div>
                     <div className="stepper-label">
-                      <h3 className="stepper-title">Completed!</h3>
-                      <div className="stepper-desc">Review and Submit</div>
+                      <h3 className="stepper-title">Archivos</h3>
+                      <div className="stepper-desc">
+                        Subir archivo al sistema
+                      </div>
                     </div>
                   </div>
                 </div>
                 {/*end::Step 5 */}
+
+                {/*begin::Step 6 */}
+                <div className="stepper-item" data-kt-stepper-element="nav">
+                  <div className="stepper-wrapper">
+                    <div className="stepper-icon">
+                      <i className="stepper-check fas fa-check" />
+                      <span className="stepper-number">6</span>
+                    </div>
+                    <div className="stepper-label">
+                      <h3 className="stepper-title">Review</h3>
+                      <div className="stepper-desc">Revisar y enviar</div>
+                    </div>
+                  </div>
+                </div>
+                {/*end::Step 6 */}
+
+                {/*begin::Step 7 */}
+                <div className="stepper-item" data-kt-stepper-element="nav">
+                  <div className="stepper-wrapper">
+                    <div className="stepper-icon">
+                      <i className="stepper-check fas fa-check" />
+                      <span className="stepper-number">7</span>
+                    </div>
+                    <div className="stepper-label">
+                      <h3 className="stepper-title">Completed!</h3>
+                      <div className="stepper-desc">
+                        Tu activo está en linea
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/*end::Step 7 */}
               </div>
               {/*end::Nav */}
             </div>
@@ -209,7 +595,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
               {/*begin::Form */}
               <form
                 noValidate
-                className="pb-5 w-100 w-md-400px w-xl-500px"
+                className="pb-5 w-100 w-md-400px w-xl-500px d-flex flex-column justify-content-between"
                 id="kt_modal_create_app_form"
               >
                 {/*begin::Step 1 */}
@@ -218,7 +604,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     {/*begin::Heading */}
                     <div className="pb-5 pb-lg-10">
                       <h3 className="fw-bolder text-dark display-6">
-                        App Basics
+                        Documento
                       </h3>
                     </div>
                     {/*begin::Heading */}
@@ -226,31 +612,43 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     {/*begin::Form Group */}
                     <div className="fv-row mb-12">
                       <label className="fs-6 fw-bolder text-dark form-label">
-                        Your App Name
+                        Titulo Documento
                       </label>
                       <input
                         className="form-control form-control-lg form-control-solid"
-                        name="appname"
-                        placeholder=""
+                        name="title"
+                        placeholder="Nombre del documento"
                         type="text"
-                        value={data.appBasic.appName}
+                        value={data.appBasic.title}
                         onChange={(e) =>
                           updateData({
                             appBasic: {
-                              appName: e.target.value,
-                              appType: data.appBasic.appType,
+                              ...data.appBasic,
+                              title: e.target.value,
                             },
                           })
                         }
                       />
-                      {!data.appBasic.appName && hasError && (
+                      {!data.appBasic.title && hasError && (
                         <div className="fv-plugins-message-container">
                           <div
                             className="fv-help-block"
-                            data-field="appname"
+                            data-field="title"
                             data-validator="notEmpty"
                           >
-                            App name is required
+                            Title is required
+                          </div>
+                        </div>
+                      )}
+
+                      {data.appBasic.title.length < 20 && hasError && (
+                        <div className="fv-plugins-message-container">
+                          <div
+                            className="fv-help-block"
+                            data-field="title"
+                            data-validator="notEmpty"
+                          >
+                            Title must be at least 20 characters
                           </div>
                         </div>
                       )}
@@ -260,139 +658,74 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     {/*begin::Form Group */}
                     <div className="fv-row">
                       {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between mb-6 cursor-pointer">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-primary">
-                              <Ktsvg
-                                className="svg-icon-1 svg-icon-primary"
-                                path="/media/icons/duotone/Home/Globe.svg"
+                      {config.availableDocTypes.map((docType, i) => {
+                        return (
+                          <label
+                            key={`doctype-${i}`}
+                            className="d-flex align-items-center justify-content-between mb-6 cursor-pointer"
+                          >
+                            <span className="d-flex align-items-center me-2">
+                              <span className="symbol symbol-50px me-6">
+                                <span
+                                  className="symbol-label"
+                                  style={{
+                                    backgroundColor: docType.background,
+                                  }}
+                                >
+                                  <img
+                                    alt="pdf"
+                                    className="svg-icon-1"
+                                    src={docType.icon}
+                                  />
+                                </span>
+                              </span>
+
+                              <span className="d-flex flex-column">
+                                <span className="fw-bolder fs-6">
+                                  {docType.name}
+                                </span>
+                                <span className="fs-7 text-muted">
+                                  {docType.archiveDesc}
+                                </span>
+                              </span>
+                            </span>
+
+                            <span className="form-check form-check-custom form-check-solid">
+                              <input
+                                checked={
+                                  data.appBasic.docType === docType.format
+                                }
+                                className="form-check-input"
+                                name="docType"
+                                type="radio"
+                                value={docType.format}
+                                onChange={() =>
+                                  updateData({
+                                    appBasic: {
+                                      ...data.appBasic,
+                                      docType: docType.format,
+                                    },
+                                  })
+                                }
                               />
                             </span>
-                          </span>
-
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">
-                              Quick Online Courses
-                            </span>
-                            <span className="fs-7 text-muted">
-                              Creating a clear text structure is just one SEO
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={
-                              data.appBasic.appType === "Quick Online Courses"
-                            }
-                            className="form-check-input"
-                            name="appType"
-                            type="radio"
-                            value="Quick Online Courses"
-                            onChange={() =>
-                              updateData({
-                                appBasic: {
-                                  appName: data.appBasic.appName,
-                                  appType: "Quick Online Courses",
-                                },
-                              })
-                            }
-                          />
-                        </span>
-                      </label>
-                      {/*end::Option */}
-
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between mb-6 cursor-pointer">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-danger">
-                              <Ktsvg
-                                className="svg-icon-1 svg-icon-danger"
-                                path="/media/icons/duotone/Layout/Layout-4-blocks-2.svg"
-                              />
-                            </span>
-                          </span>
-
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">
-                              Face to Face Discussions
-                            </span>
-                            <span className="fs-7 text-muted">
-                              Creating a clear text structure is just one aspect
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={
-                              data.appBasic.appType ===
-                              "Face to Face Discussions"
-                            }
-                            className="form-check-input"
-                            name="appType"
-                            type="radio"
-                            value="Face to Face Discussions"
-                            onChange={() =>
-                              updateData({
-                                appBasic: {
-                                  appName: data.appBasic.appName,
-                                  appType: "Face to Face Discussions",
-                                },
-                              })
-                            }
-                          />
-                        </span>
-                      </label>
-                      {/*end::Option */}
-
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between mb-6 cursor-pointer">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-success">
-                              <Ktsvg
-                                className="svg-icon-1 svg-icon-success"
-                                path="/media/icons/duotone/Devices/Watch1.svg"
-                              />
-                            </span>
-                          </span>
-
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">
-                              Full Intro Training
-                            </span>
-                            <span className="fs-7 text-muted">
-                              Creating a clear text structure copywriting
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={
-                              data.appBasic.appType === "Full Intro Training"
-                            }
-                            className="form-check-input"
-                            name="appType"
-                            type="radio"
-                            value="Full Intro Training"
-                            onChange={() =>
-                              updateData({
-                                appBasic: {
-                                  appName: data.appBasic.appName,
-                                  appType: "Full Intro Training",
-                                },
-                              })
-                            }
-                          />
-                        </span>
-                      </label>
+                          </label>
+                        );
+                      })}
                       {/*end::Option */}
                     </div>
                     {/*end::Form Group */}
+                    {!data.appBasic.docType && hasError && (
+                      <div className="fv-plugins-message-container">
+                        <div
+                          className="fv-help-block"
+                          data-field="title"
+                          data-validator="notEmpty"
+                        >
+                          Document Type is required
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
                 {/*end::Step 1 */}
@@ -403,142 +736,92 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     {/*begin::Heading */}
                     <div className="pb-10 pb-lg-15">
                       <h3 className="fw-bolder text-dark display-6">
-                        App Framework
+                        Detalles
                       </h3>
                     </div>
                     {/*end::Heading */}
 
-                    {/*begin::Form Group */}
-                    <div className="fv-row">
+                    <div className="fv-row mb-12">
                       <label className="fs-6 fw-bolder text-dark mb-7">
-                        Select your app framework
+                        Categoria
                       </label>
 
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-warning">
-                              <i className="fab fa-html5 text-warning fs-2x" />
-                            </span>
-                          </span>
+                      {/*end::TextArea */}
+                      <select
+                        aria-label="Select example"
+                        className="form-select form-select-solid"
+                        onChange={(e) => {
+                          _setCategory(e);
+                        }}
+                      >
+                        <option>Open this select menu</option>
+                        {cats.length > 0 &&
+                          cats.map((cat: any, i) => {
+                            return (
+                              <option key={`cat_option_${i}`} value={cat._id}>
+                                {cat.title}
+                              </option>
+                            );
+                          })}
+                      </select>
 
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">HTML5</span>
-                            <span className="fs-7 text-muted">
-                              Base Web Projec
-                            </span>
-                          </span>
-                        </span>
+                      {!data.appBasic.categoryId && hasError && (
+                        <div className="fv-plugins-message-container">
+                          <div
+                            className="fv-help-block"
+                            data-field="title"
+                            data-validator="notEmpty"
+                          >
+                            Category is required
+                          </div>
+                        </div>
+                      )}
+                      {/*end::Form Group */}
+                    </div>
 
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={data.appFramework === "HTML5"}
-                            className="form-check-input"
-                            name="appFramework"
-                            type="radio"
-                            value="HTML5"
-                            onChange={() =>
-                              updateData({ appFramework: "HTML5" })
-                            }
-                          />
-                        </span>
+                    {/*begin::Form Group */}
+                    <div className="fv-row mb-12">
+                      <label className="fs-6 fw-bolder text-dark mb-7">
+                        Descripción del documento
                       </label>
-                      {/*end::Option */}
 
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-success">
-                              <i className="fab fa-react text-success fs-2x" />
-                            </span>
-                          </span>
-
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">ReactJS</span>
-                            <span className="fs-7 text-muted">
-                              Robust and flexible app framework
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={data.appFramework === "ReactJS"}
-                            className="form-check-input"
-                            name="appFramework"
-                            type="radio"
-                            value="ReactJS"
-                            onChange={() =>
-                              updateData({ appFramework: "ReactJS" })
-                            }
-                          />
-                        </span>
-                      </label>
-                      {/*end::Option */}
-
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-danger">
-                              <i className="fab fa-angular text-danger fs-2x" />
-                            </span>
-                          </span>
-
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">Angular</span>
-                            <span className="fs-7 text-muted">
-                              Powerful data mangement
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={data.appFramework === "Angular"}
-                            className="form-check-input"
-                            name="appFramework"
-                            type="radio"
-                            value="Angular"
-                            onChange={() =>
-                              updateData({ appFramework: "Angular" })
-                            }
-                          />
-                        </span>
-                      </label>
-                      {/*end::Option */}
-
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-primary">
-                              <i className="fab fa-vuejs text-primary fs-2x" />
-                            </span>
-                          </span>
-
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">Vue</span>
-                            <span className="fs-7 text-muted">
-                              Lightweight and responsive framework
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={data.appFramework === "Vue"}
-                            className="form-check-input"
-                            name="appFramework"
-                            type="radio"
-                            value="Vue"
-                            onChange={() => updateData({ appFramework: "Vue" })}
-                          />
-                        </span>
-                      </label>
-                      {/*end::Option */}
+                      {/*end::TextArea */}
+                      <textarea
+                        className="form-control form-control-solid form-control-lg"
+                        rows={3}
+                        value={data.appBasic.description}
+                        onChange={(e) =>
+                          updateData({
+                            appBasic: {
+                              ...data.appBasic,
+                              description: e.target.value,
+                            },
+                          })
+                        }
+                      />
+                      {!data.appBasic.description && hasError && (
+                        <div className="fv-plugins-message-container">
+                          <div
+                            className="fv-help-block"
+                            data-field="title"
+                            data-validator="notEmpty"
+                          >
+                            Description is required
+                          </div>
+                        </div>
+                      )}
+                      {/*end::TextArea */}
+                      {data.appBasic.description.length < 100 && hasError && (
+                        <div className="fv-plugins-message-container">
+                          <div
+                            className="fv-help-block"
+                            data-field="title"
+                            data-validator="notEmpty"
+                          >
+                            Description must be at least 100 characters
+                          </div>
+                        </div>
+                      )}
                     </div>
                     {/*end::Form Group */}
                   </div>
@@ -550,168 +833,296 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                   <div className="w-100">
                     {/*begin::Heading */}
                     <div className="pb-10 pb-lg-15">
-                      <h3 className="fw-bolder text-dark display-6">
-                        App Database
-                      </h3>
+                      <h3 className="fw-bolder text-dark display-6">Fuente</h3>
                     </div>
                     {/*begin::Heading */}
 
                     {/*begin::Form Group */}
                     <div className="fv-row mb-12">
                       <label className="fs-6 fw-bolder text-dark form-label">
-                        App Databse Name Name
+                        Fuente del documento
                       </label>
                       <input
                         className="form-control form-control-lg form-control-solid"
-                        name="dbname"
+                        name="source"
+                        placeholder="example: https://www.aletheia.org/very-important.pdf"
                         type="text"
-                        value={data.appDatabase.databaseName}
+                        value={data.appBasic.docSource}
                         onChange={(e) =>
                           updateData({
-                            appDatabase: {
-                              databaseName: e.target.value,
-                              databaseSolution:
-                                data.appDatabase.databaseSolution,
+                            appBasic: {
+                              ...data.appBasic,
+                              docSource: e.target.value,
                             },
                           })
                         }
                       />
-                      {!data.appDatabase.databaseName && hasError && (
+                      {!data.appBasic.docSource && hasError && (
                         <div className="fv-plugins-message-container">
                           <div
                             className="fv-help-block"
-                            data-field="appname"
+                            data-field="title"
                             data-validator="notEmpty"
                           >
-                            Database name is required
+                            Source URL is required
                           </div>
                         </div>
                       )}
+
+                      {data.appBasic.docSource &&
+                        !validURL(data.appBasic.docSource) &&
+                        hasError && (
+                          <div className="fv-plugins-message-container">
+                            <div
+                              className="fv-help-block"
+                              data-field="title"
+                              data-validator="notEmpty"
+                            >
+                              Source is not a valid URL
+                            </div>
+                          </div>
+                        )}
                     </div>
                     {/*end::Form Group */}
 
                     {/*begin::Form Group */}
+                    <div className="fv-row mb-12">
+                      <div className="fv-row mb-2 d-flex justify-content-between">
+                        <label className="fs-6 fw-bolder text-dark form-label">
+                          ¿Cuál es la fuente de esta información?
+                        </label>
+
+                        <div>
+                          <input
+                            checked={newSrc}
+                            className="form-check-input me-3"
+                            id="newSrc"
+                            type="checkbox"
+                            onChange={() => setNewSrc(!newSrc)}
+                          />
+                          <label
+                            className="form-check-label fw-bold text-gray-600"
+                            htmlFor="kt_checkbox_1"
+                          >
+                            Crear nuevo
+                          </label>
+                        </div>
+                      </div>
+
+                      {!newSrc && (
+                        <>
+                          <input
+                            className="form-control form-control-lg form-control-solid"
+                            name="sourceSearch"
+                            placeholder="ejemplo: Ministerio de Relaciones Exteriores"
+                            type="text"
+                            value={srcSearchTerm}
+                            onChange={(e) => {
+                              reset(3);
+                              setSrcSearchTerm(e.target.value);
+                            }}
+                            onKeyDown={_handleKeyDownSrc}
+                          />
+
+                          <label className="text-muted mt-2 fw-bold fs-6 mt-3">
+                            Precione &apos;Enter&apos; para buscar
+                          </label>
+
+                          {!data.appBasic.sourceId && hasError && (
+                            <div className="fv-plugins-message-container">
+                              <div
+                                className="fv-help-block"
+                                data-field="title"
+                                data-validator="notEmpty"
+                              >
+                                Source is required
+                              </div>
+                            </div>
+                          )}
+                        </>
+                      )}
+
+                      {newSrc && (
+                        <>
+                          <input
+                            className="form-control form-control-lg form-control-solid"
+                            name="srcName"
+                            placeholder="Nombre"
+                            type="text"
+                            value={data.appBasic.newSource?.name}
+                            onChange={(e) => {
+                              updateData({
+                                appBasic: {
+                                  ...data.appBasic,
+                                  newSource: {
+                                    ...data.appBasic.newSource,
+                                    name: e.target.value,
+                                  },
+                                },
+                              });
+                            }}
+                          />
+
+                          <br />
+
+                          <textarea
+                            className="form-control form-control-lg form-control-solid"
+                            placeholder="Descripción"
+                            rows={3}
+                            value={data.appBasic.newSource?.description}
+                            onChange={(e) => {
+                              updateData({
+                                appBasic: {
+                                  ...data.appBasic,
+                                  newSource: {
+                                    ...data.appBasic.newSource,
+                                    description: e.target.value,
+                                  },
+                                },
+                              });
+                            }}
+                          />
+
+                          <br />
+
+                          <input
+                            className="form-control form-control-lg form-control-solid"
+                            name="newSrcUrl"
+                            placeholder="Website"
+                            type="text"
+                            value={data.appBasic.newSource?.url}
+                            onChange={(e) => {
+                              updateData({
+                                appBasic: {
+                                  ...data.appBasic,
+                                  newSource: {
+                                    ...data.appBasic.newSource,
+                                    url: e.target.value,
+                                  },
+                                },
+                              });
+                            }}
+                          />
+
+                          {(!data.appBasic?.newSource?.name ||
+                            !data.appBasic?.newSource?.description ||
+                            !data.appBasic?.newSource?.url) &&
+                            hasError && (
+                              <div className="fv-plugins-message-container">
+                                <div
+                                  className="fv-help-block"
+                                  data-field="title"
+                                  data-validator="notEmpty"
+                                >
+                                  All information is required
+                                </div>
+                              </div>
+                            )}
+
+                          {data.appBasic?.newSource?.url &&
+                            !validURL(data.appBasic?.newSource?.url) &&
+                            hasError && (
+                              <div className="fv-plugins-message-container">
+                                <div
+                                  className="fv-help-block"
+                                  data-field="title"
+                                  data-validator="notEmpty"
+                                >
+                                  This URL is not valid
+                                </div>
+                              </div>
+                            )}
+                        </>
+                      )}
+                    </div>
+
+                    {/*begin::Form Group */}
                     <div className="fv-row">
-                      <label className="fs-6 fw-bolder text-dark mb-7">
-                        Select your app database solution
-                      </label>
+                      {srcSearchTerm &&
+                        sources.map((source: any, i) => {
+                          // limit to 5 results
+                          if (i > 3) return;
 
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-success">
-                              <i className="fas fa-database text-success fs-2x" />
+                          return (
+                            <label
+                              key={`src_${i}`}
+                              className="d-flex align-items-center justify-content-between cursor-pointer mb-6"
+                            >
+                              <span className="d-flex align-items-center me-2">
+                                <span className="d-flex flex-column">
+                                  <span className="fw-bolder fs-6">
+                                    {truncate(source.name, 50)}
+                                  </span>
+                                  <span className="fs-7 text-muted">
+                                    {truncate(
+                                      source?.description || source?.url,
+                                      120
+                                    )}
+                                  </span>
+                                </span>
+                              </span>
+
+                              <span className="form-check form-check-custom form-check-solid">
+                                <input
+                                  checked={
+                                    data.appBasic.sourceId === source._id
+                                  }
+                                  className="form-check-input"
+                                  name="sourceId"
+                                  type="radio"
+                                  value={source._id}
+                                  onChange={() => {
+                                    setSrcSearchTerm(source.name);
+                                    updateData({
+                                      appBasic: {
+                                        ...data.appBasic,
+                                        sourceId: source._id,
+                                        sourceInfo: {
+                                          name: source.name,
+                                          description: source.description,
+                                          url: source.url || source.website,
+                                        },
+                                      },
+                                    });
+                                  }}
+                                />
+                              </span>
+                            </label>
+                          );
+                        })}
+
+                      {isLoading && (
+                        <span
+                          className="indicator-progress"
+                          style={{ display: "block" }}
+                        >
+                          Please wait...{" "}
+                          <span className="spinner-border spinner-border-sm align-middle ms-2" />
+                        </span>
+                      )}
+
+                      {srcSearchTerm && resultNotFound && (
+                        <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
+                          <span className="d-flex align-items-center me-2">
+                            <span className="d-flex flex-column">
+                              <span className="fw-bolder fs-6">
+                                No result matching
+                              </span>
+                              <span className="fs-7 text-muted">
+                                no encontramos lo que buscas en nuestro sistema.
+                                <br />
+                                Intentalo nuevamente, o crea una{" "}
+                                <span
+                                  className="text-primary"
+                                  onClick={() => setNewSrc(true)}
+                                >
+                                  nueva entrada
+                                </span>
+                              </span>
                             </span>
                           </span>
-
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">MySQL</span>
-                            <span className="fs-7 text-muted">
-                              Basic MySQL database
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={
-                              data.appDatabase.databaseSolution === "MySQL"
-                            }
-                            className="form-check-input"
-                            name="databaseSolution"
-                            type="radio"
-                            value="MySQL"
-                            onChange={() =>
-                              updateData({
-                                appDatabase: {
-                                  databaseName: data.appDatabase.databaseName,
-                                  databaseSolution: "MySQL",
-                                },
-                              })
-                            }
-                          />
-                        </span>
-                      </label>
-                      {/*end::Option */}
-
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-danger">
-                              <i className="fab fa-google text-danger fs-2x" />
-                            </span>
-                          </span>
-
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">Firebase</span>
-                            <span className="fs-7 text-muted">
-                              Google based app data management
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={
-                              data.appDatabase.databaseSolution === "Firebase"
-                            }
-                            className="form-check-input"
-                            name="databaseSolution"
-                            type="radio"
-                            value="Firebase"
-                            onChange={() =>
-                              updateData({
-                                appDatabase: {
-                                  databaseName: data.appDatabase.databaseName,
-                                  databaseSolution: "Firebase",
-                                },
-                              })
-                            }
-                          />
-                        </span>
-                      </label>
-                      {/*end::Option */}
-
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-warning">
-                              <i className="fab fa-amazon text-warning fs-2x" />
-                            </span>
-                          </span>
-
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">DynamoDB</span>
-                            <span className="fs-7 text-muted">
-                              Amazon Fast NoSQL Database
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={
-                              data.appDatabase.databaseSolution === "DynamoDB"
-                            }
-                            className="form-check-input"
-                            name="databaseSolution"
-                            type="radio"
-                            value="DynamoDB"
-                            onChange={() =>
-                              updateData({
-                                appDatabase: {
-                                  databaseName: data.appDatabase.databaseName,
-                                  databaseSolution: "DynamoDB",
-                                },
-                              })
-                            }
-                          />
-                        </span>
-                      </label>
-                      {/*end::Option */}
+                        </label>
+                      )}
                     </div>
                     {/*end::Form Group */}
                   </div>
@@ -723,113 +1134,341 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                   <div className="w-100">
                     {/*begin::Heading */}
                     <div className="pb-10 pb-lg-15">
+                      <h3 className="fw-bolder text-dark display-6">Emisor</h3>
+                    </div>
+                    {/*begin::Heading */}
+
+                    {/*begin::Form Group */}
+                    <div className="fv-row mb-12">
+                      <div className="fv-row mb-2 d-flex justify-content-between">
+                        <label className="fs-6 fw-bolder text-dark form-label">
+                          ¿Quien emitió esta información?
+                        </label>
+
+                        <div>
+                          <input
+                            checked={newDep}
+                            className="form-check-input me-3"
+                            id="newDep"
+                            type="checkbox"
+                            onChange={() => setNewDep(!newDep)}
+                          />
+                          <label
+                            className="form-check-label fw-bold text-gray-600"
+                            htmlFor="kt_checkbox_1"
+                          >
+                            Crear nuevo
+                          </label>
+                        </div>
+                      </div>
+
+                      {!newDep && (
+                        <>
+                          <input
+                            className="form-control form-control-lg form-control-solid"
+                            name="depSearch"
+                            placeholder="ejemplo: Ministerio de Relaciones Exteriores"
+                            type="text"
+                            value={depSearchTerm}
+                            onChange={(e) => {
+                              reset(4);
+                              setDepSearchTerm(e.target.value);
+                            }}
+                            onKeyDown={_handleKeyDownDep}
+                          />
+
+                          <label className="text-muted mt-2 fw-bold fs-6 mt-3">
+                            Precione &apos;Enter&apos; para buscar
+                          </label>
+
+                          {!data.appBasic.issuerId && hasError && (
+                            <div className="fv-plugins-message-container">
+                              <div
+                                className="fv-help-block"
+                                data-field="title"
+                                data-validator="notEmpty"
+                              >
+                                issuerId is required
+                              </div>
+                            </div>
+                          )}
+                        </>
+                      )}
+
+                      {newDep && (
+                        <>
+                          <input
+                            className="form-control form-control-lg form-control-solid"
+                            name="depName"
+                            placeholder="Nombre"
+                            type="text"
+                            value={data.appBasic.newIssuer?.name}
+                            onChange={(e) => {
+                              updateData({
+                                appBasic: {
+                                  ...data.appBasic,
+                                  newIssuer: {
+                                    ...data.appBasic.newIssuer,
+                                    name: e.target.value,
+                                  },
+                                },
+                              });
+                            }}
+                          />
+
+                          <br />
+
+                          <textarea
+                            className="form-control form-control-lg form-control-solid"
+                            placeholder="Descripción"
+                            rows={3}
+                            value={data.appBasic.newIssuer?.description}
+                            onChange={(e) => {
+                              updateData({
+                                appBasic: {
+                                  ...data.appBasic,
+                                  newIssuer: {
+                                    ...data.appBasic.newIssuer,
+                                    description: e.target.value,
+                                  },
+                                },
+                              });
+                            }}
+                          />
+
+                          <br />
+
+                          <input
+                            className="form-control form-control-lg form-control-solid"
+                            name="newDepUrl"
+                            placeholder="Website"
+                            type="text"
+                            value={data.appBasic.newIssuer?.url}
+                            onChange={(e) => {
+                              updateData({
+                                appBasic: {
+                                  ...data.appBasic,
+                                  newIssuer: {
+                                    ...data.appBasic.newIssuer,
+                                    url: e.target.value,
+                                  },
+                                },
+                              });
+                            }}
+                          />
+
+                          {(!data.appBasic?.newIssuer?.name ||
+                            !data.appBasic?.newIssuer?.description ||
+                            !data.appBasic?.newIssuer?.url) &&
+                            hasError && (
+                              <div className="fv-plugins-message-container">
+                                <div
+                                  className="fv-help-block"
+                                  data-field="title"
+                                  data-validator="notEmpty"
+                                >
+                                  All information is required
+                                </div>
+                              </div>
+                            )}
+
+                          {data.appBasic?.newIssuer?.url &&
+                            !validURL(data.appBasic?.newIssuer?.url) &&
+                            hasError && (
+                              <div className="fv-plugins-message-container">
+                                <div
+                                  className="fv-help-block"
+                                  data-field="title"
+                                  data-validator="notEmpty"
+                                >
+                                  This URL is not valid
+                                </div>
+                              </div>
+                            )}
+                        </>
+                      )}
+                    </div>
+
+                    {/*begin::Form Group */}
+                    <div className="fv-row">
+                      {depSearchTerm &&
+                        deps &&
+                        deps.map((dep: any, i) => {
+                          // limit to 5 results
+                          if (i > 3) return;
+
+                          return (
+                            <label
+                              key={`dep_${i}`}
+                              className="d-flex align-items-center justify-content-between cursor-pointer mb-6"
+                            >
+                              <span className="d-flex align-items-center me-2">
+                                <span className="d-flex flex-column">
+                                  <span className="fw-bolder fs-6">
+                                    {truncate(dep.name, 50)}
+                                  </span>
+                                  <span className="fs-7 text-muted">
+                                    {truncate(
+                                      dep?.desciption || dep?.website,
+                                      120
+                                    )}
+                                  </span>
+                                </span>
+                              </span>
+
+                              <span className="form-check form-check-custom form-check-solid">
+                                <input
+                                  checked={data.appBasic.issuerId === dep._id}
+                                  className="form-check-input"
+                                  name="issuerId"
+                                  type="radio"
+                                  value={dep._id}
+                                  onChange={() => {
+                                    setDepSearchTerm(dep.name);
+                                    updateData({
+                                      appBasic: {
+                                        ...data.appBasic,
+                                        issuerId: dep._id,
+                                        issuerInfo: {
+                                          name: dep.name,
+                                          description: dep.desciption,
+                                          url: dep.url || dep.website,
+                                        },
+                                      },
+                                    });
+                                  }}
+                                />
+                              </span>
+                            </label>
+                          );
+                        })}
+
+                      {isLoading && (
+                        <span
+                          className="indicator-progress"
+                          style={{ display: "block" }}
+                        >
+                          Please wait...{" "}
+                          <span className="spinner-border spinner-border-sm align-middle ms-2" />
+                        </span>
+                      )}
+
+                      {depSearchTerm && resultNotFound && (
+                        <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
+                          <span className="d-flex align-items-center me-2">
+                            <span className="d-flex flex-column">
+                              <span className="fw-bolder fs-6">
+                                No result matching
+                              </span>
+                              <span className="fs-7 text-muted">
+                                no encontramos lo que buscas en nuestro sistema.
+                                <br />
+                                Intentalo nuevamente, o crea una{" "}
+                                <span
+                                  className="text-primary"
+                                  onClick={() => setNewDep(true)}
+                                >
+                                  nueva entrada
+                                </span>
+                              </span>
+                            </span>
+                          </span>
+                        </label>
+                      )}
+                    </div>
+                    {/*end::Form Group */}
+                  </div>
+                </div>
+                {/*end::Step 4 */}
+
+                {/*begin::Step 4 */}
+                <div className="pb-5" data-kt-stepper-element="content">
+                  <div className="w-100">
+                    {/*begin::Heading */}
+                    <div className="pb-10 pb-lg-15">
                       <h3 className="fw-bolder text-dark display-6">
-                        App Storage
+                        Archivos
                       </h3>
                     </div>
                     {/*begin::Heading */}
 
                     {/*begin::Form Group */}
-                    <div className="fv-row">
-                      <label className="fs-6 fw-bolder text-dark mb-7">
-                        Select your app storage solution
-                      </label>
+                    <div className="fv-row mb-12">
+                      <div className="fv-row mb-2 d-flex justify-content-between">
+                        <label className="fs-6 fw-bolder text-dark form-label">
+                          Ingrese el archivo que desea compartir
+                        </label>
+                      </div>
 
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-primary">
-                              <i className="fab fa-linux text-primary fs-2x" />
-                            </span>
-                          </span>
+                      <input
+                        accept={getExtention(data.appBasic.docType)}
+                        className="form-control form-control-lg form-control-solid"
+                        name="file"
+                        placeholder="File"
+                        type="file"
+                        onChange={(e) => {
+                          const file = (e.target as HTMLInputElement)
+                            .files?.[0];
+                          updateData({
+                            appBasic: {
+                              ...data.appBasic,
+                              fileUploaded: file,
+                            },
+                          });
+                        }}
+                      />
 
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">Basic Server</span>
-                            <span className="fs-7 text-muted">
-                              Linux based server storage
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={data.appStorage === "Basic Server"}
-                            className="form-check-input"
-                            name="appStorage"
-                            type="radio"
-                            value="Basic Server"
-                            onChange={() =>
-                              updateData({ appStorage: "Basic Server" })
-                            }
-                          />
-                        </span>
-                      </label>
-                      {/*end::Option */}
-
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-warning">
-                              <i className="fab fa-aws text-warning fs-2x" />
-                            </span>
-                          </span>
-
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">AWS</span>
-                            <span className="fs-7 text-muted">
-                              Amazon Web Services
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={data.appStorage === "AWS"}
-                            className="form-check-input"
-                            name="appStorage"
-                            type="radio"
-                            value="AWS"
-                            onChange={() => updateData({ appStorage: "AWS" })}
-                          />
-                        </span>
-                      </label>
-                      {/*end::Option */}
-
-                      {/*begin:Option */}
-                      <label className="d-flex align-items-center justify-content-between cursor-pointer mb-6">
-                        <span className="d-flex align-items-center me-2">
-                          <span className="symbol symbol-50px me-6">
-                            <span className="symbol-label bg-light-success  ">
-                              <i className="fab fa-google text-success fs-2x" />
-                            </span>
-                          </span>
-
-                          <span className="d-flex flex-column">
-                            <span className="fw-bolder fs-6">Google</span>
-                            <span className="fs-7 text-muted">
-                              Google Cloud Storage
-                            </span>
-                          </span>
-                        </span>
-
-                        <span className="form-check form-check-custom form-check-solid">
-                          <input
-                            checked={data.appStorage === "Google"}
-                            className="form-check-input"
-                            name="appStorage"
-                            type="radio"
-                            value="Google"
-                            onChange={() =>
-                              updateData({ appStorage: "Google" })
-                            }
-                          />
-                        </span>
-                      </label>
-                      {/*end::Option */}
+                      {!data.appBasic?.fileUploaded && hasError && (
+                        <div className="fv-plugins-message-container">
+                          <div
+                            className="fv-help-block"
+                            data-field="title"
+                            data-validator="notEmpty"
+                          >
+                            File is required
+                          </div>
+                        </div>
+                      )}
                     </div>
-                    {/*end::Form Group */}
+
+                    {/*begin::Form Group */}
+                    <div className="fv-row mb-12">
+                      <div className="fv-row mb-2 d-flex justify-content-between">
+                        <label className="fs-6 fw-bolder text-dark form-label">
+                          Ingrese un screenshot de la fuente
+                        </label>
+                      </div>
+
+                      <input
+                        accept="image/*"
+                        className="form-control form-control-lg form-control-solid"
+                        name="proof"
+                        placeholder="File"
+                        type="file"
+                        onChange={(e) => {
+                          const file = (e.target as HTMLInputElement)
+                            .files?.[0];
+                          updateData({
+                            appBasic: {
+                              ...data.appBasic,
+                              proof: file,
+                            },
+                          });
+                        }}
+                      />
+
+                      {!data.appBasic?.proof && hasError && (
+                        <div className="fv-plugins-message-container">
+                          <div
+                            className="fv-help-block"
+                            data-field="title"
+                            data-validator="notEmpty"
+                          >
+                            File is required
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
                 {/*end::Step 4 */}
@@ -839,43 +1478,143 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                   <div className="w-100">
                     {/* begin::Heading */}
                     <div className="pb-10 pb-lg-15">
-                      <h3 className="fw-bolder text-dark display-6">
-                        Complete
-                      </h3>
+                      <h3 className="fw-bolder text-dark display-6">Review</h3>
                       <div className="text-muted fw-bold fs-3">
-                        Review your setup to kickstart your app!
+                        ¡Casi listos para compartir tu archivo!
                       </div>
                     </div>
                     {/* end::Heading */}
 
                     {/* begin::Section */}
-                    <h4 className="fw-bolder mb-3">App Basics</h4>
+                    <h4 className="fw-bolder mb-3">Documento</h4>
                     <div className="text-gray-600 fw-bold lh-lg mb-8">
-                      <div>{data.appBasic.appName}</div>
-                      <div>{data.appBasic.appType}</div>
+                      <h5 className="text-truncate">{data.appBasic.title}</h5>
+                      <div>{data.appBasic.docType}</div>
                     </div>
                     {/* end::Section */}
 
                     {/* begin::Section */}
-                    <h4 className="fw-bolder mb-3">App Framework</h4>
+                    <h4 className="fw-bolder mb-3">Detalles</h4>
                     <div className="text-gray-600 fw-bold lh-lg mb-8">
-                      <div>{data.appFramework}</div>
+                      <h5 className="text-truncate">
+                        {data.appBasic.description}
+                      </h5>
+                    </div>
+                    {/* end::Section */}
+
+                    <h4 className="fw-bolder mb-3">Fuente</h4>
+                    <div className="text-gray-600 fw-bold lh-lg mb-8">
+                      <h5 className="fw-bolder mb-3">
+                        {data.appBasic.newSource?.name ||
+                          data.appBasic.sourceInfo?.name}
+                      </h5>
+                      <div className="text-truncate mb-3">
+                        {data.appBasic.newSource?.description ||
+                          data.appBasic.sourceInfo?.description}
+                      </div>
+                      <a
+                        className="text-truncate"
+                        href={data.appBasic.docSource}
+                        rel="noreferrer"
+                        target="_blank"
+                      >
+                        {data.appBasic.docSource}
+                      </a>
                     </div>
                     {/* end::Section */}
 
                     {/* begin::Section */}
-                    <h4 className="fw-bolder mb-3">App Database</h4>
+                    <h4 className="fw-bolder mb-3">Emisor</h4>
                     <div className="text-gray-600 fw-bold lh-lg mb-8">
-                      <div>{data.appDatabase.databaseName}</div>
-                      <div>{data.appDatabase.databaseSolution}</div>
+                      <h5 className="fw-bolder mb-3">
+                        {data.appBasic.newIssuer?.name ||
+                          data.appBasic.issuerInfo?.name}
+                      </h5>
+                      <div className="text-truncate mb-3">
+                        {data.appBasic.newIssuer?.description ||
+                          (data.appBasic.issuerInfo?.description &&
+                            truncate(
+                              data.appBasic.newIssuer?.description ||
+                                data.appBasic.issuerInfo?.description,
+                              150
+                            ))}
+                      </div>
+                      <a
+                        href={
+                          data.appBasic.newIssuer?.url ||
+                          data.appBasic.issuerInfo?.url
+                        }
+                        rel="noreferrer"
+                        target="_blank"
+                      >
+                        {data.appBasic.newIssuer?.url ||
+                          data.appBasic.issuerInfo?.url}
+                      </a>
                     </div>
                     {/* end::Section */}
 
                     {/* begin::Section */}
-                    <h4 className="fw-bolder mb-3">App Storage</h4>
+                    <h4 className="fw-bolder mb-3">Archivos</h4>
                     <div className="text-gray-600 fw-bold lh-lg mb-8">
-                      <div>{data.appStorage}</div>
+                      <h5>{data.appBasic.fileUploaded.name}</h5>
+                      <div>{data.appBasic.proof.name}</div>
                     </div>
+                    {/* end::Section */}
+                  </div>
+                </div>
+                {/*end::Step 5 */}
+
+                {/*begin::Step 5 */}
+                <div className="pb-5" data-kt-stepper-element="content">
+                  <div className="w-100">
+                    {/* begin::Heading */}
+                    <div className="pb-10 pb-lg-15">
+                      <h3 className="fw-bolder text-dark display-6">
+                        ¡Gracias!
+                      </h3>
+                      <div className="text-muted fw-bold fs-3">
+                        Todos juntos podemos llegar a la verdad
+                      </div>
+                    </div>
+                    {/* end::Heading */}
+
+                    {/* begin::Section */}
+                    <h4 className="fw-bolder mb-3">Link al documento</h4>
+                    <Link
+                      to={{
+                        pathname: `/single/src/${assetCID}?assetId=${assetId}`,
+                      }}
+                    >
+                      <div className="text-gray-600 fw-bold lh-lg mb-8">
+                        <input
+                          disabled
+                          readOnly
+                          className="cursor-pointer form-control form-control-lg form-control-solid"
+                          name="title"
+                          placeholder=""
+                          type="text"
+                          value={`${window.location.host}/single/src/${assetCID}`}
+                        />
+                      </div>
+                    </Link>
+                    {/* end::Section */}
+
+                    {/* begin::Section */}
+                    {assetsOwner.length > 0 && (
+                      <>
+                        <h4 className="fw-bolder mb-3">Detalles</h4>
+                        <Table
+                          hideButton
+                          hideCount
+                          cardClassName={`table-custom no-padding card-stretch mb-5 mb-xxl-8 ${
+                            isLoading ? "table-loading" : ""
+                          }`}
+                          columns={columns} // change this with the actual count from DB
+                          emptyMessage="No hay registros disponibles para esta categoria"
+                          id="collection-data-list"
+                        />
+                      </>
+                    )}
                     {/* end::Section */}
                   </div>
                 </div>
@@ -887,6 +1626,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     <button
                       className="btn btn-lg btn-light-primary fw-bolder py-4 pe-8 me-3"
                       data-kt-stepper-action="previous"
+                      disabled={currentStep === 6}
                       type="button"
                       onClick={prevStep}
                     >
@@ -902,9 +1642,9 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                       className="btn btn-lg btn-primary fw-bolder py-4 ps-8 me-3"
                       data-kt-stepper-action="submit"
                       type="button"
-                      onClick={submit}
+                      onClick={close}
                     >
-                      Submit{" "}
+                      Close{" "}
                       <Ktsvg
                         className="svg-icon-3 ms-2"
                         path="/media/icons/duotone/Navigation/Right-2.svg"
@@ -914,14 +1654,31 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     <button
                       className="btn btn-lg btn-primary fw-bolder py-4 ps-8 me-3"
                       data-kt-stepper-action="next"
+                      disabled={isSigning}
                       type="button"
                       onClick={nextStep}
                     >
-                      Next Step{" "}
-                      <Ktsvg
-                        className="svg-icon-3 ms-1"
-                        path="/media/icons/duotone/Navigation/Right-2.svg"
-                      />
+                      {currentStep === 5 ? (
+                        isSigning ? (
+                          <span
+                            className="indicator-progress"
+                            style={{ display: "block" }}
+                          >
+                            Please wait...{" "}
+                            <span className="spinner-border spinner-border-sm align-middle ms-2" />
+                          </span>
+                        ) : (
+                          "Submit"
+                        )
+                      ) : (
+                        "Next Step"
+                      )}{" "}
+                      {!isSigning && (
+                        <Ktsvg
+                          className="svg-icon-3 ms-1"
+                          path="/media/icons/duotone/Navigation/Right-2.svg"
+                        />
+                      )}
                     </button>
                   </div>
                 </div>
