@@ -5,10 +5,12 @@ import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 
 const API_URL = process.env.REACT_APP_ALETHEIA_API || "api";
+const ADMIN_API_URL = process.env.REACT_APP_API_ENDPOINT || "api";
 
 export const GET_ALL_DEPARTMENTS = `${API_URL}/v2/open-data/departments/getAll`;
 export const GET_ALL_SOURCES = `${API_URL}/v2/open-data/sources/getAll`;
-export const GET_ALL_FILES = `${API_URL}/alexandrias`;
+export const GET_ALL_CATEGORIES = `${API_URL}/v2/open-data/categories/getAll`;
+export const GET_ALL_FILES = `${ADMIN_API_URL}/alexandrias`;
 export const GET_ALL_PDF = `${API_URL}/alexandrias?type=pdf`;
 export const GET_ALL_IMPORTS = `${API_URL}/imports`;
 export const GET_ALL_IMPORTS_COUNT = `${API_URL}/imports/count`;
@@ -17,9 +19,19 @@ export const START = `_start=1`;
 export const LIMIT = `_limit=15`;
 export const LIMIT_SHORT = `_limit=5`;
 export const NO_LIMIT = `_limit=0`;
-export const SORTING = `_sort=desc`;
+export const DEFAULT_SORTING = `_sort=desc`;
 
 // Get information from API 
+export function getAllAssetsOwner(owner: string) {
+  // Authorization head should be fulfilled in interceptor.
+  // Check common redux folder => setupAxios
+  const url = `${GET_ALL_FILES}?wallet_address=${owner}&_limit=3&_sort=createdAt:desc`
+  console.log(url);
+  
+  return fetch(url)
+    .then(response => response.json())
+    .then(data => data);
+}
 
 // source
 export function getAllSources() {
@@ -67,11 +79,31 @@ export function getDepartment(id: string) {
     .then(data => data);
 }
 
+// departments by name
+export function getAllCategories() {
+  // Authorization head should be fulfilled in interceptor.
+  // Check common redux folder => setupAxios
+  const url = `${GET_ALL_CATEGORIES}`
+  return fetch(url)
+    .then(response => response.json())
+    .then(data => data);
+}
+
+// departments by name
+export function getAllCategoriesByName(name?: string) {
+  // Authorization head should be fulfilled in interceptor.
+  // Check common redux folder => setupAxios
+  const url = `${GET_ALL_CATEGORIES}?title=${name}`
+  return fetch(url)
+    .then(response => response.json())
+    .then(data => data);
+}
+
 // get all files
 export function getArchive() {
   // Authorization head should be fulfilled in interceptor.
   // Check common redux folder => setupAxios
-  return fetch(`${GET_ALL_FILES}?${NO_LIMIT}&${START}&${SORTING}`)
+  return fetch(`${GET_ALL_FILES}?${NO_LIMIT}&${START}&${DEFAULT_SORTING}`)
     .then(response => response.json())
     .then(data => data);
 }

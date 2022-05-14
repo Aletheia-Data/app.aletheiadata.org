@@ -2,6 +2,7 @@ export interface PublishData {
   title: string;
   docType: string;
   description: string;
+  categoryId: string;
   docSource: string;
   sourceId: string;
   sourceInfo?: {
@@ -39,6 +40,7 @@ export const defaultCreateAppData: ICreateAppData = {
     title: "",
     docType: "",
     description: "",
+    categoryId: "",
     docSource: "",
     sourceId: "",
     sourceInfo: {

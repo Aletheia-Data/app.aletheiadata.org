@@ -12,8 +12,11 @@ import Web3 from "web3";
 import {
   getAllSourcesByName,
   getAllDepartmentsByName,
+  getAllCategories,
+  getAllAssetsOwner,
 } from "../../redux/DashboardCRUD";
 import { validURL } from "_start/helpers/ValidateURL";
+import moment from "moment";
 interface Props {
   show: boolean;
   handleClose: () => void;
@@ -28,6 +31,9 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSigning, setIsSigning] = useState(false);
 
+  const [assetCID, setAssetCID] = useState("");
+  const [assetId, setAssetId] = useState("");
+
   const [sources, setSources] = useState([]);
   const [srcSearchTerm, setSrcSearchTerm] = useState("");
 
@@ -40,6 +46,17 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
   const [resultNotFound, setResultNotFound] = useState(false);
 
+  const [cats, setCats] = useState([]);
+  const [assetsOwner, setAssetsOwner] = useState([]);
+
+  const [owner, setOwner] = useState(data.appBasic.owner);
+
+  useEffect(() => {
+    if (owner) {
+      getAssets(owner);
+    }
+  }, [owner]);
+
   useEffect(() => {
     reset(3);
   }, [newSrc]);
@@ -48,10 +65,14 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
     reset(4);
   }, [newDep]);
 
+  useEffect(() => {
+    getCategories();
+  }, [currentStep]);
+
   const searchSource = async (term: string) => {
     setIsLoading(true);
     // const deps = await rapidAPI.get("/v2/open-data/departments/getAll", params);
-    getAllSourcesByName(term)
+    await getAllSourcesByName(term)
       .then((deps) => {
         const body = JSON.parse(deps.body);
         // console.log(JSON.parse(deps.body));
@@ -72,12 +93,50 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   const searchDep = async (term: string) => {
     setIsLoading(true);
     // const deps = await rapidAPI.get("/v2/open-data/departments/getAll", params);
-    getAllDepartmentsByName(term)
+    await getAllDepartmentsByName(term)
       .then((deps) => {
         const body = JSON.parse(deps.body);
-        console.log(JSON.parse(deps.body));
         setDeps(JSON.parse(deps.body));
         if (body.length === 0) {
+          setResultNotFound(true);
+        }
+
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(true);
+      });
+  };
+
+  const getCategories = async () => {
+    setIsLoading(true);
+    // const deps = await rapidAPI.get("/v2/open-data/departments/getAll", params);
+    await getAllCategories()
+      .then((cats) => {
+        const body = JSON.parse(cats.body);
+        setCats(JSON.parse(cats.body));
+        if (body.length === 0) {
+          setResultNotFound(true);
+        }
+
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(true);
+      });
+  };
+
+  const getAssets = async (owner: string) => {
+    setIsLoading(true);
+    // const deps = await rapidAPI.get("/v2/open-data/departments/getAll", params);
+    console.log("getting assets from: ", owner);
+
+    await getAllAssetsOwner(owner)
+      .then((assets) => {
+        setAssetsOwner(assets);
+        if (assets.length === 0) {
           setResultNotFound(true);
         }
 
@@ -108,15 +167,17 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
       formData.append("proof", data.appBasic.proof);
       formData.append("fileUploaded", data.appBasic.fileUploaded);
       formData.append("asset", JSON.stringify(data.appBasic));
-      console.log(data.appBasic.proof);
 
       fetch(endpoint, {
+        cache: "no-store",
         method: "post",
         body: formData,
       })
-        .then((response) => response.json())
+        .then((r) => r.json())
         .then((data) => {
-          //console.log(data)
+          // console.log(data);
+          if (data.code === 500) throw new Error(JSON.stringify(data.body));
+
           resolve(data);
         })
         .catch((err) => {
@@ -137,18 +198,16 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
         const msg = "Confirm contribution to Aletheia!";
         const msgHash = web3.eth.accounts.hashMessage(msg);
         await web3.eth.sign(msgHash, accounts[0]);
-        updateData({
-          appBasic: {
-            ...data.appBasic,
-            owner: accounts[0],
-          },
-        });
-        console.log(data.appBasic);
+        // eslint-disable-next-line prefer-destructuring
+        data.appBasic.owner = accounts[0];
         submitData()
           .then((res: any) => {
-            console.log(res);
+            // console.log(res);
 
             if (res.code === 200) {
+              setAssetCID(res.body.assetCID);
+              setAssetId(res.body.assetId);
+              setOwner(accounts[0]);
               setCurrentStep(currentStep + 1);
               stepper.current.goNext();
             }
@@ -212,7 +271,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
       case 2:
         if (
           !data.appBasic.description ||
-          data.appBasic.description.length < 100
+          data.appBasic.description.length < 100 ||
+          !data.appBasic?.categoryId
         ) {
           return false;
         }
@@ -273,7 +333,8 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   };
 
   const close = () => {
-    console.log(data.appBasic);
+    reset(6);
+    handleClose();
   };
 
   const _handleKeyDownSrc = (e: any) => {
@@ -286,6 +347,15 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
     if (e.key === "Enter") {
       searchDep(depSearchTerm);
     }
+  };
+
+  const _setCategory = (e: any) => {
+    updateData({
+      appBasic: {
+        ...data.appBasic,
+        categoryId: e.target.value,
+      },
+    });
   };
 
   const reset = (step: number) => {
@@ -316,6 +386,9 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
           },
         });
         break;
+      case 6:
+        updateData(defaultCreateAppData);
+        break;
       default:
         break;
     }
@@ -323,45 +396,43 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
     setHasError(false);
   };
 
-  const records = [
-    {
-      id: 0,
-      title: "Estadísticas de Estudiantes Matriculas...",
-      cid: "tets5536",
-    },
-  ];
-
   const columns = [
     {
       title: "Últimos Archivos",
-      cells: records?.map((recordItem: any) => (
+      cells: assetsOwner?.map((recordItem: any) => (
         <Link
           key={`record-alexandria-${recordItem.cid}`}
           className={`text-gray-800 fw-bolder text-hover-primary fs-6 ${
             recordItem.cid ? "" : "disabled"
           }`}
-          to="#"
+          to={`/single/src/${recordItem.cid}?assetId=${recordItem.id}`}
         >
           {recordItem.title}
         </Link>
       )),
     },
     {
-      title: "Action",
-      cells: records?.map((recordItem: any) => (
-        <Link
-          key={`record-alexandria-${recordItem.cid}`}
-          className="btn btn-icon btn-bg-light  btn-color-muted btn-active-color-primary btn-sm"
-          to="#"
-        >
-          <Ktsvg
-            className="svg-icon-4"
-            path="/media/icons/duotone/General/Sad.svg"
-          />
-        </Link>
+      title: "Fecha",
+      cells: assetsOwner?.map((recordItem: any) => (
+        <>{moment(recordItem.createdAt).format("DD/MM/YYYY")}</>
       )),
     },
   ];
+
+  const getExtention = (doctype: string) => {
+    let ext;
+    if (doctype === "pdf") {
+      ext = ".pdf";
+    } else if (doctype === "xls") {
+      ext = ".xlsx, .xls";
+    } else if (doctype === "csv") {
+      ext = ".csv";
+    } else if (doctype === "other") {
+      ext = "*";
+    }
+
+    return ext;
+  };
 
   return (
     <Modal
@@ -670,8 +741,46 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     </div>
                     {/*end::Heading */}
 
+                    <div className="fv-row mb-12">
+                      <label className="fs-6 fw-bolder text-dark mb-7">
+                        Categoria
+                      </label>
+
+                      {/*end::TextArea */}
+                      <select
+                        aria-label="Select example"
+                        className="form-select form-select-solid"
+                        onChange={(e) => {
+                          _setCategory(e);
+                        }}
+                      >
+                        <option>Open this select menu</option>
+                        {cats.length > 0 &&
+                          cats.map((cat: any, i) => {
+                            return (
+                              <option key={`cat_option_${i}`} value={cat._id}>
+                                {cat.title}
+                              </option>
+                            );
+                          })}
+                      </select>
+
+                      {!data.appBasic.categoryId && hasError && (
+                        <div className="fv-plugins-message-container">
+                          <div
+                            className="fv-help-block"
+                            data-field="title"
+                            data-validator="notEmpty"
+                          >
+                            Category is required
+                          </div>
+                        </div>
+                      )}
+                      {/*end::Form Group */}
+                    </div>
+
                     {/*begin::Form Group */}
-                    <div className="fv-row">
+                    <div className="fv-row mb-12">
                       <label className="fs-6 fw-bolder text-dark mb-7">
                         Descripción del documento
                       </label>
@@ -690,32 +799,31 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                           })
                         }
                       />
+                      {!data.appBasic.description && hasError && (
+                        <div className="fv-plugins-message-container">
+                          <div
+                            className="fv-help-block"
+                            data-field="title"
+                            data-validator="notEmpty"
+                          >
+                            Description is required
+                          </div>
+                        </div>
+                      )}
                       {/*end::TextArea */}
+                      {data.appBasic.description.length < 100 && hasError && (
+                        <div className="fv-plugins-message-container">
+                          <div
+                            className="fv-help-block"
+                            data-field="title"
+                            data-validator="notEmpty"
+                          >
+                            Description must be at least 100 characters
+                          </div>
+                        </div>
+                      )}
                     </div>
                     {/*end::Form Group */}
-                    {!data.appBasic.description && hasError && (
-                      <div className="fv-plugins-message-container">
-                        <div
-                          className="fv-help-block"
-                          data-field="title"
-                          data-validator="notEmpty"
-                        >
-                          Description is required
-                        </div>
-                      </div>
-                    )}
-
-                    {data.appBasic.description.length < 100 && hasError && (
-                      <div className="fv-plugins-message-container">
-                        <div
-                          className="fv-help-block"
-                          data-field="title"
-                          data-validator="notEmpty"
-                        >
-                          Description must be at least 100 characters
-                        </div>
-                      </div>
-                    )}
                   </div>
                 </div>
                 {/*end::Step 2 */}
@@ -932,8 +1040,6 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     <div className="fv-row">
                       {srcSearchTerm &&
                         sources.map((source: any, i) => {
-                          console.log(data.appBasic.sourceId, source._id);
-
                           // limit to 5 results
                           if (i > 3) return;
 
@@ -1186,6 +1292,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     {/*begin::Form Group */}
                     <div className="fv-row">
                       {depSearchTerm &&
+                        deps &&
                         deps.map((dep: any, i) => {
                           // limit to 5 results
                           if (i > 3) return;
@@ -1294,6 +1401,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                       </div>
 
                       <input
+                        accept={getExtention(data.appBasic.docType)}
                         className="form-control form-control-lg form-control-solid"
                         name="file"
                         placeholder="File"
@@ -1405,6 +1513,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                           data.appBasic.sourceInfo?.description}
                       </div>
                       <a
+                        className="text-truncate"
                         href={data.appBasic.docSource}
                         rel="noreferrer"
                         target="_blank"
@@ -1471,30 +1580,41 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
 
                     {/* begin::Section */}
                     <h4 className="fw-bolder mb-3">Link al documento</h4>
-                    <div className="text-gray-600 fw-bold lh-lg mb-8">
-                      <input
-                        readOnly
-                        className="form-control form-control-lg form-control-solid"
-                        name="title"
-                        placeholder=""
-                        type="text"
-                        value="url asset"
-                      />
-                    </div>
+                    <Link
+                      to={{
+                        pathname: `/single/src/${assetCID}?assetId=${assetId}`,
+                      }}
+                    >
+                      <div className="text-gray-600 fw-bold lh-lg mb-8">
+                        <input
+                          disabled
+                          readOnly
+                          className="cursor-pointer form-control form-control-lg form-control-solid"
+                          name="title"
+                          placeholder=""
+                          type="text"
+                          value={`${window.location.host}/single/src/${assetCID}`}
+                        />
+                      </div>
+                    </Link>
                     {/* end::Section */}
 
                     {/* begin::Section */}
-                    <h4 className="fw-bolder mb-3">Detalles</h4>
-                    <Table
-                      hideButton
-                      cardClassName={`table-custom card-stretch mb-5 mb-xxl-8 ${
-                        isLoading ? "table-loading" : ""
-                      }`}
-                      columns={columns} // change this with the actual count from DB
-                      connectionLength={columns.length}
-                      emptyMessage="No hay registros disponibles para esta categoria"
-                      id="collection-data-list"
-                    />
+                    {assetsOwner.length > 0 && (
+                      <>
+                        <h4 className="fw-bolder mb-3">Detalles</h4>
+                        <Table
+                          hideButton
+                          hideCount
+                          cardClassName={`table-custom no-padding card-stretch mb-5 mb-xxl-8 ${
+                            isLoading ? "table-loading" : ""
+                          }`}
+                          columns={columns} // change this with the actual count from DB
+                          emptyMessage="No hay registros disponibles para esta categoria"
+                          id="collection-data-list"
+                        />
+                      </>
+                    )}
                     {/* end::Section */}
                   </div>
                 </div>
@@ -1506,6 +1626,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     <button
                       className="btn btn-lg btn-light-primary fw-bolder py-4 pe-8 me-3"
                       data-kt-stepper-action="previous"
+                      disabled={currentStep === 6}
                       type="button"
                       onClick={prevStep}
                     >
