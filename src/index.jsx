@@ -20,19 +20,36 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 console.log(`
-***********************************************
-***** Aletheia Data ***
+*******************************
+******* Aletheia Data *********
 **** version: ${version} ******
-**** web3.storage: ${
-  process.env.REACT_APP_WEB3_STORAGE_API_KEY ? true : false
+*******************************
+**** ALETHEIA SYSTEM **********
+**** Aletheia Admin: ${process.env.REACT_APP_BACKEND_URL} ******
+**** Aletheia API: ${process.env.REACT_APP_ALETHEIA_API} ******
+*******************************
+**** STORAGE ******************
+**** Active: ${
+  process.env.REACT_APP_WEB3_STORAGE_API_KEY ||
+  process.env.REACT_APP_NFT_STORAGE_API_KEY
+    ? "true"
+    : "false"
+}
+**** Provider: ${
+  process.env.REACT_APP_WEB3_STORAGE_API_KEY
+    ? "web3.storage"
+    : process.env.REACT_APP_NFT_STORAGE_API_KEY
+    ? "nft.storage"
+    : null
 } ******
-**** nft.storage: ${
-  process.env.REACT_APP_NFT_STORAGE_API_KEY ? true : false
-} ******
-**** moralis: ${process.env.REACT_APP_MORALIS_APP_ID ? true : false} ******
-**** endpoint: ${process.env.REACT_APP_API_ENDPOINT} ******
-**** backend: ${process.env.REACT_APP_BACKEND_URL} ******
-**** API: ${process.env.REACT_APP_ALETHEIA_API} ******
+*******************************
+**** Web3 INTERFACE ***********
+**** Active: ${process.env.REACT_APP_MORALIS_APP_ID ? true : false} ******
+**** Endpoint: ${process.env.REACT_APP_API_ENDPOINT} ******
+*******************************
+**** RAPID API ****************
+**** Active: ${process.env.REACT_APP_RAPID_API_ENDPOINT ? true : false} ******
+**** Endpoint: ${process.env.REACT_APP_RAPID_API_ENDPOINT} ******
 ***********************************************
 `);
 

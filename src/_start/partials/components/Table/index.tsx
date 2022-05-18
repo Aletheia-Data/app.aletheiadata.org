@@ -21,6 +21,8 @@ interface Props {
   tableHeaderProps?: TableCellProps;
   cardClassName?: string;
   connectionLength?: number;
+  hideButton?: boolean;
+  hideCount?: boolean;
 }
 
 // TODO: Add use of react tables to manage table by hooks
@@ -33,6 +35,8 @@ const Table: FC<Props> = ({
   tableHeaderProps,
   cardClassName = "",
   connectionLength = 0,
+  hideButton,
+  hideCount
 }) => {
   // constants
   const cellsCount = useMemo(() => columns?.[0]?.cells?.length ?? 0, [columns]);
@@ -51,24 +55,32 @@ const Table: FC<Props> = ({
   const hasRows = Boolean(rows.length);
   const entityCount = connectionLength || rows.length;
 
+  console.log(hideButton);
+
   return (
     <div className={`card ${cardClassName}`}>
       {/* begin::Header */}
-      <div className="card-header border-0 py-5">
-        <h3 className="card-title align-items-start flex-column">
-          {title ? (
-            <span className="card-label fw-bolder text-dark">{title}</span>
-          ) : null}
-          <span className="text-muted mt-3 fw-bold fs-7">
-            {`${entityCount} elementos registrados`}
-          </span>
-        </h3>
-        <div className="card-toolbar">
-          <a className="btn btn-primary fw-bolder fs-7 disabled" href="#">
-            Subir Archivo
-          </a>
+      {
+        !hideCount &&
+        <div className="card-header border-0 py-5">
+          <h3 className="card-title align-items-start flex-column">
+            {title ? (
+              <span className="card-label fw-bolder text-dark">{title}</span>
+            ) : null}
+            <span className="text-muted mt-3 fw-bold fs-7">
+              {`${entityCount} elementos registrados`}
+            </span>
+          </h3>
+          {
+            !hideButton &&
+            <div className="card-toolbar">
+              <a className="btn btn-primary fw-bolder fs-7 disabled" href="#">
+                Subir Archivo
+              </a>
+            </div>  
+          }
         </div>
-      </div>
+      }
       {/* end::Header*/}
       <div className="card-body py-0">
         <div className="table-responsive">

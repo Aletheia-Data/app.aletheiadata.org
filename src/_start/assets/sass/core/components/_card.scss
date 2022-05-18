@@ -7,6 +7,22 @@
     box-shadow: $card-box-shadow;
     border: 0;
 
+    &.no-margin > .card-header{
+        margin: 0;
+    }
+
+    &.no-padding > .card-header{
+        padding: 0;
+    }
+
+    &.no-padding > .card-header{
+        padding: 0;
+    }
+
+    &.no-padding > .card-body{
+        padding: 0;
+    }
+
     // Header
     > .card-header {
         display: flex;

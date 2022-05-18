@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
-import { Ktsvg } from "../../../helpers";
+import { Ktsvg, truncate } from "../../../helpers";
 import { Dropdown1 } from "../../content/dropdown/Dropdown1";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
@@ -168,11 +168,11 @@ const Timeline: React.FC<Props> = ({ className }) => {
             let badge_color;
             switch (item.status) {
               case "in_progress":
-                message = `importando ${docs} documentos desde `;
+                message = `importando ${docs} ${docs === 1 ? 'documento' : 'documentos'}`;
                 badge_color = `text-warning`;
                 break;
               case "done":
-                message = `${docs} documentos importados desde `;
+                message = `${docs} ${docs === 1 ? 'documento importado' : 'documentos importados'}`;
                 badge_color = `color-xls`;
                 break;
               default:
@@ -199,9 +199,11 @@ const Timeline: React.FC<Props> = ({ className }) => {
                 {/* begin::Content */}
                 <div className="timeline-content d-flex">
                   <span className="fw-bolder text-gray-800 ps-3">
-                    {`${message}`}
-                    <a href={`${item.source}`} target="_blank">
-                      source
+                    {`${message}`} <br />
+                    <a href={`${item.source}`} target="#">
+                      {
+                        `${truncate(`${item.wallet}`, 15)}`
+                      }
                     </a>
                   </span>
                 </div>

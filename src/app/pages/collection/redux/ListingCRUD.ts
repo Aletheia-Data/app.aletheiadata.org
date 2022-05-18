@@ -34,7 +34,7 @@ export function getAllSources() {
 export function getAllDepartments() {
   // Authorization head should be fulfilled in interceptor.
   // Check common redux folder => setupAxios
-  return fetch(`${GET_ALL_DEPARTMENTS}${DEFAULT_PAGINATION}`)
+  return fetch(`${GET_ALL_DEPARTMENTS}`)
     .then(response => response.json())
     .then(data => data);
 }

@@ -23,7 +23,7 @@ export const StartDashboardPage: React.FC = () => {
             {/* begin::Action */}
             <div className="text-center pt-7">
               <a
-                className="disabled btn btn-primary fw-bolder fs-6 px-7 py-3"
+                className="btn btn-primary fw-bolder fs-6 px-7 py-3"
                 onClick={() => setShow(true)}
               >
                 Subir Archivo
