@@ -58,6 +58,16 @@ export function FAQPage(): JSX.Element {
                   What is public information?
                 </a>
               </li>
+              <li className="menu-item px-3 pb-1">
+                <a
+                  className="menu-link fs-6 px-3"
+                  href="https://docs.aletheiadata.org/"
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  Learn More
+                </a>
+              </li>
             </ul>
             {/*end::Faqs List*/}
           </div>
@@ -114,33 +124,39 @@ export function FAQPage(): JSX.Element {
                       id="kt_accordion_1_item_1"
                     >
                       <div className="mb-5">
-                        Aletheia is an Open Source project that seeks to
-                        encourage both public and private entities to facilitate
-                        access to public information, so that it can have a more
-                        relevant social impact. As developers we have seen the
-                        need to make use of public information (information in
-                        the public domain that should be available and
-                        accessible by law), but in the search we quickly
-                        realized that although the information is (in part)
-                        available, it is not organized in a way that is easy to
-                        use (uses that can range from the simple consultation of
-                        the data, to statistical use or to create computer smart
-                        products oriented to citizens.
+                        Aletheia is an <b>Open Source</b> project that seeks to
+                        encourage both private and public entities to{" "}
+                        <b>facilitate access to public information</b>, and make
+                        sure this information has a{" "}
+                        <b>relevant impact on society</b>. As developers we has
+                        ourselves in need of hight quality public information (
+                        <b>
+                          information of public interest that should be
+                          available and accessible by law
+                        </b>
+                        ), but in the endeavor we quickly realized that although
+                        the information (<b>in part</b>) is available, it is not
+                        organized in a way that is easy to use (use cases that
+                        range from the simple <b>consultation of the data</b>,
+                        to
+                        <b>statistical use</b> or to create{" "}
+                        <b>smart products oriented to citizens.</b>
                         <br />
-                        <br /> Another problem that we frequently find is the
-                        lack of a standard in the format of these files. As well
-                        as the use of formats that DO NOT allow the extraction
-                        of the information. We know that, like us, there are
-                        other Citizens who need to access this data and this is
-                        why we decided to develop an Open API to facilitate
+                        <br /> Another problem that we encounter is the{" "}
+                        <b>lack of standards</b> on the format of the assets. As
+                        well as using formats that{" "}
+                        <b>DO NOT allow the extraction of the information</b>.
+                        We know that, like us, there are many Citizens who need
+                        to <b>access to their public data</b> and this is why we
+                        decided to develop an <b>Open System</b> to facilitate
                         access and distribution of resourceful public
                         information. <br />
                         <br />
-                        Our objective is to create an ecosystem where these
-                        files are ALWAYS available, accessible 24 hours a day
-                        and accompanied by APIs to facilitate the consumption
-                        and exchange of this information while providing an
-                        immutable and reliable{" "}
+                        <b>Our objective</b> is to create an ecosystem where
+                        these assets are <b>ALWAYS</b> available, accessible{" "}
+                        <b>24 hours</b> a day and accompanied by <b>APIs</b> to
+                        facilitate consumption and exchange information while
+                        providing an immutable and reliable{" "}
                         <b>&lsquo;single source of truth&lsquo;</b>.
                       </div>
                     </div>
@@ -175,7 +191,7 @@ export function FAQPage(): JSX.Element {
                       id="kt_accordion_1_item_2"
                     >
                       <div className="mb-5">
-                        Well, you can use our API to access to public
+                        Well, you can use our <b>Tools</b> to access to public
                         information for different purpose: check what is being
                         done with your taxes, or use the data for analytical or
                         research purposes.
@@ -211,10 +227,11 @@ export function FAQPage(): JSX.Element {
                       data-bs-parent="#kt_accordion_1"
                       id="kt_accordion_1_item_3"
                     >
-                      Using a decentralized platform gives us the guarantee that
-                      the information will not be modified, hacked, or
-                      corrupted. It also gives us the best option to keep this
-                      information safe and always available (24/7).
+                      Using a <b>decentralized platform</b> gives us the
+                      guarantee that the information will <b>NOT</b> be{" "}
+                      <b>modified</b>,<b>hacked</b>, or <b>corrupted</b>. It
+                      also gives us the best option to keep this information{" "}
+                      <b>safe</b> and <b>always available</b> (24/7).
                     </div>
                     {/*end::Body*/}
                   </div>
@@ -235,8 +252,8 @@ export function FAQPage(): JSX.Element {
                         />
                       </span>
                       <h3 className="fs-4 text-gray-800 fw-bold mb-0 ms-4">
-                        What do you mean by making the information
-                        &apos;unstoppable&apos;?
+                        What do you mean by making the information{" "}
+                        <b>&apos;unstoppable&apos;</b>?
                       </h3>
                     </div>
                     {/*end::Header*/}
@@ -247,9 +264,11 @@ export function FAQPage(): JSX.Element {
                       data-bs-parent="#kt_accordion_1"
                       id="kt_accordion_1_item_4"
                     >
-                      Unstoppable or decentralized information means that the
-                      information is not located in a fixed location (or server)
-                      but is distributed in the{" "}
+                      <b>Unstoppable</b> or <b>decentralized information</b>{" "}
+                      means that the information is <b>not</b> located in a{" "}
+                      <b>fixed location</b> (server) but instead is{" "}
+                      <b>distributed</b>
+                      on the{" "}
                       <a
                         href="https://app.gitbook.com/s/-MBnGVUgP271l1PWguNX/getting-started/ipfs"
                         rel="noreferrer"
@@ -257,8 +276,10 @@ export function FAQPage(): JSX.Element {
                       >
                         IPFS P2P network
                       </a>
-                      . Once a file enters the system, it cannot be modified or
-                      canceled, since it will live in each of our computers.
+                      . Once an asset enters the system, it <b>CANNOT</b> be{" "}
+                      <b>modified</b> or
+                      <b>canceled</b>, as it will be <b>distributed</b> among
+                      all the participants of the network.
                     </div>
                     {/*end::Body*/}
                   </div>
@@ -303,23 +324,29 @@ export function FAQPage(): JSX.Element {
                       id="kt_accordion_1_item_1"
                     >
                       <div className="mb-5">
-                        based on its definition, the term &apos;Public
-                        Information&apos; means any information, regardless of
-                        form or format, that an agency discloses, disseminates,
-                        or makes available to the public. <br />
+                        based on its definition, the term{" "}
+                        <b>&apos;Public Information&apos;</b> means any
+                        information, <b>regardless of form or format</b>, that
+                        an agency <b>discloses</b>, <b>disseminates</b>, or{" "}
+                        <b>makes available to the public</b>. <br />
                         <br />
-                        In general, this information represents a series of
-                        knowledge, structured in an organized and clear body,
-                        contained in a document or file, whose purpose is to
-                        nourish the population on the subject that deepens
-                        according to the nature of the information.
+                        In general, this information represents a{" "}
+                        <b>series of knowledge</b>,{" "}
+                        <b>structured in an organized and clear body</b>,
+                        contained in a <b>document or file</b>, whose purpose is{" "}
+                        <b>to nourish the population</b> on the subject that
+                        deepens according to{" "}
+                        <b>the nature of the information</b>.
                         <br />
-                        <br /> In the Dominican Republic, the Law 200-04-Art. 6-
-                        Paragraph I says: For the purposes of this law, is
-                        considered Public Information any type of financial
-                        documentation related to the public budget or from
-                        private financial institutions that serves as the basis
-                        for a decision of an administrative nature.
+                        <br /> In the Dominican Republic, the{" "}
+                        <b>Law 200-04-Art. 6- Paragraph I</b> says:{" "}
+                        <b>
+                          For the purposes of this law, is considered Public
+                          Information any type of financial documentation
+                          related to the public budget or from private financial
+                          institutions that serves as the basis for a decision
+                          of an administrative nature.
+                        </b>
                       </div>
                     </div>
                     {/*end::Body*/}
