@@ -55,8 +55,6 @@ const Table: FC<Props> = ({
   const hasRows = Boolean(rows.length);
   const entityCount = connectionLength || rows.length;
 
-  console.log(hideButton);
-
   return (
     <div className={`card ${cardClassName}`}>
       {/* begin::Header */}
