@@ -42,6 +42,10 @@ const getQuery = (type: string, id: string, entity: string) => {
           status,
           cid,
           type,
+          department {
+            id,
+            name
+          },
           aletheias{
             id,
             proof {
@@ -150,6 +154,10 @@ const getQuery = (type: string, id: string, entity: string) => {
           status,
           cid,
           type,
+          department {
+            id,
+            name
+          },
           aletheias{
             id,
             proof {
