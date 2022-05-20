@@ -4,8 +4,8 @@ import moment from "moment";
 import { Ktsvg } from "_start/helpers";
 import { Record } from "_start/types";
 import { Link } from "react-router-dom";
-import CountBadge from "../partials/components/CountBadge";
-import StatusBadge from "../partials/components/StatusBadge";
+import CountBadge from "../../partials/components/CountBadge";
+import StatusBadge from "../../partials/components/StatusBadge";
 
 export const getListingPageColumns = (
   data: any,
