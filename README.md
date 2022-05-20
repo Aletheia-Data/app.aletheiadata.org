@@ -10,15 +10,76 @@ Nuestra misión es democratizar la información pública y facilitar el acceso a
 
 ## Installation
 
-```bash
-npm install
-```
+1. Install project packages:
+    ```bash
+    npm install
+    ```
 
-## Run
+## Quick Start
 
-```bash
-npm start
-```
+1. Set up project using `env.dist` template to setup enviroment variables
+
+2. Then run:
+    ```bash
+    npm start
+    ```
+
+## Code Style Guide
+
+### JavaScript
+
+* Two spaces indentation.
+* Double quotes are preferred over single.
+* Write code in functional style with minimum side effects when possible.
+* Don't use function statements. Instead, create anonymous functions and
+assing them to constants for consistency with other constants.
+
+    ```javascript
+    // No
+    function doThing(a, b) {return a * b;}
+
+    // Yes
+    const doThing = function(a, b) {return a * b;};
+    ```
+
+* Do not use quotes in object keys.
+
+    ```javascript
+    // No
+    {'a': "testtest"}
+
+    // Yes
+    {a: "testtest"}
+    ```
+
+* Use `===` for comparing instead of `==`. JavaScript is weakly typed
+language, so 5 == '5'. This ambiguity could lead to hard-to-find bugs.
+
+    ```javascript
+    if (a === 5) {
+      ...
+    }
+    if ($(this).val() === "something") {
+      ...
+    }
+    if (typeof a === "undefined") {
+      ...
+    }
+
+    // Exception: this compares both to 'null' and 'undefined'.
+    if (item == null) {
+
+    }
+    ```
+
+* Cache list length into a variable. You could afford 2x loop performance
+increase with this on some browsers.
+
+    ```javascript
+    for (const i = 0, length = someList.length; i < length; i++) {
+      doSomething(someList[i]);
+    }
+    ```
 
 ## Contributing
 
