@@ -436,7 +436,8 @@ const TypeStats: React.FC<Props> = ({ className, innerPadding = "" }) => {
                             </div>
                           </OverlayTrigger>
                         </td>
-                        <td className="text-end pe-0">
+                        {/**
+                         * <td className="text-end pe-0">
                           <Link
                             to={`#`}
                             className="disabled btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
@@ -447,6 +448,7 @@ const TypeStats: React.FC<Props> = ({ className, innerPadding = "" }) => {
                             />
                           </Link>
                         </td>
+                         */}
                       </tr>
                     );
                   })}

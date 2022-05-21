@@ -139,6 +139,7 @@ $item-image-width-active: 35px;
 		width: get($sidebar-config, desktop, width);
 		z-index: get($sidebar-config, desktop, z-index);
 		transition: right get($aside-config, base, transition-speed);
+		background-size: 30vh;
 
 		// Sidebar Shown
 		[data-sidebar="on"] & {

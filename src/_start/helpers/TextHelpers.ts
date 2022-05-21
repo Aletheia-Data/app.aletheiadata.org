@@ -1,4 +1,5 @@
 export function truncate(fullStr: string, strLen: number, separator?: string) {
+    if (!fullStr) return
     if (fullStr.length <= strLen) return fullStr;
 
     separator = separator || "...";

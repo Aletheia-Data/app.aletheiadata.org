@@ -2,7 +2,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useTheme } from "../core";
-
+var pjson = require('../../../../package.json');
 export function Footer() {
   const { classes } = useTheme();
   return (
@@ -16,8 +16,12 @@ export function Footer() {
           <span className="text-muted fw-bold me-2">
             {new Date().getFullYear()} &copy;
           </span>
-          <a href="#" className="text-gray-800 text-hover-primary">
+          <a href="https://docs.aletheiadata.org/getting-started/open-source" target={'_blank'} className="text-gray-800 text-hover-primary">
             Aletheia Data
+          </a>
+          {' - '}
+          <a href="https://github.com/Aletheia-Data/app.aletheiadata.org/releases" target={'_blank'} className="text-gray-800 text-hover-primary">
+            {`v${pjson.version}`}
           </a>
         </div>
         {/* end::Copyright */}
@@ -25,8 +29,18 @@ export function Footer() {
         {/* begin::Nav */}
         <ul className="menu menu-gray-600 menu-hover-primary fw-bold order-1">
           <li className="menu-item">
-            <a href="https://github.com/Aletheia-Data/" target="_blank" className="menu-link ps-0 pe-2">
+            <a href="https://discord.gg/s35tDF3dJV" target="_blank" className="menu-link ps-0 pe-2">
+              Discord
+            </a>
+          </li>
+          <li className="menu-item">
+            <a href="https://github.com/Aletheia-Data/" target="_blank" className="menu-link pe-0 pe-2">
               Github
+            </a>
+          </li>
+          <li className="menu-item">
+            <a href="https://rapidapi.com/aletheia-data-aletheia-data-default/api/aletheia2" target="_blank" className="menu-link pe-0 pe-2">
+              Rapid API
             </a>
           </li>
           <li className="menu-item">
