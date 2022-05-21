@@ -245,11 +245,11 @@ export function CollectionPageWrapper(): JSX.Element {
     component.props.data.sidebar = "default";
     switch (params.entity) {
       case "src":
-        title = component.props.data.source.name;
+        title = component.props.data.source?.name;
         prevRoute = type === "single" ? "Fuentes" : "Fuentes";
         break;
       case "dep":
-        title = component.props.data.department.name;
+        title = component.props.data.department?.name;
         prevRoute =
           type === "single"
             ? "Ministerios o instituciónes"
@@ -257,7 +257,7 @@ export function CollectionPageWrapper(): JSX.Element {
         break;
       case "cat":
         // eslint-disable-next-line prefer-destructuring
-        title = component.props.data.category.title;
+        title = component.props.data.category?.title;
         prevRoute = type === "single" ? "Categorias" : "Categorias";
         break;
     }
