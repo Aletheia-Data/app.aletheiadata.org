@@ -21,18 +21,19 @@ const colorODS = '#A2A7F7';
 const colorOTHER = '#00A3FF';
 
 const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => {
-  const [activeTab, setActiveTab] = useState(`#${id}tab1`);
-  const [activeTabTotal, setActiveTabTotal] = useState('Loading');
-  const [TabsTotal, setActiveTabsTotal] = useState(0);
-  const [elementTab, setElementTab] = useState(false);
+  const [activeTab, setActiveTab] = useState(`#${id}_tab1`);
+  const [activeTabTotal, setActiveTabTotal] = useState('');
   const [activeChart, setActiveChart] = useState<ApexCharts | undefined>();
 
   const [items, setItems] = useState([{}]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-
-    setTab(items, 1);
+    console.log(items);
+    
+    setTimeout(() => {
+      setTab(items, 1);
+    }, 0);
 
     return function cleanUp() {
       if (activeChart) {
@@ -58,7 +59,7 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
       default:
         return
     }
-    
+
     fetch(`${process.env.REACT_APP_ALETHEIA_API}/v1/api/${entity}/getAll?limit=5`, {
       method: 'get',
       headers: {
@@ -175,25 +176,23 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
 
   const setTab = (items:any, tab_n: number) => {
 
+    setActiveTabTotal('')
+
     if (activeChart) {
       activeChart.destroy();
     }
 
-    setActiveTab(`#${id}tab${tab_n}`);
+    setActiveTab(`#${id}_tab${tab_n}`);
 
     const element = document.querySelector(
-      `#${id}tab${tab_n}_chart`
+      `#${id}_tab${tab_n}_chart`
     ) as HTMLElement;
-    setElementTab(true);
 
     if (element) {
       element.innerHTML = '';
     }
-    // console.log('element: ', element);
 
     if (!element) return;
-
-    setActiveTabTotal('Loading');
 
     let item:any = items[tab_n - 1];
 
@@ -228,7 +227,6 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
           chart.render();
           setActiveChart(chart);
         }
-
       })
       .catch(err => {
         console.log(err);
@@ -236,17 +234,20 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
 
   };
 
-  if (!items) {
+  if (loading) {
     return (
       <div className={`card ${className}`}>
         {/* begin::Header */}
         <div className="card-header align-items-center border-0 mt-5">
           <h3 className="card-title align-items-start flex-column">
             <span className="fw-bolder text-dark fs-3">{title}</span>
-            <span className="text-muted mt-2 fw-bold fs-6">Loading ...</span>
+            <span className="indicator-progress text-muted mt-2 fw-bold fs-6" style={{ display: "block" }}>
+              Please wait...{" "}
+              <span className="spinner-border spinner-border-sm align-middle ms-2" />
+            </span>
           </h3>
           <div className="card-toolbar">
-            {/* begin::Dropdown */}
+            {/* begin::Dropdown 
             <Link
               className="menu-link px-3"
               to={`/group/${id}`}
@@ -258,6 +259,7 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
                 />
               </span>
             </Link>
+            */}
             {/* end::Dropdown */}
           </div>
         </div>
@@ -265,74 +267,10 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
 
         {/* begin::Body */}
         <div className="card-body pt-0">
-          <div className="d-flex flex-wrap flex-xxl-nowrap justify-content-center justify-content-md-start pt-4">
-            {/* begin::Nav */}
-            <div className="me-sm-10 me-0">
-              <ul className="nav flex-column nav-pills nav-pills-custom">
-                <li className="nav-item mb-3" key={`tabs_1`}>
-                  <a
-                    onClick={() => ''}
-                    className={`nav-link w-225px h-70px ${activeTab === `#${id}tab1` ? "active btn-active-light" : ""
-                      } fw-bolder me-2`}
-                    id={`${id}tab1`}
-                  >
-                    <div className="nav-icon me-3">
-                      <img
-                        alt=""
-                        src={toAbsoluteUrl("/media/svg/logo/gray/aven.svg")}
-                        className="default"
-                      />
-
-                      <img
-                        alt=""
-                        src={toAbsoluteUrl("/media/svg/logo/colored/aven.svg")}
-                        className="active"
-                      />
-                    </div>
-                    <div className="ps-1">
-                      <span className="nav-text text-gray-600 fw-bolder fs-6">
-                        Loading ...
-                      </span>
-                      <span className="text-muted fw-bold d-block pt-1">
-                        Loading ...
-                      </span>
-                    </div>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            {/* end::Nav */}
-
-            {/* begin::Tab Content */}
-            <div className="tab-content flex-grow-1" // style={{ paddingLeft: "0.23rem !important" }}
-            >
-              {/* begin::Tab Pane */}
-              <div
-                className={`tab-pane fade ${activeTab === `#${id}tab1` ? "show active" : ""
-                  }`}
-                style={{
-
-                }}
-                id={`${id}tab1_content`}
-                key={`content_1`}
-              >
-                {/* begin::Content */}
-                <div className="d-flex justify-content-center mb-10">
-                  {/* begin::Item */}
-                  <div className="px-10">
-                    <span className="text-muted fw-bold fs-7">Archivos</span>
-                    <span className="text-gray-800 fw-bolder fs-3 d-block">
-                      Loading ...
-                    </span>
-                  </div>
-                  {/* end::Item */}
-                </div>
-                {/* end::Content  */}
-              </div>
-              {/* end::Tab Pane */}
-
-            </div>
-            {/* end::Tab Content */}
+          <div className="d-flex flex-wrap flex-xxl-nowrap justify-content-center pt-4">
+          <span className="indicator-progress" style={{ display: "block" }}>
+              <span className="spinner-border spinner-border-sm align-middle ms-2" />
+            </span>
           </div>
         </div>
         {/* end: Card Body */}
@@ -392,17 +330,20 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
               {
                 items.length > 0 && items.map((item: any, i: number) => {
                   // increase index by 1
-                  let img = item.icon ? item.icon.url : '/media/svg/logo/gray/aven.svg';
+                  let img = '/media/svg/logo/gray/aven.svg';
                   i++;
+                  console.log(item);
+                  
                   return (
                     <li className="nav-item mb-3" key={`tabs_${item._id}`}>
                       <a
                         onClick={() => setTab(items, i)}
-                        className={`nav-link w-225px h-70px ${activeTab === `#${id}tab${i}` ? "active btn-active-light" : ""
+                        className={`nav-link w-225px h-70px ${activeTab === `#${id}_tab${i}` ? "active btn-active-light" : ""
                           } fw-bolder me-2`}
-                        id={`${id}tab${i}`}
+                        id={`${id}_tab${i}`}
                       >
-                        <div className="nav-icon me-3">
+                        {/**
+                         * <div className="nav-icon me-3">
                           <img
                             alt=""
                             src={toAbsoluteUrl(img)}
@@ -415,6 +356,7 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
                             className="active"
                           />
                         </div>
+                         */}
                         <div className="ps-1 text-truncate">
                           <span className="nav-text text-gray-600 fw-bolder fs-6">
                             {item.name || item.title}
@@ -457,18 +399,20 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
                 // increase index by 1
                 i++;
                 const getChart = (index: number) => {
+                  console.log(`${id}_tab${index}_chart`);
+                  
                   return (
-                    <div id={`${id}tab${index}_chart`} style={{ height: "250px" }} />
+                    <div id={`${id}_tab${index}_chart`} style={{ height: "250px" }} />
                   )
                 }
                 return (
                   <div
-                    className={`tab-pane fade ${activeTab === `#${id}tab${i}` ? "show active" : ""
+                    className={`tab-pane fade ${activeTab === `#${id}_tab${i}` ? "show active" : ""
                       }`}
                     style={{
 
                     }}
-                    id={`${id}tab${i}_content`}
+                    id={`${id}_tab${i}_content`}
                     key={`content_${item._id}`}
                   >
                     {/* begin::Content */}
@@ -477,6 +421,12 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
                       <div className="px-10 text-end">
                         <span className="text-muted fw-bold fs-7">Archivos</span>
                         <span className="text-gray-800 fw-bolder fs-3 d-block">
+                          {
+                            !activeTabTotal &&
+                            <span className="indicator-progress" style={{ display: "block" }}>
+                              <span className="spinner-border spinner-border-sm align-middle ms-2" />
+                            </span>
+                          }
                           {activeTabTotal}
                         </span>
                       </div>

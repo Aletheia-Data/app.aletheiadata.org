@@ -20,6 +20,7 @@ const Timeline: React.FC<Props> = ({ className }) => {
         wallet
         status
         alexandrias {
+          id
           cid
           type
         }
@@ -179,6 +180,25 @@ const Timeline: React.FC<Props> = ({ className }) => {
                 break;
             }
 
+            console.log(item);
+
+            const getLink = (item: any) => {
+              let url;
+              if (item.documents === 1 && item.alexandrias[0].cid){
+                url = `/single/src/${item.alexandrias[0].cid}?assetId=${item.alexandrias[0].id}`
+              } else {
+                url = `${item.source}`
+              }
+              return (
+                  <a href={url} target={ item.documents === 1 && item.alexandrias[0].cid ? '' : '_blank'}>
+                    {
+                      `${truncate(`${item.wallet}`, 15)}`
+                    }
+                  </a>
+              )
+            }
+            
+
             return (
               <div className="timeline-item" key={`import_${item.id}}`}>
                 {/* begin::Label */}
@@ -200,11 +220,9 @@ const Timeline: React.FC<Props> = ({ className }) => {
                 <div className="timeline-content d-flex">
                   <span className="fw-bolder text-gray-800 ps-3">
                     {`${message}`} <br />
-                    <a href={`${item.source}`} target="#">
-                      {
-                        `${truncate(`${item.wallet}`, 15)}`
-                      }
-                    </a>
+                    {
+                      getLink(item)
+                    }
                   </span>
                 </div>
                 {/* end::Content */}

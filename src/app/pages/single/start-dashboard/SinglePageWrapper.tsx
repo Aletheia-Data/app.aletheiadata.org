@@ -211,6 +211,8 @@ export function SinglePageWrapper(): JSX.Element {
   };
 
   if (component?.props?.data) {
+    console.log(component?.props?.data);
+
     const [data] = component.props.data.alexandrias;
     const { title } = data;
     component.props.data.title = title;
