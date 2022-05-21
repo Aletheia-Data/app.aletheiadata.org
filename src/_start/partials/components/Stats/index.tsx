@@ -330,9 +330,8 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
               {
                 items.length > 0 && items.map((item: any, i: number) => {
                   // increase index by 1
-                  let img = '/media/svg/logo/gray/aven.svg';
+                  // let img = '/media/svg/logo/gray/aven.svg';
                   i++;
-                  console.log(item);
                   
                   return (
                     <li className="nav-item mb-3" key={`tabs_${item._id}`}>
@@ -399,7 +398,6 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
                 // increase index by 1
                 i++;
                 const getChart = (index: number) => {
-                  console.log(`${id}_tab${index}_chart`);
                   
                   return (
                     <div id={`${id}_tab${index}_chart`} style={{ height: "250px" }} />

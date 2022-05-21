@@ -199,8 +199,6 @@ export function ListingPageWrapper(): JSX.Element {
   }
 
   if (component?.props?.data) {
-    console.log(component?.props?.data);
-
     component.props.data.sidebar = "default";
   }
 

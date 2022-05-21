@@ -180,8 +180,6 @@ const Timeline: React.FC<Props> = ({ className }) => {
                 break;
             }
 
-            console.log(item);
-
             const getLink = (item: any) => {
               let url;
               if (item.documents === 1 && item.alexandrias[0].cid){

@@ -35,65 +35,22 @@ const EngageWidget6: React.FC<Props> = ({
   let title;
   let desc;
   let entityCount;
-  let records;
-  let lastRecord;
   let department;
   let source;
   let proof;
-
-  // sort by aletheias count +
-  // get first record (most aletheias)
-  data = data.alexandrias[0];
-
-  title = type === "single" ? data.title : "";
-  desc =
-    type === "single"
-      ? data.description
-      : "Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.";
+  
+  title = data.title;
+  desc = data.description || "Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.";
   source = data.source.name;
   department = data.department.name;
   proof = data.proof ? data.proof.url : null;
 
-  switch (entity) {
-    case "src":
-      countTotal = 0;
-      entityCount = type === "single" ? "" : 0;
-      lastRecord = type === "single" ? "" : data;
-      break;
-    case "dep":
-      countTotal =
-        type === "single"
-          ? ""
-          : data.alexandriasConnection.groupBy.department[0].connection
-              .aggregate.totalCount;
-      entityCount =
-        type === "single"
-          ? ""
-          : data.departmentsConnection.groupBy.id[0].connection.aggregate
-              .totalCount;
-      records = type === "single" ? "" : data.departments;
-      lastRecord = type === "single" ? "" : records[0];
-      break;
-    case "cat":
-      countTotal =
-        type === "single"
-          ? ""
-          : data.alexandriasConnection.groupBy.category.length > 0
-          ? data.alexandriasConnection.groupBy.category[0].connection.aggregate
-              .totalCount
-          : 0;
-      entityCount =
-        type === "single"
-          ? ""
-          : data.categoriesConnection.groupBy.id[0].connection.aggregate
-              .totalCount;
-      records = type === "single" ? "" : data.categories;
-      lastRecord = type === "single" ? "" : records[0];
-      break;
-  }
+  countTotal = 0
+  entityCount = 0;
 
   let background_status;
   let text_status;
+  
   switch (data?.status) {
     case "under_review":
       background_status = "background-csv";
@@ -112,8 +69,6 @@ const EngageWidget6: React.FC<Props> = ({
       text_status = "Broken";
       break;
   }
-
-  console.log(deals.length === 0);
   
   return (
     <div
@@ -166,54 +121,7 @@ const EngageWidget6: React.FC<Props> = ({
             <div className="card-footer">
               {/*begin::Info*/}
               <table className="table table-borderless align-middle fw-bold">
-                {type === "collection" && (
-                  <tbody>
-                    <tr>
-                      <td className="text-gray-600 ps-0">Fuente</td>
-                      {data.source.url && (
-                        <td className="text-dark pe-0">
-                          <a
-                            target="_blank"
-                            href={`${data.source.url}`}
-                            rel="noreferrer"
-                          >
-                            {data.source.name}
-                          </a>
-                        </td>
-                      )}
-                      {!data.source.url && (
-                        <td className="text-dark pe-0">{source}</td>
-                      )}
-                    </tr>
-                    <tr>
-                      <td className="text-gray-600 ps-0">Ministerio</td>
-                      <td className="text-dark pe-0">{department}</td>
-                    </tr>
-                    {proof && (
-                      <tr>
-                        <td className="text-gray-600 ps-0">Prueba</td>
-                        <td className="text-dark pe-0">
-                          <a
-                            href={`${proof}`}
-                            target={"_blank"}
-                            rel="noreferrer"
-                          >
-                            Ver
-                          </a>
-                        </td>
-                      </tr>
-                    )}
-                    <tr>
-                      <td className="text-gray-600 ps-0">Ultimo Archivo</td>
-                      <td className="text-dark pe-0">
-                        {moment(lastRecord.updatedAt).format("DD/MM/YYYY")}
-                      </td>
-                    </tr>
-                  </tbody>
-                )}
-
-                {type === "single" && (
-                  <tbody>
+              <tbody>
                     <tr>
                       <td className="text-gray-600 ps-0">Fuente</td>
                       <td className="text-dark pe-0">
@@ -247,7 +155,7 @@ const EngageWidget6: React.FC<Props> = ({
                     <tr>
                       <td className="text-gray-600 ps-0">Ultimo Archivo</td>
                       <td className="text-dark pe-0">
-                        {moment(lastRecord.updatedAt).format("DD/MM/YYYY")}
+                        {moment(data.updatedAt).format("DD/MM/YYYY")}
                       </td>
                     </tr>
                     <tr>
@@ -288,7 +196,6 @@ const EngageWidget6: React.FC<Props> = ({
                       </td>
                     </tr>
                   </tbody>
-                )}
               </table>
               {/*end::Info*/}
             </div>
