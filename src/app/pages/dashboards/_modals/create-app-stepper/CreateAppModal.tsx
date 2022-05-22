@@ -579,7 +579,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
                     <div className="stepper-label">
                       <h3 className="stepper-title">Completed!</h3>
                       <div className="stepper-desc">
-                        Tu activo está en linea
+                        Tu archivo está en linea
                       </div>
                     </div>
                   </div>

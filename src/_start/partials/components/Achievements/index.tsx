@@ -230,6 +230,7 @@ const Achievements: React.FC<Props> = ({ className, innerPadding = "" }) => {
                           </span>
                         </td>
                         <td></td>
+                        <td></td>
                         <td className="text-end">
                           <span className="text-gray-800 fw-bolder d-block fs-6">
                             {count}
@@ -238,6 +239,8 @@ const Achievements: React.FC<Props> = ({ className, innerPadding = "" }) => {
                             Archivos
                           </span>
                         </td>
+                        {/**
+                         * 
                         <td className="text-end">
                           <span className="fw-bolder text-primary">+0%</span>
                         </td>
@@ -249,6 +252,7 @@ const Achievements: React.FC<Props> = ({ className, innerPadding = "" }) => {
                             />
                           </a>
                         </td>
+                         */}
                       </tr>
                     );
                   })}

@@ -45,7 +45,7 @@ const EngageWidget3: React.FC<Props> = ({
   switch (entity) {
     case 'src':
       title = type === 'single' ? 'Fuentes' : 'Fuentes';
-      desc = type === 'single' ? data.source.description : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
+      desc = type === 'single' ? data.source.description : 'Estas son todas las fuentes disponibles actualmente en el sistema';
       connection = data?.alexandriasConnection?.groupBy?.id || data?.alexandriasConnection?.groupBy?.source;
       let srcConn = data.sourcesConnection.groupBy.id;
       // console.log(data);
@@ -65,30 +65,30 @@ const EngageWidget3: React.FC<Props> = ({
       break;
     case 'dep':
       title = type === 'single' ? 'Ministerios o instituciónes' : 'Ministerios o instituciónes';
-      desc = type === 'single' ? data.department.desciption : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
+      desc = type === 'single' ? data.department?.desciption : 'Estos son todos los emisores disponibles actualmente en el sistema';
       connection = data?.alexandriasConnection?.groupBy?.id || data?.alexandriasConnection?.groupBy?.department;
-      let depConn = data.departmentsConnection.groupBy.id;
+      let depConn = data?.departmentsConnection?.groupBy?.id;
       // console.log(depConn);
-      if (connection.length > 0) {
+      if (connection.length > 0 && depConn) {
         countTotal = connection.length;
         countSrc = type === 'single' ? depConn[0].connection.aggregate.count : depConn[0].connection.aggregate.totalCount;
         entityCount = connection.length;
       } else {
         countTotal = 0;
         entityCount = 0;
-        countSrc = depConn[0].connection.aggregate.totalCount;
+        countSrc = 0;
       }
       records = type === 'single' ? data.department : data.departments;
       lastRecord = type === 'single' ? records : records[0];
-      url = type === 'single' ? records.url || records.website : '';
+      url = type === 'single' ? records?.url || records?.website : '';
       break;
     case 'cat':
       title = type === 'single' ? 'Categorias' : 'Categorias';
-      desc = type === 'single' ? data.category.description : 'Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.';
+      desc = type === 'single' ? data.category?.description : 'Estas son todas las categorias disponibles actualmente en el sistema';
       connection = data?.alexandriasConnection?.groupBy?.id || data?.alexandriasConnection?.groupBy?.department;
-      let catConn = data.categoriesConnection.groupBy.id;
+      let catConn = data.categoriesConnection?.groupBy?.id;
       // console.log(data);
-      if (connection.length > 0) {
+      if (connection.length > 0 && catConn) {
         countTotal = connection.length;
         countSrc = type === 'single' ? catConn[0].connection.aggregate.count : catConn[0].connection.aggregate.totalCount;
 
@@ -96,11 +96,11 @@ const EngageWidget3: React.FC<Props> = ({
       } else {
         countTotal = 0;
         entityCount = 0;
-        countSrc = type === 'single' ? catConn[0].connection.aggregate.count : catConn[0].connection.aggregate.totalCount;
+        countSrc = 0;
       }
       records = type === 'single' ? data.category : data.categories;
       lastRecord = type === 'single' ? records : records[0];
-      url = type === 'single' ? records.url || records.website : '';
+      url = type === 'single' ? records?.url || records?.website : '';
       break;
   }
 
@@ -187,7 +187,7 @@ const EngageWidget3: React.FC<Props> = ({
                     }
                     <tr>
                       <td className="text-gray-600 ps-0">Ultimo Archivo</td>
-                      <td className="text-dark pe-0">{moment(lastRecord.updatedAt).format('DD/MM/YYYY')}</td>
+                      <td className="text-dark pe-0">{moment(lastRecord?.updatedAt).format('DD/MM/YYYY')}</td>
                     </tr>
                   </tbody>
                 }

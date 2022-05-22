@@ -60,11 +60,11 @@ export const getListingPageColumns = (
           <Link
             key={`record-alexandria-${recordItem.cid}`}
             className="btn btn-icon btn-bg-light  btn-color-muted btn-active-color-primary btn-sm"
-            to={`/${recordItem.cid}`}
+            to={`/${recordItem.cid}?assetId=${recordItem.id}`}
           >
             <Ktsvg
               className="svg-icon-4"
-              path="/media/icons/duotone/General/Sad.svg"
+              path="/media/icons/duotone/General/Attachment1.svg"
             />
           </Link>
         )),
@@ -78,14 +78,14 @@ export const getListingPageColumns = (
           <Link
             key={`record-alexandria-${recordItem.cid}`}
             className="text-gray-800 fw-bolder text-hover-primary fs-6"
-            to={`/${type}/${entity}/${recordItem.id}`}
+            to={`/${type}/${entity}/${recordItem.id}?assetId=${recordItem.id}`}
           >
             {recordItem.title || recordItem.name}
           </Link>
         )),
       },
       {
-        title: type === "single" ? "Pruebas" : "Archivos",
+        title: type === "single" ? "Pruebas" : "URL",
         cells: data?.map((recordItem: Record) => (
           <div key={`record-alexandria-${recordItem.cid}`}>
             {type === "single" && <StatusBadge status={recordItem.status} />}
@@ -136,11 +136,11 @@ export const getListingPageColumns = (
           <Link
             key={`record-alexandria-${recordItem.cid}`}
             className="btn btn-icon btn-bg-light  btn-color-muted btn-active-color-primary btn-sm"
-            to={`/${recordItem.cid}`}
+            to={`/${type}/${entity}/${recordItem.id}`}
           >
             <Ktsvg
               className="svg-icon-4"
-              path="/media/icons/duotone/General/Sad.svg"
+              path="/media/icons/duotone/General/Attachment1.svg"
             />
           </Link>
         )),

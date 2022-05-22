@@ -200,7 +200,6 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
                   {!loading &&
                     results &&
                     results.map((item: any, i: number) => {
-                      console.log(item);
                       return (
                         <div className="d-flex mb-6">
                           {/* begin::Icon */}

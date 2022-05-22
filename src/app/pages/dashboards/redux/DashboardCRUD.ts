@@ -26,8 +26,6 @@ export function getAllAssetsOwner(owner: string) {
   // Authorization head should be fulfilled in interceptor.
   // Check common redux folder => setupAxios
   const url = `${GET_ALL_FILES}?wallet_address=${owner}&_limit=3&_sort=createdAt:desc`
-  console.log(url);
-  
   return fetch(url)
     .then(response => response.json())
     .then(data => data);
