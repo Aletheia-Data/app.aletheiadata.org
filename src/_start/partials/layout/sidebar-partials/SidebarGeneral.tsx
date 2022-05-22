@@ -30,9 +30,9 @@ export const SidebarGeneral: React.FC<Props> = ({
   toogleMinisearch,
 }) => {
   const id = "cat";
-  const [activeTab, setActiveTab] = useState(`#${id}_tab1`);
-  const [activeTabTotal, setActiveTabTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState(`#sidebar_${id}_tab1`);
+  const [activeTabTotal, setActiveTabTotal] = useState("Loading");
   const [elementTab, setElementTab] = useState(false);
   const [copied, setCopy] = useState(false);
   const [activeChart, setActiveChart] = useState<ApexCharts | undefined>();
@@ -56,10 +56,10 @@ export const SidebarGeneral: React.FC<Props> = ({
       activeChart.destroy();
     }
 
-    setActiveTab(`#${id}_tab${tab_n}`);
+    setActiveTab(`#sidebar_${id}_tab${tab_n}`);
 
     const element = document.querySelector(
-      `#${id}_tab${tab_n}_chart`
+      `#sidebar_${id}_tab${tab_n}_chart`
     ) as HTMLElement;
     setElementTab(true);
 
@@ -185,7 +185,7 @@ export const SidebarGeneral: React.FC<Props> = ({
                   setTab(i);
                 }}
                 className={clsx("nav-link", {
-                  active: activeTab === `#${id}_tab${i}`,
+                  active: activeTab === `#sidebar_${id}_tab${i}`,
                 })}
                 id="kt_sidebar_tab_1"
               >
@@ -214,11 +214,19 @@ export const SidebarGeneral: React.FC<Props> = ({
               let current_item = cat.connection.values[0];
               i++;
               // increase index by 1
+              const getChartWrapper = (index: number) => {
+                return (
+                  <div
+                    id={`sidebar_${id}_tab${index}_chart`}
+                    style={{ height: "250px" }}
+                  />
+                );
+              };
 
               return (
                 <div
                   className={`tab-pane fade ${
-                    activeTab === `#${id}_tab${i}` ? "show active" : ""
+                    activeTab === `#sidebar_${id}_tab${i}` ? "show active" : ""
                   }`}
                   id="kt_sidebar_tab_pane_1"
                   role="tabpanel"
@@ -278,7 +286,8 @@ export const SidebarGeneral: React.FC<Props> = ({
                 {props.sidebar && props.sidebar === "single" ? "Connect" : ""}{" "}
                 {/** TODO: restore 'Mis Archivos' gatting them from db */}
               </h3>
-              <div className="card-toolbar">
+              {/**
+                 * <div className="card-toolbar">
                 <button
                   type="button"
                   className="btn btn-md btn-icon btn-icon-white btn-info"
@@ -294,6 +303,7 @@ export const SidebarGeneral: React.FC<Props> = ({
                 </button>
                 <Dropdown1 />
               </div>
+                 */}
             </div>
 
             {props.sidebar && props.sidebar === "single" && (

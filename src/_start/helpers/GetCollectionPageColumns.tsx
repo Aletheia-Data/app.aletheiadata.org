@@ -23,7 +23,7 @@ export const getCollectionPageColumns = (
             className={`text-gray-800 fw-bolder text-hover-primary fs-6 ${
               recordItem.cid ? "" : "disabled"
             }`}
-            to={recordItem.cid ? `/${type}/${entity}/${recordItem.cid}` : "#"}
+            to={recordItem.cid ? `/${type}/${entity}/${recordItem.cid}?assetId=${recordItem.id}` : "#"}
           >
             {recordItem.name || recordItem.title}
           </Link>
@@ -91,11 +91,11 @@ export const getCollectionPageColumns = (
           <Link
             key={`record-alexandria-${recordItem.cid}`}
             className="btn btn-icon btn-bg-light  btn-color-muted btn-active-color-primary btn-sm"
-            to={`/${type}/${entity}/${recordItem.cid}`}
+            to={`/${type}/${entity}/${recordItem.cid}?assetId=${recordItem.id}`}
           >
             <Ktsvg
               className="svg-icon-4"
-              path="/media/icons/duotone/General/Sad.svg"
+              path="/media/icons/duotone/General/Attachment1.svg"
             />
           </Link>
         )),
@@ -111,7 +111,7 @@ export const getCollectionPageColumns = (
             className={`text-gray-800 fw-bolder text-hover-primary fs-6 ${
               recordItem.cid ? "" : "disabled"
             }`}
-            to={recordItem.cid ? `/${type}/${entity}/${recordItem.cid}` : "#"}
+            to={recordItem.cid ? `/${type}/${entity}/${recordItem.cid}?assetId=${recordItem.id}` : "#"}
           >
             {recordItem.name || recordItem.title}
           </Link>
@@ -154,11 +154,11 @@ export const getCollectionPageColumns = (
           <Link
             key={`record-alexandria-${recordItem.cid}`}
             className="btn btn-icon btn-bg-light  btn-color-muted btn-active-color-primary btn-sm"
-            to={`/${type}/${entity}/${recordItem.cid}`}
+            to={`/${type}/${entity}/${recordItem.cid}?assetId=${recordItem.id}`}
           >
             <Ktsvg
               className="svg-icon-4"
-              path="/media/icons/duotone/General/Sad.svg"
+              path="/media/icons/duotone/General/Attachment1.svg"
             />
           </Link>
         )),

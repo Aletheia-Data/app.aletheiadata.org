@@ -44,15 +44,8 @@ const listingPageConfig: Partial<IThemeConfig> = {
   },
 };
 
-const getQuery = (
-  type: string,
-  cid: string,
-  entity?: string,
-  searchById?: boolean
-) => {
-  console.log(searchById);
-
-  console.log(`getting query for ${entity} - ${type} - ${cid}`);
+const getQuery = (cid: string, entity?: string) => {
+  console.log(`getting query for ${entity} - ${cid}`);
 
   const CID_QUERY = gql`
   query Alexandria{
@@ -105,70 +98,31 @@ const getQuery = (
   }
   `;
 
-  const ID_QUERY = gql`
-  query Alexandria{
-    alexandrias(
-      where: {
-        id: "${cid}"
-      }
-    ) {
-      id,
-      title,
-      description,
-      file{
-        id,
-        url
-      },
-      api_endpoint,
-      proof{
-        id,
-        url
-      },
-      category{
-        id,
-        title
-      },
-      department{
-        id,
-        name, 
-        desciption,
-        website,
-      },
-      source_url,
-      source{
-        url,
-        id,
-        name
-      },
-      status,
-      wallet_address,
-      cid,
-      type,
-      aletheias{
-        id,
-        proof {
-          id,
-          url
-        }
-      }
-      updatedAt
-    }
-  }
-  `;
-
-  return searchById ? ID_QUERY : CID_QUERY;
+  return CID_QUERY;
 };
 
-function Single(type: string, query: any, entity: string) {
+function Single(query: any, entity: string, assetId?: string | null) {
   const { data, loading, error } = useQuery(query);
 
   if (loading) return <p>Loading ...</p>;
   if (error) return <p>{`There's an Error, please refresh this page ...`}</p>;
 
-  data.type = type;
-  data.entity = entity;
+  let dataRes;
+  if (assetId) {
+    // eslint-disable-next-line prefer-destructuring
+    dataRes = data.alexandrias.filter((asset: any) => {
+      return asset.id === assetId;
+    })[0];
+  } else {
+    // eslint-disable-next-line prefer-destructuring
+    dataRes = data.alexandrias[0];
+  }
 
-  return result(data);
+  // dataRes.type = type;
+  dataRes.entity = entity;
+  dataRes.alexandrias = data.alexandrias;
+
+  return result(dataRes);
 }
 
 const result = (data: any) => {
@@ -179,22 +133,12 @@ export function SinglePageWrapper(): JSX.Element {
   const params: any = useParams();
   const queryParams = new URLSearchParams(window.location.search);
   const assetId = queryParams.get("assetId");
-  console.log(assetId);
 
   const [minisearchActive, setMinisearchActive] = useState(false);
   const { entity, cid } = params;
-  // if Id = 0 means that its a Single not a single item
-  // console.log(id);
-  const type = "single";
-  console.log(params);
 
-  const query = getQuery(
-    type,
-    assetId ? assetId : cid,
-    entity,
-    assetId ? true : false
-  );
-  const component = Single(type, query, entity);
+  const query = getQuery(cid, entity);
+  const component = Single(query, entity, assetId);
 
   const { setTheme } = useTheme();
   // Refresh UI after config updates
@@ -211,7 +155,7 @@ export function SinglePageWrapper(): JSX.Element {
   };
 
   if (component?.props?.data) {
-    const [data] = component.props.data.alexandrias;
+    const data = component?.props?.data;
     const { title } = data;
     component.props.data.title = title;
     component.props.data.sidebar = "single";

@@ -86,6 +86,7 @@ export const SinglePage: FC<any> = (data: any) => {
 
   const alexandriasRecords = data.data.alexandrias;
   const aletheiaRecords = data.data.aletheias;
+
   const alexandriaColumns = getSinglePageColumns(alexandriasRecords);
   const aletheiaColumns = getSinglePageColumns(aletheiaRecords);
 

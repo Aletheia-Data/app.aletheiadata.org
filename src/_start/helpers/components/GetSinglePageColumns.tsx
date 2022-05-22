@@ -9,16 +9,14 @@ import { Link } from "react-router-dom";
 export const getSinglePageColumns = (data: any) => {
   return [
     {
-      title: "Usuario",
+      title: "Titulo",
       cells: data?.map((recordItem: Record) => (
         <Link
           key={`record-alexandria-${recordItem.cid}`}
           className="text-gray-800 fw-bolder text-hover-primary fs-6"
-          to="#"
+          to={`/single/cat/${recordItem.cid}?assetId=${recordItem.id}`}
         >
-          {recordItem.wallet_address
-            ? recordItem.wallet_address
-            : process.env.REACT_APP_WALLET_OWNER}
+          {recordItem.title}
         </Link>
       )),
     },
@@ -48,7 +46,7 @@ export const getSinglePageColumns = (data: any) => {
         <Link
           key={`record-alexandria-${recordItem.cid}`}
           className="btn btn-icon btn-bg-light  btn-color-muted btn-active-color-primary btn-sm"
-          to={`/${recordItem.cid}`}
+          to={`/single/cat/${recordItem.cid}?assetId=${recordItem.id}`}
         >
           <Ktsvg
             className="svg-icon-4"
