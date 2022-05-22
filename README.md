@@ -1,118 +1,93 @@
 # DASHBOARD Aletheia Data
 
-Este servicio tiene como tarea registrar una copia de toda información publica emitida por las autoridades y hacerlas “unstoppable” a trevés de la tecnología blockchain.
+Aletheia is an Open Source project that seeks to encourage both public and private entities to facilitate
+access to public information, so that it can have a more relevant social impact. 
 
-Nuestra misión es democratizar la información pública y facilitar el acceso a esta.
+As developers we have seen the need to make use of public information (information in the public
+ domain that should be available and accessible by law), but in the search we quickly realized that
+  although the information is (in part) available, it is not organized in a way that is easy to use (uses that
+   can range from the simple consultation of the data, to statistical use or to create computer smart
+    products oriented to citizens. 
 
-## Requirements
+Another problem that we frequently find is the lack of a standard in the format of these files. As well as
+ the use of formats that DO NOT allow the extraction of the information. We know that, like us, there are
+  other Citizens who need to access this data and this is why we decided to develop an Open API to
+   facilitate access and distribution of resourceful public information. 
 
-- [npm](https://www.npmjs.com/)
 
-## Installation
+The objective is to create an ecosystem where these files are ALWAYS available, accessible 24 hours a
+ day and accompanied by APIs to facilitate the consumption and exchange of this information while
+  providing an immutable and reliable "single source of truth".
 
-1. Install project packages:
-    ```bash
-    npm install
-    ```
+**Table of Contents**
 
-## Quick Start
+- [🏄 Get Started](#-get-started)
+- [✨ Code Style](#-code-style)
+- [🛳 Build](#-build)
+- [💖 Contributing](#-contributing)
+## 🏄 Get Started
 
-1. Set up project using `env.dist` template to setup enviroment variables
+The app is a React app built with [React.js](https://reactjs.org/) + TypeScript.
 
-2. Then run:
-    ```bash
-    npm start
-    ```
+To start local development:
 
-## Code Style Guide
+```bash
+git clone git@github.com:Aletheia-Data/app.aletheiadata.org.git
+cd market
 
-### JavaScript
+# when using nvm to manage Node.js versions
+nvm use
 
-* Two spaces indentation.
-* Double quotes are preferred over single.
-* Write code in functional style with minimum side effects when possible.
-* Don't use function statements. Instead, create anonymous functions and
-assing them to constants for consistency with other constants.
+npm install
+```
 
-    ```javascript
-    // No
-    function doThing(a, b) {return a * b;}
+Finally, set environment variables to use this local connection in `.env` in the app:
 
-    // Yes
-    const doThing = function(a, b) {return a * b;};
-    ```
+```bash
+# modify env variables
+cp .env.dist .env
 
-* Do not use quotes in object keys.
+npm start
+```
 
-    ```javascript
-    // No
-    {'a': "testtest"}
+This will start the development server under
+`http://localhost:3000`.
 
-    // Yes
-    {a: "testtest"}
-    ```
+## ✨ Code Style
 
-* Use `===` for comparing instead of `==`. JavaScript is weakly typed
-language, so 5 == '5'. This ambiguity could lead to hard-to-find bugs.
+Code style is automatically enforced through [ESLint](https://eslint.org) & [Prettier](https://prettier.io) rules:
 
-    ```javascript
-    if (a === 5) {
-      ...
-    }
-    if ($(this).val() === "something") {
-      ...
-    }
-    if (typeof a === "undefined") {
-      ...
-    }
+- Git pre-commit hook runs `prettier` on staged files, setup with [Husky](https://typicode.github.io/husky)
+- VS Code suggested extensions and settings for auto-formatting on file save
+- CI runs a linting & TypeScript typings check as part of `npm test`, and fails if errors are found
 
-    // Exception: this compares both to 'null' and 'undefined'.
-    if (item == null) {
+For running linting and auto-formatting manually, you can use from the root of the project:
 
-    }
-    ```
+```bash
+# linting check
+npm run lint
 
-* Cache list length into a variable. You could afford 2x loop performance
-increase with this on some browsers.
+# auto format all files in the project with prettier, taking all configs into account
+npm run format
+```
 
-    ```javascript
-    for (const i = 0, length = someList.length; i < length; i++) {
-      doSomething(someList[i]);
-    }
-    ```
+## 🛳 Build
 
-## Contributing
+To create a production build, run from the root of the project:
 
-Las pull request son bienvenidas. Para cambios importantes, abra primero un (issue)[https://github.com/Aletheia-Data/app.aletheiadata.org/issues/new] para discutir qué le gustaría cambiar.
+```bash
+npm run build
 
-Por favor asegúrese de hacer las pruebas correspondondientes.
+# serve production build
+npm run serve
+```
+## 💖 Contributing
 
+We welcome contributions in form of bug reports, feature requests, code changes, or documentation improvements.
+
+For important changes please create first an (issue)[https://github.com/Aletheia-Data/app.aletheiadata.org/issues/new] to discuss what you would like to change.
+
+Plase make sure that for each PR the necessary test are done.
 ## Gitpod
 
 [![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/EnzoVezzaro/heptastadion.aletheiadata.org)
-
-## License
-
-MIT License
-
-Copyright (c) 2020 Aletheia Data
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-[MIT](https://choosealicense.com/licenses/mit/)
