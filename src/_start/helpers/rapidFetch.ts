@@ -5,7 +5,7 @@ export const rapidFetcher = (): Wretcher => {
   const apiKey = process.env.REACT_APP_RAPID_API_KEY;
 
   return wretch()
-    .url(`${process.env.REACT_APP_RAPID_API_ENDPOINT}/v1`)
+    .url(process.env.REACT_APP_RAPID_API)
     .headers({
       "content-type": "application/json",
       "x-rapidapi-host": "aletheia2.p.rapidapi.com",

@@ -32,7 +32,7 @@ export const SinglePage: FC<any> = (data: any) => {
   };
 
   useEffect(() => {
-    const url = `/services/filecoin/${data.data.alexandrias[0].cid}`;
+    const url = `/v1/services/filecoin/${data.data.alexandrias[0].cid}`;
 
     async function getFilecoinStatus() {
       setLoading(true);

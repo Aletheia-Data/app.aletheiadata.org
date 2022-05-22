@@ -12,6 +12,7 @@ declare namespace NodeJS {
     REACT_APP_ACCESS_TOKEN: string;
     REACT_APP_REFRESH_TOKEN: string;
     REACT_APP_RAPID_API_KEY: string;
+    REACT_APP_RAPID_API: string;
   }
 }
 

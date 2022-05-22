@@ -76,6 +76,7 @@ export interface Record {
   source: Source;
   website: string;
   url: string;
+  api_enabled: boolean;
 }
 
 export interface Deal {
