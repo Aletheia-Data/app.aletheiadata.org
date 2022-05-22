@@ -72,7 +72,7 @@ export const SidebarGeneral: React.FC<Props> = ({
 
     // console.log('getting: ', id, items);
 
-    setActiveTabTotal(0);
+    setActiveTabTotal("Loading");
     setIsLoading(true);
 
     // console.log(items, tab_n);
@@ -261,7 +261,7 @@ export const SidebarGeneral: React.FC<Props> = ({
                     {/* end::Header */}
 
                     {/* begin::Body */}
-                    <div className="card-body px-3 py-0">
+                    <div className="d-flex card-body px-3 py-0 justify-content-center">
                       {isLoading ? (
                         <div className="d-flex align-self-center align-items-center mb-7">
                           <span className="spinner-border spinner-border-lg align-middle ms-2"></span>
