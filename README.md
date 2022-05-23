@@ -1,3 +1,6 @@
+## Gitpod
+
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/Aletheia-Data/app.aletheiadata.org)
 # DASHBOARD Aletheia Data
 
 Aletheia is an Open Source project that seeks to encourage both public and private entities to facilitate
@@ -33,9 +36,9 @@ To start local development:
 
 ```bash
 git clone git@github.com:Aletheia-Data/app.aletheiadata.org.git
-cd market
+cd app.aletheiadata.org
 
-# when using nvm to manage Node.js versions
+# OPTIONAL: when using nvm to manage Node.js versions
 nvm use
 
 npm install
@@ -91,6 +94,3 @@ Please make sure to follow our guidelines:
 For important changes please create first an (issue)[https://github.com/Aletheia-Data/app.aletheiadata.org/issues/new] to discuss what you would like to change.
 
 Plase make sure that for each PR the necessary test are done.
-## Gitpod
-
-[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/EnzoVezzaro/heptastadion.aletheiadata.org)
