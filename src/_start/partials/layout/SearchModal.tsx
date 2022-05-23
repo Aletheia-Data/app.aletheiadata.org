@@ -196,7 +196,8 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
               <div className="row g-5">
                 <div className="col-sm-12">
                   {loading && <p>Loading ...</p>}
-                  {!loading && results.length === 0 && <p>Results not found</p>}
+                  {!loading && !search && results.length === 0 && <p>Busca un asset en el sistema Aletheia</p>}
+                  {!loading && search && results.length === 0 && <p>Results not found</p>}
                   {!loading &&
                     results &&
                     results.map((item: any, i: number) => {
