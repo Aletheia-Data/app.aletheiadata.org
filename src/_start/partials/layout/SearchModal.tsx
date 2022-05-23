@@ -1,15 +1,24 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap-v5";
 import { Ktsvg, toAbsoluteUrl } from "../../helpers";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { rapidFetcher } from "_start/helpers/rapidFetch";
+import { getUserByToken } from "app/modules/auth/redux/AuthCRUD";
+import { Record } from "_start/types";
 
 type Props = {
   show: boolean;
   handleClose: () => void;
+};
+
+type User = {
+  id: number;
+  account: string;
+  provider: string;
 };
 
 const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
@@ -18,7 +27,9 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
-  
+  const [lastUploads, setLastUploads] = useState<Record[]>([]);
+  const [user, setUser] = useState<User | null>(null);
+
   const CAT_QUERY = gql`
     query Categories {
       categories(limit: 5, sort: "alexandrias:desc") {
@@ -44,49 +55,99 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
     variables: {},
   });
 
+  // effects
+
+  useEffect(() => {
+    async function getUser() {
+      try {
+        const res = await getUserByToken();
+        setUser(res.user);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    getUser();
+  }, []);
+
+  useEffect(() => {
+    async function getUserLastUploads() {
+      const walletAddress = user?.account.toLowerCase();
+
+      const url = `/v2/open-data/alexandrias/getAll?limit=5&wallet_address=${walletAddress}`;
+      try {
+        const response = await rapidFetcher().url(url).get().json();
+        if (response?.body) {
+          const uploads = JSON.parse(response.body);
+          setLastUploads(uploads);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    if (user?.account) {
+      getUserLastUploads();
+    }
+  }, [user]);
+
   const _handleKeyDown = (e: any) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      searchAPI(search)
+      searchAPI(search);
     }
   };
 
+  // methods
   const searchChange = (e: any) => {
     let value = e.target.value;
     setSearch(value);
   };
 
-  const searchAPI = (search:string) =>{
-    setLoading(true)
-    console.log('search on API: ', search);
-    console.log(`${process.env.REACT_APP_ALETHEIA_API}/v2/open-data/alexandrias/getAll`);
-    const query = `?title=${search}&limit=5`
+  const searchAPI = (search: string) => {
+    setLoading(true);
+    console.log("search on API: ", search);
+    console.log(
+      `${process.env.REACT_APP_ALETHEIA_API}/v2/open-data/alexandrias/getAll`
+    );
+    const query = `?title=${search}&limit=5`;
     const endpoint = `${process.env.REACT_APP_ALETHEIA_API}/v2/open-data/alexandrias/getAll${query}`;
     return fetch(endpoint)
       .then((response) => response.json())
       .then((data) => {
-        setResults(JSON.parse(data.body))
-        console.log(results)
-        setLoading(false)
+        setResults(JSON.parse(data.body));
+        console.log(results);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
-        setLoading(false)
+        setLoading(false);
       });
-  }
+  };
 
-  const goToAsset = (cid:string) =>{
+  // handlers
+  const goToAsset = (cid: string) => {
     history.push(`/single/src/${cid}`);
-    handleClose()
+    handleClose();
     setTimeout(() => {
-      clearSearch()
+      clearSearch();
     }, 1000);
-  }
+  };
+
+  const handleCategory = (id: string) => {
+    history.push(`/collection/cat/${id}`);
+    handleClose();
+    setTimeout(() => {
+      clearSearch();
+    }, 1000);
+  };
 
   const clearSearch = () => {
     setResults([]);
-    setSearch('')
-  }
+    setSearch("");
+  };
+
+  // constants
+  const hasLastUploads = Boolean(lastUploads.length);
 
   return (
     <Modal
@@ -114,7 +175,7 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
           <div className="modal-body">
             {/* begin::Search */}
             <form className="pb-10">
-              <input 
+              <input
                 autoFocus
                 type="text"
                 onChange={searchChange}
@@ -133,46 +194,47 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
 
               {/* begin::Row */}
               <div className="row g-5">
-              <div className="col-sm-12">
-                {loading && <p>Loading ...</p>}
-                {!loading && results.length === 0 && <p>Results not found</p>}
-                {!loading && results &&
-                  results.map((item: any, i: number) => {
-                    return (
-                    <div className="d-flex mb-6">
-                      {/* begin::Icon */}
-                      <div className="me-1">
-                        <Ktsvg
-                          className="svg-icon-sm svg-icon-primary"
-                          path="/media/icons/duotone/Navigation/Angle-right.svg"
-                        />
-                      </div>
-                      {/* end::Icon */}
+                <div className="col-sm-12">
+                  {loading && <p>Loading ...</p>}
+                  {!loading && !search && results.length === 0 && <p>Busca un asset en el sistema Aletheia</p>}
+                  {!loading && search && results.length === 0 && <p>Results not found</p>}
+                  {!loading &&
+                    results &&
+                    results.map((item: any, i: number) => {
+                      return (
+                        <div className="d-flex mb-6">
+                          {/* begin::Icon */}
+                          <div className="me-1">
+                            <Ktsvg
+                              className="svg-icon-sm svg-icon-primary"
+                              path="/media/icons/duotone/Navigation/Angle-right.svg"
+                            />
+                          </div>
+                          {/* end::Icon */}
 
-                      {/* begin::Content */}
-                      <div className="d-flex flex-column">
-                        <a
-                          onClick={()=>goToAsset(item.cid)}
-                          className="fs-6 fw-bolder text-hover-primary text-gray-800 mb-2"
-                        >
-                          { item.title }
-                        </a>
-                        <div className="fw-bold text-muted">
-                        { item.description }
+                          {/* begin::Content */}
+                          <div className="d-flex flex-column">
+                            <a
+                              onClick={() => goToAsset(item.cid)}
+                              className="fs-6 fw-bolder text-hover-primary text-gray-800 mb-2"
+                            >
+                              {item.title}
+                            </a>
+                            <div className="fw-bold text-muted">
+                              {item.description}
+                            </div>
+                          </div>
+                          {/* end::Content */}
                         </div>
-                      </div>
-                      {/* end::Content */}
-                    </div>
-                    )
-                  })
-                }
-              </div>
+                      );
+                    })}
+                </div>
               </div>
             </div>
 
             {/* begin::Shop Goods */}
             <div className="py-10">
-              <h3 className="fw-bolder mb-8">Ministerios o instituciónes</h3>
+              <h3 className="fw-bolder mb-8">Categorias</h3>
 
               {/* begin::Row */}
               <div className="row g-5">
@@ -183,7 +245,8 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
                       {catData &&
                         catData.categories.map((cat: any, i: number) => {
                           if (i > 1) return;
-
+                          console.log(cat);
+                          
                           return (
                             <div
                               key={`cat_search_${i}`}
@@ -194,13 +257,13 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
                                   className="overlay-wrapper flex-grow-1 bgi-no-repeat bgi-size-cover bgi-position-center card-rounded"
                                   style={{
                                     backgroundImage: `url('${toAbsoluteUrl(
-                                      "/media/stock/600x400/img-17.jpg"
+                                      cat.icon.url
                                     )}')`,
                                   }}
                                 />
                                 <div className="overlay-layer bg-white bg-opacity-50">
                                   <a
-                                    href="#"
+                                    onClick={() => handleCategory(cat.id)}
                                     className="btn btn-sm fw-bold btn-primary"
                                   >
                                     {cat.title}
@@ -226,13 +289,13 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
                                   className="overlay-wrapper flex-grow-1 bgi-no-repeat bgi-size-cover bgi-position-center card-rounded"
                                   style={{
                                     backgroundImage: `url('${toAbsoluteUrl(
-                                      "/media/stock/600x400/img-23.jpg"
+                                      cat.icon.url
                                     )}')`,
                                   }}
                                 />
                                 <div className="overlay-layer bg-white bg-opacity-50">
                                   <a
-                                    href="#"
+                                    onClick={() => handleCategory(cat.id)}
                                     className="btn btn-sm fw-bold btn-primary"
                                   >
                                     {cat.title}
@@ -250,7 +313,7 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
                     {catData &&
                       catData.categories.map((cat: any, i: number) => {
                         if (i !== 4) return;
-                        
+
                         return (
                           <div
                             key={`cat_search_${i}`}
@@ -260,13 +323,13 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
                               className="overlay-wrapper flex-grow-1 bgi-no-repeat bgi-size-cover bgi-position-center card-rounded"
                               style={{
                                 backgroundImage: `url('${toAbsoluteUrl(
-                                  "/media/stock/600x400/img-11.jpg"
+                                  cat.icon.url
                                 )}')`,
                               }}
                             ></div>
                             <div className="overlay-layer bg-white bg-opacity-50">
                               <a
-                                href="#"
+                                onClick={() => handleCategory(cat.id)}
                                 className="btn btn-sm fw-bold btn-primary"
                               >
                                 {cat.title}
@@ -284,10 +347,14 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
 
             {/* begin::Tutorials */}
             <div className="pb-10" style={{ minHeight: "350px" }}>
-              <h3 className="text-dark fw-bolder fs-1 mb-6">Tutorials</h3>
-              {/**
-               * <ListsWidget5 className="mb-5 shadow-none" innerPadding="px-0" />
-               */}
+              <h3 className="text-dark fw-bolder fs-1 mb-6">Last Uploads</h3>
+              <div>
+                {hasLastUploads ? (
+                  lastUploads.map((item) => <span>{item.title}</span>)
+                ) : (
+                  <span>User has no uploads</span>
+                )}
+              </div>
             </div>
             {/* end::Tutorials */}
           </div>

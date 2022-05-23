@@ -1,5 +1,5 @@
 import React from "react";
-import StatusBadge from "../partials/components/StatusBadge";
+import StatusBadge from "../../partials/components/StatusBadge";
 import moment from "moment";
 import { Ktsvg } from "_start/helpers";
 import { Record } from "_start/types";
