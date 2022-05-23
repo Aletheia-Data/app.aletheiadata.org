@@ -29,8 +29,6 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log(items);
-    
     setTimeout(() => {
       setTab(items, 1);
     }, 0);
