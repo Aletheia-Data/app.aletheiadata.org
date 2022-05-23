@@ -73,8 +73,7 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
   useEffect(() => {
     async function getUserLastUploads() {
       const walletAddress = user?.account.toLowerCase();
-
-      const url = `/v2/open-data/alexandrias/getAll?limit=5&wallet_address=${walletAddress}`;
+      const url = `/v2/open-data/alexandrias/getAll?limit=5&wallet_address=${walletAddress}&sort=createdAt:-1`;
       try {
         const response = await rapidFetcher().url(url).get().json();
         if (response?.body) {
@@ -125,8 +124,8 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
   };
 
   // handlers
-  const goToAsset = (cid: string) => {
-    history.push(`/single/src/${cid}`);
+  const goToAsset = (cid: string, id: string) => {
+    history.push(`/single/src/${cid}?assetId=${id}`);
     handleClose();
     setTimeout(() => {
       clearSearch();
@@ -215,7 +214,7 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
                           {/* begin::Content */}
                           <div className="d-flex flex-column">
                             <a
-                              onClick={() => goToAsset(item.cid)}
+                              onClick={() => goToAsset(item.cid, item['_id'])}
                               className="fs-6 fw-bolder text-hover-primary text-gray-800 mb-2"
                             >
                               {item.title}
@@ -245,7 +244,6 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
                       {catData &&
                         catData.categories.map((cat: any, i: number) => {
                           if (i > 1) return;
-                          console.log(cat);
                           
                           return (
                             <div
@@ -347,10 +345,47 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
 
             {/* begin::Tutorials */}
             <div className="pb-10" style={{ minHeight: "350px" }}>
-              <h3 className="text-dark fw-bolder fs-1 mb-6">Last Uploads</h3>
+              <h3 className="text-dark fw-bolder fs-1 mb-6">Últimos archivos cargados</h3>
               <div>
                 {hasLastUploads ? (
-                  lastUploads.map((item) => <span>{item.title}</span>)
+                  lastUploads.map((item) => {
+                    return (
+                      <div className="d-flex mb-6">
+                          {/* begin::Icon */}
+                          <div className="me-1">
+                            <Ktsvg
+                              className="svg-icon-sm svg-icon-primary"
+                              path="/media/icons/duotone/Navigation/Angle-right.svg"
+                            />
+                          </div>
+                          {/* end::Icon */}
+
+                          {/* begin::Content */}
+                          <div className="d-flex flex-column">
+                            {
+                              item.cid &&
+                              <a
+                                onClick={() => goToAsset(item.cid, item['_id'])}
+                                className="fs-6 fw-bolder text-hover-primary text-gray-800 mb-2"
+                              >
+                                {item.title}
+                              </a>
+                            }
+                            {
+                              !item.cid &&
+                              <a
+                                href="#"
+                                className="disabled fs-6 fw-bolder text-hover-primary text-gray-800 mb-2"
+                              >
+                                {item.title}
+                              </a>
+                            }
+                            
+                          </div>
+                          {/* end::Content */}
+                        </div>
+                    )
+                  })
                 ) : (
                   <span>User has no uploads</span>
                 )}
