@@ -233,7 +233,7 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
 
             {/* begin::Shop Goods */}
             <div className="py-10">
-              <h3 className="fw-bolder mb-8">Ministerios o instituciónes</h3>
+              <h3 className="fw-bolder mb-8">Categorias</h3>
 
               {/* begin::Row */}
               <div className="row g-5">
@@ -244,6 +244,8 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
                       {catData &&
                         catData.categories.map((cat: any, i: number) => {
                           if (i > 1) return;
+                          console.log(cat);
+                          
                           return (
                             <div
                               key={`cat_search_${i}`}
