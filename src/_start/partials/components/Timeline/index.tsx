@@ -182,13 +182,13 @@ const Timeline: React.FC<Props> = ({ className }) => {
 
             const getLink = (item: any) => {
               let url;
-              if (item.documents === 1 && item.alexandrias[0].cid){
+              if (item.documents === 1 && item.alexandrias.length > 0 && item.alexandrias[0].cid){
                 url = `/single/src/${item.alexandrias[0].cid}?assetId=${item.alexandrias[0].id}`
               } else {
                 url = `${item.source}`
               }
               return (
-                  <a href={url} target={ item.documents === 1 && item.alexandrias[0].cid ? '' : '_blank'}>
+                  <a href={url} target={ item.documents === 1 && item.alexandrias.length > 0 && item.alexandrias[0].cid ? '' : '_blank'}>
                     {
                       `${truncate(`${item.wallet}`, 15)}`
                     }
