@@ -33,7 +33,6 @@ To start local development:
 
 ```bash
 git clone git@github.com:Aletheia-Data/app.aletheiadata.org.git
-cd market
 
 # when using nvm to manage Node.js versions
 nvm use
