@@ -92,4 +92,4 @@ For important changes please create first an (issue)[https://github.com/Aletheia
 Plase make sure that for each PR the necessary test are done.
 ## Gitpod
 
-[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/EnzoVezzaro/heptastadion.aletheiadata.org)
+[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/EnzoVezzaro/api.aletheiadata.org)
