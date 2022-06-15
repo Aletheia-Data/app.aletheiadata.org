@@ -1,3 +1,5 @@
+const dashboardEmail = "aletheiadata@gmail.com";
+
 const colors = {
   pdf: "#FFE6E2",
   csv: "#FFF8DD",
@@ -8,4 +10,5 @@ const colors = {
 
 export default {
   colors,
+  dashboardEmail,
 };

@@ -51,6 +51,9 @@ console.log(`
 **** Active: ${process.env.REACT_APP_RAPID_API_ENDPOINT ? true : false} ******
 **** Endpoint: ${process.env.REACT_APP_RAPID_API_ENDPOINT} ******
 ***********************************************
+**** WEB3 FORMS API ****************
+**** Active: ${process.env.REACT_APP_WEB3_FORMS_API_KEY ? true : false} ******
+***********************************************
 `);
 
 if (window.location.hostname === "app.aletheiadata.org") {

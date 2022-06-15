@@ -48,4 +48,5 @@ if (!rapidAPI.endpoint) console.warn("Missing Rapid API endpoint!");
 export default {
   availableDocTypes,
   rapidAPI,
+  brand,
 };

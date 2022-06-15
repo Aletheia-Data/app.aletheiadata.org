@@ -53,7 +53,7 @@ export function Topbar() {
 
       {/* begin::Message */}
       <button
-        className="disabled btn btn-icon btn-sm btn-active-bg-accent ms-1 ms-lg-6"
+        className="btn btn-icon btn-sm btn-active-bg-accent ms-1 ms-lg-6"
         onClick={() => setShowInboxComposeModal(true)}
       >
         <Ktsvg
