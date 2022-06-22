@@ -348,9 +348,9 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
               <h3 className="text-dark fw-bolder fs-1 mb-6">Últimos archivos cargados</h3>
               <div>
                 {hasLastUploads ? (
-                  lastUploads.map((item) => {
+                  lastUploads.map((item, i) => {
                     return (
-                      <div className="d-flex mb-6">
+                      <div className="d-flex mb-6" key={`last_upload_${i}`}>
                           {/* begin::Icon */}
                           <div className="me-1">
                             <Ktsvg
