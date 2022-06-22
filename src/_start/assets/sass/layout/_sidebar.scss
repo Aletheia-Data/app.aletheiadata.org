@@ -28,7 +28,9 @@ $item-image-width-active: 35px;
 
 	// Sidebar tabs
 	.sidebar-nav {
-		justify-content: center;
+		justify-content: flex-start;
+		padding-left: 30px;
+		padding-right: 30px;
 		align-items: center;
 		display: flex;
 		border-bottom: 0;

@@ -201,7 +201,7 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
                     results &&
                     results.map((item: any, i: number) => {
                       return (
-                        <div className="d-flex mb-6">
+                        <div className="d-flex mb-6" key={`user_asset_${i}`}>
                           {/* begin::Icon */}
                           <div className="me-1">
                             <Ktsvg
