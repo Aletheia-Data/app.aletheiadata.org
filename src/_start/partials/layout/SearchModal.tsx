@@ -27,6 +27,7 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
   const [results, setResults] = useState([]);
+  const [resultsDep, setResultsDep] = useState([]);
   const [lastUploads, setLastUploads] = useState<Record[]>([]);
   const [user, setUser] = useState<User | null>(null);
 
@@ -93,6 +94,7 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
     if (e.key === "Enter") {
       e.preventDefault();
       searchAPI(search);
+      searchDepartment(search);
     }
   };
 
@@ -114,7 +116,7 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
       .then((response) => response.json())
       .then((data) => {
         setResults(JSON.parse(data.body));
-        console.log(results);
+        console.log(data);
         setLoading(false);
       })
       .catch((err) => {
@@ -123,9 +125,36 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
       });
   };
 
+  const searchDepartment = (search: string) => {
+    setLoading(true);
+    console.log("search on API: ", search);
+    const query = `?name=${search}&limit=5`;
+    console.log(
+      `${process.env.REACT_APP_ALETHEIA_API}/v2/open-data/departments/getAll${query}`
+    );
+    const endpoint = `${process.env.REACT_APP_ALETHEIA_API}/v2/open-data/departments/getAll${query}`;
+    return fetch(endpoint)
+      .then((response) => response.json())
+      .then((data) => {
+        setResultsDep(JSON.parse(data.body));
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   // handlers
   const goToAsset = (cid: string, id: string) => {
     history.push(`/single/src/${cid}?assetId=${id}`);
+    handleClose();
+    setTimeout(() => {
+      clearSearch();
+    }, 1000);
+  };
+
+  const goToDep = (id: string) => {
+    history.push(`/collection/dep/${id}`);
     handleClose();
     setTimeout(() => {
       clearSearch();
@@ -142,6 +171,7 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
 
   const clearSearch = () => {
     setResults([]);
+    setResultsDep([]);
     setSearch("");
   };
 
@@ -195,8 +225,12 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
               <div className="row g-5">
                 <div className="col-sm-12">
                   {loading && <p>Loading ...</p>}
-                  {!loading && !search && results.length === 0 && <p>Busca un asset en el sistema Aletheia</p>}
-                  {!loading && search && results.length === 0 && <p>Results not found</p>}
+                  {!loading && !search && results.length === 0 && (
+                    <p>Busca un asset en el sistema Aletheia</p>
+                  )}
+                  {!loading && search && results.length === 0 && (
+                    <p>Results not found</p>
+                  )}
                   {!loading &&
                     results &&
                     results.map((item: any, i: number) => {
@@ -214,8 +248,14 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
                           {/* begin::Content */}
                           <div className="d-flex flex-column">
                             <a
-                              onClick={() => goToAsset(item.cid, item['_id'])}
-                              className="fs-6 fw-bolder text-hover-primary text-gray-800 mb-2"
+                              onClick={() =>
+                                item.cid
+                                  ? goToAsset(item.cid, item["_id"])
+                                  : null
+                              }
+                              className={`${
+                                !item.cid ? "disabled" : null
+                              } fs-6 fw-bolder text-hover-primary text-gray-800 mb-2`}
                             >
                               {item.title}
                             </a>
@@ -231,7 +271,45 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
               </div>
             </div>
 
-            {/* begin::Shop Goods */}
+            {resultsDep.length > 0 && (
+              <div className="py-10">
+                <h3 className="fw-bolder mb-8">Ministerios o instituciónes</h3>
+                {/* begin::Row */}
+                <div className="row g-5">
+                  <div className="col-sm-12">
+                    {resultsDep.map((item: any, i: number) => {
+                      return (
+                        <div className="d-flex mb-6" key={`user_asset_${i}`}>
+                          {/* begin::Icon */}
+                          <div className="me-1">
+                            <Ktsvg
+                              className="svg-icon-sm svg-icon-primary"
+                              path="/media/icons/duotone/Navigation/Angle-right.svg"
+                            />
+                          </div>
+                          {/* end::Icon */}
+
+                          {/* begin::Content */}
+                          <div className="d-flex flex-column">
+                            <a
+                              onClick={() => goToDep(item["_id"])}
+                              className="fs-6 fw-bolder text-hover-primary text-gray-800 mb-2"
+                            >
+                              {item.name}
+                            </a>
+                          </div>
+                          {/* end::Content */}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* end::Row */}
+              </div>
+            )}
+
+            {/* begin::Categories */}
             <div className="py-10">
               <h3 className="fw-bolder mb-8">Categorias</h3>
 
@@ -244,7 +322,7 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
                       {catData &&
                         catData.categories.map((cat: any, i: number) => {
                           if (i > 1) return;
-                          
+
                           return (
                             <div
                               key={`cat_search_${i}`}
@@ -341,50 +419,49 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
               </div>
               {/* end::Row */}
             </div>
-            {/* end::Shop Goods */}
+            {/* end::Categories */}
 
-            {/* begin::Tutorials */}
+            {/* begin::Last Files Uploaded */}
             <div className="pb-10" style={{ minHeight: "350px" }}>
-              <h3 className="text-dark fw-bolder fs-1 mb-6">Últimos archivos cargados</h3>
+              <h3 className="text-dark fw-bolder fs-1 mb-6">
+                Últimos archivos cargados
+              </h3>
               <div>
                 {hasLastUploads ? (
                   lastUploads.map((item, i) => {
                     return (
                       <div className="d-flex mb-6" key={`last_upload_${i}`}>
-                          {/* begin::Icon */}
-                          <div className="me-1">
-                            <Ktsvg
-                              className="svg-icon-sm svg-icon-primary"
-                              path="/media/icons/duotone/Navigation/Angle-right.svg"
-                            />
-                          </div>
-                          {/* end::Icon */}
-
-                          {/* begin::Content */}
-                          <div className="d-flex flex-column">
-                            {
-                              item.cid &&
-                              <a
-                                onClick={() => goToAsset(item.cid, item['_id'])}
-                                className="fs-6 fw-bolder text-hover-primary text-gray-800 mb-2"
-                              >
-                                {item.title}
-                              </a>
-                            }
-                            {
-                              !item.cid &&
-                              <a
-                                href="#"
-                                className="disabled fs-6 fw-bolder text-hover-primary text-gray-800 mb-2"
-                              >
-                                {item.title}
-                              </a>
-                            }
-                            
-                          </div>
-                          {/* end::Content */}
+                        {/* begin::Icon */}
+                        <div className="me-1">
+                          <Ktsvg
+                            className="svg-icon-sm svg-icon-primary"
+                            path="/media/icons/duotone/Navigation/Angle-right.svg"
+                          />
                         </div>
-                    )
+                        {/* end::Icon */}
+
+                        {/* begin::Content */}
+                        <div className="d-flex flex-column">
+                          {item.cid && (
+                            <a
+                              onClick={() => goToAsset(item.cid, item["_id"])}
+                              className="fs-6 fw-bolder text-hover-primary text-gray-800 mb-2"
+                            >
+                              {item.title}
+                            </a>
+                          )}
+                          {!item.cid && (
+                            <a
+                              href="#"
+                              className="disabled fs-6 fw-bolder text-hover-primary text-gray-800 mb-2"
+                            >
+                              {item.title}
+                            </a>
+                          )}
+                        </div>
+                        {/* end::Content */}
+                      </div>
+                    );
                   })
                 ) : (
                   <span>User has no uploads</span>
