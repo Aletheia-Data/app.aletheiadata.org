@@ -154,7 +154,11 @@ const EngageWidget6: React.FC<Props> = ({
                     <tr>
                       <td className="text-gray-600 ps-0">Prueba</td>
                       <td className="text-dark pe-0">
-                        <a href={`${proof}`} target={"_blank"}>
+                        <a
+                          href={`${proof}`}
+                          target={"_blank"}
+                          rel="noopener noreferrer"
+                        >
                           Ver
                         </a>
                       </td>
@@ -192,6 +196,7 @@ const EngageWidget6: React.FC<Props> = ({
                               target="_blank"
                               className="link-dark"
                               href={`${EXTERNAL_ROUTES.deal}/${deal.dealId}`}
+                              rel="noopener noreferrer"
                             >
                               {deal.storageProvider}
                             </a>
