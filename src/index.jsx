@@ -6,7 +6,6 @@ import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import * as _redux from "./setup";
 import store, { persistor } from "./setup/redux/Store";
-import { MoralisProvider } from "react-moralis";
 // Axios
 import axios from "axios";
 // Apps
@@ -51,6 +50,9 @@ console.log(`
 **** Active: ${process.env.REACT_APP_RAPID_API_ENDPOINT ? true : false} ******
 **** Endpoint: ${process.env.REACT_APP_RAPID_API_ENDPOINT} ******
 ***********************************************
+**** WEB3 FORMS API ****************
+**** Active: ${process.env.REACT_APP_WEB3_FORMS_API_KEY ? true : false} ******
+***********************************************
 `);
 
 if (window.location.hostname === "app.aletheiadata.org") {
@@ -82,18 +84,13 @@ const { PUBLIC_URL } = process.env;
 _redux.setupAxios(axios, store);
 
 ReactDOM.render(
-  <MoralisProvider
-    appId={process.env.REACT_APP_MORALIS_APP_ID}
-    serverUrl={process.env.REACT_APP_MORALIS_SERVER_URL}
-  >
-    <ApolloProvider client={client}>
-      <Provider store={store}>
-        {/* Asynchronously persist redux stores and show `SplashScreen` while it's loading. */}
-        <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
-          <App basename={PUBLIC_URL} />
-        </PersistGate>
-      </Provider>
-    </ApolloProvider>
-  </MoralisProvider>,
+  <ApolloProvider client={client}>
+    <Provider store={store}>
+      {/* Asynchronously persist redux stores and show `SplashScreen` while it's loading. */}
+      <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
+        <App basename={PUBLIC_URL} />
+      </PersistGate>
+    </Provider>
+  </ApolloProvider>,
   document.getElementById("root")
 );

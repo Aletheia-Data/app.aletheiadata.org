@@ -25,7 +25,7 @@ const EngageWidget6: React.FC<Props> = ({
   color = "primary",
   fileCoinStatus,
   deals,
-  loading
+  loading,
 }) => {
   data = data.data;
   const entity = data.entity;
@@ -38,19 +38,21 @@ const EngageWidget6: React.FC<Props> = ({
   let department;
   let source;
   let proof;
-  
+
   title = data.title;
-  desc = data.description || "Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.";
+  desc =
+    data.description ||
+    "Aenean dignissim mi vitae mi sodales posuere. Curabitur sagittis lacus eget lacinia pretium. Vestibulum semper tristique mauris sit amet pretium. Maecenas volutpat malesuada metus. Donec feugiat tincidunt blandit. Sed maximus feugiat lectus.";
   source = data.source.name;
   department = data.department.name;
   proof = data.proof ? data.proof.url : null;
 
-  countTotal = 0
+  countTotal = 0;
   entityCount = 0;
 
   let background_status;
   let text_status;
-  
+
   switch (data?.status) {
     case "under_review":
       background_status = "background-csv";
@@ -69,7 +71,9 @@ const EngageWidget6: React.FC<Props> = ({
       text_status = "Broken";
       break;
   }
-  
+
+  console.log(data);
+
   return (
     <div
       className={`card card-custom ${className}`}
@@ -121,81 +125,93 @@ const EngageWidget6: React.FC<Props> = ({
             <div className="card-footer">
               {/*begin::Info*/}
               <table className="table table-borderless align-middle fw-bold">
-              <tbody>
+                <tbody>
+                  <tr>
+                    <td className="text-gray-600 ps-0">Fuente</td>
+                    <td className="text-dark pe-0">
+                      <Link to={`/collection/src/${data.source.id}`}>
+                        {data.source?.name}
+                      </Link>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-gray-600 ps-0">Ministerio</td>
+                    <td className="text-dark pe-0">
+                      <Link to={`/collection/dep/${data.department.id}`}>
+                        {data.department?.name}
+                      </Link>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-gray-600 ps-0">Categoria</td>
+                    <td className="text-dark pe-0">
+                      <Link to={`/collection/cat/${data.category.id}`}>
+                        {data.category?.title}
+                      </Link>
+                    </td>
+                  </tr>
+                  {proof && (
                     <tr>
-                      <td className="text-gray-600 ps-0">Fuente</td>
+                      <td className="text-gray-600 ps-0">Prueba</td>
                       <td className="text-dark pe-0">
-                        <Link to={`/collection/src/${data.source.id}`}>
-                          {data.source?.name}
-                        </Link>
+                        <a
+                          href={`${proof}`}
+                          target={"_blank"}
+                          rel="noopener noreferrer"
+                        >
+                          Ver
+                        </a>
                       </td>
                     </tr>
-                    <tr>
-                      <td className="text-gray-600 ps-0">Ministerio</td>
-                      <td className="text-dark pe-0">
-                        <Link to={`/collection/dep/${data.department.id}`}>
-                          {data.department.name}
-                        </Link>
-                      </td>
-                    </tr>
-                    {proof && (
-                      <tr>
-                        <td className="text-gray-600 ps-0">Prueba</td>
-                        <td className="text-dark pe-0">
-                          <a href={`${proof}`} target={"_blank"}>
-                            Ver
-                          </a>
-                        </td>
-                      </tr>
-                    )}
-                    <tr>
-                      <td className="text-gray-600 ps-0">Formato</td>
-                      <td className="text-dark pe-0">{data.type}</td>
-                    </tr>
-                    <tr>
-                      <td className="text-gray-600 ps-0">Ultimo Archivo</td>
-                      <td className="text-dark pe-0">
-                        {moment(data.updatedAt).format("DD/MM/YYYY")}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td className="text-gray-600 ps-0">Deals</td>
-                      <td className="text-dark pe-0">
-                        <div className="text-dark">
-                          {
-                            loading &&
-                            <span className="indicator-progress" style={{ display: "block" }}>
-                              Please wait...{" "}
-                              <span className="spinner-border spinner-border-sm align-middle ms-2" />
-                            </span>
-                          }
-                          {deals.map((deal, index) => (
-                            <div
-                              key={`${deal.dealId}-${index}`}
-                              className="text-dark pe-2"
-                            >
-                              <a
-                                target="_blank"
-                                className="link-dark"
-                                href={`${EXTERNAL_ROUTES.deal}/${deal.dealId}`}
-                              >
-                                {deal.storageProvider}
-                              </a>
-                              {index < deals.length - 1 ? <span>,</span> : null}
-                            </div>
-                          ))}
-                          {
-                          !loading && deals.length === 0 &&
+                  )}
+                  <tr>
+                    <td className="text-gray-600 ps-0">Formato</td>
+                    <td className="text-dark pe-0">{data.type}</td>
+                  </tr>
+                  <tr>
+                    <td className="text-gray-600 ps-0">Ultimo Archivo</td>
+                    <td className="text-dark pe-0">
+                      {moment(data.updatedAt).format("DD/MM/YYYY")}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="text-gray-600 ps-0">Deals</td>
+                    <td className="text-dark pe-0">
+                      <div className="text-dark">
+                        {loading && (
+                          <span
+                            className="indicator-progress"
+                            style={{ display: "block" }}
+                          >
+                            Please wait...{" "}
+                            <span className="spinner-border spinner-border-sm align-middle ms-2" />
+                          </span>
+                        )}
+                        {deals.map((deal, index) => (
                           <div
+                            key={`${deal.dealId}-${index}`}
                             className="text-dark pe-2"
                           >
-                            {"Esta información no está disponible" }
+                            <a
+                              target="_blank"
+                              className="link-dark"
+                              href={`${EXTERNAL_ROUTES.deal}/${deal.dealId}`}
+                              rel="noopener noreferrer"
+                            >
+                              {deal.storageProvider}
+                            </a>
+                            {index < deals.length - 1 ? <span>,</span> : null}
                           </div>
-                          }
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
+                        ))}
+                        {!loading && deals.length === 0 && (
+                          <div className="text-dark pe-2">
+                            {"Esta información no está disponible"}
+                          </div>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
               </table>
               {/*end::Info*/}
             </div>

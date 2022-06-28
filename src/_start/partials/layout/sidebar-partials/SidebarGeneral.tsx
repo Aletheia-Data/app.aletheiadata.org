@@ -131,14 +131,6 @@ export const SidebarGeneral: React.FC<Props> = ({
     };
   }, [catLoading]);
 
-  // useEffect(() => {
-  //   if (activeChart) {
-  //     setIsLoading(false);
-  //   } else {
-  //     setIsLoading(true);
-  //   }
-  // }, [activeChart]);
-
   if (catLoading) {
     return <LoadingSidebar />;
   }
@@ -170,13 +162,23 @@ export const SidebarGeneral: React.FC<Props> = ({
         className="sidebar-nav nav nav-tabs pt-15 pb-15"
         id="kt_sidebar_tabs"
         role="tablist"
-        style={{ paddingLeft: "350px", paddingRight: "30px" }}
       >
+        {
+          !items &&
+          <li className="nav-item">
+            <a href="#">
+                <span className="indicator-progress text-muted mt-2 fw-bold fs-6" style={{ display: "block" }}>
+              Please wait...{" "}
+              <span className="spinner-border spinner-border-sm align-middle ms-2" />
+            </span>
+              </a>
+            </li>
+        }
         {items.map((cat: any, i: number) => {
           let current_item = cat.connection.values[0];
           let img = current_item.icon
             ? current_item.icon.url
-            : "/media/svg/logo/gray/aven.svg";
+            : "/media/svg/logo/gray/aven.svg"; 
           i++;
           return (
             <li className="nav-item" key={`cat_sidebar_${current_item.id}`}>
