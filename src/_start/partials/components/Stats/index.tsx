@@ -14,15 +14,20 @@ type Props = {
 };
 
 // TODO: move to global
-const colorPDF = '#F1416C';
-const colorCSV = '#FFC700';
-const colorXLS = '#20D489';
-const colorODS = '#A2A7F7';
-const colorOTHER = '#00A3FF';
+const colorPDF = "#F1416C";
+const colorCSV = "#FFC700";
+const colorXLS = "#20D489";
+const colorODS = "#A2A7F7";
+const colorOTHER = "#00A3FF";
 
-const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => {
+const Stats: React.FC<Props> = ({
+  id,
+  title,
+  className,
+  innerPadding = "",
+}) => {
   const [activeTab, setActiveTab] = useState(`#${id}_tab1`);
-  const [activeTabTotal, setActiveTabTotal] = useState('');
+  const [activeTabTotal, setActiveTabTotal] = useState("");
   const [activeChart, setActiveChart] = useState<ApexCharts | undefined>();
 
   const [items, setItems] = useState([{}]);
@@ -38,53 +43,52 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
         activeChart.destroy();
       }
     };
-
   }, [items]);
 
-  useEffect(()=>{
-
+  useEffect(() => {
     let entity;
     switch (id) {
-      case 'src':
-        entity = 'sources'
+      case "src":
+        entity = "sources";
         break;
-      case 'dep':
-        entity = 'departments'
+      case "dep":
+        entity = "departments";
         break;
-      case 'cat':
-        entity = 'categories'
+      case "cat":
+        entity = "categories";
         break;
       default:
-        return
+        return;
     }
 
-    fetch(`${process.env.REACT_APP_ALETHEIA_API}/v1/api/${entity}/getAll?limit=5`, {
-      method: 'get',
-      headers: {
-        'Access-Control-Request-Headers': '*'
+    fetch(
+      `${process.env.REACT_APP_ALETHEIA_API}/v1/api/${entity}/getAll?limit=5`,
+      {
+        method: "get",
+        headers: {
+          "Access-Control-Request-Headers": "*",
+        },
       }
-    })
-    .then(res => {
-      return res.json()
-    })
-    .then(newData => {
-      const body = JSON.parse(newData.body)
-      setItems(body);
-      setLoading(false);
-    })
-    .catch(err => {
-      console.log(err)
-      setLoading(false);
-    });
-
-  }, [])
+    )
+      .then((res) => {
+        return res.json();
+      })
+      .then((newData) => {
+        const body = JSON.parse(newData.body);
+        setItems(body);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, []);
 
   const getFilesType = (item: string, id: string) => {
     return new Promise((resolve, reject) => {
-
       let query;
       switch (item) {
-        case 'cat':
+        case "cat":
           query = `
             query TypeGroupBy {
               alexandriasConnection(where: {
@@ -105,7 +109,7 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
             }
           `;
           break;
-        case 'dep':
+        case "dep":
           query = `
             query TypeGroupBy {
               alexandriasConnection(where: {
@@ -126,7 +130,7 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
             }
           `;
           break;
-        case 'src':
+        case "src":
           query = `
             query TypeGroupBy {
               alexandriasConnection(where: {
@@ -151,30 +155,28 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
       const endpoint = `${process.env.REACT_APP_API_ENDPOINT}/graphql`;
       // console.log('fetching data: ', endpoint)
       fetch(endpoint, {
-        method: 'post',
+        method: "post",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          query: query
-        })
+          query: query,
+        }),
       })
-        .then(response => response.json())
-        .then(data => {
-          //console.log(data)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
           resolve(data);
         })
-        .catch(err => {
-          console.log(err)
+        .catch((err) => {
+          console.log(err);
           reject(err);
         });
-
     });
-  }
+  };
 
-  const setTab = (items:any, tab_n: number) => {
-
-    setActiveTabTotal('')
+  const setTab = (items: any, tab_n: number) => {
+    setActiveTabTotal("");
 
     if (activeChart) {
       activeChart.destroy();
@@ -187,49 +189,52 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
     ) as HTMLElement;
 
     if (element) {
-      element.innerHTML = '';
+      element.innerHTML = "";
     }
 
     if (!element) return;
 
-    let item:any = items[tab_n - 1];
+    let item: any = items[tab_n - 1];
 
     getFilesType(id, item._id)
       .then((res: any) => {
         const types = res.data.alexandriasConnection.groupBy.type;
 
-        const pdf = types.filter((type: any) => type.key === 'pdf');
-        const csv = types.filter((type: any) => type.key === 'csv');
-        const xls = types.filter((type: any) => type.key === 'xls' || type.key === "xlsx");
-        const other = types.filter((type: any) => type.key === 'other');
+        const pdf = types.filter((type: any) => type.key === "pdf");
+        const csv = types.filter((type: any) => type.key === "csv");
+        const xls = types.filter(
+          (type: any) => type.key === "xls" || type.key === "xlsx"
+        );
+        const other = types.filter((type: any) => type.key === "other");
 
         const pdfFile = pdf.length > 0 ? pdf[0].connection.aggregate.count : 0;
         const csvFile = csv.length > 0 ? csv[0].connection.aggregate.count : 0;
         const xlsFile = xls.length > 0 ? xls[0].connection.aggregate.count : 0;
-        const otherFile = other.length > 0 ? other[0].connection.aggregate.count : 0;
+        const otherFile =
+          other.length > 0 ? other[0].connection.aggregate.count : 0;
 
-        setActiveTabTotal(
-          pdfFile + csvFile + xlsFile + otherFile
-        )
+        setActiveTabTotal(pdfFile + csvFile + xlsFile + otherFile);
 
         const dataCharts = {
           pdfFile,
           csvFile,
           xlsFile,
-          otherFile
+          otherFile,
         };
 
         const height = parseInt(getCss(element, "height"));
         if (height) {
-          const chart = new ApexCharts(element, getChartOptions(tab_n, height, dataCharts));
+          const chart = new ApexCharts(
+            element,
+            getChartOptions(tab_n, height, dataCharts)
+          );
           chart.render();
           setActiveChart(chart);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
-      })
-
+      });
   };
 
   if (loading) {
@@ -239,7 +244,10 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
         <div className="card-header align-items-center border-0 mt-5">
           <h3 className="card-title align-items-start flex-column">
             <span className="fw-bolder text-dark fs-3">{title}</span>
-            <span className="indicator-progress text-muted mt-2 fw-bold fs-6" style={{ display: "block" }}>
+            <span
+              className="indicator-progress text-muted mt-2 fw-bold fs-6"
+              style={{ display: "block" }}
+            >
               Please wait...{" "}
               <span className="spinner-border spinner-border-sm align-middle ms-2" />
             </span>
@@ -266,14 +274,14 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
         {/* begin::Body */}
         <div className="card-body pt-0">
           <div className="d-flex flex-wrap flex-xxl-nowrap justify-content-center pt-4">
-          <span className="indicator-progress" style={{ display: "block" }}>
+            <span className="indicator-progress" style={{ display: "block" }}>
               <span className="spinner-border spinner-border-sm align-middle ms-2" />
             </span>
           </div>
         </div>
         {/* end: Card Body */}
       </div>
-    )
+    );
   }
 
   return (
@@ -286,10 +294,7 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
         </h3>
         <div className="card-toolbar">
           {/* begin::Dropdown */}
-          <Link
-            className="menu-link px-3"
-            to={`/group/${id}`}
-          >
+          <Link className="menu-link px-3" to={`/group/${id}`}>
             <span className="menu-icon">
               <Ktsvg
                 className="svg-icon-1"
@@ -325,18 +330,21 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
           {/* begin::Nav */}
           <div className="me-sm-10 me-0">
             <ul className="nav flex-column nav-pills nav-pills-custom">
-              {
-                items.length > 0 && items.map((item: any, i: number) => {
+              {items.length > 0 &&
+                items.map((item: any, i: number) => {
                   // increase index by 1
                   // let img = '/media/svg/logo/gray/aven.svg';
                   i++;
-                  
+
                   return (
                     <li className="nav-item mb-3" key={`tabs_${item._id}`}>
                       <a
                         onClick={() => setTab(items, i)}
-                        className={`nav-link w-225px h-70px ${activeTab === `#${id}_tab${i}` ? "active btn-active-light" : ""
-                          } fw-bolder me-2`}
+                        className={`nav-link w-225px h-70px ${
+                          activeTab === `#${id}_tab${i}`
+                            ? "active btn-active-light"
+                            : ""
+                        } fw-bolder me-2`}
                         id={`${id}_tab${i}`}
                       >
                         {/**
@@ -364,30 +372,30 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
                         </div>
                       </a>
                     </li>
-                  )
-                })
-              }
+                  );
+                })}
             </ul>
           </div>
           {/* end::Nav */}
 
           {/* begin::Tab Content */}
-          <div className="tab-content flex-grow-1" // style={{ paddingLeft: "0.23rem !important" }}
+          <div
+            className="tab-content flex-grow-1" // style={{ paddingLeft: "0.23rem !important" }}
           >
             {/* begin::Tab Pane */}
-            {
-              items.length > 0 && items.map((item: any, i: number) => {
+            {items.length > 0 &&
+              items.map((item: any, i: number) => {
                 // console.log(item);
                 let type = id;
                 let entity;
                 switch (type) {
-                  case 'src':
+                  case "src":
                     entity = item.name;
                     break;
-                  case 'dep':
+                  case "dep":
                     entity = item.name;
                     break;
-                  case 'cat':
+                  case "cat":
                     entity = item.title;
                     break;
                   default:
@@ -396,18 +404,21 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
                 // increase index by 1
                 i++;
                 const getChart = (index: number) => {
-                  
                   return (
-                    <div id={`${id}_tab${index}_chart`} style={{ height: "250px" }} />
-                  )
-                }
+                    <div
+                      id={`${id}_tab${index}_chart`}
+                      style={{ height: "250px" }}
+                    />
+                  );
+                };
+                console.log(activeTabTotal);
+
                 return (
                   <div
-                    className={`tab-pane fade ${activeTab === `#${id}_tab${i}` ? "show active" : ""
-                      }`}
-                    style={{
-
-                    }}
+                    className={`tab-pane fade ${
+                      activeTab === `#${id}_tab${i}` ? "show active" : ""
+                    }`}
+                    style={{}}
                     id={`${id}_tab${i}_content`}
                     key={`content_${item._id}`}
                   >
@@ -415,25 +426,26 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
                     <div className="d-flex justify-content-end mb-10">
                       {/* begin::Item */}
                       <div className="px-10 text-end">
-                        <span className="text-muted fw-bold fs-7">Archivos</span>
+                        <span className="text-muted fw-bold fs-7">
+                          Archivos
+                        </span>
                         <span className="text-gray-800 fw-bolder fs-3 d-block">
-                          {
-                            !activeTabTotal &&
-                            <span className="indicator-progress" style={{ display: "block" }}>
+                          {activeTabTotal === "" && (
+                            <span
+                              className="indicator-progress"
+                              style={{ display: "block" }}
+                            >
                               <span className="spinner-border spinner-border-sm align-middle ms-2" />
                             </span>
-                          }
+                          )}
                           {activeTabTotal}
                         </span>
                       </div>
                       {/* end::Item */}
-
                     </div>
                     {/* end::Content  */}
 
-                    {
-                      getChart(i)
-                    }
+                    {getChart(i)}
 
                     <Link
                       className="nav-link btn btn-active-light btn-color-muted py-2 px-4 fw-bolder me-2 active"
@@ -442,11 +454,9 @@ const Stats: React.FC<Props> = ({ id, title, className, innerPadding = "" }) => 
                       {`Ver ${entity}`}
                     </Link>
                   </div>
-                )
-              })
-            }
+                );
+              })}
             {/* end::Tab Pane */}
-
           </div>
           {/* end::Tab Content */}
         </div>
@@ -463,7 +473,6 @@ function getChartOptions(
   height: string | number | undefined,
   data: any
 ): ApexOptions {
-
   let series = [
     {
       name: "PDF",
@@ -480,8 +489,8 @@ function getChartOptions(
     {
       name: "Others",
       data: [data.otherFile],
-    }
-  ]
+    },
+  ];
 
   return {
     series: series,
@@ -564,20 +573,15 @@ function getChartOptions(
         fontSize: "12px",
       },
       x: {
-        show: false
+        show: false,
       },
       y: {
         formatter: function (val: number) {
           return `${val} archivos`;
         },
-      }
+      },
     },
-    colors: [
-      colorPDF,
-      colorCSV,
-      colorXLS,
-      colorOTHER
-    ],
+    colors: [colorPDF, colorCSV, colorXLS, colorOTHER],
     grid: {
       borderColor: getCSSVariableValue("--bs-gray-200"),
       strokeDashArray: 4,
