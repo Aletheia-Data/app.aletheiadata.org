@@ -23,7 +23,11 @@ export const getCollectionPageColumns = (
             className={`text-gray-800 fw-bolder text-hover-primary fs-6 ${
               recordItem.cid ? "" : "disabled"
             }`}
-            to={recordItem.cid ? `/${type}/${entity}/${recordItem.cid}?assetId=${recordItem.id}` : "#"}
+            to={
+              recordItem.cid
+                ? `/${type}/${entity}/${recordItem.cid}?assetId=${recordItem.id}`
+                : "#"
+            }
           >
             {recordItem.name || recordItem.title}
           </Link>
@@ -87,18 +91,27 @@ export const getCollectionPageColumns = (
       },
       {
         title: "Action",
-        cells: data?.map((recordItem: Record) => (
-          <Link
-            key={`record-alexandria-${recordItem.cid}`}
-            className="btn btn-icon btn-bg-light  btn-color-muted btn-active-color-primary btn-sm"
-            to={`/${type}/${entity}/${recordItem.cid}?assetId=${recordItem.id}`}
-          >
-            <Ktsvg
-              className="svg-icon-4"
-              path="/media/icons/duotone/General/Attachment1.svg"
-            />
-          </Link>
-        )),
+        cells: data?.map((recordItem: Record) => {
+          console.log(recordItem);
+
+          if (
+            recordItem.status === "on_line" ||
+            recordItem.status === "under_review"
+          ) {
+            return (
+              <Link
+                key={`record-alexandria-${recordItem.cid}`}
+                className="btn btn-icon btn-bg-light  btn-color-muted btn-active-color-primary btn-sm"
+                to={`/${type}/${entity}/${recordItem.cid}?assetId=${recordItem.id}`}
+              >
+                <Ktsvg
+                  className="svg-icon-4"
+                  path="/media/icons/duotone/General/Attachment1.svg"
+                />
+              </Link>
+            );
+          }
+        }),
       },
     ];
   } else {
@@ -111,7 +124,11 @@ export const getCollectionPageColumns = (
             className={`text-gray-800 fw-bolder text-hover-primary fs-6 ${
               recordItem.cid ? "" : "disabled"
             }`}
-            to={recordItem.cid ? `/${type}/${entity}/${recordItem.cid}?assetId=${recordItem.id}` : "#"}
+            to={
+              recordItem.cid
+                ? `/${type}/${entity}/${recordItem.cid}?assetId=${recordItem.id}`
+                : "#"
+            }
           >
             {recordItem.name || recordItem.title}
           </Link>

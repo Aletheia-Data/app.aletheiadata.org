@@ -126,30 +126,36 @@ const EngageWidget6: React.FC<Props> = ({
               {/*begin::Info*/}
               <table className="table table-borderless align-middle fw-bold">
                 <tbody>
-                  <tr>
-                    <td className="text-gray-600 ps-0">Fuente</td>
-                    <td className="text-dark pe-0">
-                      <Link to={`/collection/src/${data.source.id}`}>
-                        {data.source?.name}
-                      </Link>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="text-gray-600 ps-0">Ministerio</td>
-                    <td className="text-dark pe-0">
-                      <Link to={`/collection/dep/${data.department.id}`}>
-                        {data.department?.name}
-                      </Link>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="text-gray-600 ps-0">Categoria</td>
-                    <td className="text-dark pe-0">
-                      <Link to={`/collection/cat/${data.category.id}`}>
-                        {data.category?.title}
-                      </Link>
-                    </td>
-                  </tr>
+                  {data?.source?.id && (
+                    <tr>
+                      <td className="text-gray-600 ps-0">Fuente</td>
+                      <td className="text-dark pe-0">
+                        <Link to={`/collection/src/${data.source.id}`}>
+                          {data.source?.name}
+                        </Link>
+                      </td>
+                    </tr>
+                  )}
+                  {data?.department?.id && (
+                    <tr>
+                      <td className="text-gray-600 ps-0">Ministerio</td>
+                      <td className="text-dark pe-0">
+                        <Link to={`/collection/dep/${data.department.id}`}>
+                          {data.department?.name}
+                        </Link>
+                      </td>
+                    </tr>
+                  )}
+                  {data?.category?.id && (
+                    <tr>
+                      <td className="text-gray-600 ps-0">Categoria</td>
+                      <td className="text-dark pe-0">
+                        <Link to={`/collection/cat/${data.category.id}`}>
+                          {data.category?.title}
+                        </Link>
+                      </td>
+                    </tr>
+                  )}
                   {proof && (
                     <tr>
                       <td className="text-gray-600 ps-0">Prueba</td>
@@ -164,16 +170,20 @@ const EngageWidget6: React.FC<Props> = ({
                       </td>
                     </tr>
                   )}
-                  <tr>
-                    <td className="text-gray-600 ps-0">Formato</td>
-                    <td className="text-dark pe-0">{data.type}</td>
-                  </tr>
-                  <tr>
-                    <td className="text-gray-600 ps-0">Ultimo Archivo</td>
-                    <td className="text-dark pe-0">
-                      {moment(data.updatedAt).format("DD/MM/YYYY")}
-                    </td>
-                  </tr>
+                  {data.type && (
+                    <tr>
+                      <td className="text-gray-600 ps-0">Formato</td>
+                      <td className="text-dark pe-0">{data.type}</td>
+                    </tr>
+                  )}
+                  {data.updatedAt && (
+                    <tr>
+                      <td className="text-gray-600 ps-0">Ultimo Archivo</td>
+                      <td className="text-dark pe-0">
+                        {moment(data.updatedAt).format("DD/MM/YYYY")}
+                      </td>
+                    </tr>
+                  )}
                   <tr>
                     <td className="text-gray-600 ps-0">Deals</td>
                     <td className="text-dark pe-0">
