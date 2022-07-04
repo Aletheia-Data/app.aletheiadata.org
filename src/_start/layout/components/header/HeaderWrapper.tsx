@@ -2,6 +2,7 @@
 import React from "react";
 import { IThemeCSSClasses, useTheme } from "../../core";
 import { Header } from "./Header";
+import HeaderBanner from "./HeaderBanner";
 
 type Props = {
   classes: IThemeCSSClasses;
@@ -54,6 +55,19 @@ export function HeaderWrapper() {
   const { header } = config;
   return (
     <>
+      <HeaderBanner>
+        <h3 style={{ color: "white" }}>
+          Support our Aletheia on{" "}
+          <a
+            href="https://gitcoin.co/grants/explorer/?page=1&limit=12&me=true&sort_option=weighted_shuffle&collection_id=false&network=mainnet&state=all&profile=false&round_num=0&customer_name=false&sub_round_slug=false&collections_page=1&grant_regions=&grant_types=&grant_tags=&tenants=&idle=true&featured=true&round_type=false&hidden=true&tab=grants"
+            target="_blank"
+            rel="noreferrer"
+            style={{ color: "#6F3FF5" }}
+          >
+            GitCoin Grants
+          </a>
+        </h3>
+      </HeaderBanner>
       {header.fixed.desktop && header.fixed.tabletAndMobile && (
         <HeaderDesktopFixedTabletFixed classes={classes} />
       )}
