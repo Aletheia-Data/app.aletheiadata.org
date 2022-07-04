@@ -56,15 +56,15 @@ export function HeaderWrapper() {
   return (
     <>
       <HeaderBanner>
-        <h3 style={{ color: "white" }}>
-          Support our Aletheia on{" "}
+        <h3>
+          Please note that this is a beta version of our system. Don't forget to
+          support our effort on{" "}
           <a
-            href="https://gitcoin.co/grants/explorer/?page=1&limit=12&me=true&sort_option=weighted_shuffle&collection_id=false&network=mainnet&state=all&profile=false&round_num=0&customer_name=false&sub_round_slug=false&collections_page=1&grant_regions=&grant_types=&grant_tags=&tenants=&idle=true&featured=true&round_type=false&hidden=true&tab=grants"
+            href="https://opencollective.com/aletheia-data"
             target="_blank"
             rel="noreferrer"
-            style={{ color: "#6F3FF5" }}
           >
-            GitCoin Grants
+            Open Collective
           </a>
         </h3>
       </HeaderBanner>
