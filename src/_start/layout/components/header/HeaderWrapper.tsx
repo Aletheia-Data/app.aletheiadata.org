@@ -2,6 +2,7 @@
 import React from "react";
 import { IThemeCSSClasses, useTheme } from "../../core";
 import { Header } from "./Header";
+import HeaderBanner from "./HeaderBanner";
 
 type Props = {
   classes: IThemeCSSClasses;
@@ -54,6 +55,19 @@ export function HeaderWrapper() {
   const { header } = config;
   return (
     <>
+      <HeaderBanner>
+        <h3>
+          Please note that this is a beta version of our system. Don't forget to
+          support our effort on{" "}
+          <a
+            href="https://opencollective.com/aletheia-data"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Open Collective
+          </a>
+        </h3>
+      </HeaderBanner>
       {header.fixed.desktop && header.fixed.tabletAndMobile && (
         <HeaderDesktopFixedTabletFixed classes={classes} />
       )}
