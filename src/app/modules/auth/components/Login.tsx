@@ -6,6 +6,16 @@ import { useFormik } from "formik";
 import * as auth from "../redux/AuthRedux";
 import { login } from "../redux/AuthCRUD";
 import { toAbsoluteUrl } from "../../../../_start/helpers";
+import { Magic } from "magic-sdk";
+import { ConnectExtension } from "@magic-ext/connect";
+import Web3 from "web3";
+
+const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
+  network: "rinkeby",
+  locale: "en_US",
+  extensions: [new ConnectExtension()],
+});
+const web3 = new Web3(magic.rpcProvider);
 
 const loginSchema = Yup.object().shape({
   account: Yup.string()
@@ -43,9 +53,13 @@ export function Login(): JSX.Element {
     // await authenticate({ signingMessage: "Aletheia Data te dà la bienvenida" });
     // let userWallet: any = await user?.get("ethAddress");
     // console.log(isAuthenticated, user?.get("ethAddress"));
-    const accounts = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
+    let accounts: unknown[] = [];
+    try {
+      accounts = await web3.eth.getAccounts();
+      console.log(accounts);
+    } catch (error) {
+      console.log(error);
+    }
 
     return new Promise((resolve) => {
       // console.log(accounts);
@@ -70,6 +84,7 @@ export function Login(): JSX.Element {
     return new Promise((resolve, reject) => {
       //load balance
       if (user) {
+        console.log(user);
         setConnected(true);
         setAccount(user);
         setNetId(netId);
@@ -93,7 +108,7 @@ export function Login(): JSX.Element {
 
       const connect = (user: any) => {
         const accessToken = login(user, "metamask");
-        setLoading(false);
+        console.log(accessToken);
         dispatch(auth.actions.login(accessToken));
       };
 
@@ -101,14 +116,12 @@ export function Login(): JSX.Element {
         try {
           initWeb3()
             .then((user) => {
-              // console.log(user);
+              console.log(user);
               if (!user) {
-                return "error login with metamask";
+                return "error login with Magic Connect";
               }
 
               connect(user);
-              setLoading(false);
-              setSubmitting(false);
             })
             .catch((error) => {
               setLoading(false);
@@ -172,7 +185,7 @@ export function Login(): JSX.Element {
       ) : (
         <div className="mb-lg-15 alert alert-info">
           <div className="alert-text ">
-            Accede con <strong>Metamask</strong>
+            Accede con <strong>Magic Connect</strong>
           </div>
         </div>
       )}
@@ -191,9 +204,9 @@ export function Login(): JSX.Element {
               <img
                 alt=""
                 className="w-20px h-20px me-3"
-                src={toAbsoluteUrl("/media/svg/brand-logos/metamask.svg")}
+                src={toAbsoluteUrl("/media/svg/brand-logos/icon-magic.svg")}
               />
-              Sign in with Metamask
+              Sign in with Magic Connect
             </span>
           )}
           {loading && (

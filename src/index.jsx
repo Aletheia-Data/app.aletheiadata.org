@@ -46,6 +46,9 @@ console.log(`
 **** Active: ${process.env.REACT_APP_MORALIS_APP_ID ? true : false} ******
 **** Endpoint: ${process.env.REACT_APP_API_ENDPOINT} ******
 *******************************
+**** Magic Connect ****************
+**** Active: ${process.env.REACT_APP_MAGIC_LINK_API_KEY ? true : false} ******
+*******************************
 **** RAPID API ****************
 **** Active: ${process.env.REACT_APP_RAPID_API_ENDPOINT ? true : false} ******
 **** Endpoint: ${process.env.REACT_APP_RAPID_API_ENDPOINT} ******
