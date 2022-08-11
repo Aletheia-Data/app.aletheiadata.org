@@ -109,8 +109,6 @@ export function Login(): JSX.Element {
       const connect = (user: any) => {
         const accessToken = login(user, "metamask");
         console.log(accessToken);
-
-        setLoading(false);
         dispatch(auth.actions.login(accessToken));
       };
 
@@ -124,8 +122,6 @@ export function Login(): JSX.Element {
               }
 
               connect(user);
-              setLoading(false);
-              setSubmitting(false);
             })
             .catch((error) => {
               setLoading(false);

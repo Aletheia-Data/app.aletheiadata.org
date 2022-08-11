@@ -8,7 +8,8 @@ import { defaultCreateAppData, ICreateAppData } from "./IAppModels";
 import config from "../../../../../setup/config";
 import Table from "_start/partials/components/Table";
 import Web3 from "web3";
-
+import { Magic } from "magic-sdk";
+import { ConnectExtension } from "@magic-ext/connect";
 import {
   getAllSourcesByName,
   getAllDepartmentsByName,
@@ -22,6 +23,13 @@ interface Props {
   handleClose: () => void;
 }
 declare let window: any;
+
+const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
+  network: "rinkeby",
+  locale: "en_US",
+  extensions: [new ConnectExtension()],
+});
+
 const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   const stepperRef = useRef<HTMLDivElement | null>(null);
   const stepper = useRef<StepperComponent | null>(null);
@@ -191,7 +199,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
     try {
       setIsSigning(true);
       if (window?.ethereum) {
-        const web3 = new Web3(window.ethereum);
+        const web3 = new Web3(magic.rpcProvider);
         const accounts = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
