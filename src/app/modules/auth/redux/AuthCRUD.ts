@@ -35,7 +35,7 @@ export function requestPassword(email: string) {
 
 declare let window: any;
 
-const magic = new Magic("pk_live_73AAE8A5F81B1CF3", {
+const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
   network: "rinkeby",
   locale: "en_US",
   extensions: [new ConnectExtension()]
@@ -52,7 +52,7 @@ export function getUserByToken() {
     const netId: any = await web3.eth.net.getId()
     const accounts: any = await web3.eth.getAccounts();
 
-    // console.log(web3, accounts);
+    console.log(web3, accounts);
 
     //load balance
     if (accounts[0] && typeof accounts[0] !== 'undefined') {

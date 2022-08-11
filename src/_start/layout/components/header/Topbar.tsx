@@ -13,7 +13,7 @@ import * as auth from "../../../../app/modules/auth/redux/AuthRedux";
 import { Magic } from "magic-sdk";
 import { ConnectExtension } from "@magic-ext/connect";
 import Web3 from "web3";
-const magic = new Magic("pk_live_73AAE8A5F81B1CF3", {
+const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
   network: "rinkeby",
   locale: "en_US",
   extensions: [new ConnectExtension()]

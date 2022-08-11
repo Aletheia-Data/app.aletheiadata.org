@@ -10,7 +10,7 @@ import { Magic } from "magic-sdk";
 import { ConnectExtension } from "@magic-ext/connect";
 import Web3 from "web3";
 
-const magic = new Magic("pk_live_73AAE8A5F81B1CF3", {
+const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
   network: "rinkeby",
   locale: "en_US",
   extensions: [new ConnectExtension()],
@@ -103,6 +103,8 @@ export function Login(): JSX.Element {
 
       const connect = (user: any) => {
         const accessToken = login(user, "metamask");
+        console.log(accessToken);
+
         setLoading(false);
         dispatch(auth.actions.login(accessToken));
       };
@@ -113,7 +115,7 @@ export function Login(): JSX.Element {
             .then((user) => {
               // console.log(user);
               if (!user) {
-                return "error login with metamask";
+                return "error login with Magic Connect";
               }
 
               connect(user);
@@ -182,7 +184,7 @@ export function Login(): JSX.Element {
       ) : (
         <div className="mb-lg-15 alert alert-info">
           <div className="alert-text ">
-            Accede con <strong>Metamask</strong>
+            Accede con <strong>Magic Connect</strong>
           </div>
         </div>
       )}
@@ -201,9 +203,9 @@ export function Login(): JSX.Element {
               <img
                 alt=""
                 className="w-20px h-20px me-3"
-                src={toAbsoluteUrl("/media/svg/brand-logos/metamask.svg")}
+                src={toAbsoluteUrl("/media/svg/brand-logos/icon-magic.svg")}
               />
-              Sign in with Metamask
+              Sign in with Magic Connect
             </span>
           )}
           {loading && (
