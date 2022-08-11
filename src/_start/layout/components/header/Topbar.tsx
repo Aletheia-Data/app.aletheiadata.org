@@ -54,6 +54,13 @@ export function Topbar() {
     dispatch(auth.actions.logout());
   };
 
+
+  const showWallet = async () => {
+    await magic.connect.showWallet().catch((e) => {
+      console.log(e);
+    });
+  };
+
   return (
     <>
       {/* begin::Search */}
@@ -110,12 +117,12 @@ export function Topbar() {
 
       {/* begin::Notifications */}
       <div className="ms-1 ms-lg-6">
-        <a
-          href="#"
-          className="background-xls-backdrop text-dark btn btn-primary fw-bolder fs-7 disabled"
+        <button
+          onClick={showWallet}
+          className="background-xls-backdrop text-dark btn btn-primary fw-bolder fs-7"
         >
           { truncate(user.account, 12) }
-        </a>
+        </button>
         {/* begin::Dropdown */}
         {/**
          * <button
