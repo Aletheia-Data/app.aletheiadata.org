@@ -53,8 +53,13 @@ export function Login(): JSX.Element {
     // await authenticate({ signingMessage: "Aletheia Data te dà la bienvenida" });
     // let userWallet: any = await user?.get("ethAddress");
     // console.log(isAuthenticated, user?.get("ethAddress"));
-    const accounts = await web3.eth.getAccounts();
-    console.log(accounts);
+    let accounts: unknown[] = [];
+    try {
+      accounts = await web3.eth.getAccounts();
+      console.log(accounts);
+    } catch (error) {
+      console.log(error);
+    }
 
     return new Promise((resolve) => {
       // console.log(accounts);
@@ -113,7 +118,7 @@ export function Login(): JSX.Element {
         try {
           initWeb3()
             .then((user) => {
-              // console.log(user);
+              console.log(user);
               if (!user) {
                 return "error login with Magic Connect";
               }
