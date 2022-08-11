@@ -6,6 +6,16 @@ import { useFormik } from "formik";
 import * as auth from "../redux/AuthRedux";
 import { login } from "../redux/AuthCRUD";
 import { toAbsoluteUrl } from "../../../../_start/helpers";
+import { Magic } from "magic-sdk";
+import { ConnectExtension } from "@magic-ext/connect";
+import Web3 from "web3";
+
+const magic = new Magic("pk_live_73AAE8A5F81B1CF3", {
+  network: "rinkeby",
+  locale: "en_US",
+  extensions: [new ConnectExtension()],
+});
+const web3 = new Web3(magic.rpcProvider);
 
 const loginSchema = Yup.object().shape({
   account: Yup.string()
@@ -43,9 +53,8 @@ export function Login(): JSX.Element {
     // await authenticate({ signingMessage: "Aletheia Data te dà la bienvenida" });
     // let userWallet: any = await user?.get("ethAddress");
     // console.log(isAuthenticated, user?.get("ethAddress"));
-    const accounts = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
+    const accounts = await web3.eth.getAccounts();
+    console.log(accounts);
 
     return new Promise((resolve) => {
       // console.log(accounts);
@@ -70,6 +79,7 @@ export function Login(): JSX.Element {
     return new Promise((resolve, reject) => {
       //load balance
       if (user) {
+        console.log(user);
         setConnected(true);
         setAccount(user);
         setNetId(netId);

@@ -1,8 +1,8 @@
-import { rejects } from "assert";
 import axios from "axios";
 import Web3 from 'web3';
 import { AuthModel } from "../models/AuthModel";
-import { UserModel } from "../models/UserModel";
+import { Magic } from "magic-sdk";
+import { ConnectExtension } from "@magic-ext/connect";
 
 const API_URL = process.env.REACT_APP_API_ENDPOINT || "api";
 
@@ -35,8 +35,14 @@ export function requestPassword(email: string) {
 
 declare let window: any;
 
+const magic = new Magic("pk_live_73AAE8A5F81B1CF3", {
+  network: "rinkeby",
+  locale: "en_US",
+  extensions: [new ConnectExtension()]
+});
+
 export function getUserByToken() {
-  const web3 = new Web3(window.ethereum);
+  const web3 = new Web3(magic.rpcProvider);
 
   return new Promise<any>(async (resolve, reject) => {
     // Authorization head should be fulfilled in interceptor.
