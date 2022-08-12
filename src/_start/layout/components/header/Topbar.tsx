@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Ktsvg, truncate } from "../../../helpers"; 
+import { Ktsvg, truncate } from "../../../helpers";
 import {
   HeaderNotificationsMenu,
   SearchModal,
@@ -16,7 +16,7 @@ import Web3 from "web3";
 const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
   network: "rinkeby",
   locale: "en_US",
-  extensions: [new ConnectExtension()]
+  extensions: [new ConnectExtension()],
 });
 const web3 = new Web3(magic.rpcProvider);
 
@@ -24,7 +24,7 @@ export function Topbar() {
   const { config } = useTheme();
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [showInboxComposeModal, setShowInboxComposeModal] = useState(false);
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
 
   const [user, setUser] = useState({
     account: "0xXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
@@ -53,7 +53,6 @@ export function Topbar() {
     });
     dispatch(auth.actions.logout());
   };
-
 
   const showWallet = async () => {
     await magic.connect.showWallet().catch((e) => {
@@ -121,7 +120,7 @@ export function Topbar() {
           onClick={showWallet}
           className="background-xls-backdrop text-dark btn btn-primary fw-bolder fs-7"
         >
-          { truncate(user.account, 12) }
+          {truncate(user.account, 12)}
         </button>
         {/* begin::Dropdown */}
         {/**

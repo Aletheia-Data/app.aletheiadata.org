@@ -200,14 +200,20 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
       setIsSigning(true);
       if (window?.ethereum) {
         const web3 = new Web3(magic.rpcProvider);
-        const accounts = await window.ethereum.request({
-          method: "eth_requestAccounts",
-        });
+
         const msg = "Confirm contribution to Aletheia!";
-        const msgHash = web3.eth.accounts.hashMessage(msg);
-        await web3.eth.sign(msgHash, accounts[0]);
         // eslint-disable-next-line prefer-destructuring
-        data.appBasic.owner = accounts[0];
+        const fromAddress = (await web3.eth.getAccounts())[0];
+        const signedMessage = await web3.eth.personal.sign(
+          msg,
+          fromAddress,
+          ""
+        );
+
+        console.log(signedMessage, fromAddress);
+
+        // eslint-disable-next-line prefer-destructuring
+        data.appBasic.owner = fromAddress;
         submitData()
           .then((res: any) => {
             // console.log(res);
@@ -215,7 +221,7 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
             if (res.code === 200) {
               setAssetCID(res.body.assetCID);
               setAssetId(res.body.assetId);
-              setOwner(accounts[0]);
+              setOwner(fromAddress);
               setCurrentStep(currentStep + 1);
               stepper.current.goNext();
             }
