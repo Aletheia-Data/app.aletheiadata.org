@@ -410,11 +410,7 @@ export const SidebarGeneral: React.FC<Props> = ({
 
                 {props.alexandrias[0].type === "xlsx" && (
                   <a
-                    href={`http://view.officeapps.live.com/op/view.aspx?src=${
-                      props.alexandrias[0].file.length > 0
-                        ? props.alexandrias[0].file[0].url
-                        : `https://${props.alexandrias[0]?.cid}.ipfs.dweb.link/`
-                    }`}
+                    href={`http://view.officeapps.live.com/op/view.aspx?src=${`https://nftstorage.link/ipfs/${props.alexandrias[0]?.cid}`}`}
                     target={"_blank"}
                     className=" fw-bolder text-hover-primary fs-6"
                     rel="noreferrer"
@@ -443,11 +439,7 @@ export const SidebarGeneral: React.FC<Props> = ({
 
                 {props.alexandrias[0].type === "pdf" && (
                   <a
-                    href={`${
-                      props.alexandrias[0].file.length > 0
-                        ? props.alexandrias[0].file[0].url
-                        : `https://${props.alexandrias[0]?.cid}.ipfs.dweb.link/`
-                    }`}
+                    href={`https://nftstorage.link/ipfs/${props.alexandrias[0]?.cid}`}
                     target={"_blank"}
                     className=" fw-bolder text-hover-primary fs-6"
                     rel="noreferrer"
@@ -475,11 +467,7 @@ export const SidebarGeneral: React.FC<Props> = ({
                 )}
 
                 <a
-                  href={
-                    props.alexandrias[0].file.length > 0
-                      ? props.alexandrias[0].file[0].url
-                      : `https://${props.alexandrias[0]?.cid}.ipfs.dweb.link/`
-                  }
+                  href={`https://nftstorage.link/ipfs/${props.alexandrias[0]?.cid}`}
                   target={"_blank"}
                   rel="noreferrer"
                   className=" fw-bolder text-hover-primary fs-6"

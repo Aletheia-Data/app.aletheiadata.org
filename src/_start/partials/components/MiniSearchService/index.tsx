@@ -46,7 +46,7 @@ const MiniSearchService: React.FC<Props> = ({
     setCid(cid);
     // console.log(`loading CID: ${cid}`);
 
-    Papa.parse(`https://${cid}.ipfs.dweb.link/`, {
+    Papa.parse(`https://nftstorage.link/ipfs/${cid}`, {
       download: true,
       encoding: "UTF8", // encoding UTF8 as standard
       header: true,
