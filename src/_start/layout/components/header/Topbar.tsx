@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Ktsvg, truncate } from "../../../helpers"; 
+import { Ktsvg, truncate } from "../../../helpers";
 import {
   HeaderNotificationsMenu,
   SearchModal,
@@ -10,12 +10,21 @@ import { useTheme } from "../../core";
 import { getUserByToken } from "../../../../app/modules/auth/redux/AuthCRUD";
 import { useDispatch } from "react-redux";
 import * as auth from "../../../../app/modules/auth/redux/AuthRedux";
+import { Magic } from "magic-sdk";
+import { ConnectExtension } from "@magic-ext/connect";
+import Web3 from "web3";
+const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
+  network: "rinkeby",
+  locale: "en_US",
+  extensions: [new ConnectExtension()],
+});
+const web3 = new Web3(magic.rpcProvider);
 
 export function Topbar() {
   const { config } = useTheme();
   const [showSearchModal, setShowSearchModal] = useState(false);
   const [showInboxComposeModal, setShowInboxComposeModal] = useState(false);
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
 
   const [user, setUser] = useState({
     account: "0xXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
@@ -32,6 +41,24 @@ export function Topbar() {
         dispatch(auth.actions.logout());
       });
   }, []);
+
+  const disconnect = async () => {
+    await magic.connect.disconnect().catch((e) => {
+      console.log(e);
+    });
+    setUser({
+      account: "0xXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+      id: "0",
+      provider: "none",
+    });
+    dispatch(auth.actions.logout());
+  };
+
+  const showWallet = async () => {
+    await magic.connect.showWallet().catch((e) => {
+      console.log(e);
+    });
+  };
 
   return (
     <>
@@ -89,12 +116,12 @@ export function Topbar() {
 
       {/* begin::Notifications */}
       <div className="ms-1 ms-lg-6">
-        <a
-          href="#"
-          className="background-xls-backdrop text-dark btn btn-primary fw-bolder fs-7 disabled"
+        <button
+          onClick={showWallet}
+          className="background-xls-backdrop text-dark btn btn-primary fw-bolder fs-7"
         >
-          { truncate(user.account, 12) }
-        </a>
+          {truncate(user.account, 12)}
+        </button>
         {/* begin::Dropdown */}
         {/**
          * <button
@@ -110,6 +137,17 @@ export function Topbar() {
         {/* end::Dropdown */}
       </div>
       {/* end::Notifications */}
+
+      <button
+        className="btn btn-icon btn-sm btn-active-bg-accent ms-1 ms-lg-6"
+        id="kt_aside_toggler"
+        onClick={disconnect}
+      >
+        <Ktsvg
+          path="/media/icons/duotone/Navigation/Sign-out.svg"
+          className="svg-icon-1 svg-icon-dark"
+        />
+      </button>
 
       {/* begin::Aside Toggler */}
       {config.aside.display && (

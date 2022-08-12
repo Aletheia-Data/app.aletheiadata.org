@@ -131,6 +131,9 @@ export function* saga(): Generator<ForkEffect<never>, void, unknown> {
 
   yield takeLatest(actionTypes.UserRequested, function* userRequested() {
     const userInfo = yield getUserByToken();
-    yield put(actions.fulfillUser(userInfo.user));
+
+    if (userInfo.user) {
+      yield put(actions.fulfillUser(userInfo.user));
+    }
   });
 }
