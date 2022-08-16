@@ -42,7 +42,7 @@ const TablesWidget6: React.FC<Props> = ({
     records = data.alexandrias;
   } else {
     entityCount = dataFile.aletheias.length > 0 ? dataFile.aletheias.length : 0;
-    title = "Pruebas cargados";
+    title = "Public Data NFTs";
     records = dataFile.aletheias;
   }
 

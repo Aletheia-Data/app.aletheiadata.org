@@ -13,8 +13,13 @@ import * as auth from "../../../../app/modules/auth/redux/AuthRedux";
 import { Magic } from "magic-sdk";
 import { ConnectExtension } from "@magic-ext/connect";
 import Web3 from "web3";
+const customNodeOptions = {
+  rpcUrl: "https://rpc-mumbai.maticvigil.com/",
+  chainId: 137,
+};
+
 const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
-  network: "mainnet",
+  network: customNodeOptions,
   locale: "en_US",
   extensions: [new ConnectExtension()],
 });

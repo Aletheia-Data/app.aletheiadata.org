@@ -141,11 +141,12 @@ export const SinglePage: FC<any> = (data: any) => {
       >
         <div className="col-xl-12">
           <Table
+            hideButton
             cardClassName="card-stretch mb-5 mb-xxl-8"
             columns={aletheiaColumns}
             emptyMessage="No hay registros disponibles para esta categoria"
             id="alexandria-data-list"
-            title="Pruebas cargados"
+            title="Public Data NFTs"
           />
         </div>
       </div>

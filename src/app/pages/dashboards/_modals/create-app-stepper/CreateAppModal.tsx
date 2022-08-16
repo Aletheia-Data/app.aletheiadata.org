@@ -24,8 +24,13 @@ interface Props {
 }
 declare let window: any;
 
+const customNodeOptions = {
+  rpcUrl: "https://rpc-mumbai.maticvigil.com/",
+  chainId: 137,
+};
+
 const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
-  network: "mainnet",
+  network: customNodeOptions,
   locale: "en_US",
   extensions: [new ConnectExtension()],
 });

@@ -5,13 +5,30 @@ import React, { useState, useEffect } from "react";
 import ApexCharts, { ApexOptions } from "apexcharts";
 import { toAbsoluteUrl, Ktsvg } from "../../../helpers";
 import { Dropdown1 } from "../../content/dropdown/Dropdown1";
-import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import Clipboard from "react-clipboard.js";
 
 import LoadingSidebar from "_start/partials/components/Sidebar/LoadingSidebar";
 import { CAT_QUERY } from "_start/helpers/sideBarQueries";
 import { getFilesType } from "_start/helpers/getFilesType";
+
+import { Magic } from "magic-sdk";
+import { ConnectExtension } from "@magic-ext/connect";
+import { AbiItem } from 'web3-utils'
+import Web3 from "web3";
+import { CONTRACT_ABI, CONTRACT_ADDRESS } from '../../../../app/contracts/config';
+
+const customNodeOptions = {
+  rpcUrl: "https://rpc-mumbai.maticvigil.com/",
+  chainId: 137,
+};
+
+const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
+  network: customNodeOptions,
+  locale: "en_US",
+  extensions: [new ConnectExtension()],
+});
+const web3 = new Web3(magic.rpcProvider);
 
 // TODO: move to global
 const colorPDF = "#FFE6E2";
@@ -121,8 +138,17 @@ export const SidebarGeneral: React.FC<Props> = ({
     }
   };
 
+  const getContract = async () =>{
+    const contract = new web3.eth.Contract(CONTRACT_ABI as AbiItem[], CONTRACT_ADDRESS)
+    console.log(contract);
+    const taskCount = await contract.methods.cost().call()
+    console.log(taskCount);
+  }
+
   useEffect(() => {
     setTab(1);
+
+    getContract();
 
     return function cleanup() {
       if (activeChart) {
@@ -560,15 +586,23 @@ export const SidebarGeneral: React.FC<Props> = ({
       {/* end::Sidebar Content */}
 
       {/* begin::Sidebar footer 
+      */}
       <div id="kt_sidebar_footer" className="py-2 px-5 pb-md-6 text-center" style={{ position: 'absolute', bottom: 0, width: '100%' }}>
         <a
           href="#"
-          className="disabled btn btn-primary fw-bolder fs-6 px-7 py-3 w-100"
+          className="btn btn-primary fw-bolder fs-6 px-7 py-3 w-50"
         >
-          Exportar PDF
+          <img
+            alt="Logo"
+            src={toAbsoluteUrl(
+              "/media/svg/logo/colored/polygon-matic-logo.png"
+            )}
+            className="mh-20px"
+            style={{ marginRight: 10 }}
+          />
+          MINTEAR
         </a>
       </div>
-      */}
       {/* end::Sidebar footer */}
     </>
   );
