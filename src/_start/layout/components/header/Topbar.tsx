@@ -14,7 +14,7 @@ import { Magic } from "magic-sdk";
 import { ConnectExtension } from "@magic-ext/connect";
 import Web3 from "web3";
 const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
-  network: "rinkeby",
+  network: "mainnet",
   locale: "en_US",
   extensions: [new ConnectExtension()],
 });
