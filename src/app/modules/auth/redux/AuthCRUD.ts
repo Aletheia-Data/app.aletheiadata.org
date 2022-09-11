@@ -3,6 +3,7 @@ import Web3 from 'web3';
 import { AuthModel } from "../models/AuthModel";
 import { Magic } from "magic-sdk";
 import { ConnectExtension } from "@magic-ext/connect";
+import { CHAIN_ID } from "app/contracts/config";
 
 const API_URL = process.env.REACT_APP_API_ENDPOINT || "api";
 
@@ -37,7 +38,7 @@ declare let window: any;
 
 const customNodeOptions = {
   rpcUrl: "https://rpc-mumbai.maticvigil.com/",
-  chainId: 137,
+  chainId: CHAIN_ID,
 };
 
 const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {

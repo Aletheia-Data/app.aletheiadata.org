@@ -14,13 +14,17 @@ import { getFilesType } from "_start/helpers/getFilesType";
 
 import { Magic } from "magic-sdk";
 import { ConnectExtension } from "@magic-ext/connect";
-import { AbiItem } from 'web3-utils'
+import { AbiItem } from "web3-utils";
 import Web3 from "web3";
-import { CONTRACT_ABI, CONTRACT_ADDRESS } from '../../../../app/contracts/config';
+import {
+  CONTRACT_ABI,
+  CONTRACT_ADDRESS,
+  CHAIN_ID,
+} from "../../../../app/contracts/config";
 
 const customNodeOptions = {
   rpcUrl: "https://rpc-mumbai.maticvigil.com/",
-  chainId: 137,
+  chainId: CHAIN_ID,
 };
 
 const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
@@ -48,10 +52,12 @@ export const SidebarGeneral: React.FC<Props> = ({
 }) => {
   const id = "cat";
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingMinting, setIsLoadingMinting] = useState(false);
   const [activeTab, setActiveTab] = useState(`#sidebar_${id}_tab1`);
   const [activeTabTotal, setActiveTabTotal] = useState("Loading");
   const [elementTab, setElementTab] = useState(false);
   const [copied, setCopy] = useState(false);
+  const [contractLoaded, setContractLoaded] = useState<any>();
   const [activeChart, setActiveChart] = useState<ApexCharts | undefined>();
 
   if (!props) {
@@ -67,6 +73,76 @@ export const SidebarGeneral: React.FC<Props> = ({
   } = useQuery(CAT_QUERY, {
     variables: {},
   });
+
+  const getBalance = async (wallet: string) => {
+    let balance: string;
+    try {
+      balance = await web3.eth.getBalance(wallet);
+      console.log(balance);
+    } catch (error) {
+      console.log(error);
+    }
+
+    return new Promise((resolve) => {
+      // console.log(accounts);
+      resolve(balance);
+    });
+  };
+
+  const getTxs = async () => {
+    var options = {
+      fromBlock: "pending",
+      toBlock: "latest",
+      address: "0xabc123...",
+    };
+
+    await web3.eth.getPendingTransactions().then((res) => {
+      console.log(res);
+    });
+  };
+
+  const mint = async () => {
+    setIsLoadingMinting(true);
+    try {
+      /*
+      let sign = await magic.connect.requestUserInfo();
+      console.log(sign);
+      */
+      const contract = contractLoaded;
+
+      const fromAddress = (await web3.eth.getAccounts())[0];
+      const cost = await contract.methods.cost().call();
+
+      contract.options.from = fromAddress;
+
+      console.log(await web3.eth.getBalance(fromAddress));
+      console.log(cost);
+
+      await web3.eth.getGasPrice(async function (err, getGasPrice) {
+        console.log(getGasPrice);
+
+        if (!err) {
+          try {
+            let tx = await contract.methods
+              .mint(
+                1,
+                "bafybeiehpsvsihlzwub53piun3z5uhigbm6clrmhxocajahw3frtan4tt4/token_uri.json",
+                "bafybeieagjmhrt6sn4yeuk2cypsxnsg5az7ht3xcolzyfidzqgv6szuznu"
+              )
+              .send({ from: fromAddress, gas: "1000000" });
+            console.log(tx);
+            setIsLoadingMinting(false);
+          } catch (error) {
+            console.log(error);
+            setIsLoadingMinting(false);
+          }
+        }
+      });
+    } catch (error) {
+      console.log(error);
+      setIsLoadingMinting(false);
+    }
+  };
 
   const setTab = async (tab_n: number) => {
     if (activeChart) {
@@ -138,17 +214,24 @@ export const SidebarGeneral: React.FC<Props> = ({
     }
   };
 
-  const getContract = async () =>{
-    const contract = new web3.eth.Contract(CONTRACT_ABI as AbiItem[], CONTRACT_ADDRESS)
+  const initContract = async () => {
+    const contract = new web3.eth.Contract(
+      CONTRACT_ABI as AbiItem[],
+      CONTRACT_ADDRESS
+    );
+    setContractLoaded(contract);
+    let accounts = await web3.eth.getAccounts();
+    getBalance(accounts[0]);
     console.log(contract);
-    const taskCount = await contract.methods.cost().call()
-    console.log(taskCount);
-  }
+    const cost = await contract.methods.cost().call();
+    console.log(cost);
+    getTxs();
+  };
 
   useEffect(() => {
     setTab(1);
 
-    getContract();
+    initContract();
 
     return function cleanup() {
       if (activeChart) {
@@ -189,22 +272,24 @@ export const SidebarGeneral: React.FC<Props> = ({
         id="kt_sidebar_tabs"
         role="tablist"
       >
-        {
-          !items &&
+        {!items && (
           <li className="nav-item">
             <a href="#">
-                <span className="indicator-progress text-muted mt-2 fw-bold fs-6" style={{ display: "block" }}>
-              Please wait...{" "}
-              <span className="spinner-border spinner-border-sm align-middle ms-2" />
-            </span>
-              </a>
-            </li>
-        }
+              <span
+                className="indicator-progress text-muted mt-2 fw-bold fs-6"
+                style={{ display: "block" }}
+              >
+                Please wait...{" "}
+                <span className="spinner-border spinner-border-sm align-middle ms-2" />
+              </span>
+            </a>
+          </li>
+        )}
         {items.map((cat: any, i: number) => {
           let current_item = cat.connection.values[0];
           let img = current_item.icon
             ? current_item.icon.url
-            : "/media/svg/logo/gray/aven.svg"; 
+            : "/media/svg/logo/gray/aven.svg";
           i++;
           return (
             <li className="nav-item" key={`cat_sidebar_${current_item.id}`}>
@@ -585,12 +670,20 @@ export const SidebarGeneral: React.FC<Props> = ({
       </div>
       {/* end::Sidebar Content */}
 
-      {/* begin::Sidebar footer 
-      */}
-      <div id="kt_sidebar_footer" className="py-2 px-5 pb-md-6 text-center" style={{ position: 'absolute', bottom: 0, width: '100%' }}>
+      {/* begin::Sidebar footer
+       */}
+
+      <div
+        id="kt_sidebar_footer"
+        className="py-2 px-5 pb-md-6 text-center"
+        style={{ position: "absolute", bottom: 0, width: "100%" }}
+      >
         <a
-          href="#"
-          className="btn btn-primary fw-bolder fs-6 px-7 py-3 w-50"
+          onClick={mint}
+          className={`btn btn-primary fw-bolder fs-6 px-7 py-3 w-50 ${
+            isLoadingMinting ? "disabled" : null
+          }`}
+          style={{ display: "flex", justifyContent: "center", margin: "auto" }}
         >
           <img
             alt="Logo"
@@ -600,7 +693,14 @@ export const SidebarGeneral: React.FC<Props> = ({
             className="mh-20px"
             style={{ marginRight: 10 }}
           />
-          MINTEAR
+          {!isLoadingMinting && "Mintear"}
+
+          {isLoadingMinting && (
+            <span className="indicator-progress" style={{ display: "block" }}>
+              Wait...{" "}
+              <span className="spinner-border spinner-border-sm align-middle ms-2" />
+            </span>
+          )}
         </a>
       </div>
       {/* end::Sidebar footer */}

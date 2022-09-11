@@ -9,10 +9,11 @@ import { toAbsoluteUrl } from "../../../../_start/helpers";
 import { Magic } from "magic-sdk";
 import { ConnectExtension } from "@magic-ext/connect";
 import Web3 from "web3";
+import { CHAIN_ID } from "app/contracts/config";
 
 const customNodeOptions = {
   rpcUrl: "https://rpc-mumbai.maticvigil.com/",
-  chainId: 137,
+  chainId: CHAIN_ID,
 };
 
 const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
