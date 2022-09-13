@@ -5,7 +5,6 @@ import React, { useState, useEffect } from "react";
 import ApexCharts, { ApexOptions } from "apexcharts";
 import { toAbsoluteUrl, Ktsvg } from "../../../helpers";
 import { Dropdown1 } from "../../content/dropdown/Dropdown1";
-import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import Clipboard from "react-clipboard.js";
 
@@ -13,29 +12,52 @@ import LoadingSidebar from "_start/partials/components/Sidebar/LoadingSidebar";
 import { CAT_QUERY } from "_start/helpers/sideBarQueries";
 import { getFilesType } from "_start/helpers/getFilesType";
 
+import { useReward } from "react-rewards";
+
+import { Magic } from "magic-sdk";
+import { ConnectExtension } from "@magic-ext/connect";
+import { initSmartContract } from "../../../../setup/web3js";
+import Web3 from "web3";
+import { CHAIN_ID } from "../../../../app/contracts/config";
+import { makeStorageClient } from "setup/web3.storage";
+
+const customNodeOptions = {
+  rpcUrl: "https://rpc-mumbai.maticvigil.com/",
+  chainId: CHAIN_ID,
+};
+
+const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
+  network: customNodeOptions,
+  locale: "en_US",
+  extensions: [new ConnectExtension()],
+});
+const web3 = new Web3(magic.rpcProvider);
+
 // TODO: move to global
 const colorPDF = "#FFE6E2";
-const colorCSV = "#FFF8DD";
-const colorXLS = "#E4FFF4";
-const colorODS = "#F7F0FF";
-const colorOTHER = "#00A3FF";
 
 type Props = {
   props: any;
   toogleMinisearch?: any;
+  updateNFTList?: any;
 };
 
 export const SidebarGeneral: React.FC<Props> = ({
   props,
   toogleMinisearch,
+  updateNFTList,
 }) => {
   const id = "cat";
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingMinting, setIsLoadingMinting] = useState(false);
   const [activeTab, setActiveTab] = useState(`#sidebar_${id}_tab1`);
   const [activeTabTotal, setActiveTabTotal] = useState("Loading");
   const [elementTab, setElementTab] = useState(false);
   const [copied, setCopy] = useState(false);
+  const [contractLoaded, setContractLoaded] = useState<any>();
   const [activeChart, setActiveChart] = useState<ApexCharts | undefined>();
+  const [mintCost, setMintCost] = useState("0");
+  const { reward, isAnimating } = useReward("rewardId", "confetti");
 
   if (!props) {
     props = {
@@ -50,6 +72,127 @@ export const SidebarGeneral: React.FC<Props> = ({
   } = useQuery(CAT_QUERY, {
     variables: {},
   });
+
+  const getTxs = async () => {
+    var options = {
+      fromBlock: "pending",
+      toBlock: "latest",
+      address: "0xabc123...",
+    };
+
+    await web3.eth.getPendingTransactions().then((res) => {
+      console.log(res);
+    });
+  };
+
+  const makeMetadataObj = () => {
+    const asset = props.alexandrias[0];
+
+    const obj = {
+      attributes: [
+        {
+          trait_type: "format",
+          value: asset.type,
+        },
+      ],
+      description: asset.description,
+      external_url: `https://nftstorage.link/ipfs/${asset.cid}`,
+      cid: asset.cid,
+      image: "bafkreig5w7f3datbfp5hm55rhl4mjrfaewjakodm5hxtwent6l74kp3maq", // TODO: decide if using image, gif, or 3d animation
+      name: asset.title,
+    };
+
+    if (asset.source) {
+      obj["attributes"].push({
+        trait_type: "source",
+        value: asset.source.name,
+      });
+    }
+
+    if (asset.department) {
+      obj["attributes"].push({
+        trait_type: "issuer",
+        value: asset.department.name,
+      });
+    }
+
+    if (asset.category) {
+      obj["attributes"].push({
+        trait_type: "category",
+        value: asset.category.title,
+      });
+    }
+
+    const blob = new Blob([JSON.stringify(obj)], { type: "application/json" });
+
+    const files = [new File([blob], `${props.alexandrias[0].cid}.json`)];
+    return files;
+  };
+
+  async function uploadMetadata() {
+    const client = makeStorageClient();
+    const metadata = makeMetadataObj();
+    console.log("uploading metadata to IPFS: ", client, metadata);
+    const cid = await client.put(metadata, { wrapWithDirectory: false });
+    console.log("stored files with cid:", cid);
+    return cid;
+  }
+
+  const mint = async () => {
+    setIsLoadingMinting(true);
+    try {
+      /*
+      let sign = await magic.connect.requestUserInfo();
+      console.log(sign);
+      */
+      const contract = contractLoaded;
+
+      const fromAddress = (await web3.eth.getAccounts())[0];
+      contract.options.from = fromAddress;
+
+      const metadata = await uploadMetadata();
+      console.log(metadata);
+
+      try {
+        let tx = await contract.methods
+          .mint(1, metadata, props.alexandrias[0].cid)
+          .send({
+            from: fromAddress,
+            value: await web3.utils.toWei(mintCost, "ether"),
+            gas: 10000000,
+          });
+        reward();
+        const endpoint = `${process.env.REACT_APP_API_ENDPOINT}/nfts`;
+
+        fetch(endpoint, {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            cid: props.alexandrias[0].cid,
+            txReceipt: tx,
+          }),
+        })
+          .then((response) => response.json())
+          .then((newData) => {
+            console.log("minted new nft: ", newData);
+            setIsLoadingMinting(false);
+            updateNFTList(props.alexandrias[0].cid);
+          })
+          .catch((err) => {
+            console.log(err);
+            setIsLoadingMinting(false);
+          });
+      } catch (error) {
+        console.log(error);
+        setIsLoadingMinting(false);
+      }
+    } catch (error) {
+      console.log(error);
+      setIsLoadingMinting(false);
+    }
+  };
 
   const setTab = async (tab_n: number) => {
     if (activeChart) {
@@ -121,8 +264,19 @@ export const SidebarGeneral: React.FC<Props> = ({
     }
   };
 
+  const initContract = async () => {
+    const contract = initSmartContract();
+    setContractLoaded(contract);
+    const cost = await contract.methods.cost().call();
+    const etherValue = Web3.utils.fromWei(cost, "ether");
+    setMintCost(etherValue);
+    getTxs();
+  };
+
   useEffect(() => {
     setTab(1);
+
+    initContract();
 
     return function cleanup() {
       if (activeChart) {
@@ -163,22 +317,24 @@ export const SidebarGeneral: React.FC<Props> = ({
         id="kt_sidebar_tabs"
         role="tablist"
       >
-        {
-          !items &&
+        {!items && (
           <li className="nav-item">
             <a href="#">
-                <span className="indicator-progress text-muted mt-2 fw-bold fs-6" style={{ display: "block" }}>
-              Please wait...{" "}
-              <span className="spinner-border spinner-border-sm align-middle ms-2" />
-            </span>
-              </a>
-            </li>
-        }
+              <span
+                className="indicator-progress text-muted mt-2 fw-bold fs-6"
+                style={{ display: "block" }}
+              >
+                Please wait...{" "}
+                <span className="spinner-border spinner-border-sm align-middle ms-2" />
+              </span>
+            </a>
+          </li>
+        )}
         {items.map((cat: any, i: number) => {
           let current_item = cat.connection.values[0];
           let img = current_item.icon
             ? current_item.icon.url
-            : "/media/svg/logo/gray/aven.svg"; 
+            : "/media/svg/logo/gray/aven.svg";
           i++;
           return (
             <li className="nav-item" key={`cat_sidebar_${current_item.id}`}>
@@ -559,16 +715,47 @@ export const SidebarGeneral: React.FC<Props> = ({
       </div>
       {/* end::Sidebar Content */}
 
-      {/* begin::Sidebar footer 
-      <div id="kt_sidebar_footer" className="py-2 px-5 pb-md-6 text-center" style={{ position: 'absolute', bottom: 0, width: '100%' }}>
-        <a
-          href="#"
-          className="disabled btn btn-primary fw-bolder fs-6 px-7 py-3 w-100"
+      {/* begin::Sidebar footer
+       */}
+
+      {props.sidebar && props.sidebar === "single" && (
+        <div
+          id="kt_sidebar_footer"
+          className="py-2 px-5 pb-md-6 text-center"
+          style={{ position: "absolute", bottom: 0, width: "100%" }}
         >
-          Exportar PDF
-        </a>
-      </div>
-      */}
+          <button
+            onClick={mint}
+            disabled={isAnimating}
+            className={`btn btn-primary fw-bolder fs-6 px-7 py-3 w-50 ${
+              isLoadingMinting ? "disabled" : null
+            }`}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "auto",
+            }}
+          >
+            <img
+              alt="Logo"
+              src={toAbsoluteUrl(
+                "/media/svg/logo/colored/polygon-matic-logo.png"
+              )}
+              className="mh-20px"
+              style={{ marginRight: 10 }}
+            />
+            {!isLoadingMinting && `${mintCost} Matic`}
+
+            {isLoadingMinting && (
+              <span className="indicator-progress" style={{ display: "block" }}>
+                Wait...{" "}
+                <span className="spinner-border spinner-border-sm align-middle ms-2" />
+              </span>
+            )}
+            <span id="rewardId" />
+          </button>
+        </div>
+      )}
       {/* end::Sidebar footer */}
     </>
   );

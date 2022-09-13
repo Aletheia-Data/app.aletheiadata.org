@@ -99,3 +99,29 @@ export interface Pin {
   status: string;
   updated: string;
 }
+
+export interface TxReceipt {
+  blockHash: string;
+  blockNumber: number;
+  contractAddress: string;
+  cumulativeGasUsed: number;
+  effectiveGasPrice: string;
+  from: string;
+  gasUsed: number,
+  logsBloom: string;
+  status: boolean;
+  to: string;
+  transactionHash: string;
+  transactionIndex: number;
+  type: string;
+  events: any
+}
+
+export interface NFT {
+  id: string;
+  cid: string;
+  txReceipt: TxReceipt;
+  createdAt: string;
+  published_at: string;
+  updatedAt: string;
+}
