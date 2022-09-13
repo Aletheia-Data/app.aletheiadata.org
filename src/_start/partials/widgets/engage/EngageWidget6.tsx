@@ -72,8 +72,6 @@ const EngageWidget6: React.FC<Props> = ({
       break;
   }
 
-  console.log(data);
-
   return (
     <div
       className={`card card-custom ${className}`}

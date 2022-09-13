@@ -6,9 +6,28 @@ import {
 import { MiniSearchService } from "_start/partials/components";
 import { CreateAppModal } from "../_modals/create-app-stepper/CreateAppModal";
 import Table from "_start/partials/components/Table";
-import { getSinglePageColumns } from "../../../../_start/helpers";
+import {
+  getSinglePageColumns,
+  getSinglePageColumnsNFT,
+} from "../../../../_start/helpers";
 import { rapidFetcher } from "_start/helpers/rapidFetch";
 import { Deal, Pin } from "_start/types";
+import { Magic } from "magic-sdk";
+import { ConnectExtension } from "@magic-ext/connect";
+import Web3 from "web3";
+import { CHAIN_ID } from "../../../../app/contracts/config";
+
+const customNodeOptions = {
+  rpcUrl: "https://rpc-mumbai.maticvigil.com/",
+  chainId: CHAIN_ID,
+};
+
+const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
+  network: customNodeOptions,
+  locale: "en_US",
+  extensions: [new ConnectExtension()],
+});
+const web3 = new Web3(magic.rpcProvider);
 
 export const SinglePage: FC<any> = (data: any) => {
   const [show, setShow] = useState(false);
@@ -18,6 +37,12 @@ export const SinglePage: FC<any> = (data: any) => {
   const [pins, setPins] = useState<Pin[]>([]);
   const [fileCoinStatus, setFileCoinStatus] = useState("Loading");
   const [loading, setLoading] = useState(false);
+  const [currentUser, setCurrentUser] = useState("");
+
+  const getUser = async () => {
+    const accounts = await web3.eth.getAccounts();
+    setCurrentUser(accounts[0]);
+  };
 
   const handlePagination = (page: any) => {
     setPaginationPage(page.newPage);
@@ -32,6 +57,7 @@ export const SinglePage: FC<any> = (data: any) => {
   };
 
   useEffect(() => {
+    getUser();
     const url = `/v1/services/filecoin/${data.data.alexandrias[0].cid}`;
 
     async function getFilecoinStatus() {
@@ -39,7 +65,6 @@ export const SinglePage: FC<any> = (data: any) => {
 
       try {
         const response = await rapidFetcher().url(url).get().json();
-        console.log(response);
 
         if (response.body?.pins) {
           setPins(response.body?.pins);
@@ -85,10 +110,7 @@ export const SinglePage: FC<any> = (data: any) => {
   }, [pins]);
 
   const alexandriasRecords = data.data.alexandrias;
-  const aletheiaRecords = data.data.aletheias;
-
   const alexandriaColumns = getSinglePageColumns(alexandriasRecords);
-  const aletheiaColumns = getSinglePageColumns(aletheiaRecords);
 
   return (
     <>
@@ -143,8 +165,12 @@ export const SinglePage: FC<any> = (data: any) => {
           <Table
             hideButton
             cardClassName="card-stretch mb-5 mb-xxl-8"
-            columns={aletheiaColumns}
-            emptyMessage="No hay registros disponibles para esta categoria"
+            columns={
+              currentUser && data.data.nft?.length > 0
+                ? getSinglePageColumnsNFT(currentUser, data.data.nft)
+                : []
+            }
+            emptyMessage="No hay NFT disponibles para este CID"
             id="alexandria-data-list"
             title="Public Data NFTs"
           />

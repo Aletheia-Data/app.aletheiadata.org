@@ -58,8 +58,6 @@ export function getUserByToken() {
     const netId: any = await web3.eth.net.getId()
     const accounts: any = await web3.eth.getAccounts();
 
-    console.log(web3, accounts);
-
     //load balance
     if (accounts[0] && typeof accounts[0] !== 'undefined') {
 

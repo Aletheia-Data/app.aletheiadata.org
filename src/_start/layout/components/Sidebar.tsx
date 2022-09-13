@@ -4,14 +4,19 @@ import { SidebarGeneral, SidebarShop, SidebarUser } from "../../partials";
 import { useTheme } from "../core";
 import { toAbsoluteUrl } from "../../helpers";
 
-const BG_COLORS = ['bg-white', 'bg-info'];
+const BG_COLORS = ["bg-white", "bg-info"];
 
 type Props = {
-  props: any,
-  toogleMinisearch?: Function
+  props: any;
+  toogleMinisearch?: Function;
+  updateNFTList?: Function;
 };
 
-export const Sidebar: React.FC<Props> = ({ props, toogleMinisearch }) => {
+export const Sidebar: React.FC<Props> = ({
+  props,
+  toogleMinisearch,
+  updateNFTList,
+}) => {
   const { config, classes } = useTheme();
   const sidebarCSSClass = classes.sidebar;
   const sideBarRef = useRef<HTMLDivElement | null>(null);
@@ -21,14 +26,13 @@ export const Sidebar: React.FC<Props> = ({ props, toogleMinisearch }) => {
       return;
     }
 
-    BG_COLORS.forEach(cssClass => {
+    BG_COLORS.forEach((cssClass) => {
       sideBarRef.current?.classList.remove(cssClass);
-    })
+    });
 
-    sidebarCSSClass.forEach(cssClass => {
+    sidebarCSSClass.forEach((cssClass) => {
       sideBarRef.current?.classList.add(cssClass);
-    })
-
+    });
   }, [sidebarCSSClass]);
 
   return (
@@ -38,7 +42,11 @@ export const Sidebar: React.FC<Props> = ({ props, toogleMinisearch }) => {
           ref={sideBarRef}
           id="kt_sidebar"
           className="sidebar"
-          style={{ backgroundImage: `url(${toAbsoluteUrl("media/backgrounds/sidebar.png")})` }}
+          style={{
+            backgroundImage: `url(${toAbsoluteUrl(
+              "media/backgrounds/sidebar.png"
+            )})`,
+          }}
           data-kt-drawer="true"
           data-kt-drawer-name="sidebar"
           data-kt-drawer-activate="{default: true, lg: false}"
@@ -49,7 +57,13 @@ export const Sidebar: React.FC<Props> = ({ props, toogleMinisearch }) => {
         >
           {/* begin::Sidebar Content */}
           <div className="d-flex flex-column sidebar-body">
-            {config.sidebar.content === "general" && <SidebarGeneral props={props} toogleMinisearch={toogleMinisearch} />}
+            {config.sidebar.content === "general" && (
+              <SidebarGeneral
+                props={props}
+                toogleMinisearch={toogleMinisearch}
+                updateNFTList={updateNFTList}
+              />
+            )}
             {config.sidebar.content === "shop" && (
               <SidebarShop sidebarRef={sideBarRef} />
             )}
@@ -60,4 +74,4 @@ export const Sidebar: React.FC<Props> = ({ props, toogleMinisearch }) => {
       )}
     </>
   );
-}
+};

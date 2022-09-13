@@ -12,15 +12,14 @@ import LoadingSidebar from "_start/partials/components/Sidebar/LoadingSidebar";
 import { CAT_QUERY } from "_start/helpers/sideBarQueries";
 import { getFilesType } from "_start/helpers/getFilesType";
 
+import { useReward } from "react-rewards";
+
 import { Magic } from "magic-sdk";
 import { ConnectExtension } from "@magic-ext/connect";
-import { AbiItem } from "web3-utils";
+import { initSmartContract } from "../../../../setup/web3js";
 import Web3 from "web3";
-import {
-  CONTRACT_ABI,
-  CONTRACT_ADDRESS,
-  CHAIN_ID,
-} from "../../../../app/contracts/config";
+import { CHAIN_ID } from "../../../../app/contracts/config";
+import { makeStorageClient } from "setup/web3.storage";
 
 const customNodeOptions = {
   rpcUrl: "https://rpc-mumbai.maticvigil.com/",
@@ -36,19 +35,17 @@ const web3 = new Web3(magic.rpcProvider);
 
 // TODO: move to global
 const colorPDF = "#FFE6E2";
-const colorCSV = "#FFF8DD";
-const colorXLS = "#E4FFF4";
-const colorODS = "#F7F0FF";
-const colorOTHER = "#00A3FF";
 
 type Props = {
   props: any;
   toogleMinisearch?: any;
+  updateNFTList?: any;
 };
 
 export const SidebarGeneral: React.FC<Props> = ({
   props,
   toogleMinisearch,
+  updateNFTList,
 }) => {
   const id = "cat";
   const [isLoading, setIsLoading] = useState(false);
@@ -59,6 +56,8 @@ export const SidebarGeneral: React.FC<Props> = ({
   const [copied, setCopy] = useState(false);
   const [contractLoaded, setContractLoaded] = useState<any>();
   const [activeChart, setActiveChart] = useState<ApexCharts | undefined>();
+  const [mintCost, setMintCost] = useState("0");
+  const { reward, isAnimating } = useReward("rewardId", "confetti");
 
   if (!props) {
     props = {
@@ -74,21 +73,6 @@ export const SidebarGeneral: React.FC<Props> = ({
     variables: {},
   });
 
-  const getBalance = async (wallet: string) => {
-    let balance: string;
-    try {
-      balance = await web3.eth.getBalance(wallet);
-      console.log(balance);
-    } catch (error) {
-      console.log(error);
-    }
-
-    return new Promise((resolve) => {
-      // console.log(accounts);
-      resolve(balance);
-    });
-  };
-
   const getTxs = async () => {
     var options = {
       fromBlock: "pending",
@@ -101,6 +85,59 @@ export const SidebarGeneral: React.FC<Props> = ({
     });
   };
 
+  const makeMetadataObj = () => {
+    const asset = props.alexandrias[0];
+
+    const obj = {
+      attributes: [
+        {
+          trait_type: "format",
+          value: asset.type,
+        },
+      ],
+      description: asset.description,
+      external_url: `https://nftstorage.link/ipfs/${asset.cid}`,
+      cid: asset.cid,
+      image: "bafkreig5w7f3datbfp5hm55rhl4mjrfaewjakodm5hxtwent6l74kp3maq", // TODO: decide if using image, gif, or 3d animation
+      name: asset.title,
+    };
+
+    if (asset.source) {
+      obj["attributes"].push({
+        trait_type: "source",
+        value: asset.source.name,
+      });
+    }
+
+    if (asset.department) {
+      obj["attributes"].push({
+        trait_type: "issuer",
+        value: asset.department.name,
+      });
+    }
+
+    if (asset.category) {
+      obj["attributes"].push({
+        trait_type: "category",
+        value: asset.category.title,
+      });
+    }
+
+    const blob = new Blob([JSON.stringify(obj)], { type: "application/json" });
+
+    const files = [new File([blob], `${props.alexandrias[0].cid}.json`)];
+    return files;
+  };
+
+  async function uploadMetadata() {
+    const client = makeStorageClient();
+    const metadata = makeMetadataObj();
+    console.log("uploading metadata to IPFS: ", client, metadata);
+    const cid = await client.put(metadata, { wrapWithDirectory: false });
+    console.log("stored files with cid:", cid);
+    return cid;
+  }
+
   const mint = async () => {
     setIsLoadingMinting(true);
     try {
@@ -111,33 +148,46 @@ export const SidebarGeneral: React.FC<Props> = ({
       const contract = contractLoaded;
 
       const fromAddress = (await web3.eth.getAccounts())[0];
-      const cost = await contract.methods.cost().call();
-
       contract.options.from = fromAddress;
 
-      console.log(await web3.eth.getBalance(fromAddress));
-      console.log(cost);
+      const metadata = await uploadMetadata();
+      console.log(metadata);
 
-      await web3.eth.getGasPrice(async function (err, getGasPrice) {
-        console.log(getGasPrice);
+      try {
+        let tx = await contract.methods
+          .mint(1, metadata, props.alexandrias[0].cid)
+          .send({
+            from: fromAddress,
+            value: await web3.utils.toWei(mintCost, "ether"),
+            gas: 10000000,
+          });
+        reward();
+        const endpoint = `${process.env.REACT_APP_API_ENDPOINT}/nfts`;
 
-        if (!err) {
-          try {
-            let tx = await contract.methods
-              .mint(
-                1,
-                "bafybeiehpsvsihlzwub53piun3z5uhigbm6clrmhxocajahw3frtan4tt4/token_uri.json",
-                "bafybeieagjmhrt6sn4yeuk2cypsxnsg5az7ht3xcolzyfidzqgv6szuznu"
-              )
-              .send({ from: fromAddress, gas: "1000000" });
-            console.log(tx);
+        fetch(endpoint, {
+          method: "post",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            cid: props.alexandrias[0].cid,
+            txReceipt: tx,
+          }),
+        })
+          .then((response) => response.json())
+          .then((newData) => {
+            console.log("minted new nft: ", newData);
             setIsLoadingMinting(false);
-          } catch (error) {
-            console.log(error);
+            updateNFTList(props.alexandrias[0].cid);
+          })
+          .catch((err) => {
+            console.log(err);
             setIsLoadingMinting(false);
-          }
-        }
-      });
+          });
+      } catch (error) {
+        console.log(error);
+        setIsLoadingMinting(false);
+      }
     } catch (error) {
       console.log(error);
       setIsLoadingMinting(false);
@@ -215,16 +265,11 @@ export const SidebarGeneral: React.FC<Props> = ({
   };
 
   const initContract = async () => {
-    const contract = new web3.eth.Contract(
-      CONTRACT_ABI as AbiItem[],
-      CONTRACT_ADDRESS
-    );
+    const contract = initSmartContract();
     setContractLoaded(contract);
-    let accounts = await web3.eth.getAccounts();
-    getBalance(accounts[0]);
-    console.log(contract);
     const cost = await contract.methods.cost().call();
-    console.log(cost);
+    const etherValue = Web3.utils.fromWei(cost, "ether");
+    setMintCost(etherValue);
     getTxs();
   };
 
@@ -673,36 +718,44 @@ export const SidebarGeneral: React.FC<Props> = ({
       {/* begin::Sidebar footer
        */}
 
-      <div
-        id="kt_sidebar_footer"
-        className="py-2 px-5 pb-md-6 text-center"
-        style={{ position: "absolute", bottom: 0, width: "100%" }}
-      >
-        <a
-          onClick={mint}
-          className={`btn btn-primary fw-bolder fs-6 px-7 py-3 w-50 ${
-            isLoadingMinting ? "disabled" : null
-          }`}
-          style={{ display: "flex", justifyContent: "center", margin: "auto" }}
+      {props.sidebar && props.sidebar === "single" && (
+        <div
+          id="kt_sidebar_footer"
+          className="py-2 px-5 pb-md-6 text-center"
+          style={{ position: "absolute", bottom: 0, width: "100%" }}
         >
-          <img
-            alt="Logo"
-            src={toAbsoluteUrl(
-              "/media/svg/logo/colored/polygon-matic-logo.png"
-            )}
-            className="mh-20px"
-            style={{ marginRight: 10 }}
-          />
-          {!isLoadingMinting && "Mintear"}
+          <button
+            onClick={mint}
+            disabled={isAnimating}
+            className={`btn btn-primary fw-bolder fs-6 px-7 py-3 w-50 ${
+              isLoadingMinting ? "disabled" : null
+            }`}
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "auto",
+            }}
+          >
+            <img
+              alt="Logo"
+              src={toAbsoluteUrl(
+                "/media/svg/logo/colored/polygon-matic-logo.png"
+              )}
+              className="mh-20px"
+              style={{ marginRight: 10 }}
+            />
+            {!isLoadingMinting && `${mintCost} Matic`}
 
-          {isLoadingMinting && (
-            <span className="indicator-progress" style={{ display: "block" }}>
-              Wait...{" "}
-              <span className="spinner-border spinner-border-sm align-middle ms-2" />
-            </span>
-          )}
-        </a>
-      </div>
+            {isLoadingMinting && (
+              <span className="indicator-progress" style={{ display: "block" }}>
+                Wait...{" "}
+                <span className="spinner-border spinner-border-sm align-middle ms-2" />
+              </span>
+            )}
+            <span id="rewardId" />
+          </button>
+        </div>
+      )}
       {/* end::Sidebar footer */}
     </>
   );

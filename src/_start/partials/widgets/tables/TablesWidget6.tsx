@@ -1,8 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Ktsvg } from "../../../helpers";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import { initSmartContract } from "../../../../setup/web3js";
 
 type Props = {
   className: string;
@@ -19,6 +20,8 @@ const TablesWidget6: React.FC<Props> = ({
   innerPadding = "",
   color = "primary",
 }) => {
+  const [NFTS, setNFTs] = useState([]);
+
   data = data.data;
   const entity = data.entity;
 
@@ -45,6 +48,21 @@ const TablesWidget6: React.FC<Props> = ({
     title = "Public Data NFTs";
     records = dataFile.aletheias;
   }
+
+  const getNFTs = async () => {
+    const contract = initSmartContract();
+    try {
+      let tokens = await contract.methods.getTokensCID(dataFile.cid).call();
+      console.log(tokens);
+      setNFTs(tokens);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getNFTs();
+  }, []);
 
   return (
     <div className={`card ${className}`}>
