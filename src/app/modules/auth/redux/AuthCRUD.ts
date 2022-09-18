@@ -3,6 +3,7 @@ import Web3 from 'web3';
 import { AuthModel } from "../models/AuthModel";
 import { Magic } from "magic-sdk";
 import { ConnectExtension } from "@magic-ext/connect";
+import { CHAIN_ID } from "app/contracts/config";
 
 const API_URL = process.env.REACT_APP_API_ENDPOINT || "api";
 
@@ -35,10 +36,15 @@ export function requestPassword(email: string) {
 
 declare let window: any;
 
+const customNodeOptions = {
+  rpcUrl: "https://rpc-mumbai.maticvigil.com/",
+  chainId: CHAIN_ID,
+};
+
 const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
-  network: "mainnet",
+  network: customNodeOptions,
   locale: "en_US",
-  extensions: [new ConnectExtension()]
+  extensions: [new ConnectExtension()],
 });
 
 export function getUserByToken() {
@@ -51,8 +57,6 @@ export function getUserByToken() {
 
     const netId: any = await web3.eth.net.getId()
     const accounts: any = await web3.eth.getAccounts();
-
-    console.log(web3, accounts);
 
     //load balance
     if (accounts[0] && typeof accounts[0] !== 'undefined') {

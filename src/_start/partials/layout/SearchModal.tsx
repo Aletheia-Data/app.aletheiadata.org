@@ -116,7 +116,7 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
       .then((response) => response.json())
       .then((data) => {
         setResults(JSON.parse(data.body));
-        console.log(data);
+        // console.log(data);
         setLoading(false);
       })
       .catch((err) => {
@@ -137,7 +137,7 @@ const SearchModal: React.FC<Props> = ({ show, handleClose }) => {
       .then((response) => response.json())
       .then((data) => {
         setResultsDep(JSON.parse(data.body));
-        console.log(data);
+        // console.log(data);
       })
       .catch((err) => {
         console.log(err);

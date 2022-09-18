@@ -13,6 +13,7 @@ import { SinglePage } from "./SinglePage";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import { Sidebar } from "../../../../_start/layout/components/Sidebar";
+import { getMintedNFT } from "../../../../setup/web3js";
 
 const getBreadcrumbs = () => {
   return [
@@ -140,6 +141,8 @@ export function SinglePageWrapper(): JSX.Element {
   const query = getQuery(cid, entity);
   const component = Single(query, entity, assetId);
 
+  const [nftList, setNftList] = useState([]);
+
   const { setTheme } = useTheme();
   // Refresh UI after config updates
   useEffect(() => {
@@ -154,13 +157,33 @@ export function SinglePageWrapper(): JSX.Element {
     setMinisearchActive(!minisearchActive);
   };
 
+  async function refreshNfts(cid: string, assetId: string) {
+    try {
+      return getMintedNFT(cid, assetId).then((nfts) => {
+        console.log("Refreshing nfts list: ", nfts);
+        setNftList(nfts);
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    if (!component?.props?.data?.cid || !component?.props?.data?.id) return;
+
+    refreshNfts(component?.props?.data?.cid, component?.props?.data?.id);
+  }, [component?.props?.data?.cid]);
+
   if (component?.props?.data) {
     const data = component?.props?.data;
     const { title } = data;
+
     component.props.data.title = title;
     component.props.data.sidebar = "single";
     component.props.data.minisearchActive = minisearchActive;
     component.props.data.toogleMinisearch = toogleMinisearch;
+    component.props.data.refreshNfts = refreshNfts;
+    component.props.data.nft = nftList;
   } else {
     return component;
   }
@@ -173,6 +196,7 @@ export function SinglePageWrapper(): JSX.Element {
       <Sidebar
         props={component.props.data}
         toogleMinisearch={toogleMinisearch}
+        updateNFTList={refreshNfts}
       />
     </>
   );

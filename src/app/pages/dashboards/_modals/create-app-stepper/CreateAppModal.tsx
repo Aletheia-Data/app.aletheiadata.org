@@ -18,14 +18,20 @@ import {
 } from "../../redux/DashboardCRUD";
 import { validURL } from "_start/helpers/ValidateURL";
 import moment from "moment";
+import { CHAIN_ID } from "app/contracts/config";
 interface Props {
   show: boolean;
   handleClose: () => void;
 }
 declare let window: any;
 
+const customNodeOptions = {
+  rpcUrl: "https://rpc-mumbai.maticvigil.com/",
+  chainId: CHAIN_ID,
+};
+
 const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
-  network: "mainnet",
+  network: customNodeOptions,
   locale: "en_US",
   extensions: [new ConnectExtension()],
 });

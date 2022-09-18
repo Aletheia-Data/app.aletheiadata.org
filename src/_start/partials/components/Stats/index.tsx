@@ -165,7 +165,7 @@ const Stats: React.FC<Props> = ({
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data);
+          // console.log(data);
           resolve(data);
         })
         .catch((err) => {
@@ -411,7 +411,6 @@ const Stats: React.FC<Props> = ({
                     />
                   );
                 };
-                console.log(activeTabTotal);
 
                 return (
                   <div
