@@ -411,7 +411,6 @@ const Stats: React.FC<Props> = ({
                     />
                   );
                 };
-                console.log(activeTabTotal);
 
                 return (
                   <div

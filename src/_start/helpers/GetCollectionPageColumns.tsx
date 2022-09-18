@@ -92,8 +92,6 @@ export const getCollectionPageColumns = (
       {
         title: "Action",
         cells: data?.map((recordItem: Record) => {
-          console.log(recordItem);
-
           if (
             recordItem.status === "on_line" ||
             recordItem.status === "under_review"

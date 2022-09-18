@@ -157,11 +157,10 @@ export function SinglePageWrapper(): JSX.Element {
     setMinisearchActive(!minisearchActive);
   };
 
-  async function refreshNfts(cid: string) {
+  async function refreshNfts(cid: string, assetId: string) {
     try {
-      console.log("Refreshing nfts list");
-
-      return getMintedNFT(cid).then((nfts) => {
+      return getMintedNFT(cid, assetId).then((nfts) => {
+        console.log("Refreshing nfts list: ", nfts);
         setNftList(nfts);
       });
     } catch (error) {
@@ -170,7 +169,9 @@ export function SinglePageWrapper(): JSX.Element {
   }
 
   useEffect(() => {
-    refreshNfts(component?.props?.data?.cid);
+    if (!component?.props?.data?.cid || !component?.props?.data?.id) return;
+
+    refreshNfts(component?.props?.data?.cid, component?.props?.data?.id);
   }, [component?.props?.data?.cid]);
 
   if (component?.props?.data) {

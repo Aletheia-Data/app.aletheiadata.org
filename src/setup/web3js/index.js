@@ -47,8 +47,8 @@ export async function getOwnersNFT (cid) {
   return owners;
 }
 
-export async function getMintedNFT (cid) {
-  const endpoint = `${process.env.REACT_APP_API_ENDPOINT}/nfts/?cid=${cid}&_sort=createdAt:DESC`;
+export async function getMintedNFT (cid, asset_id) {
+  const endpoint = `${process.env.REACT_APP_API_ENDPOINT}/nfts/?cid=${cid}&asset=${asset_id}&_sort=createdAt:DESC`;
   return fetch(endpoint, {
     method: "get",
     headers: {

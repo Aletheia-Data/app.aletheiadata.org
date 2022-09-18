@@ -171,6 +171,7 @@ export const SidebarGeneral: React.FC<Props> = ({
           },
           body: JSON.stringify({
             cid: props.alexandrias[0].cid,
+            asset: props.alexandrias[0].id,
             txReceipt: tx,
           }),
         })
@@ -178,7 +179,7 @@ export const SidebarGeneral: React.FC<Props> = ({
           .then((newData) => {
             console.log("minted new nft: ", newData);
             setIsLoadingMinting(false);
-            updateNFTList(props.alexandrias[0].cid);
+            updateNFTList(props.alexandrias[0].cid, props.alexandrias[0].id);
           })
           .catch((err) => {
             console.log(err);
