@@ -4,23 +4,8 @@ import moment from "moment";
 import { Ktsvg } from "_start/helpers";
 import { Record, NFT } from "_start/types";
 import { Link } from "react-router-dom";
-import { Magic } from "magic-sdk";
-import { ConnectExtension } from "@magic-ext/connect";
-import Web3 from "web3";
-import { CHAIN_ID } from "../../../app/contracts/config";
 import { POLYSCAN, OPENSEA } from "../../../setup/web3js";
 
-const customNodeOptions = {
-  rpcUrl: "https://rpc-mumbai.maticvigil.com/",
-  chainId: CHAIN_ID,
-};
-
-const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
-  network: customNodeOptions,
-  locale: "en_US",
-  extensions: [new ConnectExtension()],
-});
-const web3 = new Web3(magic.rpcProvider);
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const getSinglePageColumns = (data: any) => {
   return [

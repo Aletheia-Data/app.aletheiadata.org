@@ -7,9 +7,6 @@ import { Ktsvg, truncate } from "../../../../../_start/helpers";
 import { defaultCreateAppData, ICreateAppData } from "./IAppModels";
 import config from "../../../../../setup/config";
 import Table from "_start/partials/components/Table";
-import Web3 from "web3";
-import { Magic } from "magic-sdk";
-import { ConnectExtension } from "@magic-ext/connect";
 import {
   getAllSourcesByName,
   getAllDepartmentsByName,
@@ -18,23 +15,12 @@ import {
 } from "../../redux/DashboardCRUD";
 import { validURL } from "_start/helpers/ValidateURL";
 import moment from "moment";
-import { CHAIN_ID } from "app/contracts/config";
+import { web3 } from "setup/web3js";
 interface Props {
   show: boolean;
   handleClose: () => void;
 }
 declare let window: any;
-
-const customNodeOptions = {
-  rpcUrl: "https://rpc-mumbai.maticvigil.com/",
-  chainId: CHAIN_ID,
-};
-
-const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
-  network: customNodeOptions,
-  locale: "en_US",
-  extensions: [new ConnectExtension()],
-});
 
 const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
   const stepperRef = useRef<HTMLDivElement | null>(null);
@@ -205,8 +191,6 @@ const CreateAppModal: React.FC<Props> = ({ show, handleClose }) => {
     try {
       setIsSigning(true);
       if (window?.ethereum) {
-        const web3 = new Web3(magic.rpcProvider);
-
         const msg = "Confirm contribution to Aletheia!";
         // eslint-disable-next-line prefer-destructuring
         const fromAddress = (await web3.eth.getAccounts())[0];

@@ -10,21 +10,7 @@ import { useTheme } from "../../core";
 import { getUserByToken } from "../../../../app/modules/auth/redux/AuthCRUD";
 import { useDispatch } from "react-redux";
 import * as auth from "../../../../app/modules/auth/redux/AuthRedux";
-import { Magic } from "magic-sdk";
-import { ConnectExtension } from "@magic-ext/connect";
-import Web3 from "web3";
-import { CHAIN_ID } from "app/contracts/config";
-const customNodeOptions = {
-  rpcUrl: "https://rpc-mumbai.maticvigil.com/",
-  chainId: CHAIN_ID,
-};
-
-const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
-  network: customNodeOptions,
-  locale: "en_US",
-  extensions: [new ConnectExtension()],
-});
-const web3 = new Web3(magic.rpcProvider);
+import { magic } from "setup/web3js";
 
 export function Topbar() {
   const { config } = useTheme();

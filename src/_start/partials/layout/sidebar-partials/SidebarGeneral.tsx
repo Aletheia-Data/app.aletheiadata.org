@@ -14,24 +14,9 @@ import { getFilesType } from "_start/helpers/getFilesType";
 
 import { useReward } from "react-rewards";
 
-import { Magic } from "magic-sdk";
-import { ConnectExtension } from "@magic-ext/connect";
-import { initSmartContract } from "../../../../setup/web3js";
+import { initSmartContract, web3 } from "../../../../setup/web3js";
 import Web3 from "web3";
-import { CHAIN_ID } from "../../../../app/contracts/config";
 import { makeStorageClient } from "setup/web3.storage";
-
-const customNodeOptions = {
-  rpcUrl: "https://rpc-mumbai.maticvigil.com/",
-  chainId: CHAIN_ID,
-};
-
-const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
-  network: customNodeOptions,
-  locale: "en_US",
-  extensions: [new ConnectExtension()],
-});
-const web3 = new Web3(magic.rpcProvider);
 
 // TODO: move to global
 const colorPDF = "#FFE6E2";
