@@ -5,6 +5,7 @@ import { LightDashboardWrapper } from "../pages/dashboards/light-dashboard/Light
 import { StartDashboardWrapper } from "../pages/dashboards/start-dashboard/StartDashboardWrapper";
 import { ListingPageWrapper } from "../pages/group/start-dashboard/ListingPageWrapper";
 import { CollectionPageWrapper } from "../pages/collection/start-dashboard/CollectionPageWrapper";
+import { FormatPageWrapper } from "../pages/format/start-dashboard/FormatPageWrapper";
 import { SinglePageWrapper } from "../pages/single/start-dashboard/SinglePageWrapper";
 import { MenuTestPage } from "../pages/MenuTestPage";
 
@@ -26,6 +27,7 @@ export function PrivateRoutes(): JSX.Element {
           component={CollectionPageWrapper}
           path="/collection/:entity/:id"
         />
+        <Route component={FormatPageWrapper} path="/format/:entity" />
         <Route component={SinglePageWrapper} path="/single/:entity/:cid" />
         <Route component={LightDashboardWrapper} path="/light" />
         <Route component={GeneralPageWrapper} path="/general" />
