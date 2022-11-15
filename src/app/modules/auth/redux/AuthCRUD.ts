@@ -4,6 +4,7 @@ import { AuthModel } from "../models/AuthModel";
 import { Magic } from "magic-sdk";
 import { ConnectExtension } from "@magic-ext/connect";
 import { CHAIN_ID } from "app/contracts/config";
+import { web3 } from "setup/web3js";
 
 const API_URL = process.env.REACT_APP_API_ENDPOINT || "api";
 
@@ -36,20 +37,7 @@ export function requestPassword(email: string) {
 
 declare let window: any;
 
-const customNodeOptions = {
-  rpcUrl: "https://rpc-mumbai.maticvigil.com/",
-  chainId: CHAIN_ID,
-};
-
-const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
-  network: customNodeOptions,
-  locale: "en_US",
-  extensions: [new ConnectExtension()],
-});
-
 export function getUserByToken() {
-  const web3 = new Web3(magic.rpcProvider);
-
   return new Promise<any>(async (resolve, reject) => {
     // Authorization head should be fulfilled in interceptor.
     // Check common redux folder => setupAxios

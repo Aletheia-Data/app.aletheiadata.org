@@ -12,22 +12,7 @@ import {
 } from "../../../../_start/helpers";
 import { rapidFetcher } from "_start/helpers/rapidFetch";
 import { Deal, Pin } from "_start/types";
-import { Magic } from "magic-sdk";
-import { ConnectExtension } from "@magic-ext/connect";
-import Web3 from "web3";
-import { CHAIN_ID } from "../../../../app/contracts/config";
-
-const customNodeOptions = {
-  rpcUrl: "https://rpc-mumbai.maticvigil.com/",
-  chainId: CHAIN_ID,
-};
-
-const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
-  network: customNodeOptions,
-  locale: "en_US",
-  extensions: [new ConnectExtension()],
-});
-const web3 = new Web3(magic.rpcProvider);
+import { web3 } from "setup/web3js";
 
 export const SinglePage: FC<any> = (data: any) => {
   const [show, setShow] = useState(false);
