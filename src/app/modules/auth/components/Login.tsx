@@ -6,22 +6,7 @@ import { useFormik } from "formik";
 import * as auth from "../redux/AuthRedux";
 import { login } from "../redux/AuthCRUD";
 import { toAbsoluteUrl } from "../../../../_start/helpers";
-import { Magic } from "magic-sdk";
-import { ConnectExtension } from "@magic-ext/connect";
-import Web3 from "web3";
-import { CHAIN_ID } from "app/contracts/config";
-
-const customNodeOptions = {
-  rpcUrl: "https://rpc-mumbai.maticvigil.com/",
-  chainId: CHAIN_ID,
-};
-
-const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
-  network: customNodeOptions,
-  locale: "en_US",
-  extensions: [new ConnectExtension()],
-});
-const web3 = new Web3(magic.rpcProvider);
+import { web3 } from "setup/web3js";
 
 const loginSchema = Yup.object().shape({
   account: Yup.string()

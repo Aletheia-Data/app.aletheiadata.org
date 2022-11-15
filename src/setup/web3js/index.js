@@ -1,6 +1,7 @@
 import { Magic } from "magic-sdk";
 import { ConnectExtension } from "@magic-ext/connect";
 import Web3 from "web3";
+import * as nearAPI from "near-api-js";
 
 import {
     CONTRACT_ABI,
@@ -8,20 +9,21 @@ import {
     CHAIN_ID
   } from "app/contracts/config";
 
-const customNodeOptions = {
-    rpcUrl: "https://rpc-mumbai.maticvigil.com/",
-    chainId: CHAIN_ID,
-};
-
 export const POLYSCAN = "https://mumbai.polygonscan.com/tx";
 export const OPENSEA = "https://testnets.opensea.io/assets/mumbai";
 
-const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
+
+const customNodeOptions = {
+  rpcUrl: "https://rpc-mumbai.maticvigil.com/",
+  chainId: CHAIN_ID,
+};
+
+export const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
     network: customNodeOptions,
     locale: "en_US",
     extensions: [new ConnectExtension()],
 });
-const web3 = new Web3(magic.rpcProvider);
+export const web3 = new Web3(magic.rpcProvider);
 
 export function initSmartContract () {
     const contract = new web3.eth.Contract(
