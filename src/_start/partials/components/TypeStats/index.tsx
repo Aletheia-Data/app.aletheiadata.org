@@ -384,9 +384,9 @@ const TypeStats: React.FC<Props> = ({ className, innerPadding = "" }) => {
                           </div>
                         </th>
                         <td className="ps-0">
-                          <a className="text-gray-800 fw-bolder text-hover-primary fs-6">
+                          <Link to={`/format/${format.key}`} className="text-gray-800 fw-bolder text-hover-primary fs-6">
                             {format.key.toUpperCase()}
-                          </a>
+                          </Link>
                           <span className="text-muted fw-bold d-block mt-1">
                             Archivos en formato {format.key}
                           </span>
@@ -436,11 +436,10 @@ const TypeStats: React.FC<Props> = ({ className, innerPadding = "" }) => {
                             </div>
                           </OverlayTrigger>
                         </td>
-                        {/**
-                         * <td className="text-end pe-0">
+                        <td className="text-end pe-0">
                           <Link
-                            to={`#`}
-                            className="disabled btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
+                            to={`/format/${format.key}`}
+                            className=" btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
                           >
                             <Ktsvg
                               path="/media/icons/duotone/Navigation/Arrow-right.svg"
@@ -448,7 +447,6 @@ const TypeStats: React.FC<Props> = ({ className, innerPadding = "" }) => {
                             />
                           </Link>
                         </td>
-                         */}
                       </tr>
                     );
                   })}

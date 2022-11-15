@@ -102,6 +102,21 @@ const EngageWidget3: React.FC<Props> = ({
       lastRecord = type === 'single' ? records : records[0];
       url = type === 'single' ? records?.url || records?.website : '';
       break;
+    case 'csv':
+    case 'pdf':
+    case 'xls':
+    case 'xlsx':
+    case 'other':
+    case 'ods':
+      title = (entity).toUpperCase();
+      desc = `Esta seccion contiene todos los documentos en formato ${(entity).toUpperCase()}`;
+      connection = data?.alexandriasConnection?.groupBy?.id;
+      countTotal = connection.length;
+      countSrc = countTotal > 0 ? connection[0].connection.aggregate.count : 0;
+      entityCount = connection.length;
+      records = data.alexandrias;
+      lastRecord = records ? records[0] : 0;
+      break;
   }
 
   return (
@@ -175,7 +190,7 @@ const EngageWidget3: React.FC<Props> = ({
                       <td className="text-dark pe-0">{countTotal === 100 ? '+100' : countTotal}</td>
                     </tr>
                     {
-                      entity !== 'cat' &&
+                      url && entity !== 'cat' &&
                       <tr>
                         <td className="text-gray-600 ps-0">URL</td>
                         <td className="text-dark pe-0">
