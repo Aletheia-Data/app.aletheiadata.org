@@ -384,9 +384,9 @@ const TypeStats: React.FC<Props> = ({ className, innerPadding = "" }) => {
                           </div>
                         </th>
                         <td className="ps-0">
-                          <a className="text-gray-800 fw-bolder text-hover-primary fs-6">
+                          <Link to={`/format/${format.key}`} className="text-gray-800 fw-bolder text-hover-primary fs-6">
                             {format.key.toUpperCase()}
-                          </a>
+                          </Link>
                           <span className="text-muted fw-bold d-block mt-1">
                             Archivos en formato {format.key}
                           </span>
