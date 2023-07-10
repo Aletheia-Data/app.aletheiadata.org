@@ -62,7 +62,7 @@ const Stats: React.FC<Props> = ({
     }
 
     fetch(
-      `${process.env.REACT_APP_ALETHEIA_API}/v1/api/${entity}/getAll?limit=5`,
+      `https://aletheia-alexandria.herokuapp.com/${entity}?_limit=5`,
       {
         method: "get",
         headers: {
@@ -74,7 +74,7 @@ const Stats: React.FC<Props> = ({
         return res.json();
       })
       .then((newData) => {
-        const body = JSON.parse(newData.body);
+        const body = newData;
         setItems(body);
         setLoading(false);
       })
