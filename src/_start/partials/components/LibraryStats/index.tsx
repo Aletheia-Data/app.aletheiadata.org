@@ -26,8 +26,9 @@ const LibraryStats: React.FC<Props> = ({ className, innerPadding = "" }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/v2/api/alexandrias/getAll`); // Replace with your REST API endpoint
-        setData(response.data);
+        const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}v2/api/alexandrias/getAll?groupBy=type`);
+        const data = await response.json();
+        setData(data.body.data);
       } catch (err) {
         setError('Failed to fetch data');
       } finally {
@@ -88,17 +89,21 @@ const LibraryStats: React.FC<Props> = ({ className, innerPadding = "" }) => {
     return <div className="card">{error}</div>;
   }
 
-  let formats = data.alexandriasConnection.groupBy.type;
-  let total = data.alexandriasConnection.groupBy.type[0].connection.aggregate.totalCount;
+  let formats = data;
+  const total = formats.reduce((sum: number, format: any) => sum + parseInt(format.group_count, 10), 0);
 
-  let count_pdf = formats.filter((c: any) => c.key === "pdf")[0].connection.aggregate.count;
-  let count_csv = formats.filter((c: any) => c.key === "csv")[0].connection.aggregate.count;
-  let count_xls = formats.filter((c: any) => c.key === "xlsx")[0].connection.aggregate.count;
-  let count_ods = formats.filter((c: any) => c.key === "ods").length > 0
-    ? formats.filter((c: any) => c.key === "ods")[0].connection.aggregate.count
-    : 0;
-  let count_others = formats.filter((c: any) => c.key === "other")[0].connection.aggregate.count;
-  let count_undefined = total - (count_pdf + count_csv + count_xls + count_ods + count_others);
+  // Helper function to get the count by type
+  const getCountByType = (type: string) => {
+    const item = data.find((c: any) => c.type === type);
+    return item ? parseInt(item.group_count, 10) : 0; // If not found, return 0
+  };
+
+  const count_pdf = getCountByType("pdf");
+  const count_csv = getCountByType("csv");
+  const count_xls = getCountByType("xlsx");
+  const count_ods = getCountByType("ods");
+  const count_others = getCountByType("other");
+  const count_undefined = total - (count_pdf + count_csv + count_xls + count_ods + count_others);
 
   return (
     <div className={`card ${className}`}>
@@ -125,7 +130,7 @@ const LibraryStats: React.FC<Props> = ({ className, innerPadding = "" }) => {
         </div>
         <div className="d-flex flex-wrap justify-content-around pt-18">
           {formats.map((format: any) => {
-            const totalFormat = format.connection.aggregate.count;
+            const totalFormat = format.group_count;
             let label;
             let backColor;
 
@@ -207,23 +212,21 @@ const LibraryStats: React.FC<Props> = ({ className, innerPadding = "" }) => {
 
 export { LibraryStats };
 
+
 function getChartOptions(data: any) {
   const tooltipBgColor = getCSSVariableValue("--bs-gray-200");
   const tooltipColor = getCSSVariableValue("--bs-gray-800");
 
-  let counter: any = [];
-  data.alexandriasConnection.groupBy.type.map((t: any) => {
-    counter.push(t);
-  });
+  const getCountByType = (type: string) => {
+    const item = data.find((c: any) => c.type === type);
+    return item ? parseInt(item.group_count, 10) : 0; // Return 0 if not found
+  };
 
-  let count_pdf = counter.filter((c: any) => c.key === "pdf")[0].connection.aggregate.count;
-  let count_csv = counter.filter((c: any) => c.key === "csv")[0].connection.aggregate.count;
-  let count_xls = counter.filter((c: any) => c.key === "xlsx")[0].connection.aggregate.count;
-  let count_ods =
-    counter.filter((c: any) => c.key === "ods").length > 0
-      ? counter.filter((c: any) => c.key === "ods")[0].connection.aggregate.count
-      : 0;
-  let count_others = counter.filter((c: any) => c.key === "other")[0].connection.aggregate.count;
+  const count_pdf = getCountByType("pdf");
+  const count_csv = getCountByType("csv");
+  const count_xls = getCountByType("xlsx");
+  const count_ods = getCountByType("ods");
+  const count_others = getCountByType("other");
 
   const chartData = {
     datasets: [

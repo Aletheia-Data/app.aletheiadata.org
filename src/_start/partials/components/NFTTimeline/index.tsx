@@ -18,9 +18,11 @@ const NFTTimeline: React.FC<Props> = ({ className }) => {
   // Fetch the latest NFTs
   const fetchNFTs = async () => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/v2/api/nfts/getAll?limit=5&sort=createdAt:desc`);
+      const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}v2/api/nfts/getAll?limit=5&sort=createdAt:desc`);
       const data = await response.json();
-      setNfts(data);
+      console.log('here: ', data.body.data);
+      
+      setNfts(data.body.data);
       setLoading(false);
     } catch (err) {
       setError("Failed to fetch NFTs");
@@ -31,9 +33,9 @@ const NFTTimeline: React.FC<Props> = ({ className }) => {
   // Fetch NFT count
   const fetchNFTCount = async () => {
     try {
-      const response = await fetch("/api/nfts/count");
+      const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}v2/api/nfts/getAll?count=true`);
       const data = await response.json();
-      setNftCount(data.totalCount);
+      setNftCount(data.body.totalCount);
       setLoadingCount(false);
     } catch (err) {
       setError("Failed to fetch NFT count");
@@ -134,9 +136,9 @@ const NFTTimeline: React.FC<Props> = ({ className }) => {
         {/* <begin::Timeline */}
         <div className="timeline-label">
           {nfts.map((item: any) => {
-            const txReceipt = item.txReceipt;
+            const txReceipt = item.txreceipt;
             const cid = item.cid;
-            const time = new Date(item.createdAt);
+            const time = new Date(item.createdat);
             const asset = item.asset;
 
             const getLinkAsset = (cid: string, item: any) => {
