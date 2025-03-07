@@ -270,7 +270,6 @@ export const SidebarGeneral: React.FC<Props> = ({
     setTab(1);
 
     fetchCategories().then((data) => {
-      console.log('data: ', data);
       items = data;
       setCatLoading(false)
     });

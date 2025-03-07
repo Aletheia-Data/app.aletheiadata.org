@@ -92,8 +92,6 @@ const Timeline: React.FC<Props> = ({ className }) => {
     );
   }
 
-  console.log('dataddd: ', data);
-
   return (
     <div className={`card ${className}`}>
       <div className="card-header align-items-center border-0 mt-5">

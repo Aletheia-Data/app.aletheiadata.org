@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { toAbsoluteUrl } from "../../../helpers";
+import { toAbsoluteUrl, truncate } from "../../../helpers";
 import { Ktsvg } from "../../../helpers";
 
 type Props = {
@@ -9,15 +9,29 @@ type Props = {
 
 const Achievements: React.FC<Props> = ({ className, innerPadding = "" }) => {
   const [walletsInfo, setWalletsInfo] = useState<any[]>([]);
+  const [walletsTotal, setWalletsTotal] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchWallets = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/v2/api/alexandrias/getAll`); // Replace with your REST API endpoint
+        const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}v2/api/alexandrias/getAll?groupBy=wallet_address&sort=desc&limit=5`);
         const data = await response.json();
-        setWalletsInfo(data); // Assuming the response data matches your wallet structure
+        // console.log('wallet: ', data.body.data);
+        setWalletsInfo(data.body.data);
+      } catch (err) {
+        setError("Failed to fetch wallets.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchWalletsCount = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}v2/api/alexandrias/getAll?groupBy=wallet_address&count=true`);
+        const data = await response.json();
+        setWalletsTotal(data.body.totalCount);
       } catch (err) {
         setError("Failed to fetch wallets.");
       } finally {
@@ -26,6 +40,7 @@ const Achievements: React.FC<Props> = ({ className, innerPadding = "" }) => {
     };
 
     fetchWallets();
+    fetchWalletsCount();
   }, []);
 
   if (loading)
@@ -134,11 +149,6 @@ const Achievements: React.FC<Props> = ({ className, innerPadding = "" }) => {
       </div>
     );
 
-  // Sorting walletsInfo by count
-  walletsInfo.sort((a: any, b: any) =>
-    a.connection.aggregate.count > b.connection.aggregate.count ? -1 : 1
-  );
-
   return (
     <div className={`card ${className}`}>
       {/* begin::Header */}
@@ -148,7 +158,7 @@ const Achievements: React.FC<Props> = ({ className, innerPadding = "" }) => {
             Achievements
           </span>
           <span className="text-muted mt-2 fw-bold fs-6">
-            {walletsInfo.length} Usuarios
+            {walletsTotal} Usuarios
           </span>
         </h3>
         <div className="card-toolbar">
@@ -195,9 +205,8 @@ const Achievements: React.FC<Props> = ({ className, innerPadding = "" }) => {
                 </thead>
                 <tbody>
                   {walletsInfo.map((wallet: any) => {
-                    const count = wallet.connection.aggregate.count;
                     return (
-                      <tr key={wallet.key}>
+                      <tr key={wallet.wallet_address}>
                         <td className="px-0 py-3">
                           <div className="symbol symbol-55px mt-1 me-5">
                             <span className="symbol-label bg-light-primary align-items-end">
@@ -213,17 +222,17 @@ const Achievements: React.FC<Props> = ({ className, innerPadding = "" }) => {
                         </td>
                         <td className="px-0">
                           <a className="text-gray-800 fw-bolder text-hover-primary fs-6">
-                            {wallet.key}
+                            {truncate(wallet.wallet_address, 25)}
                           </a>
                           <span className="text-muted fw-bold d-block mt-1">
-                            -
+                            {'-'}
                           </span>
                         </td>
                         <td></td>
                         <td></td>
                         <td className="text-end">
                           <span className="text-gray-800 fw-bolder d-block fs-6">
-                            {count}
+                            {wallet.group_count}
                           </span>
                           <span className="text-muted fw-bold d-block mt-1 fs-7">
                             Archivos

@@ -27,7 +27,7 @@ const Stats: React.FC<Props> = ({
   innerPadding = "",
 }) => {
   const [activeTab, setActiveTab] = useState(`#${id}_tab1`);
-  const [activeTabTotal, setActiveTabTotal] = useState("");
+  const [activeTabTotal, setActiveTabTotal] = useState<number>(0);
   const [activeChart, setActiveChart] = useState<ApexCharts | undefined>();
 
   const [items, setItems] = useState([{}]);
@@ -47,23 +47,26 @@ const Stats: React.FC<Props> = ({
 
   useEffect(() => {
     let entity;
+    let filters;
     switch (id) {
       case "src":
         entity = "sources";
+        filters = `?status=on_line&sort=createdat:DESC&limit=5&start=0`
         break;
       case "dep":
         entity = "departments";
+        filters = `?sort=createdat:DESC&limit=5&start=0`
         break;
       case "cat":
         entity = "categories";
+        filters = `?sort=createdat:DESC&limit=5&start=0`
         break;
       default:
         return;
     }
-    console.log('entity: ', entity);
-    
+    let url = `${process.env.REACT_APP_API_ENDPOINT}v2/api/${entity}/getAll${filters}`;
     fetch(
-      `${process.env.REACT_APP_API_ENDPOINT}v2/api/${entity}/getAll?sort=createdat:DESC&limit=5&start=0`,
+      url,
       {
         method: "get",
         headers: {
@@ -75,7 +78,7 @@ const Stats: React.FC<Props> = ({
         return res.json();
       })
       .then((newData) => {
-        const body = newData.body;
+        const body = newData.body.data;
         setItems(body);
         setLoading(false);
       })
@@ -93,19 +96,20 @@ const Stats: React.FC<Props> = ({
       // Construct the URL based on the 'item' and 'id' parameters
       switch (item) {
         case "cat":
-          url = `${process.env.REACT_APP_API_ENDPOINT}v2/api/categories/getAll?_id=${id}&sort=createdat:DESC&limit=5&start=0`;
+          url = `${process.env.REACT_APP_API_ENDPOINT}v2/api/alexandrias/getAll?categories=${id}&groupBy=type`;
           break;
         case "dep":
-          url = `${process.env.REACT_APP_API_ENDPOINT}v2/api/departments/getAll?_id=${id}&sort=createdat:DESC&limit=5&start=0`;
+          url = `${process.env.REACT_APP_API_ENDPOINT}v2/api/alexandrias/getAll?department=${id}&groupBy=type`;
           break;
         case "src":
-          url = `${process.env.REACT_APP_API_ENDPOINT}v2/api/sources/getAll?_id=${id}&sort=createdat:DESC&limit=5&start=0`;
+          url = `${process.env.REACT_APP_API_ENDPOINT}v2/api/alexandrias/getAll?source=${id}&groupBy=type`;
+          // url = `${process.env.REACT_APP_API_ENDPOINT}v2/api/alexandrias/getAll?source=${id}`;
           break;
         default:
           throw new Error("Invalid item type");
       }
   
-      console.log("Fetching data from: ", url);
+      // console.log("Fetching data from: ", url);
   
       // Fetch data from the constructed URL
       const response = await fetch(url, {
@@ -121,7 +125,7 @@ const Stats: React.FC<Props> = ({
   
       // Parse and return the response as JSON
       const data = await response.json();
-      return data;
+      return data.body.data;
     } catch (error) {
       console.error("Error fetching data:", error);
       throw error;
@@ -129,7 +133,7 @@ const Stats: React.FC<Props> = ({
   };  
 
   const setTab = (items: any, tab_n: number) => {
-    setActiveTabTotal("");
+    setActiveTabTotal(0);
 
     if (activeChart) {
       activeChart.destroy();
@@ -151,29 +155,21 @@ const Stats: React.FC<Props> = ({
 
     getFilesType(id, item._id)
       .then((res: any) => {
-        console.log('then: ', res);
-        const types = res.body;
-
-        const pdf = types.filter((type: any) => type.key === "pdf");
-        const csv = types.filter((type: any) => type.key === "csv");
+        const types = res;
+        const pdf = types.filter((type: any) => type.type === "pdf")[0];
+        const csv = types.filter((type: any) => type.type === "csv")[0];
         const xls = types.filter(
-          (type: any) => type.key === "xls" || type.key === "xlsx"
-        );
-        const other = types.filter((type: any) => type.key === "other");
-
-        const pdfFile = pdf.length > 0 ? pdf[0].connection.aggregate.count : 0;
-        const csvFile = csv.length > 0 ? csv[0].connection.aggregate.count : 0;
-        const xlsFile = xls.length > 0 ? xls[0].connection.aggregate.count : 0;
-        const otherFile =
-          other.length > 0 ? other[0].connection.aggregate.count : 0;
-
-        setActiveTabTotal(pdfFile + csvFile + xlsFile + otherFile);
+          (type: any) => type.type === "xls" || type.type === "xlsx"
+        )[0];
+        const other = types.filter((type: any) => type.type === "other")[0];
+        
+        setActiveTabTotal(parseInt(pdf?.group_count || 0) + parseInt(csv?.group_count || 0) + parseInt(xls?.group_count || 0) + parseInt(other?.group_count || 0));
 
         const dataCharts = {
-          pdfFile,
-          csvFile,
-          xlsFile,
-          otherFile,
+          pdf: parseInt(pdf?.group_count || 0),
+          csv: parseInt(csv?.group_count || 0),
+          xls: parseInt(xls?.group_count || 0),
+          other: parseInt(other?.group_count || 0)
         };
 
         const height = parseInt(getCss(element, "height"));
@@ -383,7 +379,7 @@ const Stats: React.FC<Props> = ({
                           Archivos
                         </span>
                         <span className="text-gray-800 fw-bolder fs-3 d-block">
-                          {activeTabTotal === "" && (
+                          {activeTabTotal === 0 && (
                             <span
                               className="indicator-progress"
                               style={{ display: "block" }}
@@ -429,19 +425,19 @@ function getChartOptions(
   let series = [
     {
       name: "PDF",
-      data: [data.pdfFile],
+      data: [data.pdf],
     },
     {
       name: "CSV",
-      data: [data.csvFile],
+      data: [data.csv],
     },
     {
       name: "XLS",
-      data: [data.xlsFile],
+      data: [data.xls],
     },
     {
       name: "Others",
-      data: [data.otherFile],
+      data: [data.other],
     },
   ];
 
