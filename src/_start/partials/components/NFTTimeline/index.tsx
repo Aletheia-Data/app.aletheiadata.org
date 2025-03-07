@@ -1,9 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Ktsvg, truncate } from "../../../helpers";
 import { Dropdown1 } from "../../content/dropdown/Dropdown1";
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
 import { OPENSEA } from "setup/web3js";
 
 type Props = {
@@ -11,51 +9,42 @@ type Props = {
 };
 
 const NFTTimeline: React.FC<Props> = ({ className }) => {
-  const NFTS_QUERY = gql`
-    query latestNfts {
-      nfts(limit: 5, sort: "createdAt:desc", where: {}) {
-        id
-        cid
-        asset {
-          id
-        }
-        txReceipt
-        createdAt
-      }
+  const [nfts, setNfts] = useState<any[]>([]);
+  const [nftCount, setNftCount] = useState<number>(0);
+  const [loading, setLoading] = useState(true);
+  const [loadingCount, setLoadingCount] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch the latest NFTs
+  const fetchNFTs = async () => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/v2/api/nfts/getAll?limit=5&sort=createdAt:desc`);
+      const data = await response.json();
+      setNfts(data);
+      setLoading(false);
+    } catch (err) {
+      setError("Failed to fetch NFTs");
+      setLoading(false);
     }
-  `;
+  };
 
-  var { data, loading, error } = useQuery(NFTS_QUERY, {
-    variables: {},
-  });
-
-  console.log(data);
-
-  const NFTS_QUERY_ALL = gql`
-    query NFTCount {
-      nftsConnection {
-        groupBy {
-          cid {
-            key
-            connection {
-              aggregate {
-                count
-                totalCount
-              }
-            }
-          }
-        }
-      }
+  // Fetch NFT count
+  const fetchNFTCount = async () => {
+    try {
+      const response = await fetch("/api/nfts/count");
+      const data = await response.json();
+      setNftCount(data.totalCount);
+      setLoadingCount(false);
+    } catch (err) {
+      setError("Failed to fetch NFT count");
+      setLoadingCount(false);
     }
-  `;
+  };
 
-  var {
-    data: dataCount,
-    loading: loadingCount,
-    error,
-  } = useQuery(NFTS_QUERY_ALL, {
-    variables: {},
-  });
+  useEffect(() => {
+    fetchNFTs();
+    fetchNFTCount();
+  }, []);
 
   if (loading || loadingCount) {
     return (
@@ -116,13 +105,10 @@ const NFTTimeline: React.FC<Props> = ({ className }) => {
           </div>
           {/* <end::Timeline */}
         </div>
-
         {/* <end: Card Body */}
       </div>
     );
   }
-
-  console.log(data);
 
   return (
     <div className={`card ${className}`}>
@@ -131,29 +117,13 @@ const NFTTimeline: React.FC<Props> = ({ className }) => {
         <h3 className="card-title align-items-start flex-column">
           <span className="fw-bolder text-dark fs-3">PDNFTs</span>
           <span className="text-muted mt-2 fw-bold fs-6">
-            {
-              dataCount.nftsConnection.groupBy.cid[0].connection.aggregate
-                .totalCount
-            }{" "}
-            NFTs
+            {nftCount} NFTs
           </span>
         </h3>
         <div className="card-toolbar">
-          {/* begin::Dropdown 
-          <button
-            type="button"
-            className="btn btn-sm btn-icon btn-color-primary btn-active-light-primary"
-            data-kt-menu-trigger="click"
-            data-kt-menu-placement="bottom-end"
-            data-kt-menu-flip="top-end"
-          >
-            <Ktsvg
-              path="/media/icons/duotone/Layout/Layout-4-blocks-2.svg"
-              className="svg-icon-1"
-            />
-          </button>
+          {/* begin::Dropdown */}
+          {/* The dropdown code here */}
           <Dropdown1 />
-          */}
           {/* end::Dropdown */}
         </div>
       </div>
@@ -163,15 +133,14 @@ const NFTTimeline: React.FC<Props> = ({ className }) => {
       <div className="card-body pt-3">
         {/* <begin::Timeline */}
         <div className="timeline-label">
-          {data.nfts.map(function (item: any) {
-            let txReceipt = item.txReceipt;
-            let cid = item.cid;
-            let time = new Date(item.createdAt);
-            let asset = item.asset;
+          {nfts.map((item: any) => {
+            const txReceipt = item.txReceipt;
+            const cid = item.cid;
+            const time = new Date(item.createdAt);
+            const asset = item.asset;
 
             const getLinkAsset = (cid: string, item: any) => {
-              let url = item?.id ? `/single/src/${cid}?assetId=${item.id}` : ``;
-
+              const url = item?.id ? `/single/src/${cid}?assetId=${item.id}` : "";
               return (
                 <a href={url} target={""}>
                   {`${truncate(`${cid}`, 15)}`}
@@ -179,12 +148,11 @@ const NFTTimeline: React.FC<Props> = ({ className }) => {
               );
             };
 
-            let message = `NFT creado para CID:`;
-            let badge_color = `color-xls`;
+            const message = `NFT creado para CID:`;
+            const badge_color = `color-xls`;
 
             const getLinkOpensea = (item: any) => {
-              let url = `${OPENSEA}/${item.events["Transfer"]["address"]}/${item.events["Transfer"]["returnValues"].tokenId}`;
-
+              const url = `${OPENSEA}/${item.events["Transfer"]["address"]}/${item.events["Transfer"]["returnValues"].tokenId}`;
               return (
                 <a href={url} target={"_blank"}>
                   {`${truncate(`${item.transactionHash}`, 15)}`}
@@ -193,7 +161,7 @@ const NFTTimeline: React.FC<Props> = ({ className }) => {
             };
 
             return (
-              <div className="timeline-item" key={`import_${item.id}}`}>
+              <div className="timeline-item" key={`import_${item.id}`}>
                 {/* begin::Label */}
                 <div className="timeline-label fw-bolder text-gray-800 fs-6">
                   {time.toLocaleTimeString([], {

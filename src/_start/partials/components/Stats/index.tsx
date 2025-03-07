@@ -60,9 +60,10 @@ const Stats: React.FC<Props> = ({
       default:
         return;
     }
-
+    console.log('entity: ', entity);
+    
     fetch(
-      `https://aletheia-alexandria.herokuapp.com/${entity}?_limit=5`,
+      `${process.env.REACT_APP_API_ENDPOINT}v2/api/${entity}/getAll?sort=createdat:DESC&limit=5&start=0`,
       {
         method: "get",
         headers: {
@@ -74,106 +75,59 @@ const Stats: React.FC<Props> = ({
         return res.json();
       })
       .then((newData) => {
-        const body = newData;
+        const body = newData.body;
+        console.log('body: ', body);
         setItems(body);
         setLoading(false);
       })
       .catch((err) => {
         console.log(err);
+        console.log('erro body: ', err);
         setLoading(false);
       });
   }, []);
 
-  const getFilesType = (item: string, id: string) => {
-    return new Promise((resolve, reject) => {
-      let query;
+  const getFilesType = async (item: string, id: string) => {
+    try {
+      let url;
+  
+      // Construct the URL based on the 'item' and 'id' parameters
       switch (item) {
         case "cat":
-          query = `
-            query TypeGroupBy {
-              alexandriasConnection(where: {
-                category: "${id}",
-              }) {
-                groupBy {
-                  type{
-                    key,
-                    connection{
-                      aggregate{
-                        count,
-                        totalCount
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          `;
+          url = `${process.env.REACT_APP_API_ENDPOINT}v2/api/categories/getAll?_id=${id}&sort=createdat:DESC&limit=5&start=0`;
           break;
         case "dep":
-          query = `
-            query TypeGroupBy {
-              alexandriasConnection(where: {
-                department: "${id}",
-              }) {
-                groupBy {
-                  type{
-                    key,
-                    connection{
-                      aggregate{
-                        count,
-                        totalCount
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          `;
+          url = `${process.env.REACT_APP_API_ENDPOINT}v2/api/departments/getAll?_id=${id}&sort=createdat:DESC&limit=5&start=0`;
           break;
         case "src":
-          query = `
-            query TypeGroupBy {
-              alexandriasConnection(where: {
-                source: "${id}",
-              }) {
-                groupBy {
-                  type{
-                    key,
-                    connection{
-                      aggregate{
-                        count,
-                        totalCount
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          `;
+          url = `${process.env.REACT_APP_API_ENDPOINT}v2/api/sources/getAll?_id=${id}&sort=createdat:DESC&limit=5&start=0`;
           break;
+        default:
+          throw new Error("Invalid item type");
       }
-      const endpoint = `${process.env.REACT_APP_API_ENDPOINT}/graphql`;
-      // console.log('fetching data: ', endpoint)
-      fetch(endpoint, {
-        method: "post",
+  
+      console.log("Fetching data from: ", url);
+  
+      // Fetch data from the constructed URL
+      const response = await fetch(url, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          query: query,
-        }),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          // console.log(data);
-          resolve(data);
-        })
-        .catch((err) => {
-          console.log(err);
-          reject(err);
-        });
-    });
-  };
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to fetch data: ${response.statusText}`);
+      }
+  
+      // Parse and return the response as JSON
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      throw error;
+    }
+  };  
 
   const setTab = (items: any, tab_n: number) => {
     setActiveTabTotal("");
@@ -198,7 +152,8 @@ const Stats: React.FC<Props> = ({
 
     getFilesType(id, item._id)
       .then((res: any) => {
-        const types = res.data.alexandriasConnection.groupBy.type;
+        console.log('then: ', res);
+        const types = res.body;
 
         const pdf = types.filter((type: any) => type.key === "pdf");
         const csv = types.filter((type: any) => type.key === "csv");

@@ -14,10 +14,10 @@ export const OPENSEA = "https://testnets.opensea.io/assets/mumbai";
 
 
 const customNodeOptions = {
-  rpcUrl: "https://rpc-mumbai.maticvigil.com/",
+  rpcUrl: 'https://polygon-rpc.com/',
   chainId: CHAIN_ID,
 };
-
+ 
 export const magic = new Magic(`${process.env.REACT_APP_MAGIC_LINK_API_KEY}`, {
     network: customNodeOptions,
     locale: "en_US",

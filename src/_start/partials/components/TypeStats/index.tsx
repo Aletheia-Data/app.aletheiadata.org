@@ -1,9 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Ktsvg } from "../../../helpers";
 import { OverlayTrigger, Tooltip } from "react-bootstrap-v5";
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
+import axios from "axios";
 import { Link } from "react-router-dom";
 
 type Props = {
@@ -19,65 +18,81 @@ const colorODS = "#F7F0FF";
 const colorOTHER = "#E7F6FF";
 
 const TypeStats: React.FC<Props> = ({ className, innerPadding = "" }) => {
-  const TYPE_QUERY = gql`
-    query AlexandriasGroupByType {
-      alexandriasConnection(sort: "desc", where: { status: "under_review" }) {
-        groupBy {
-          type {
-            key
-            connection {
-              aggregate {
-                count
-                totalCount
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
+  const [formats, setFormats] = useState<any[]>([]);
+  const [formatsTotals, setFormatsTotals] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
 
-  var { data, loading, error } = useQuery(TYPE_QUERY, {
-    variables: {},
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response1 = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/v2/api/categories/getAll?status=under_review&sort=createdat:DESC&limit=5&start=0`); // Replace with your RESTful API endpoint
+        const response2 = await axios.get(`${process.env.REACT_APP_API_ENDPOINT}/v2/api/categories/getAll`); // Replace with your RESTful API endpoint
+
+        setFormats(response1.data.groupBy.type);
+        setFormatsTotals(response2.data.groupBy.type);
+      } catch (err) {
+        setError("Error loading data");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const getPercentage = (value: number, total: number) => {
+    const percOnRev = (value * 100) / total;
+    const perc = 100 - percOnRev;
+    return `${perc.toFixed(0)}%`;
+  };
+
+  const checkFormats = [false, false, false, false, false];
+  const availableFormats = ["pdf", "csv", "xlsx", "ods", "other"];
+
+  formats.map((f: any) => {
+    switch (f.key) {
+      case "pdf":
+        f.id = 1;
+        checkFormats[0] = true;
+        break;
+      case "csv":
+        f.id = 2;
+        checkFormats[1] = true;
+        break;
+      case "xlsx":
+        f.id = 3;
+        checkFormats[2] = true;
+        break;
+      case "ods":
+        f.id = 4;
+        checkFormats[3] = true;
+        break;
+      case "other":
+        f.id = 5;
+        checkFormats[4] = true;
+        break;
+    }
   });
 
-  let formats;
-  if (data) {
-    formats = data.alexandriasConnection.groupBy.type;
-  }
-
-  const TYPE_QUERY_ALL = gql`
-    query AlexandriasGroupByType {
-      alexandriasConnection {
-        groupBy {
-          type {
-            key
-            connection {
-              aggregate {
-                count
-                totalCount
-              }
-            }
-          }
-        }
-      }
+  checkFormats.map((bool, index) => {
+    if (!bool) {
+      formats.push({
+        connection: {
+          aggregate: {
+            count: 0,
+            totalCount: 10784,
+          },
+        },
+        id: index,
+        key: availableFormats[index],
+      });
     }
-  `;
-
-  var {
-    data: DataAll,
-    loading: LoadingAll,
-    error,
-  } = useQuery(TYPE_QUERY_ALL, {
-    variables: {},
   });
 
-  let formats_totals: any;
-  if (DataAll) {
-    formats_totals = DataAll.alexandriasConnection.groupBy.type;
-  }
+  formats.sort((a: any, b: any) => a.id - b.id);
 
-  if (loading || LoadingAll) {
+  if (loading) {
     return (
       <div className={`card ${className}`}>
         {/* <!--begin::Header--> */}
@@ -196,60 +211,6 @@ const TypeStats: React.FC<Props> = ({ className, innerPadding = "" }) => {
     );
   }
 
-  const getPercentage = (value: number, total: number) => {
-    // under_review : x = total : 100
-    // under_review * 100 / total
-    const percOnRev = (value * 100) / total;
-    const perc = 100 - percOnRev;
-    return `${perc.toFixed(0)}%`;
-  };
-
-  const checkFormats = [false, false, false, false, false];
-  const availableFormats = ["pdf", "csv", "xlsx", "ods", "other"];
-  // order by
-  formats.map((f: any) => {
-    switch (f.key) {
-      case "pdf":
-        f.id = 1;
-        checkFormats[0] = true;
-        break;
-      case "csv":
-        f.id = 2;
-        checkFormats[1] = true;
-        break;
-      case "xlsx":
-        f.id = 3;
-        checkFormats[2] = true;
-        break;
-      case "ods":
-        f.id = 4;
-        checkFormats[3] = true;
-        break;
-      case "other":
-        f.id = 5;
-        checkFormats[4] = true;
-        break;
-    }
-  });
-
-  checkFormats.map((bool, index) => {
-    if (!bool) {
-      // check if there's any format that's been process fully (100% doesn't show up on query)
-      formats.push({
-        connection: {
-          aggregate: {
-            count: 0,
-            totalCount: 10784,
-          },
-        },
-        id: index,
-        key: availableFormats[index],
-      });
-    }
-  });
-
-  formats.sort((a: any, b: any) => a.id - b.id);
-
   return (
     <div className={`card ${className}`}>
       {/* <!--begin::Header--> */}
@@ -261,39 +222,10 @@ const TypeStats: React.FC<Props> = ({ className, innerPadding = "" }) => {
           <span className="text-muted mt-2 fw-bold fs-6">
             {formats[0].connection.aggregate.totalCount} Archivos
           </span>
-        </h3> 
+        </h3>
         <div className="card-toolbar">
           <ul className="nav nav-pills nav-pills-sm nav-light">
-            {/**
-             * TODO: restore when having at least 7 types
-            <li className="nav-item">
-              <a
-                className="nav-link btn btn-active-light btn-color-muted py-2 px-4 fw-bolder me-2 active"
-                data-bs-toggle="tab"
-                href="#kt_tab_pane_1_1"
-              >
-                All
-              </a>
-            </li>
-             <li className="nav-item">
-              <a
-                className="nav-link btn btn-active-light btn-color-muted py-2 px-4 fw-bolder me-2"
-                data-bs-toggle="tab"
-                href="#kt_tab_pane_1_2"
-              >
-                Week
-              </a>
-            </li>
-            <li className="nav-item">
-              <a
-                className="nav-link btn btn-active-light btn-color-muted py-2 px-4 fw-bolder"
-                data-bs-toggle="tab"
-                href="#kt_tab_pane_1_3"
-              >
-                Month
-              </a>
-            </li>
-             */}
+            {/* Add tabs if necessary */}
           </ul>
         </div>
       </div>
@@ -321,135 +253,91 @@ const TypeStats: React.FC<Props> = ({ className, innerPadding = "" }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {formats.map((format: any) => {
-                    // format check
-                    let color;
-                    let icon;
-                    let barColor;
-                    let barBack;
-                    let total = formats_totals.filter(
-                      (filter: any) => filter.key === format.key
-                    )[0];
-
-                    if (!total) return;
-
-                    switch (format.key) {
-                      case "pdf":
-                        color = colorPDF;
-                        icon = "/media/icons/aletheia/Formats/pdf.svg";
-                        barColor = "background-pdf";
-                        barBack = "background-pdf-backdrop";
-                        break;
-                      case "csv":
-                        color = colorCSV;
-                        icon = "/media/icons/aletheia/Formats/csv.svg";
-                        barColor = "background-csv";
-                        barBack = "background-csv-backdrop";
-                        break;
-                      case "xlsx":
-                        color = colorXLS;
-                        icon = "/media/icons/aletheia/Formats/xls.svg";
-                        barColor = "background-xls";
-                        barBack = "background-xls-backdrop";
-                        break;
-                      case "ods":
-                        color = colorODS;
-                        icon = "/media/icons/aletheia/Formats/ods.svg";
-                        barColor = "background-ods";
-                        barBack = "background-ods-backdrop";
-                        break;
-                      default:
-                        color = colorOTHER;
-                        icon = "/media/icons/aletheia/Formats/other.svg";
-                        barColor = "background-other";
-                        barBack = "background-other-backdrop";
-                        break;
-                    }
-                    const info = format.connection.aggregate;
-
-                    return (
-                      <tr key={`format_${format.key}`}>
-                        <th className="px-0 py-3">
-                          <div className="symbol symbol-65px me-5">
-                            <span
-                              className="symbol-label"
-                              style={{ backgroundColor: color }}
-                            >
-                              <img
-                                src={icon}
-                                className="svg-icon-1"
-                                alt={`format ${format.key}`}
-                              />
+                  {formats.map((f, idx) => (
+                    <tr key={idx}>
+                      <th className="px-0 py-3">
+                        <div className="symbol symbol-65px me-5">
+                          <span
+                            className="symbol-label"
+                            style={{
+                              backgroundColor:
+                                f.key === "pdf"
+                                  ? colorPDF
+                                  : f.key === "csv"
+                                  ? colorCSV
+                                  : f.key === "xlsx"
+                                  ? colorXLS
+                                  : f.key === "ods"
+                                  ? colorODS
+                                  : colorOTHER,
+                            }}
+                          >
+                            <img
+                              src={`/media/icons/aletheia/Formats/${
+                                f.key
+                              }.svg`}
+                              className="svg-icon-1"
+                              alt={f.key}
+                            />
+                          </span>
+                        </div>
+                      </th>
+                      <td className="ps-0">
+                        <a className="text-gray-800 fw-bolder text-hover-primary fs-6">
+                          {f.key.toUpperCase()}
+                        </a>
+                        <span className="text-muted fw-bold d-block mt-1">
+                          {f.connection.aggregate.count} Archivos
+                        </span>
+                      </td>
+                      <td>
+                        <div className="d-flex flex-column w-100 me-3">
+                          <div className="d-flex align-items-center justify-content-between mb-2">
+                            <span className="text-dark me-2 fs-6 fw-bolder">
+                              {getPercentage(
+                                f.connection.aggregate.count,
+                                f.connection.aggregate.totalCount
+                              )}
                             </span>
                           </div>
-                        </th>
-                        <td className="ps-0">
-                          <Link to={`/format/${format.key}`} className="text-gray-800 fw-bolder text-hover-primary fs-6">
-                            {format.key.toUpperCase()}
-                          </Link>
-                          <span className="text-muted fw-bold d-block mt-1">
-                            Archivos en formato {format.key}
-                          </span>
-                        </td>
-                        <td>
-                          <OverlayTrigger
-                            key="tooltip"
-                            placement="top"
-                            overlay={
-                              <Tooltip id="tooltip-pdf">
-                                {total.connection.aggregate.count - info.count}{" "}
-                                de {total.connection.aggregate.count}
-                              </Tooltip>
-                            }
-                          >
-                            <div className="d-flex flex-column w-100 me-3">
-                              <div className="d-flex align-items-center justify-content-between mb-2">
-                                <span className="text-dark me-2 fs-6 fw-bolder">
-                                  Procesados
-                                </span>
-                              </div>
-                              <div className="d-flex align-items-center">
-                                <div
-                                  className={`progress h-6px  w-100 ${barBack}`}
-                                >
-                                  <div
-                                    className={`progress-bar ${barColor}`}
-                                    role="progressbar"
-                                    style={{
-                                      width: getPercentage(
-                                        info.count,
-                                        total.connection.aggregate.count
-                                      ),
-                                    }}
-                                    aria-valuenow={50}
-                                    aria-valuemin={0}
-                                    aria-valuemax={100}
-                                  />
-                                </div>
-                                <span className="text-muted fs-7 fw-bold ps-3">
-                                  {getPercentage(
-                                    info.count,
-                                    total.connection.aggregate.count
-                                  )}
-                                </span>
-                              </div>
+                          <div className="d-flex align-items-center">
+                            <div className="progress h-6px w-100 bg-light-danger">
+                              <div
+                                className="progress-bar bg-danger"
+                                role="progressbar"
+                                style={{
+                                  width: `${getPercentage(
+                                    f.connection.aggregate.count,
+                                    f.connection.aggregate.totalCount
+                                  )}`,
+                                }}
+                                aria-valuenow={50}
+                                aria-valuemin={0}
+                                aria-valuemax={100}
+                              />
                             </div>
-                          </OverlayTrigger>
-                        </td>
-                        <td className="text-end pe-0">
-                          <Link
-                            to={`/format/${format.key}`}
-                            className=" btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
-                          >
-                            <Ktsvg
-                              path="/media/icons/duotone/Navigation/Arrow-right.svg"
-                              className="svg-icon-4"
-                            />
-                          </Link>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                            <span className="text-muted fs-7 fw-bold ps-3">
+                              {getPercentage(
+                                f.connection.aggregate.count,
+                                f.connection.aggregate.totalCount
+                              )}
+                            </span>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="text-end pe-0">
+                        <Link
+                          className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm"
+                          to={`#`}
+                        >
+                          <Ktsvg
+                            path="/media/icons/duotone/Navigation/Arrow-right.svg"
+                            className="svg-icon-4"
+                          />
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

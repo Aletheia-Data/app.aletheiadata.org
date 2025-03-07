@@ -9,7 +9,6 @@ import { useQuery } from "@apollo/react-hooks";
 import Clipboard from "react-clipboard.js";
 
 import LoadingSidebar from "_start/partials/components/Sidebar/LoadingSidebar";
-import { CAT_QUERY } from "_start/helpers/sideBarQueries";
 import { getFilesType } from "_start/helpers/getFilesType";
 
 import { useReward } from "react-rewards";
@@ -43,6 +42,7 @@ export const SidebarGeneral: React.FC<Props> = ({
   const [activeChart, setActiveChart] = useState<ApexCharts | undefined>();
   const [mintCost, setMintCost] = useState("0");
   const { reward, isAnimating } = useReward("rewardId", "confetti");
+  const [catLoading, setCatLoading] = useState(true);
 
   if (!props) {
     props = {
@@ -50,13 +50,18 @@ export const SidebarGeneral: React.FC<Props> = ({
     };
   }
 
-  var {
-    data: catData,
-    loading: catLoading,
-    error,
-  } = useQuery(CAT_QUERY, {
-    variables: {},
-  });
+  const fetchCategories = async (): Promise<any> => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/v2/api/categories/getAll`);
+      console.log('response: ', response);
+      
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      return [];
+    }
+  };
 
   const getTxs = async () => {
     var options = {
@@ -259,8 +264,16 @@ export const SidebarGeneral: React.FC<Props> = ({
     getTxs();
   };
 
+  let items: any = [];
+
   useEffect(() => {
     setTab(1);
+
+    fetchCategories().then((data) => {
+      console.log('data: ', data);
+      items = data;
+      setCatLoading(false)
+    });
 
     initContract();
 
@@ -275,8 +288,9 @@ export const SidebarGeneral: React.FC<Props> = ({
     return <LoadingSidebar />;
   }
 
-  let items: any;
-  let itemsData = catData.categoriesConnection.groupBy.id;
+  console.log('catData: ', items);
+  
+  let itemsData = items;
   items = itemsData;
 
   const checkStatus = (cid: string) => {

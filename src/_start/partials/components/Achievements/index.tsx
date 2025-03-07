@@ -1,9 +1,6 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toAbsoluteUrl } from "../../../helpers";
 import { Ktsvg } from "../../../helpers";
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
 
 type Props = {
   className: string;
@@ -11,31 +8,28 @@ type Props = {
 };
 
 const Achievements: React.FC<Props> = ({ className, innerPadding = "" }) => {
+  const [walletsInfo, setWalletsInfo] = useState<any[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const WALLETS_QUERY = gql`
-    query AlexandriasGroupBy {
-      alexandriasConnection {
-        groupBy {
-          wallet_address {
-            key
-            connection {
-              aggregate {
-                count
-                totalCount
-              }
-            }
-          }
-        }
+  useEffect(() => {
+    const fetchWallets = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/v2/api/alexandrias/getAll`); // Replace with your REST API endpoint
+        const data = await response.json();
+        setWalletsInfo(data); // Assuming the response data matches your wallet structure
+      } catch (err) {
+        setError("Failed to fetch wallets.");
+      } finally {
+        setLoading(false);
       }
-    }
-  `;
+    };
 
-  const { data, loading, error } = useQuery(WALLETS_QUERY, {
-    variables: { slug: "" },
-  });
+    fetchWallets();
+  }, []);
 
   if (loading)
-    return ( 
+    return (
       <div className={`card ${className}`}>
         {/* begin::Header */}
         <div className={`card-header border-0 pt-5 ${innerPadding}`}>
@@ -140,14 +134,10 @@ const Achievements: React.FC<Props> = ({ className, innerPadding = "" }) => {
       </div>
     );
 
-  const walletsInfo = data.alexandriasConnection.groupBy.wallet_address;
-
-  // before rendering, order by n aletheias
-  if (walletsInfo) {
-    walletsInfo.sort((a: any, b: any) =>
-      a.connection.aggregate.count > b.connection.aggregate.count ? -1 : 1
-    );
-  }
+  // Sorting walletsInfo by count
+  walletsInfo.sort((a: any, b: any) =>
+    a.connection.aggregate.count > b.connection.aggregate.count ? -1 : 1
+  );
 
   return (
     <div className={`card ${className}`}>
@@ -239,20 +229,6 @@ const Achievements: React.FC<Props> = ({ className, innerPadding = "" }) => {
                             Archivos
                           </span>
                         </td>
-                        {/**
-                         * 
-                        <td className="text-end">
-                          <span className="fw-bolder text-primary">+0%</span>
-                        </td>
-                        <td className="text-end pe-0">
-                          <a className="btn btn-icon btn-bg-light btn-active-color-primary btn-sm">
-                            <Ktsvg
-                              className="svg-icon-4"
-                              path="/media/icons/duotone/Navigation/Arrow-right.svg"
-                            />
-                          </a>
-                        </td>
-                         */}
                       </tr>
                     );
                   })}
