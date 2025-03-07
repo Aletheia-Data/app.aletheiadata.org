@@ -35,7 +35,7 @@ export const SidebarGeneral: React.FC<Props> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingMinting, setIsLoadingMinting] = useState(false);
   const [activeTab, setActiveTab] = useState(`#sidebar_${id}_tab1`);
-  const [activeTabTotal, setActiveTabTotal] = useState("Loading");
+  const [activeTabTotal, setActiveTabTotal] = useState(0);
   const [elementTab, setElementTab] = useState(false);
   const [copied, setCopy] = useState(false);
   const [contractLoaded, setContractLoaded] = useState<any>();
@@ -43,6 +43,8 @@ export const SidebarGeneral: React.FC<Props> = ({
   const [mintCost, setMintCost] = useState("0");
   const { reward, isAnimating } = useReward("rewardId", "confetti");
   const [catLoading, setCatLoading] = useState(true);
+  const [items, setItems] = useState([]);
+  const [icons, setIcons] = useState<{ [key: string]: string }>({});
 
   if (!props) {
     props = {
@@ -52,16 +54,44 @@ export const SidebarGeneral: React.FC<Props> = ({
 
   const fetchCategories = async (): Promise<any> => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/v2/api/categories/getAll`);
-      console.log('response: ', response);
-      
+      const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}v2/api/categories/getAll?enabled=true`);
       const data = await response.json();
-      return data;
+      return data.body.data;
     } catch (error) {
       console.error("Error fetching categories:", error);
       return [];
     }
   };
+
+  const fetchAsset = async (_id: string): Promise<any> => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}v2/api/upload_file/getAll?_id=${_id}`);
+      const data = await response.json();
+      // console.log('data: ', `${process.env.REACT_APP_API_ENDPOINT}v2/api/upload_file/getAll?_id=${_id}`);
+      return data.body.data;
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      return [];
+    }
+  };
+
+  useEffect(() => {
+    const fetchIcons = async () => {
+      const newIcons: { [key: string]: string } = {};
+      for (const item of items as any) {
+        try {
+          const icon = await fetchAsset(item?.icon);
+          newIcons[item?.id] = icon[0].url; // Store the URL using item ID as key
+        } catch (error) {
+          console.error(`Failed to fetch icon for ${item?.id}`, error);
+        }
+      }
+      
+      setIcons(newIcons);
+    };
+
+    fetchIcons();
+  }, [items]);
 
   const getTxs = async () => {
     var options = {
@@ -200,58 +230,50 @@ export const SidebarGeneral: React.FC<Props> = ({
     if (element) {
       element.innerHTML = "";
     }
-    // console.log('element: ', id, tab_n, element);
-
     if (!element) return;
 
-    // console.log('getting: ', id, items);
-
-    setActiveTabTotal("Loading");
     setIsLoading(true);
 
-    // console.log(items, tab_n);
-
-    let item = items[tab_n - 1].connection.values[0];
+    let item:any = items[tab_n - 1];
     try {
-      const res = await getFilesType(id, item.id);
-      const types = res?.data.alexandriasConnection.groupBy.type;
+      getFilesType(id, item._id)
+      .then((res: any) => {
+        const types = res;
+        const pdf = types?.filter((type: any) => type.type === "pdf")[0] || null;
+        const csv = types?.filter((type: any) => type.type === "csv")[0] || null;
+        const xls = types?.filter(
+          (type: any) => type.type === "xls" || type.type === "xlsx"
+        )[0] || null;
+        const other = types?.filter((type: any) => type.type === "other")[0] || null;
+        
+        setActiveTabTotal(parseInt(pdf?.group_count || 0) + parseInt(csv?.group_count || 0) + parseInt(xls?.group_count || 0) + parseInt(other?.group_count || 0));
 
-      const pdf = types.filter((type: any) => type.key === "pdf");
-      const csv = types.filter((type: any) => type.key === "csv");
-      const xls = types.filter(
-        (type: any) => type.key === "xls" || type.key === "xlsx"
-      );
-      const other = types.filter((type: any) => type.key === "other");
+        const dataCharts = {
+          pdf: parseInt(pdf?.group_count || 0),
+          csv: parseInt(csv?.group_count || 0),
+          xls: parseInt(xls?.group_count || 0),
+          other: parseInt(other?.group_count || 0)
+        };
 
-      const pdfFile = pdf.length > 0 ? pdf[0].connection.aggregate.count : 0;
-      const csvFile = csv.length > 0 ? csv[0].connection.aggregate.count : 0;
-      const xlsFile = xls.length > 0 ? xls[0].connection.aggregate.count : 0;
-      const otherFile =
-        other.length > 0 ? other[0].connection.aggregate.count : 0;
-
-      setActiveTabTotal(pdfFile + csvFile + xlsFile + otherFile);
-
-      const dataCharts = {
-        pdfFile,
-        csvFile,
-        xlsFile,
-        otherFile,
-      };
-
-      const height = parseInt(getCss(element, "height"));
-      if (height) {
-        const chart = new ApexCharts(
-          element,
-          getChartOptions(tab_n, height, dataCharts)
-        );
-        chart.render();
-        setActiveChart(chart);
-      }
-
-      setIsLoading(false);
-    } catch (err) {
-      console.log(err);
-      setIsLoading(false);
+        const height = parseInt(getCss(element, "height"));
+        if (height) {
+          const chart = new ApexCharts(
+            element,
+            getChartOptions(tab_n, height, dataCharts)
+          );
+          chart.render();
+          setActiveChart(chart);
+        }
+        setIsLoading(false)
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false)
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setIsLoading(false)
+      throw error;
     }
   };
 
@@ -264,13 +286,11 @@ export const SidebarGeneral: React.FC<Props> = ({
     getTxs();
   };
 
-  let items: any = [];
-
   useEffect(() => {
     setTab(1);
 
     fetchCategories().then((data) => {
-      items = data;
+      setItems(data)
       setCatLoading(false)
     });
 
@@ -286,16 +306,7 @@ export const SidebarGeneral: React.FC<Props> = ({
   if (catLoading) {
     return <LoadingSidebar />;
   }
-
-  console.log('catData: ', items);
   
-  let itemsData = items;
-  items = itemsData;
-
-  const checkStatus = (cid: string) => {
-    // https://filfox.info/en/deal/${deailID}
-  };
-
   const onCopy = () => {
     // console.log("copied!");
     setCopy(true);
@@ -329,12 +340,12 @@ export const SidebarGeneral: React.FC<Props> = ({
             </a>
           </li>
         )}
-        {items.map((cat: any, i: number) => {
-          let current_item = cat.connection.values[0];
-          let img = current_item.icon
-            ? current_item.icon.url
-            : "/media/svg/logo/gray/aven.svg";
+        {items.map((current_item: any, i: number) => {
+          const img = icons[current_item.id]
+          ? icons[current_item.id]
+          : "/media/svg/logo/gray/aven.svg";
           i++;
+          
           return (
             <li className="nav-item" key={`cat_sidebar_${current_item.id}`}>
               <a
@@ -367,8 +378,7 @@ export const SidebarGeneral: React.FC<Props> = ({
           data-kt-scroll-wrappers="#kt_sidebar_content"
         >
           <div className="tab-content">
-            {items.map((cat: any, i: number) => {
-              let current_item = cat.connection.values[0];
+            {items.map((current_item: any, i: number) => {
               i++;
               // increase index by 1
               const getChartWrapper = (index: number) => {
@@ -768,19 +778,19 @@ function getChartOptions(
   let series = [
     {
       name: "PDF",
-      data: [data.pdfFile],
+      data: [data.pdf],
     },
     {
       name: "CSV",
-      data: [data.csvFile],
+      data: [data.csv],
     },
     {
       name: "XLS",
-      data: [data.xlsFile],
+      data: [data.xls],
     },
     {
       name: "Others",
-      data: [data.otherFile],
+      data: [data.other],
     },
   ];
   // console.log(series);

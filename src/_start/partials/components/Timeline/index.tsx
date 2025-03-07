@@ -23,7 +23,6 @@ const Timeline: React.FC<Props> = ({ className }) => {
         }
     
         const result = await response.json();
-        console.log('response: ', result);
         setData(result.body.data);
       } catch (err) {
         setError(err);
@@ -37,8 +36,6 @@ const Timeline: React.FC<Props> = ({ className }) => {
       try {
         const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}v2/api/imports/getAll?count=true&limit=5`);
         const result = await response.json();
-        console.log('set count: ', result);
-        
         setDataCount(result.body.totalCount);
       } catch (err) {
         setError(err);

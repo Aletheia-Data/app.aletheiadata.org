@@ -20,8 +20,6 @@ const NFTTimeline: React.FC<Props> = ({ className }) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}v2/api/nfts/getAll?limit=5&sort=createdAt:desc`);
       const data = await response.json();
-      console.log('here: ', data.body.data);
-      
       setNfts(data.body.data);
       setLoading(false);
     } catch (err) {

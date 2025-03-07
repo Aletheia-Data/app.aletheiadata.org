@@ -156,12 +156,12 @@ const Stats: React.FC<Props> = ({
     getFilesType(id, item._id)
       .then((res: any) => {
         const types = res;
-        const pdf = types.filter((type: any) => type.type === "pdf")[0];
-        const csv = types.filter((type: any) => type.type === "csv")[0];
-        const xls = types.filter(
+        const pdf = types?.filter((type: any) => type.type === "pdf")[0] || null;
+        const csv = types?.filter((type: any) => type.type === "csv")[0] || null;
+        const xls = types?.filter(
           (type: any) => type.type === "xls" || type.type === "xlsx"
-        )[0];
-        const other = types.filter((type: any) => type.type === "other")[0];
+        )[0] || null;
+        const other = types?.filter((type: any) => type.type === "other")[0] || null;
         
         setActiveTabTotal(parseInt(pdf?.group_count || 0) + parseInt(csv?.group_count || 0) + parseInt(xls?.group_count || 0) + parseInt(other?.group_count || 0));
 
