@@ -136,7 +136,7 @@ const Stats: React.FC<Props> = ({
       activeChart.destroy();
     }
 
-    setActiveTab(`#${id}_tab${tab_n}`);
+    setActiveTab(`#${id}_tab${tab_n}`); 
 
     const element = document.querySelector(
       `#${id}_tab${tab_n}_chart`
