@@ -76,7 +76,6 @@ const Stats: React.FC<Props> = ({
       })
       .then((newData) => {
         const body = newData.body;
-        console.log('body: ', body);
         setItems(body);
         setLoading(false);
       })

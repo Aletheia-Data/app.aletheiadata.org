@@ -17,22 +17,29 @@ const Timeline: React.FC<Props> = ({ className }) => {
     // Fetch Imports Data
     const fetchImports = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}/v2/api/imports/getAll`);
+        const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}v2/api/imports/getAll?limit=5`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+    
         const result = await response.json();
-        setData(result);
+        console.log('response: ', result);
+        setData(result.body.data);
       } catch (err) {
         setError(err);
       } finally {
         setLoading(false);
       }
-    };
+    };    
 
     // Fetch Import Count
     const fetchImportCount = async () => {
       try {
-        const response = await fetch("/api/imports/count");
+        const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}v2/api/imports/getAll?count=true&limit=5`);
         const result = await response.json();
-        setDataCount(result);
+        console.log('set count: ', result);
+        
+        setDataCount(result.body.totalCount);
       } catch (err) {
         setError(err);
       } finally {
@@ -85,13 +92,15 @@ const Timeline: React.FC<Props> = ({ className }) => {
     );
   }
 
+  console.log('dataddd: ', data);
+
   return (
     <div className={`card ${className}`}>
       <div className="card-header align-items-center border-0 mt-5">
         <h3 className="card-title align-items-start flex-column">
           <span className="fw-bolder text-dark fs-3">Timeline</span>
           <span className="text-muted mt-2 fw-bold fs-6">
-            {dataCount?.totalCount} Importaciones
+            {dataCount} Importaciones
           </span>
         </h3>
         <div className="card-toolbar">
@@ -101,11 +110,12 @@ const Timeline: React.FC<Props> = ({ className }) => {
 
       <div className="card-body pt-3">
         <div className="timeline-label">
-          {data?.imports.map((item: any) => {
-            let docs = item.alexandrias.length;
-            let time = new Date(item.updatedAt);
+          {data.length > 0 && data.map((item: any) => {
+            let docs = 0;
+            let time = new Date(item.updatedat);
             let message;
             let badge_color;
+            
             switch (item.status) {
               case "in_progress":
                 message = `importando ${docs} ${docs === 1 ? 'documento' : 'documentos'}`;
@@ -120,14 +130,9 @@ const Timeline: React.FC<Props> = ({ className }) => {
             }
 
             const getLink = (item: any) => {
-              let url;
-              if (item.documents === 1 && item.alexandrias.length > 0 && item.alexandrias[0].cid){
-                url = `/single/src/${item.alexandrias[0].cid}?assetId=${item.alexandrias[0].id}`;
-              } else {
-                url = `${item.source}`;
-              }
+              let url = `${item.source}`;
               return (
-                <a href={url} target={ item.documents === 1 && item.alexandrias.length > 0 && item.alexandrias[0].cid ? '' : '_blank'}>
+                <a href={url} target={ '_blank'}>
                   {truncate(`${item.wallet}`, 15)}
                 </a>
               );
