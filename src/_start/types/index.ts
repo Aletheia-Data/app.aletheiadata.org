@@ -77,6 +77,7 @@ export interface Record {
   website: string;
   url: string;
   api_enabled: boolean;
+  alexandrias_count: string
 }
 
 export interface Deal {

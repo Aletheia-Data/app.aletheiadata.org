@@ -246,13 +246,13 @@ export const SidebarGeneral: React.FC<Props> = ({
         )[0] || null;
         const other = types?.filter((type: any) => type.type === "other")[0] || null;
         
-        setActiveTabTotal(parseInt(pdf?.group_count || 0) + parseInt(csv?.group_count || 0) + parseInt(xls?.group_count || 0) + parseInt(other?.group_count || 0));
+        setActiveTabTotal(parseInt(pdf?.count || 0) + parseInt(csv?.count || 0) + parseInt(xls?.count || 0) + parseInt(other?.count || 0));
 
         const dataCharts = {
-          pdf: parseInt(pdf?.group_count || 0),
-          csv: parseInt(csv?.group_count || 0),
-          xls: parseInt(xls?.group_count || 0),
-          other: parseInt(other?.group_count || 0)
+          pdf: parseInt(pdf?.count || 0),
+          csv: parseInt(csv?.count || 0),
+          xls: parseInt(xls?.count || 0),
+          other: parseInt(other?.count || 0)
         };
 
         const height = parseInt(getCss(element, "height"));

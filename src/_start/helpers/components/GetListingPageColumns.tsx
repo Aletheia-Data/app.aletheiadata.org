@@ -12,7 +12,7 @@ export const getListingPageColumns = (
   entity: string,
   type: string
 ) => {
-  console.log(data, entity, type);
+  console.log(' cjvjhvfjdata: ', data, entity);
   if (entity === "cat") {
     return [
       {
@@ -49,7 +49,7 @@ export const getListingPageColumns = (
           return (
             <CountBadge
               key={`record-alexandria-${recordItem.cid}`}
-              countNumber={files.length}
+              countNumber={files ? files.length : 0}
             />
           );
         }),
@@ -119,13 +119,13 @@ export const getListingPageColumns = (
         cells: data?.map((recordItem: Record) => {
           const files =
             type === "collection"
-              ? recordItem.alexandrias
-              : recordItem.aletheias;
+              ? parseInt(recordItem.alexandrias_count)
+              : parseInt(recordItem.alexandrias_count);
 
           return (
             <CountBadge
               key={`record-alexandria-${recordItem.cid}`}
-              countNumber={files.length}
+              countNumber={files}
             />
           );
         }),

@@ -8,6 +8,7 @@ type Props = {
   className: string;
   imagePath?: string;
   data: any;
+  dataCount?: number;
   innerPadding?: string;
   color?: string;
 };
@@ -16,17 +17,11 @@ const EngageWidget3: React.FC<Props> = ({
   className,
   imagePath = "",
   data,
+  dataCount,
   innerPadding = "",
   color = "primary",
 }) => {
-
   // console.log(data);
-
-  /* TODO: remove after fixing issues with data */
-  if (data.data) {
-    data = data.data
-  }
-
   const entity = data.entity;
   const type = data.type;
 
@@ -47,9 +42,9 @@ const EngageWidget3: React.FC<Props> = ({
       title = type === 'single' ? 'Fuentes' : 'Fuentes';
       desc = type === 'single' ? data.source.description : 'Estas son todas las fuentes disponibles actualmente en el sistema';
       connection = data?.alexandriasConnection?.groupBy?.id || data?.alexandriasConnection?.groupBy?.source;
-      let srcConn = data.sourcesConnection.groupBy.id;
+      let srcConn = data?.sourcesConnection?.groupBy?.id;
       // console.log(data);
-      if (connection.length > 0) {
+      if (connection && connection.length > 0) {
         countTotal = connection.length;
         countSrc = type === 'single' ? srcConn[0].connection.aggregate.count : srcConn[0].connection.aggregate.totalCount;
         // console.log(countTotal);
@@ -57,10 +52,12 @@ const EngageWidget3: React.FC<Props> = ({
       } else {
         countTotal = 0;
         entityCount = 0;
-        countSrc = srcConn[0].connection.aggregate.totalCount;
+        if (srcConn){
+          countSrc = srcConn[0].connection.aggregate.totalCount;
+        }
       }
       records = type === 'single' ? data.source : data.sources;
-      lastRecord = type === 'single' ? records : records[0];
+      lastRecord = type === 'single' ? records : records ? records[0] : [];
       url = type === 'single' ? records.url || records.website : '';
       break;
     case 'dep':
@@ -119,6 +116,8 @@ const EngageWidget3: React.FC<Props> = ({
       break;
   }
 
+  console.log('dataCount_ ', dataCount);
+
   return (
     <div className={`card card-custom ${className}`} style={{ overflow: 'hidden' }}>
       {/* begin::Card Body */}
@@ -169,7 +168,7 @@ const EngageWidget3: React.FC<Props> = ({
                   <tbody>
                     <tr>
                       <td className="text-gray-600 ps-0">Archivos</td>
-                      <td className="text-dark pe-0">{countTotal === 100 ? '+100' : countTotal}</td>
+                      <td className="text-dark pe-0">{dataCount && dataCount > 100 ? '+100' : dataCount}</td>
                     </tr>
                     <tr>
                       <td className="text-gray-600 ps-0">{title}</td>

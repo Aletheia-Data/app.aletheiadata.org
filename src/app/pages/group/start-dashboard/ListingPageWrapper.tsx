@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   IThemeConfig,
@@ -9,8 +9,6 @@ import {
   getConfig,
 } from "../../../../_start/layout/core";
 import { ListingPage } from "./ListingPage";
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
 import { Sidebar } from "../../../../_start/layout/components/Sidebar";
 
 const defaultPageConfig = getConfig();
@@ -21,170 +19,101 @@ const listingPageConfig: Partial<IThemeConfig> = {
   },
 };
 
-const getQuery = (type: string, id: string, entity: string) => {
-  // console.log(`getting query for ${entity} - ${type} - ${id}`);
-
-  const SRC_QUERY = gql`
-    query Sources {
-      sources(limit: 10, sort: "updatedAt:desc") {
-        id
-        name
-        url
-        updatedAt
-        alexandrias {
-          cid
-          type
-        }
-      }
-      alexandriasConnection(limit: 0) {
-        groupBy {
-          source {
-            key
-            __typename
-            connection {
-              aggregate {
-                count
-                totalCount
-              }
-            }
-          }
-        }
-      }
-      sourcesConnection(where: {}) {
-        groupBy {
-          id {
-            key
-            __typename
-            connection {
-              aggregate {
-                count
-                totalCount
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
-
-  const DEP_QUERY = gql`
-    query Departments {
-      departments(limit: 10, sort: "updatedAt:desc") {
-        id
-        name
-        website
-        updatedAt
-        alexandrias {
-          cid
-          type
-        }
-      }
-      alexandriasConnection(limit: 1) {
-        groupBy {
-          department {
-            key
-            __typename
-            connection {
-              aggregate {
-                count
-                totalCount
-              }
-            }
-          }
-        }
-      }
-      departmentsConnection(limit: 1) {
-        groupBy {
-          id {
-            key
-            __typename
-            connection {
-              aggregate {
-                count
-                totalCount
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
-
-  const CAT_QUERY = gql`
-    query Categories {
-      categories(limit: 10, sort: "updatedAt:desc") {
-        id
-        title
-        description
-        updatedAt
-        alexandrias {
-          cid
-          type
-        }
-      }
-      alexandriasConnection(limit: 1) {
-        groupBy {
-          id {
-            key
-          }
-        }
-      }
-      categoriesConnection(limit: 1) {
-        groupBy {
-          id {
-            key
-            __typename
-            connection {
-              aggregate {
-                count
-                totalCount
-              }
-            }
-          }
-        }
-      }
-    }
-  `;
-
+const getEndpoint = (entity: string) => {
   switch (entity) {
     case "src":
-      return SRC_QUERY;
+      return `sources/getAll?start=0&fields=sources.id&join=alexandrias:sources._id:source&sum=alexandrias.id.alexandrias_count&groupBy=sources.id&limit=10&sort=alexandrias_count:desc`;
     case "dep":
-      return DEP_QUERY;
+      return `departments/getAll?start=0&fields=departments.id&join=alexandrias:departments._id:department&sum=alexandrias.id.alexandrias_count&groupBy=departments.id&limit=10&sort=alexandrias_count:desc`;
     case "cat":
-      return CAT_QUERY;
+      return `categories/getAll?start=0&fields=categories.id&join=alexandrias:categories._id:category&sum=alexandrias.id.alexandrias_count&groupBy=categories.id&limit=10&sort=alexandrias_count:desc`;
+    default:
+      return "";
   }
 };
 
-function Collection(type: string, query: any, entity: string) {
-  const { data, loading, error } = useQuery(query, {
-    variables: {},
-  });
+const getEndpointCount = (entity: string) => {
+  switch (entity) {
+    case "src":
+      return `sources/getAll?count=true`;
+    case "dep":
+      return `departments/getAll?count=true`;
+    case "cat":
+      return `categories/getAll?count=true`;
+    default:
+      return "";
+  }
+};
+
+function Collection({ entity }: any) {
+  const [data, setData] = useState<any>(null);
+  const [dataCount, setDataCount] = useState<number>(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log(
+          "getch: ",
+          `${process.env.REACT_APP_API_ENDPOINT}v2/api/${getEndpoint(entity)}`
+        );
+        const response = await fetch(
+          `${process.env.REACT_APP_API_ENDPOINT}v2/api/${getEndpoint(entity)}`
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        const result = await response.json();
+        setData({
+          entity: entity,
+          type: "collection",
+          data: result.body.data,
+        });
+      } catch (err: any) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchDataCount = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_ENDPOINT}v2/api/${getEndpointCount(
+            entity
+          )}`
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        const result = await response.json();
+        console.log("result: ", result);
+
+        setDataCount(result.body.totalCount);
+      } catch (err: any) {
+        setError(err.message);
+      }
+    };
+
+    fetchData();
+    fetchDataCount();
+  }, [entity]);
+
+  console.log("hola:", data);
 
   if (loading) return <p>Loading ...</p>;
   if (error) return <p>{`There's an Error, please refresh this page ...`}</p>;
 
-  if (data) {
-    data.type = type;
-    data.entity = entity;
-  }
-
-  return result(data);
+  return <ListingPage data={data} dataCount={dataCount} />;
 }
-
-const result = (data: any) => {
-  return <ListingPage data={data} />;
-};
 
 export function ListingPageWrapper(): JSX.Element {
   const params: any = useParams();
-  const { entity, id } = params;
-  // if Id = 0 means that its a collection not a single item
-  // console.log(id);
+  const { entity } = params;
   let title;
-  const type = "collection";
-  const query = getQuery(type, id, entity);
-  const component = Collection(type, query, entity);
 
   switch (entity) {
     case "src":
@@ -196,14 +125,11 @@ export function ListingPageWrapper(): JSX.Element {
     case "cat":
       title = "Categorias";
       break;
-  }
-
-  if (component?.props?.data) {
-    component.props.data.sidebar = "default";
+    default:
+      title = "Listado";
   }
 
   const { setTheme } = useTheme();
-  // Refresh UI after config updates
   useEffect(() => {
     setTheme(listingPageConfig);
 
@@ -224,8 +150,8 @@ export function ListingPageWrapper(): JSX.Element {
     <>
       <PageTitle>{title}</PageTitle>
       <PageDataContainer breadcrumbs={pageBreadcrumbs} />
-      {component}
-      <Sidebar props={component.props.data} />
+      <Collection entity={entity} />
+      <Sidebar props={{ entity }} />
     </>
   );
 }

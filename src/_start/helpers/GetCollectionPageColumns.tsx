@@ -13,6 +13,8 @@ export const getCollectionPageColumns = (
   entity: string,
   type: string
 ) => {
+  console.log('data: ', data.data);
+  
   if (entity !== "dep") {
     return [
       {

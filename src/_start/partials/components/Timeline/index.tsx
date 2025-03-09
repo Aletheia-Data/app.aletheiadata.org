@@ -105,7 +105,7 @@ const Timeline: React.FC<Props> = ({ className }) => {
 
       <div className="card-body pt-3">
         <div className="timeline-label">
-          {data.length > 0 && data.map((item: any) => {
+          {data && data.length > 0 && data.map((item: any) => {
             let docs = 0;
             let time = new Date(item.updatedat);
             let message;

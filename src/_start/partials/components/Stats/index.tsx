@@ -59,12 +59,14 @@ const Stats: React.FC<Props> = ({
         break;
       case "cat":
         entity = "categories";
-        filters = `?sort=createdat:DESC&limit=5&start=0`
+        filters = `?enabled=true&sort=createdat:DESC&limit=5&start=0`
         break;
       default:
         return;
     }
     let url = `${process.env.REACT_APP_API_ENDPOINT}v2/api/${entity}/getAll${filters}`;
+    console.log('here url : ', url);
+    
     fetch(
       url,
       {
@@ -96,7 +98,7 @@ const Stats: React.FC<Props> = ({
       // Construct the URL based on the 'item' and 'id' parameters
       switch (item) {
         case "cat":
-          url = `${process.env.REACT_APP_API_ENDPOINT}v2/api/alexandrias/getAll?categories=${id}&groupBy=type`;
+          url = `${process.env.REACT_APP_API_ENDPOINT}v2/api/alexandrias/getAll?category=${id}&groupBy=type`;
           break;
         case "dep":
           url = `${process.env.REACT_APP_API_ENDPOINT}v2/api/alexandrias/getAll?department=${id}&groupBy=type`;
@@ -109,7 +111,7 @@ const Stats: React.FC<Props> = ({
           throw new Error("Invalid item type");
       }
   
-      // console.log("Fetching data from: ", url);
+      console.log("Fetching data from: ", url);
   
       // Fetch data from the constructed URL
       const response = await fetch(url, {
@@ -163,15 +165,15 @@ const Stats: React.FC<Props> = ({
         )[0] || null;
         const other = types?.filter((type: any) => type.type === "other")[0] || null;
         
-        setActiveTabTotal(parseInt(pdf?.group_count || 0) + parseInt(csv?.group_count || 0) + parseInt(xls?.group_count || 0) + parseInt(other?.group_count || 0));
-
+        setActiveTabTotal(parseInt(pdf?.count || 0) + parseInt(csv?.count || 0) + parseInt(xls?.count || 0) + parseInt(other?.count || 0));
+        console.log('here: ', res);
+        
         const dataCharts = {
-          pdf: parseInt(pdf?.group_count || 0),
-          csv: parseInt(csv?.group_count || 0),
-          xls: parseInt(xls?.group_count || 0),
-          other: parseInt(other?.group_count || 0)
+          pdf: parseInt(pdf?.count || 0),
+          csv: parseInt(csv?.count || 0),
+          xls: parseInt(xls?.count || 0),
+          other: parseInt(other?.count || 0)
         };
-
         const height = parseInt(getCss(element, "height"));
         if (height) {
           const chart = new ApexCharts(
@@ -181,9 +183,11 @@ const Stats: React.FC<Props> = ({
           chart.render();
           setActiveChart(chart);
         }
+        setLoading(false)
       })
       .catch((err) => {
         console.log(err);
+        setLoading(false)
       });
   };
 

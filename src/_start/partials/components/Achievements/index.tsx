@@ -16,7 +16,7 @@ const Achievements: React.FC<Props> = ({ className, innerPadding = "" }) => {
   useEffect(() => {
     const fetchWallets = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}v2/api/alexandrias/getAll?groupBy=wallet_address&sort=desc&limit=5`);
+        const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}v2/api/alexandrias/getAll?groupBy=wallet_address&sort=wallet_address:desc&limit=5`);
         const data = await response.json();
         // console.log('wallet: ', data.body.data);
         setWalletsInfo(data.body.data);
@@ -204,7 +204,7 @@ const Achievements: React.FC<Props> = ({ className, innerPadding = "" }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {walletsInfo.map((wallet: any) => {
+                  {walletsInfo && walletsInfo.map((wallet: any) => {
                     return (
                       <tr key={wallet.wallet_address}>
                         <td className="px-0 py-3">
@@ -232,7 +232,7 @@ const Achievements: React.FC<Props> = ({ className, innerPadding = "" }) => {
                         <td></td>
                         <td className="text-end">
                           <span className="text-gray-800 fw-bolder d-block fs-6">
-                            {wallet.group_count}
+                            {wallet.count}
                           </span>
                           <span className="text-muted fw-bold d-block mt-1 fs-7">
                             Archivos

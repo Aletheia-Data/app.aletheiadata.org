@@ -172,6 +172,8 @@ const TablesWidget2: React.FC<Props> = ({ className, innerPadding = "" }) => {
     );
   }
 
+  console.log('walletsInfo:_ ', walletsInfo);
+
   return (
     <div className={`card ${className}`}>
       {/* begin::Header */}
@@ -244,7 +246,7 @@ const TablesWidget2: React.FC<Props> = ({ className, innerPadding = "" }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {walletsInfo.map((wallet: any) => {
+                  {walletsInfo && walletsInfo.map((wallet: any) => {
                     const count = wallet.connection.aggregate.count;
                     return (
                       <tr key={wallet.key}>

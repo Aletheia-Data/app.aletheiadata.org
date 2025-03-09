@@ -8,167 +8,78 @@ import { CreateAppModal } from "../_modals/create-app-stepper/CreateAppModal";
 import Table from "../../../../_start/partials/components/Table";
 import { getListingPageColumns } from "../../../../_start/helpers";
 
-export const ListingPage: FC<any> = (data: any) => {
+export const ListingPage: FC<any> = ({ data, dataCount }: any) => {
   const [show, setShow] = useState(false);
   const [isLoading, setLoading] = useState(false);
-  const [entityCount, setEntityCount] = useState(0);
-  const [dataTable, setDataTable] = useState("");
-
+  const [dataTable, setDataTable] = useState<any>({});
   const params: any = useParams();
   const { entity, id } = params;
-  // console.log(entity, id);
+
   let entityName: any;
+  let tableName: any;
   switch (entity) {
     case "src":
       entityName = "sources";
+      tableName = "source";
       break;
     case "dep":
       entityName = "departments";
+      tableName = "department";
       break;
     case "cat":
       entityName = "categories";
+      tableName = "category";
       break;
   }
 
-  const getQuery = (id: string, entity: string, page: number) => {
-    // console.log(`getting query for ${entity} - ${id}`);
+  const fetchData = async (entity: string, id: string, page: number) => {
+    setLoading(true);
+    try {
+      const query = `${
+        process.env.REACT_APP_API_ENDPOINT
+      }v2/api/${entityName}/getAll?_start=${
+        (page - 1) * 10
+      }&fields=${entityName}.id&join=alexandrias:${entityName}._id:${tableName}&sum=alexandrias.id.alexandrias_count&groupBy=${entityName}.id&_limit=10&_sort=alexandrias_count:desc`;
+      const response = await fetch(query);
+      const result = await response.json();
+      console.log("query: ", query);
 
-    const query = `
-    query DepartmentsTTT {
-      departments(
-        start: ${(page - 1) * 10},
-        limit: 10,
-        sort: "updatedAt:desc"
-      ) {
-        id,
-        name, 
-        website,
-        updatedAt,
-        alexandrias{
-        title,
-        description,
-        status,
-        cid,
-        type,
-        aletheias{
-          id,
-          proof {
-            id,
-            url
-          }
-        }
-        }
-      }
+      setDataTable((prevData: any) => ({ ...prevData, [entityName]: result }));
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
     }
-    `;
-
-    return query;
   };
 
   const handlePagination = (page: any) => {
-    setLoading(true);
-    // console.log(page);
-    getNewRecords(entity, id, page.newPage).then((res: any) => {
-      // console.log(res);
-      const items = res.data.departments;
-      const oldData: any = dataTable;
-      // console.log(res);
-
-      if (items.length > 0) {
-        // console.log(data);
-        oldData[entityName] = res.data[entityName];
-        // console.log(oldData);
-        setDataTable("");
-        setDataTable(oldData);
-        setLoading(false);
-      } else {
-        oldData[entityName] = [];
-        setDataTable("");
-        setDataTable(oldData);
-        setLoading(false);
-      }
-    });
-
-    return;
-  };
-
-  const getNewRecords = (entity: string, id: string, page: number) => {
-    return new Promise((resolve, reject) => {
-      const query = getQuery(id, entity, page);
-
-      // console.log(query);
-
-      const endpoint = `${process.env.REACT_APP_API_ENDPOINT}/graphql`;
-
-      fetch(endpoint, {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          query: query,
-        }),
-      })
-        .then((response) => response.json())
-        .then((newData) => {
-          resolve(newData);
-        })
-        .catch((err) => {
-          console.log(err);
-          reject(err);
-        });
-    });
-  };
-
-  const init = (info: any) => {
-    const showData: any = info;
-
-    setDataTable(showData);
-
-    const { entity } = showData;
-
-    let connection: any;
-
-    switch (entity) {
-      case "src":
-        connection = showData.sourcesConnection.groupBy.id;
-        break;
-      case "dep":
-        connection = showData.departmentsConnection.groupBy.id;
-        break;
-      case "cat":
-        connection = showData.categoriesConnection.groupBy.id;
-        break;
-    }
-
-    const totalConn = connection[0].connection.aggregate.totalCount;
-
-    setEntityCount(totalConn);
+    fetchData(entity, id, page.newPage);
   };
 
   useEffect(() => {
-    init(data.data ? data.data : data);
-  }, [data]);
-  const records = data.data[entityName];
-  const { type } = data.data;
+    console.log("dddd: ", data);
 
-  const columns = getListingPageColumns(records, entity, type);
+    setDataTable(data.data);
+  }, [data]);
+
+  const { type } = data;
+  console.log("dataTable: ", dataTable, data);
+  const columns = getListingPageColumns(data.data, entity, type);
+  console.log("records: ", columns);
 
   return (
     <>
-      {/* begin::Row */}
       <div className="row g-0 g-xl-5 g-xxl-12">
         <div className="col-xl-12">
           <EngageWidget3
             className="card-stretch mb-5 mb-xxl-8"
             color="white"
             data={data}
+            dataCount={dataCount}
           />
         </div>
       </div>
-      {/* end::Row */}
 
-      {/* begin::Row */}
       <div className="row g-0 g-xl-5 g-xxl-12">
         <div className="col-xl-12">
           <Table
@@ -181,22 +92,14 @@ export const ListingPage: FC<any> = (data: any) => {
           />
         </div>
       </div>
-      {/* end::Row */}
 
-      {/* begin::Row */}
       <div className="row g-0 g-xl-5 g-xxl-12">
         <div className="col-xl-12">
-          <Pagination1
-            handleClick={handlePagination}
-            totalItems={entityCount}
-          />
+          <Pagination1 handleClick={handlePagination} totalItems={dataCount} />
         </div>
       </div>
-      {/* end::Row */}
 
-      {/* begin::Modals */}
       <CreateAppModal handleClose={() => setShow(false)} show={show} />
-      {/* end::Modals */}
     </>
   );
 };

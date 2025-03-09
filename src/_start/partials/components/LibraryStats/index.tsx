@@ -26,8 +26,11 @@ const LibraryStats: React.FC<Props> = ({ className, innerPadding = "" }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log('query: ', `${process.env.REACT_APP_API_ENDPOINT}v2/api/alexandrias/getAll?groupBy=type`);
         const response = await fetch(`${process.env.REACT_APP_API_ENDPOINT}v2/api/alexandrias/getAll?groupBy=type`);
         const data = await response.json();
+        console.log('aqui: ', data);
+        
         setData(data.body.data);
       } catch (err) {
         setError('Failed to fetch data');
@@ -90,12 +93,14 @@ const LibraryStats: React.FC<Props> = ({ className, innerPadding = "" }) => {
   }
 
   let formats = data;
-  const total = formats.reduce((sum: number, format: any) => sum + parseInt(format.group_count, 10), 0);
+  console.log('formats: ', formats);
+  
+  const total = formats.reduce((sum: number, format: any) => sum + parseInt(format.count, 10), 0);
 
   // Helper function to get the count by type
   const getCountByType = (type: string) => {
     const item = data.find((c: any) => c.type === type);
-    return item ? parseInt(item.group_count, 10) : 0; // If not found, return 0
+    return item ? parseInt(item.count, 10) : 0; // If not found, return 0
   };
 
   const count_pdf = getCountByType("pdf");
@@ -130,7 +135,7 @@ const LibraryStats: React.FC<Props> = ({ className, innerPadding = "" }) => {
         </div>
         <div className="d-flex flex-wrap justify-content-around pt-18">
           {formats.map((format: any) => {
-            const totalFormat = format.group_count;
+            const totalFormat = format.count;
             let label;
             let backColor;
 
@@ -219,7 +224,7 @@ function getChartOptions(data: any) {
 
   const getCountByType = (type: string) => {
     const item = data.find((c: any) => c.type === type);
-    return item ? parseInt(item.group_count, 10) : 0; // Return 0 if not found
+    return item ? parseInt(item.count, 10) : 0; // Return 0 if not found
   };
 
   const count_pdf = getCountByType("pdf");
